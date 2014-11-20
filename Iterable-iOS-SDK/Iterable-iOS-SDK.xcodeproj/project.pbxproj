@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		093734271A1D701F00C950B6 /* IterableAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 093734261A1D701F00C950B6 /* IterableAPI.m */; };
+		0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 093734251A1D6E8800C950B6 /* IterableAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */; };
 /* End PBXBuildFile section */
 
@@ -107,6 +108,17 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		0937342D1A1D99BB00C950B6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		09C0FBFA1A1D6D4700D5A86B /* Iterable-iOS-SDK */ = {
 			isa = PBXNativeTarget;
@@ -115,6 +127,7 @@
 				09C0FBF71A1D6D4700D5A86B /* Sources */,
 				09C0FBF81A1D6D4700D5A86B /* Frameworks */,
 				09C0FBF91A1D6D4700D5A86B /* CopyFiles */,
+				0937342D1A1D99BB00C950B6 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -293,7 +306,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -302,7 +317,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "include/$(PROJECT_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
