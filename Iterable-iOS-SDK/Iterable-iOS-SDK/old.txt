@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Iterable. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class IterableAPI {
@@ -18,22 +17,6 @@ static let noOpFailureCompletionHandler: FailureCompletionHandler = { (_, _) -> 
 
 typealias FailureCompletionHandler = (NSError, NSString?) -> Void
 
-let endpoint: NSString = "https://api.iterable.com/api/"
-let apiKey: NSString
-let email: NSString
-
-init(apiKey: NSString, email: NSString) {
-self.apiKey = apiKey
-self.email = email
-}
-
-private func getUrl(action: NSString) -> NSString {
-return endpoint + action + "?api_key=" + apiKey
-}
-
-private func toJson(data: NSDictionary) -> NSData {
-return NSJSONSerialization.dataWithJSONObject(data, options: nil, error: nil)!
-}
 
 private func sendRequest(request: NSURLRequest, onSuccess: SuccessCompletionHandler, onFailure: FailureCompletionHandler) {
 NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: { (response:NSURLResponse!, data: NSData!, error: NSError!) -> Void in
