@@ -6,29 +6,40 @@
 //  Copyright (c) 2014 Iterable. All rights reserved.
 //
 
+#if ! __has_feature(objc_arc)
+#error This file must be compiled with ARC. Either turn on ARC for the project or use -fobjc-arc flag on this file.
+#endif
+
 @import Foundation;
+#import <Foundation/Foundation.h>
 
 #import "IterableAPI.h"
 
+@interface IterableAPI () {
+}
+@property(nonatomic, copy) NSString *apiKey;
+@property(nonatomic, copy) NSString *email;
+@end
 
 @implementation IterableAPI {
-    NSString *apiKey;
-    NSString *email;
 }
 
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
 - (id)initWithApiKey:(NSString *)key andEmail:(NSString *)eml
 {
-    self = [super init];
-    self->apiKey = key;
-    self->email = eml;
-    return self;
+    if (self = [super init]) {
+        self.apiKey = key;
+        self.email = eml;
+        return self;
+    } else {
+        return nil;
+    }
 }
 
 - (NSURL *)getUrlForAction:(NSString *)action
 {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, apiKey]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey]];
 }
 
 - (NSString *)dictToJson:(NSDictionary *)dict {
@@ -72,7 +83,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 
 - (void)getUser {
     NSDictionary *args = @{
-                           @"email": self->email
+                           @"email": self.email
                            };
     NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
     [self sendRequest:request];
