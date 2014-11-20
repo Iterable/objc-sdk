@@ -6,10 +6,7 @@
 //  Copyright (c) 2014 Iterable. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-#ifndef Iterable_iOS_SDK_IterableAPI_h
-#define Iterable_iOS_SDK_IterableAPI_h
+@import Foundation;
 
 @interface IterableAPI : NSObject
 
@@ -18,5 +15,3 @@
 - (void)getUser;
 
 @end
-
-#endif

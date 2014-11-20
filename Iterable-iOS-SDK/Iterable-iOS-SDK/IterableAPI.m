@@ -11,7 +11,6 @@
 #endif
 
 @import Foundation;
-#import <Foundation/Foundation.h>
 
 #import "IterableAPI.h"
 
