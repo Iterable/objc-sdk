@@ -17,8 +17,8 @@
 
 @interface IterableAPI () {
 }
-@property(nonatomic, copy) NSString *apiKey;
-@property(nonatomic, copy) NSString *email;
+@property(nonatomic, readonly, copy) NSString *apiKey;
+@property(nonatomic, readonly, copy) NSString *email;
 @end
 
 @implementation IterableAPI {
@@ -26,15 +26,14 @@
 
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
-- (id)initWithApiKey:(NSString *)key andEmail:(NSString *)eml
+- (id)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
 {
-    if (self = [super init]) {
-        self.apiKey = key;
-        self.email = eml;
-        return self;
-    } else {
-        return nil;
+    self = [super init];
+    if (self) {
+        _apiKey = [apiKey copy];
+        _email = [email copy];
     }
+    return self;
 }
 
 - (NSURL *)getUrlForAction:(NSString *)action
