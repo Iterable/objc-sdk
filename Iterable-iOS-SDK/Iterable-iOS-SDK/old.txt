@@ -40,13 +40,7 @@ onFailure(error, NSString(data: data, encoding: NSUTF8StringEncoding))
 })
 }
 
-private func createRequest(action: NSString, args: NSDictionary, method: NSString = "POST") -> NSURLRequest {
-let request = NSMutableURLRequest()
-request.URL = NSURL(string: getUrl(action))
-request.HTTPMethod = method
-request.HTTPBody = toJson(args)
-return request
-}
+
 
 func getUser(onSuccess: SuccessCompletionHandler = NoOpCompletionHandlers.noOpSuccessCompletionHandler, onFailure: FailureCompletionHandler = NoOpCompletionHandlers.noOpFailureCompletionHandler)
 {

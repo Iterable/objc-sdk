@@ -26,9 +26,9 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return self;
 }
 
-- (NSString *)getUrlForAction:(NSString *)action
+- (NSURL *)getUrlForAction:(NSString *)action
 {
-    return [NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, apiKey];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, apiKey]];
 }
 
 - (NSString *)dictToJson:(NSDictionary *)dict {
@@ -44,5 +44,11 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
 }
 
+- (NSURLRequest *)createRequestForAction:(NSString *)action withArgs:(NSDictionary *)args {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrlForAction:action]];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[[self dictToJson:args] dataUsingEncoding:NSUTF8StringEncoding]];
+    return request;
+}
 
 @end
