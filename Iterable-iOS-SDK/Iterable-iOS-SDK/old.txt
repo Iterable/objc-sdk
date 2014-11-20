@@ -1,0 +1,214 @@
+//
+//  IterableAPI.swift
+//  iOS SDK
+//
+//  Created by Ilya Brin on 11/17/14.
+//  Copyright (c) 2014 Iterable. All rights reserved.
+//
+
+import Foundation
+import UIKit
+
+class IterableAPI {
+typealias SuccessCompletionHandler = NSDictionary -> Void
+private struct NoOpCompletionHandlers {
+static let noOpSuccessCompletionHandler: SuccessCompletionHandler = { (_) -> Void in }
+static let noOpFailureCompletionHandler: FailureCompletionHandler = { (_, _) -> Void in }
+}
+
+typealias FailureCompletionHandler = (NSError, NSString?) -> Void
+
+let endpoint: NSString = "https://api.iterable.com/api/"
+let apiKey: NSString
+let email: NSString
+
+init(apiKey: NSString, email: NSString) {
+self.apiKey = apiKey
+self.email = email
+}
+
+private func getUrl(action: NSString) -> NSString {
+return endpoint + action + "?api_key=" + apiKey
+}
+
+private func toJson(data: NSDictionary) -> NSData {
+return NSJSONSerialization.dataWithJSONObject(data, options: nil, error: nil)!
+}
+
+private func sendRequest(request: NSURLRequest, onSuccess: SuccessCompletionHandler, onFailure: FailureCompletionHandler) {
+NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler: { (response:NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+if let err = error {
+println("error in request")
+onFailure(error, NSString(data: data, encoding: NSUTF8StringEncoding))
+} else {
+var errorOpt: NSError?
+let jsonResult = NSJSONSerialization.JSONObjectWithData(data, options:NSJSONReadingOptions.MutableContainers, error: &errorOpt) as? NSDictionary
+if jsonResult != nil {
+println("success")
+onSuccess(jsonResult!)
+} else {
+println("error in response format")
+if let error = errorOpt {
+onFailure(error, NSString(data: data, encoding: NSUTF8StringEncoding))
+}
+}
+}
+
+})
+}
+
+private func createRequest(action: NSString, args: NSDictionary, method: NSString = "POST") -> NSURLRequest {
+let request = NSMutableURLRequest()
+request.URL = NSURL(string: getUrl(action))
+request.HTTPMethod = method
+request.HTTPBody = toJson(args)
+return request
+}
+
+func getUser(onSuccess: SuccessCompletionHandler = NoOpCompletionHandlers.noOpSuccessCompletionHandler, onFailure: FailureCompletionHandler = NoOpCompletionHandlers.noOpFailureCompletionHandler)
+{
+let args = ["email": self.email]
+let request = createRequest("users/get", args: args)
+sendRequest(request, onSuccess: onSuccess, onFailure: onFailure)
+}
+
+func updateUser(dataFields: NSDictionary, onSuccess: SuccessCompletionHandler = NoOpCompletionHandlers.noOpSuccessCompletionHandler, onFailure: FailureCompletionHandler = NoOpCompletionHandlers.noOpFailureCompletionHandler)
+{
+let args = [
+"email": self.email,
+"dataFields": dataFields
+]
+let request = createRequest("users/update", args: args)
+sendRequest(request, onSuccess: onSuccess, onFailure: onFailure)
+}
+
+func track(eventName: NSString, dataFields: NSDictionary = NSDictionary(), onSuccess: SuccessCompletionHandler = NoOpCompletionHandlers.noOpSuccessCompletionHandler, onFailure: FailureCompletionHandler = NoOpCompletionHandlers.noOpFailureCompletionHandler)
+{
+let args = [
+"email": self.email,
+"eventName": eventName,
+"dataFields": dataFields
+]
+let request = createRequest("events/track", args: args)
+sendRequest(request, onSuccess: onSuccess, onFailure: onFailure)
+}
+
+func trackConversion(campaignId: NSInteger, templateId: Int? = nil, amount: Double? = nil, dataFields: NSDictionary = NSDictionary(), onSuccess: SuccessCompletionHandler = NoOpCompletionHandlers.noOpSuccessCompletionHandler, onFailure: FailureCompletionHandler = NoOpCompletionHandlers.noOpFailureCompletionHandler)
+{
+var args: Dictionary = [
+"email": self.email,
+"campaignId": campaignId,
+"dataFields": dataFields
+]
+if let tid = templateId {
+args["templateId"] = tid
+}
+if let amt = amount {
+args["amount"] = amt
+}
+let request = createRequest("events/trackConversion", args: args)
+sendRequest(request, onSuccess: onSuccess, onFailure: onFailure)
+}
+
+func trackPurchase(items: NSArray, total: Double, campaignId: Int? = nil, templateId: Int? = nil, dataFields: NSDictionary = NSDictionary(), onSuccess: SuccessCompletionHandler = NoOpCompletionHandlers.noOpSuccessCompletionHandler, onFailure: FailureCompletionHandler = NoOpCompletionHandlers.noOpFailureCompletionHandler) {
+var args: Dictionary = [
+"user": ["email": self.email],
+"items": items,
+"total": total,
+"dataFields": dataFields
+]
+if let cid = campaignId {
+args["campaignId"] = cid
+}
+if let tid = templateId {
+args["templateId"] = tid
+}
+let request = createRequest("commerce/trackPurchase", args: args)
+sendRequest(request, onSuccess: onSuccess, onFailure: onFailure)
+}
+
+func updateCart(items: NSArray, total: Double, onSuccess: SuccessCompletionHandler = NoOpCompletionHandlers.noOpSuccessCompletionHandler, onFailure: FailureCompletionHandler = NoOpCompletionHandlers.noOpFailureCompletionHandler) {
+var args: Dictionary = [
+"user": ["email": self.email],
+"items": items
+]
+let request = createRequest("commerce/trackPurchase", args: args)
+sendRequest(request, onSuccess: onSuccess, onFailure: onFailure)
+}
+
+func registerForNotifications() {
+//        // Actions
+//        var firstAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
+//        firstAction.identifier = "FIRST_ACTION"
+//        firstAction.title = "First Action"
+//
+//        firstAction.activationMode = UIUserNotificationActivationMode.Background
+//        firstAction.destructive = true
+//        firstAction.authenticationRequired = false
+//
+//        var secondAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
+//        secondAction.identifier = "SECOND_ACTION"
+//        secondAction.title = "Second Action"
+//
+//        secondAction.activationMode = UIUserNotificationActivationMode.Foreground
+//        secondAction.destructive = false
+//        secondAction.authenticationRequired = false
+//
+//        var thirdAction:UIMutableUserNotificationAction = UIMutableUserNotificationAction()
+//        thirdAction.identifier = "THIRD_ACTION"
+//        thirdAction.title = "Third Action"
+//
+//        thirdAction.activationMode = UIUserNotificationActivationMode.Background
+//        thirdAction.destructive = false
+//        thirdAction.authenticationRequired = false
+//
+//
+//        // category
+//
+//        var firstCategory:UIMutableUserNotificationCategory = UIMutableUserNotificationCategory()
+//        firstCategory.identifier = "FIRST_CATEGORY"
+//
+//        let defaultActions:NSArray = [firstAction, secondAction, thirdAction]
+//        let minimalActions:NSArray = [firstAction, secondAction]
+//
+//        firstCategory.setActions(defaultActions, forContext: UIUserNotificationActionContext.Default)
+//        firstCategory.setActions(minimalActions, forContext: UIUserNotificationActionContext.Minimal)
+//
+//        // NSSet of all our categories
+//
+//        let categories:NSSet = NSSet(objects: firstCategory)
+//
+//
+//
+//        let types:UIUserNotificationType = UIUserNotificationType.Alert | UIUserNotificationType.Badge
+//
+//        let mySettings:UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: categories)
+//
+//        UIApplication.sharedApplication().registerUserNotificationSettings(mySettings)
+
+
+//
+//        let application = UIApplication.sharedApplication()
+//
+//        if (application.respondsToSelector("registerUserNotificationSettings")) {
+////            #ifdef __IPHONE_8_0
+////            UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge
+////            |UIRemoteNotificationTypeSound
+////            |UIRemoteNotificationTypeAlert) categories:nil];
+////            [application registerUserNotificationSettings:settings];
+////            #endif
+//        } else {
+//            let myTypes:UIRemoteNotificationType = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound;
+//            application.registerForRemoteNotificationTypes(myTypes);
+//        }
+//
+
+
+let notificationTypes:UIUserNotificationType = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound
+let notificationSettings:UIUserNotificationSettings = UIUserNotificationSettings(forTypes: notificationTypes, categories: nil)
+
+UIApplication.sharedApplication().registerUserNotificationSettings(notificationSettings)
+
+
+}
+}
