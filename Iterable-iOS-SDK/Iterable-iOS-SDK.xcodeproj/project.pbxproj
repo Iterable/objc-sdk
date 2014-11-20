@@ -1,0 +1,371 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		09C0FBFF1A1D6D4700D5A86B /* Iterable_iOS_SDK.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 09C0FBFE1A1D6D4700D5A86B /* Iterable_iOS_SDK.h */; };
+		09C0FC011A1D6D4700D5A86B /* Iterable_iOS_SDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C0FC001A1D6D4700D5A86B /* Iterable_iOS_SDK.m */; };
+		09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		09C0FC081A1D6D4700D5A86B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09C0FBF31A1D6D4700D5A86B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 09C0FBFA1A1D6D4700D5A86B;
+			remoteInfo = "Iterable-iOS-SDK";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		09C0FBF91A1D6D4700D5A86B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				09C0FBFF1A1D6D4700D5A86B /* Iterable_iOS_SDK.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libIterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		09C0FBFE1A1D6D4700D5A86B /* Iterable_iOS_SDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Iterable_iOS_SDK.h; sourceTree = "<group>"; };
+		09C0FC001A1D6D4700D5A86B /* Iterable_iOS_SDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Iterable_iOS_SDK.m; sourceTree = "<group>"; };
+		09C0FC061A1D6D4700D5A86B /* Iterable-iOS-SDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Iterable-iOS-SDKTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		09C0FC0C1A1D6D4700D5A86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		09C0FBF81A1D6D4700D5A86B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09C0FC031A1D6D4700D5A86B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		09C0FBF21A1D6D4700D5A86B = {
+			isa = PBXGroup;
+			children = (
+				09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */,
+				09C0FC0A1A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
+				09C0FBFC1A1D6D4700D5A86B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		09C0FBFC1A1D6D4700D5A86B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */,
+				09C0FC061A1D6D4700D5A86B /* Iterable-iOS-SDKTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				09C0FBFE1A1D6D4700D5A86B /* Iterable_iOS_SDK.h */,
+				09C0FC001A1D6D4700D5A86B /* Iterable_iOS_SDK.m */,
+			);
+			path = "Iterable-iOS-SDK";
+			sourceTree = "<group>";
+		};
+		09C0FC0A1A1D6D4700D5A86B /* Iterable-iOS-SDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				09C0FC0B1A1D6D4700D5A86B /* Supporting Files */,
+			);
+			path = "Iterable-iOS-SDKTests";
+			sourceTree = "<group>";
+		};
+		09C0FC0B1A1D6D4700D5A86B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				09C0FC0C1A1D6D4700D5A86B /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		09C0FBFA1A1D6D4700D5A86B /* Iterable-iOS-SDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09C0FC0F1A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDK" */;
+			buildPhases = (
+				09C0FBF71A1D6D4700D5A86B /* Sources */,
+				09C0FBF81A1D6D4700D5A86B /* Frameworks */,
+				09C0FBF91A1D6D4700D5A86B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Iterable-iOS-SDK";
+			productName = "Iterable-iOS-SDK";
+			productReference = 09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		09C0FC051A1D6D4700D5A86B /* Iterable-iOS-SDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09C0FC121A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDKTests" */;
+			buildPhases = (
+				09C0FC021A1D6D4700D5A86B /* Sources */,
+				09C0FC031A1D6D4700D5A86B /* Frameworks */,
+				09C0FC041A1D6D4700D5A86B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				09C0FC091A1D6D4700D5A86B /* PBXTargetDependency */,
+			);
+			name = "Iterable-iOS-SDKTests";
+			productName = "Iterable-iOS-SDKTests";
+			productReference = 09C0FC061A1D6D4700D5A86B /* Iterable-iOS-SDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		09C0FBF31A1D6D4700D5A86B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Iterable;
+				TargetAttributes = {
+					09C0FBFA1A1D6D4700D5A86B = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					09C0FC051A1D6D4700D5A86B = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = 09C0FBF61A1D6D4700D5A86B /* Build configuration list for PBXProject "Iterable-iOS-SDK" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 09C0FBF21A1D6D4700D5A86B;
+			productRefGroup = 09C0FBFC1A1D6D4700D5A86B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				09C0FBFA1A1D6D4700D5A86B /* Iterable-iOS-SDK */,
+				09C0FC051A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		09C0FC041A1D6D4700D5A86B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		09C0FBF71A1D6D4700D5A86B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09C0FC011A1D6D4700D5A86B /* Iterable_iOS_SDK.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09C0FC021A1D6D4700D5A86B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		09C0FC091A1D6D4700D5A86B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 09C0FBFA1A1D6D4700D5A86B /* Iterable-iOS-SDK */;
+			targetProxy = 09C0FC081A1D6D4700D5A86B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		09C0FC0D1A1D6D4700D5A86B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		09C0FC0E1A1D6D4700D5A86B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		09C0FC101A1D6D4700D5A86B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		09C0FC111A1D6D4700D5A86B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		09C0FC131A1D6D4700D5A86B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Iterable-iOS-SDKTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		09C0FC141A1D6D4700D5A86B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Iterable-iOS-SDKTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		09C0FBF61A1D6D4700D5A86B /* Build configuration list for PBXProject "Iterable-iOS-SDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09C0FC0D1A1D6D4700D5A86B /* Debug */,
+				09C0FC0E1A1D6D4700D5A86B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		09C0FC0F1A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09C0FC101A1D6D4700D5A86B /* Debug */,
+				09C0FC111A1D6D4700D5A86B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		09C0FC121A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09C0FC131A1D6D4700D5A86B /* Debug */,
+				09C0FC141A1D6D4700D5A86B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 09C0FBF31A1D6D4700D5A86B /* Project object */;
+}
