@@ -51,4 +51,24 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return request;
 }
 
+- (void)sendRequest:(NSURLRequest *)request {
+    // TODO - figure out which operation queue to use; main queue or an empty alloc/init queue [NSOperationQueue mainQueue]
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[[NSOperationQueue alloc] init]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
+     {
+         if ([data length] > 0 && error == nil) {
+             NSLog(@"got data %@", data);
+//             [delegate receivedData:data];
+         } else if ([data length] == 0 && error == nil) {
+             NSLog(@"got no data");
+//             [delegate emptyReply];
+         } else if (error != nil) {
+             NSLog(@"got error: %@", error);
+//             [delegate downloadError:error];
+         }
+     }];
+}
+
+
 @end
