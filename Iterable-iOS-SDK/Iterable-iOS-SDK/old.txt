@@ -42,12 +42,6 @@ onFailure(error, NSString(data: data, encoding: NSUTF8StringEncoding))
 
 
 
-func getUser(onSuccess: SuccessCompletionHandler = NoOpCompletionHandlers.noOpSuccessCompletionHandler, onFailure: FailureCompletionHandler = NoOpCompletionHandlers.noOpFailureCompletionHandler)
-{
-let args = ["email": self.email]
-let request = createRequest("users/get", args: args)
-sendRequest(request, onSuccess: onSuccess, onFailure: onFailure)
-}
 
 func updateUser(dataFields: NSDictionary, onSuccess: SuccessCompletionHandler = NoOpCompletionHandlers.noOpSuccessCompletionHandler, onFailure: FailureCompletionHandler = NoOpCompletionHandlers.noOpFailureCompletionHandler)
 {

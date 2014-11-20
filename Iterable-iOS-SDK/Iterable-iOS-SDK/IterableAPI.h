@@ -15,6 +15,8 @@
 
 - (id) initWithApiKey:(NSString*)apiKey andEmail:(NSString*) email;
 
+- (void)getUser;
+
 @end
 
 #endif

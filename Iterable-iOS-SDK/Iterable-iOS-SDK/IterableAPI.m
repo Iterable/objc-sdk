@@ -70,5 +70,12 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
      }];
 }
 
+- (void)getUser {
+    NSDictionary *args = @{
+                           @"email": self->email
+                           };
+    NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
+    [self sendRequest:request];
+}
 
 @end
