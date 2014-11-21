@@ -67,7 +67,20 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
          if ([data length] > 0 && error == nil) {
-             NSLog(@"got data %@", data);
+//             NSString *asStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             error = nil;
+             id object = [NSJSONSerialization
+                          JSONObjectWithData:data
+                          options:0
+                          error:&error];
+             if(error) {
+                 NSLog(@"could not parse json");
+             } else if([object isKindOfClass:[NSDictionary class]]) {
+                 NSDictionary *results = object;
+                 NSLog(@"got data %@", results);
+             } else {
+                 NSLog(@"response is not a dictionary");
+             }
 //             [delegate receivedData:data];
          } else if ([data length] == 0 && error == nil) {
              NSLog(@"got no data");
