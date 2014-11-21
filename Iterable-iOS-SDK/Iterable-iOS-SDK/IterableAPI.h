@@ -10,8 +10,9 @@
 
 @interface IterableAPI : NSObject
 
-- (id) initWithApiKey:(NSString*)apiKey andEmail:(NSString*) email;
+- (id) initWithApiKey:(NSString *)apiKey andEmail:(NSString *) email;
 
 - (void)getUser;
+- (void)registerToken:(NSData *)token;
 
 @end

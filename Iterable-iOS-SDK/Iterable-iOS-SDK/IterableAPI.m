@@ -23,7 +23,8 @@
 @implementation IterableAPI {
 }
 
-NSString * const endpoint = @"https://api.iterable.com/api/";
+//NSString * const endpoint = @"https://api.iterable.com/api/";
+NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
 
 - (id)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
 {
@@ -97,6 +98,15 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                            @"email": self.email
                            };
     NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
+    [self sendRequest:request];
+}
+
+- (void)registerToken:(NSData *)token {
+    NSDictionary *args = @{
+                           @"email": self.email,
+                           @"token": [token base64EncodedStringWithOptions:0] 
+                           };
+    NSURLRequest *request = [self createRequestForAction:@"users/push" withArgs:args];
     [self sendRequest:request];
 }
 
