@@ -69,7 +69,7 @@ NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
          if ([data length] > 0 && error == nil) {
-//             NSString *asStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+             //             NSString *asStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
              error = nil;
              id object = [NSJSONSerialization
                           JSONObjectWithData:data
@@ -83,13 +83,13 @@ NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
              } else {
                  NSLog(@"response is not a dictionary");
              }
-//             [delegate receivedData:data];
+             //             [delegate receivedData:data];
          } else if ([data length] == 0 && error == nil) {
              NSLog(@"got no data");
-//             [delegate emptyReply];
+             //             [delegate emptyReply];
          } else if (error != nil) {
              NSLog(@"got error: %@", error);
-//             [delegate downloadError:error];
+             //             [delegate downloadError:error];
          }
      }];
 }
@@ -121,15 +121,17 @@ NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
     UIDevice *device = [UIDevice currentDevice];
     NSDictionary *args = @{
                            @"email": self.email,
-                           @"token": [token base64EncodedStringWithOptions:0],
-                           @"systemName": [device systemName],
-                           @"systemVersion": [device systemVersion],
-                           @"model": [device model],
-                           @"dataFields": @{
-                                   @"name": [device name],
-                                   @"localizedModel": [device localizedModel],
-                                   @"userInterfaceIdiom": [self userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
-                                   @"identifierForVendor": [[device identifierForVendor] UUIDString],
+                           @"device": @{
+                                   @"token": [token base64EncodedStringWithOptions:0],
+                                   @"systemName": [device systemName],
+                                   @"systemVersion": [device systemVersion],
+                                   @"model": [device model],
+                                   @"dataFields": @{
+                                           @"name": [device name],
+                                           @"localizedModel": [device localizedModel],
+                                           @"userInterfaceIdiom": [self userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
+                                           @"identifierForVendor": [[device identifierForVendor] UUIDString],
+                                           }
                                    }
                            };
     NSLog(@"%@", args);
