@@ -104,7 +104,7 @@ NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
 - (void)registerToken:(NSData *)token {
     NSDictionary *args = @{
                            @"email": self.email,
-                           @"token": [token base64EncodedStringWithOptions:0] 
+                           @"token": [token base64EncodedStringWithOptions:0]
                            };
     NSURLRequest *request = [self createRequestForAction:@"users/push" withArgs:args];
     [self sendRequest:request];
