@@ -14,5 +14,6 @@
 
 - (void)getUser;
 - (void)registerToken:(NSData *)token;
+- (void)sendPush;
 
 @end

@@ -11,6 +11,7 @@
 #endif
 
 @import Foundation;
+@import UIKit;
 
 #import "IterableAPI.h"
 
@@ -75,7 +76,7 @@ NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
                           options:0
                           error:&error];
              if(error) {
-                 NSLog(@"could not parse json");
+                 NSLog(@"could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
              } else if([object isKindOfClass:[NSDictionary class]]) {
                  NSDictionary *results = object;
                  NSLog(@"got data %@", results);
@@ -101,10 +102,44 @@ NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
     [self sendRequest:request];
 }
 
+- (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom {
+    NSString *result = nil;
+    switch (idiom) {
+        case UIUserInterfaceIdiomPhone:
+            result = @"Phone";
+            break;
+        case UIUserInterfaceIdiomPad:
+            result = @"Pad";
+            break;
+        default:
+            result = @"Unspecified";
+    }
+    return result;
+}
+
 - (void)registerToken:(NSData *)token {
+    UIDevice *device = [UIDevice currentDevice];
     NSDictionary *args = @{
                            @"email": self.email,
-                           @"token": [token base64EncodedStringWithOptions:0]
+                           @"token": [token base64EncodedStringWithOptions:0],
+                           @"systemName": [device systemName],
+                           @"systemVersion": [device systemVersion],
+                           @"model": [device model],
+                           @"dataFields": @{
+                                   @"name": [device name],
+                                   @"localizedModel": [device localizedModel],
+                                   @"userInterfaceIdiom": [self userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
+                                   @"identifierForVendor": [[device identifierForVendor] UUIDString],
+                                   }
+                           };
+    NSLog(@"%@", args);
+    NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
+    [self sendRequest:request];
+}
+
+- (void)sendPush {
+    NSDictionary *args = @{
+                           @"email": self.email
                            };
     NSURLRequest *request = [self createRequestForAction:@"users/push" withArgs:args];
     [self sendRequest:request];
