@@ -126,7 +126,8 @@ NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
                                    @"systemName": [device systemName],
                                    @"systemVersion": [device systemVersion],
                                    @"model": [device model],
-                                   @"applicationName": [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey],
+                                   @"applicationName": @"iossdk-ilya",
+//                                   @"applicationName": [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey],
                                    @"dataFields": @{
                                            @"name": [device name],
                                            @"localizedModel": [device localizedModel],
