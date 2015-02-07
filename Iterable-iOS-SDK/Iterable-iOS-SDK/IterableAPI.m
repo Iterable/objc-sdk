@@ -14,6 +14,7 @@
 @import UIKit;
 
 #import "IterableAPI.h"
+#import "NSData+Conversion.h"
 
 @interface IterableAPI () {
 }
@@ -122,7 +123,7 @@ NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
     NSDictionary *args = @{
                            @"email": self.email,
                            @"device": @{
-                                   @"token": [token base64EncodedStringWithOptions:0],
+                                   @"token": [token hexadecimalString],
                                    @"systemName": [device systemName],
                                    @"systemVersion": [device systemVersion],
                                    @"model": [device model],

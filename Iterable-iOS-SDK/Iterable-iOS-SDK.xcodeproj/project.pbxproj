@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		093734271A1D701F00C950B6 /* IterableAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 093734261A1D701F00C950B6 /* IterableAPI.m */; };
 		0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 093734251A1D6E8800C950B6 /* IterableAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		094995471A8588400047E59B /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 094995461A8588400047E59B /* NSData+Conversion.m */; };
 		09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,8 @@
 		093734241A1D6E6400C950B6 /* old.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = old.txt; sourceTree = "<group>"; };
 		093734251A1D6E8800C950B6 /* IterableAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAPI.h; sourceTree = "<group>"; };
 		093734261A1D701F00C950B6 /* IterableAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAPI.m; sourceTree = "<group>"; };
+		094995451A85880A0047E59B /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
+		094995461A8588400047E59B /* NSData+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
 		09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libIterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C0FC061A1D6D4700D5A86B /* Iterable-iOS-SDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Iterable-iOS-SDKTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C0FC0C1A1D6D4700D5A86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,6 +89,8 @@
 				093734241A1D6E6400C950B6 /* old.txt */,
 				093734251A1D6E8800C950B6 /* IterableAPI.h */,
 				093734261A1D701F00C950B6 /* IterableAPI.m */,
+				094995451A85880A0047E59B /* NSData+Conversion.h */,
+				094995461A8588400047E59B /* NSData+Conversion.m */,
 			);
 			path = "Iterable-iOS-SDK";
 			sourceTree = "<group>";
@@ -206,6 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				094995471A8588400047E59B /* NSData+Conversion.m in Sources */,
 				093734271A1D701F00C950B6 /* IterableAPI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
