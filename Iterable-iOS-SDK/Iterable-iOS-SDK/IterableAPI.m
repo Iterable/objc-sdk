@@ -150,4 +150,17 @@ NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
     [self sendRequest:request];
 }
 
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning {
+    NSDictionary *args = @{
+                           @"email": self.email,
+                           @"campaignId": campaignId,
+                           @"templateId": templateId,
+                           @"dataFields": @{
+                                   @"appAlreadyRunning": @(appAlreadyRunning)
+                                   }
+                           };
+    NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
+    [self sendRequest:request];
+}
+
 @end

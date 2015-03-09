@@ -15,5 +15,6 @@
 - (void)getUser;
 - (void)registerToken:(NSData *)token;
 - (void)sendPush;
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning;
 
 @end
