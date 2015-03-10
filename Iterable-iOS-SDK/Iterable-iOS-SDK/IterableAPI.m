@@ -26,7 +26,9 @@
 }
 
 //NSString * const endpoint = @"https://api.iterable.com/api/";
-NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
+//NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
+NSString * const endpoint = @"http://staging.iterable.com/api/";
+
 
 - (id)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
 {
@@ -124,16 +126,17 @@ NSString * const endpoint = @"http://ilyas-mbp-2:9000/api/";
                            @"email": self.email,
                            @"device": @{
                                    @"token": [token hexadecimalString],
-                                   @"systemName": [device systemName],
-                                   @"systemVersion": [device systemVersion],
-                                   @"model": [device model],
-                                   @"applicationName": @"iossdk-ilya",
+                                   @"platform": @"APNS_SANDBOX",
+                                   @"applicationName": @"foobar",
 //                                   @"applicationName": [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey],
                                    @"dataFields": @{
                                            @"name": [device name],
                                            @"localizedModel": [device localizedModel],
                                            @"userInterfaceIdiom": [self userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
                                            @"identifierForVendor": [[device identifierForVendor] UUIDString],
+                                           @"systemName": [device systemName],
+                                           @"systemVersion": [device systemVersion],
+                                           @"model": [device model]
                                            }
                                    }
                            };
