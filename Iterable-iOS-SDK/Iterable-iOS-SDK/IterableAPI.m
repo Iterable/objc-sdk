@@ -25,20 +25,51 @@
 @implementation IterableAPI {
 }
 
+static IterableAPI *sharedInstance = nil;
+
 //NSString * const endpoint = @"https://api.iterable.com/api/";
-//NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
-NSString * const endpoint = @"http://staging.iterable.com/api/";
+NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
+//NSString * const endpoint = @"http://staging.iterable.com/api/";
 
 
-- (id)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
 {
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         _apiKey = [apiKey copy];
         _email = [email copy];
     }
+    
+    // Automatically track a pushOpen
+    if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+    }
     return self;
 }
+
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
+{
+    return [self initWithApiKey:apiKey andEmail:email launchOptions:nil];
+}
+
++ (IterableAPI *)sharedInstance
+{
+    if (sharedInstance == nil) {
+        NSLog(@"warning sharedInstance called before sharedInstanceWithApiKey:");
+    }
+    return sharedInstance;
+}
+
+// should be called on app open
++ (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
+{
+    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
+    });
+    return sharedInstance;
+}
+
 
 - (NSURL *)getUrlForAction:(NSString *)action
 {
@@ -120,15 +151,14 @@ NSString * const endpoint = @"http://staging.iterable.com/api/";
     return result;
 }
 
-- (void)registerToken:(NSData *)token {
+- (void)registerToken:(NSData *)token appName:(NSString *)appName {
     UIDevice *device = [UIDevice currentDevice];
     NSDictionary *args = @{
                            @"email": self.email,
                            @"device": @{
                                    @"token": [token hexadecimalString],
                                    @"platform": @"APNS_SANDBOX",
-                                   @"applicationName": @"foobar",
-//                                   @"applicationName": [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey],
+                                   @"applicationName": appName,
                                    @"dataFields": @{
                                            @"name": [device name],
                                            @"localizedModel": [device localizedModel],
@@ -151,6 +181,20 @@ NSString * const endpoint = @"http://staging.iterable.com/api/";
                            };
     NSURLRequest *request = [self createRequestForAction:@"users/push" withArgs:args];
     [self sendRequest:request];
+}
+
+// TODO - make appAlreadyRunning a parameter?
+- (void)trackPushOpen:(NSDictionary *)userInfo {
+    NSLog(@"[Iterable] %@", @"%@ tracking push open %@");
+                             
+    if (userInfo && userInfo[@"itbl"]) {
+        NSDictionary *pushData = userInfo[@"itbl"];
+        if ([pushData isKindOfClass:[NSDictionary class]] && pushData[@"campaignId"]) {
+            [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false];
+        } else {
+            // TODO - throw error here, bad push payload
+        }
+    }
 }
 
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning {
