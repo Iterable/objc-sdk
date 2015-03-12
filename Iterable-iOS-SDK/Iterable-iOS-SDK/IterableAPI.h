@@ -70,6 +70,17 @@
  @method
  
  @abstract
+ Tracks a conversion. (not implemented yet)
+ 
+ @discussion
+ Pass in the total purchase amount and an <code>NSArray</code> of CommerceItems
+ */
+//- (void)trackConversion;
+- (void)trackConversion:(NSNumber *)campaignId templateId:(NSNumber *)templateId;
+/*!
+ @method
+ 
+ @abstract
  Tracks a pushOpen event.
  
  @discussion
@@ -88,9 +99,12 @@
  @discussion
  Pass in the the relevant campaign data.
  
- @param userInfo    the push notification payload
+ @param campaignId          The campaignId.
+ @param templateId          The templateId.
+ @param appAlreadyRunning   This will get merged into the dataFields. Whether the app is already running when receiving the notification.
  */
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning;
+
 
 /*!
  Here for testing. Will go away.

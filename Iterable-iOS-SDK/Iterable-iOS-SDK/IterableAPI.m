@@ -39,12 +39,14 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
         _email = [email copy];
     }
     
-    // Automatically track a pushOpen
     if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        // Automatically try to track a pushOpen
         [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
     }
+    
     return self;
 }
+
 
 - (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
 {
@@ -75,6 +77,23 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
 {
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey]];
 }
+
+//- (void)setIterableData:(NSDictionary *)userInfo
+//{
+//    if (userInfo && userInfo[@"itbl"]) {
+//        NSDictionary *itbl;
+//        itbl = [userInfo[@"itbl"] copy];                // this is a shallow copy
+////        NSMutableDictionary *data = [NSMutableDictionary dictionaryWithDictionary:userInfo[@"itbl"]];
+//        if ([itbl isKindOfClass:[NSDictionary class]]) {
+//            self.iterableData = [NSMutableDictionary dictionaryWithDictionary:itbl];
+//        } else {
+//            NSLog(@"[Iterable] %@", @"%@ error setting Iterable data %@");
+//        }
+//    } else {
+//        NSLog(@"[Iterable] %@", @"%@ error setting Iterable data %@");
+//    }
+//    NSLog(@"just set Iterable data to: %@", self.iterableData);
+//}
 
 - (NSString *)dictToJson:(NSDictionary *)dict {
     NSError *error;
@@ -194,8 +213,30 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
             [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false];
         } else {
             // TODO - throw error here, bad push payload
+            NSLog(@"[Iterable] %@", @"%@ error tracking push open %@");
         }
     }
+}
+
+// TODO - not implemented yet. Save the pushPayload locally, and a track a conversion with that.
+//- (void)trackConversion
+//{
+//    // TODO test when templateId is missing
+//    if (self.iterableData[@"campaignId"]) {
+//        [self trackConversion:self.iterableData[@"campaignId"] templateId:self.iterableData[@"templateId"]];
+//    } else {
+//        NSLog(@"[Iterable] %@", @"%@ error tracking conversion, no campaignId set%@");
+//    }
+//}
+
+- (void)trackConversion:(NSNumber *)campaignId templateId:(NSNumber *)templateId {
+    NSDictionary *args = @{
+                           @"email": self.email,
+                           @"campaignId": campaignId,
+                           @"templateId": templateId,
+                           };
+    NSURLRequest *request = [self createRequestForAction:@"events/trackConversion" withArgs:args];
+    [self sendRequest:request];
 }
 
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning {
