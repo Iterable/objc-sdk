@@ -98,6 +98,7 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
 
 - (void)sendRequest:(NSURLRequest *)request {
     // TODO - figure out which operation queue to use; main queue or an empty alloc/init queue [NSOperationQueue mainQueue]
+    // TODO - don't init NSOperationQueue every single time
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[[NSOperationQueue alloc] init]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
