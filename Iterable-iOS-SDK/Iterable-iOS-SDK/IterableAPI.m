@@ -41,7 +41,7 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
     
     if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         // Automatically try to track a pushOpen
-        [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+        [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] dataFields:nil];
     }
     
     return self;
@@ -204,13 +204,13 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
 }
 
 // TODO - make appAlreadyRunning a parameter?
-- (void)trackPushOpen:(NSDictionary *)userInfo {
+- (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields {
     NSLog(@"[Iterable] %@", @"%@ tracking push open %@");
                              
     if (userInfo && userInfo[@"itbl"]) {
         NSDictionary *pushData = userInfo[@"itbl"];
         if ([pushData isKindOfClass:[NSDictionary class]] && pushData[@"campaignId"]) {
-            [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false];
+            [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false dataFields:dataFields];
         } else {
             // TODO - throw error here, bad push payload
             NSLog(@"[Iterable] %@", @"%@ error tracking push open %@");
@@ -239,14 +239,14 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
     [self sendRequest:request];
 }
 
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning {
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields {
+    NSMutableDictionary *reqDataFields = [dataFields mutableCopy];
+    reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
     NSDictionary *args = @{
                            @"email": self.email,
                            @"campaignId": campaignId,
                            @"templateId": templateId,
-                           @"dataFields": @{
-                                   @"appAlreadyRunning": @(appAlreadyRunning)
-                                   }
+                           @"dataFields": reqDataFields
                            };
     NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
     [self sendRequest:request];

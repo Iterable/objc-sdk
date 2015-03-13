@@ -88,7 +88,7 @@
  
  @param userInfo    the push notification payload
  */
-- (void)trackPushOpen:(NSDictionary *)userInfo;
+- (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields;
 
 /*!
  @method
@@ -103,7 +103,7 @@
  @param templateId          The templateId.
  @param appAlreadyRunning   This will get merged into the dataFields. Whether the app is already running when receiving the notification.
  */
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning;
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields;
 
 
 /*!
