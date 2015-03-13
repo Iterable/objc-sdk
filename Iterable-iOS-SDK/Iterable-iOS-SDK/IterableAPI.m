@@ -115,7 +115,7 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
     return request;
 }
 
-- (void)sendRequest:(NSURLRequest *)request {
+- (void)sendRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure {
     // TODO - figure out which operation queue to use; main queue or an empty alloc/init queue [NSOperationQueue mainQueue]
     // TODO - don't init NSOperationQueue every single time
     [NSURLConnection sendAsynchronousRequest:request
@@ -123,27 +123,24 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
          if ([data length] > 0 && error == nil) {
-             //             NSString *asStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
              error = nil;
              id object = [NSJSONSerialization
                           JSONObjectWithData:data
                           options:0
                           error:&error];
              if(error) {
-                 NSLog(@"could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+                 NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+                 if (onFailure != nil) onFailure(reason, data);
              } else if([object isKindOfClass:[NSDictionary class]]) {
-                 NSDictionary *results = object;
-                 NSLog(@"got data %@", results);
+                 if (onSuccess != nil) onSuccess(object);
              } else {
-                 NSLog(@"response is not a dictionary");
+                 if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
              }
-             //             [delegate receivedData:data];
          } else if ([data length] == 0 && error == nil) {
-             NSLog(@"got no data");
-             //             [delegate emptyReply];
+             if (onFailure != nil) onFailure(@"No data received", data);
          } else if (error != nil) {
-             NSLog(@"got error: %@", error);
-             //             [delegate downloadError:error];
+             NSString *reason = [NSString stringWithFormat:@"%@", error];
+             if (onFailure != nil) onFailure(reason, data);
          }
      }];
 }
@@ -153,7 +150,7 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
                            @"email": self.email
                            };
     NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
-    [self sendRequest:request];
+    [self sendRequest:request onSuccess:nil onFailure:nil];
 }
 
 - (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom {
@@ -192,7 +189,7 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
                            };
     NSLog(@"%@", args);
     NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
-    [self sendRequest:request];
+    [self sendRequest:request onSuccess:nil onFailure:nil];
 }
 
 - (void)sendPush {
@@ -200,7 +197,7 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
                            @"email": self.email
                            };
     NSURLRequest *request = [self createRequestForAction:@"users/push" withArgs:args];
-    [self sendRequest:request];
+    [self sendRequest:request onSuccess:nil onFailure:nil];
 }
 
 // TODO - make appAlreadyRunning a parameter?
@@ -236,7 +233,13 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
                            @"templateId": templateId,
                            };
     NSURLRequest *request = [self createRequestForAction:@"events/trackConversion" withArgs:args];
-    [self sendRequest:request];
+    [self sendRequest:request onSuccess:^(NSDictionary *data)
+     {
+        NSLog(@"trackConversion succeeded to send, got data: %@", data);
+     } onFailure:^(NSString *reason, NSData *data)
+     {
+         NSLog(@"trackConversion failed to send: %@. Got data %@", reason, data);
+     }];
 }
 
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning {
@@ -249,7 +252,7 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
                                    }
                            };
     NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
-    [self sendRequest:request];
+    [self sendRequest:request onSuccess:nil onFailure:nil];
 }
 
 @end
