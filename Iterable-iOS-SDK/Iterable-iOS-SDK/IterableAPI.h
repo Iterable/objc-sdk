@@ -70,13 +70,13 @@
  @method
  
  @abstract
- Tracks a conversion. (not implemented yet)
+ Tracks a conversion.
  
  @discussion
- Pass in the total purchase amount and an <code>NSArray</code> of CommerceItems
+ Mirrors the Iterable API
  */
-//- (void)trackConversion;
-- (void)trackConversion:(NSNumber *)campaignId templateId:(NSNumber *)templateId;
+- (void)trackConversion:(NSNumber *)campaignId templateId:(NSNumber *)templateId dataFields:(NSDictionary *)dataFields;
+
 /*!
  @method
  
@@ -105,6 +105,19 @@
  */
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields;
 
+/*!
+ @method
+ 
+ @abstract
+ Tracks a custom event.
+ 
+ @discussion
+ Pass in the the custom event data.
+ 
+ @param eventName           Name of the event
+ @param dataFields          Dictionary of custom data fields.
+ */
+- (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields;
 
 /*!
  Here for testing. Will go away.

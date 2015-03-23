@@ -27,8 +27,9 @@
 
 static IterableAPI *sharedInstance = nil;
 
-//NSString * const endpoint = @"https://api.iterable.com/api/";
-NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
+// NSString * const endpoint = @"https://api.iterable.com/api/";
+NSString * const endpoint = @"https://canary.iterable.com/api/";
+// NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
 //NSString * const endpoint = @"http://staging.iterable.com/api/";
 
 
@@ -215,6 +216,22 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
     }
 }
 
+- (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields {
+    NSDictionary *args = @{
+                           @"email": self.email,
+                           @"eventName": eventName,
+                           @"dataFields": dataFields
+                           };
+    NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
+    [self sendRequest:request onSuccess:^(NSDictionary *data)
+     {
+        NSLog(@"track succeeded to send, got data: %@", data);
+     } onFailure:^(NSString *reason, NSData *data)
+     {
+         NSLog(@"track failed to send: %@. Got data %@", reason, data);
+     }];
+}
+
 // TODO - not implemented yet. Save the pushPayload locally, and a track a conversion with that.
 //- (void)trackConversion
 //{
@@ -226,11 +243,12 @@ NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
 //    }
 //}
 
-- (void)trackConversion:(NSNumber *)campaignId templateId:(NSNumber *)templateId {
+- (void)trackConversion:(NSNumber *)campaignId templateId:(NSNumber *)templateId dataFields:(NSDictionary *)dataFields {
     NSDictionary *args = @{
                            @"email": self.email,
                            @"campaignId": campaignId,
                            @"templateId": templateId,
+                           @"dataFields": dataFields
                            };
     NSURLRequest *request = [self createRequestForAction:@"events/trackConversion" withArgs:args];
     [self sendRequest:request onSuccess:^(NSDictionary *data)
