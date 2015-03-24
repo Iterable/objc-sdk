@@ -57,7 +57,7 @@ NSString * const endpoint = @"https://canary.iterable.com/api/";
 + (IterableAPI *)sharedInstance
 {
     if (sharedInstance == nil) {
-        NSLog(@"warning sharedInstance called before sharedInstanceWithApiKey:");
+        NSLog(@"warning sharedInstance called before sharedInstanceWithApiKey");
     }
     return sharedInstance;
 }
