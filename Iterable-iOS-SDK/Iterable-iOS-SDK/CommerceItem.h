@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Iterable. All rights reserved.
 //
 
+@import Foundation;
+
 @interface CommerceItem : NSObject
 
 //@property (nonatomic) NSString *sku;          // optional

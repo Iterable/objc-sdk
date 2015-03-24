@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Iterable. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "CommerceItem.h"
 
 @interface CommerceItem () {
@@ -19,8 +19,6 @@
 //@property (nonatomic) NSString *imageUrl;
 //@property (nonatomic) NSString *url;
 //@property (nonatomic) NSDictionary *dataFields;
-
-- (id)initWithId:(NSString *)id name:(NSString *)name price:(NSNumber *)price quantity:(NSUInteger)quantity;
 
 @end
 
