@@ -27,8 +27,8 @@
 
 static IterableAPI *sharedInstance = nil;
 
-// NSString * const endpoint = @"https://api.iterable.com/api/";
-NSString * const endpoint = @"https://canary.iterable.com/api/";
+NSString * const endpoint = @"https://api.iterable.com/api/";
+// NSString * const endpoint = @"https://canary.iterable.com/api/";
 // NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
 //NSString * const endpoint = @"http://staging.iterable.com/api/";
 
@@ -217,19 +217,33 @@ NSString * const endpoint = @"https://canary.iterable.com/api/";
 }
 
 - (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields {
-    NSDictionary *args = @{
-                           @"email": self.email,
-                           @"eventName": eventName,
-                           @"dataFields": dataFields
-                           };
-    NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
-    [self sendRequest:request onSuccess:^(NSDictionary *data)
-     {
-        NSLog(@"track succeeded to send, got data: %@", data);
-     } onFailure:^(NSString *reason, NSData *data)
-     {
-         NSLog(@"track failed to send: %@. Got data %@", reason, data);
-     }];
+    if (!eventName) {
+         NSLog(@"track: eventName must be set");
+    } else {
+        NSDictionary *args;
+        if (dataFields) {
+            args = @{
+                    @"email": self.email,
+                    @"eventName": eventName,
+                    @"dataFields": dataFields
+                    };
+            
+        } else {
+            args = @{
+                    @"email": self.email,
+                    @"eventName": eventName,
+                    };
+            
+        }
+        NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
+        [self sendRequest:request onSuccess:^(NSDictionary *data)
+         {
+             NSLog(@"track succeeded to send, got data: %@", data);
+         } onFailure:^(NSString *reason, NSData *data)
+         {
+             NSLog(@"track failed to send: %@. Got data %@", reason, data);
+         }];
+    }
 }
 
 // TODO - not implemented yet. Save the pushPayload locally, and a track a conversion with that.
@@ -244,33 +258,60 @@ NSString * const endpoint = @"https://canary.iterable.com/api/";
 //}
 
 - (void)trackConversion:(NSNumber *)campaignId templateId:(NSNumber *)templateId dataFields:(NSDictionary *)dataFields {
-    NSDictionary *args = @{
-                           @"email": self.email,
-                           @"campaignId": campaignId,
-                           @"templateId": templateId,
-                           @"dataFields": dataFields
-                           };
-    NSURLRequest *request = [self createRequestForAction:@"events/trackConversion" withArgs:args];
-    [self sendRequest:request onSuccess:^(NSDictionary *data)
-     {
-        NSLog(@"trackConversion succeeded to send, got data: %@", data);
-     } onFailure:^(NSString *reason, NSData *data)
-     {
-         NSLog(@"trackConversion failed to send: %@. Got data %@", reason, data);
-     }];
+    NSDictionary *args;
+    
+    if (!campaignId || !templateId) {
+         NSLog(@"trackConversion: campaignId and templateId must be set");
+    } else {
+        if (dataFields) {
+            args = @{
+                     @"email": self.email,
+                     @"campaignId": campaignId,
+                     @"templateId": templateId,
+                     @"dataFields": dataFields
+                     };
+        } else {
+            args = @{
+                     @"email": self.email,
+                     @"campaignId": campaignId,
+                     @"templateId": templateId
+                     };
+        }
+        
+        NSURLRequest *request = [self createRequestForAction:@"events/trackConversion" withArgs:args];
+        [self sendRequest:request onSuccess:^(NSDictionary *data)
+         {
+             NSLog(@"trackConversion succeeded to send, got data: %@", data);
+         } onFailure:^(NSString *reason, NSData *data)
+         {
+             NSLog(@"trackConversion failed to send: %@. Got data %@", reason, data);
+         }];
+    }
+    
 }
 
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields {
-    NSMutableDictionary *reqDataFields = [dataFields mutableCopy];
-    reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
-    NSDictionary *args = @{
+    NSMutableDictionary *reqDataFields;
+    if (dataFields) {
+        reqDataFields = [dataFields mutableCopy];
+        reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
+    } else {
+        reqDataFields = [NSMutableDictionary dictionary];
+        reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
+    }
+    
+    if (!campaignId || !templateId) {
+         NSLog(@"trackPushOpen: campaignId and templateId must be set");
+    } else {
+        NSDictionary *args = @{
                            @"email": self.email,
                            @"campaignId": campaignId,
                            @"templateId": templateId,
                            @"dataFields": reqDataFields
                            };
-    NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
-    [self sendRequest:request onSuccess:nil onFailure:nil];
+        NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
+        [self sendRequest:request onSuccess:nil onFailure:nil];
+    }
 }
 
 @end
