@@ -315,7 +315,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
 }
 
-- (void)trackPurchase:(NSNumber *)total items:(NSArray *)items dataFiels:(NSDictionary *)dataFields {
+- (void)trackPurchase:(NSNumber *)total items:(NSArray *)items dataFields:(NSDictionary *)dataFields {
     CommerceItem *item = [[CommerceItem alloc] initWithId:@"myId" name:@"myName" price:@5 quantity:1];
     
     NSLog(@"%@", [item toJSONString]);
