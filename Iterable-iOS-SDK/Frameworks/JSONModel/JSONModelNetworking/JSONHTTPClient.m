@@ -15,6 +15,9 @@
 // The MIT License in plain English: http://www.touch-code-magazine.com/JSONModel/MITLicense
 
 #import "JSONHTTPClient.h"
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#import <UIKit/UIKit.h>
+#endif
 
 #pragma mark - constants
 NSString* const kHTTPMethodGET = @"GET";
