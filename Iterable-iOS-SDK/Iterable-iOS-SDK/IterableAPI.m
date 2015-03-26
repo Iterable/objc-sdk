@@ -15,6 +15,7 @@
 
 #import "IterableAPI.h"
 #import "NSData+Conversion.h"
+#import "CommerceItem.h"
 
 @interface IterableAPI () {
 }
@@ -312,6 +313,12 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
         [self sendRequest:request onSuccess:nil onFailure:nil];
     }
+}
+
+- (void)trackPurchase:(NSNumber *)total items:(NSArray *)items dataFiels:(NSDictionary *)dataFields {
+    CommerceItem *item = [[CommerceItem alloc] initWithId:@"myId" name:@"myName" price:@5 quantity:1];
+    
+    NSLog(@"%@", [item toJSONString]);
 }
 
 @end

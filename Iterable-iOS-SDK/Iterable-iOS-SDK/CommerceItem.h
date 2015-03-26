@@ -7,8 +7,9 @@
 //
 
 @import Foundation;
+#import "JSONModel.h"
 
-@interface CommerceItem : NSObject
+@interface CommerceItem : JSONModel
 
 //@property (nonatomic) NSString *sku;          // optional
 //@property (nonatomic) NSString *description;          // optional

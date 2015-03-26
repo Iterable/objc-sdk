@@ -64,7 +64,7 @@
  @param total   total purchase amount
  @param items   list of purchased items
  */
-//- (void)trackPurchase:(NSNumber *)total items:(NSArray *)items dataFiels:(NSDictionary *)dataFields;
+- (void)trackPurchase:(NSNumber *)total items:(NSArray *)items dataFiels:(NSDictionary *)dataFields;
 
 /*!
  @method

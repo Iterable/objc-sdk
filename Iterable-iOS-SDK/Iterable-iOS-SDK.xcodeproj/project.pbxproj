@@ -12,6 +12,7 @@
 		094995471A8588400047E59B /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 094995461A8588400047E59B /* NSData+Conversion.m */; };
 		09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */; };
 		6804B8601AC0F363000A126B /* CommerceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6804B85F1AC0F363000A126B /* CommerceItem.m */; };
+		6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6845F7321AC3831B0043629D /* SystemConfiguration.framework */; };
 		68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6804B8651AC10426000A126B /* CommerceItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,28 @@
 		09C0FC0C1A1D6D4700D5A86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6804B85F1AC0F363000A126B /* CommerceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItem.m; sourceTree = "<group>"; };
 		6804B8651AC10426000A126B /* CommerceItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommerceItem.h; sourceTree = "<group>"; };
+		6845F7171AC3818B0043629D /* JSONModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONModel.h; sourceTree = "<group>"; };
+		6845F7181AC3818B0043629D /* JSONModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONModel.m; sourceTree = "<group>"; };
+		6845F7191AC3818B0043629D /* JSONModelArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONModelArray.h; sourceTree = "<group>"; };
+		6845F71A1AC3818B0043629D /* JSONModelArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONModelArray.m; sourceTree = "<group>"; };
+		6845F71B1AC3818B0043629D /* JSONModelClassProperty.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONModelClassProperty.h; sourceTree = "<group>"; };
+		6845F71C1AC3818B0043629D /* JSONModelClassProperty.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONModelClassProperty.m; sourceTree = "<group>"; };
+		6845F71D1AC3818B0043629D /* JSONModelError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONModelError.h; sourceTree = "<group>"; };
+		6845F71E1AC3818B0043629D /* JSONModelError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONModelError.m; sourceTree = "<group>"; };
+		6845F7201AC3818B0043629D /* NSArray+JSONModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+JSONModel.h"; sourceTree = "<group>"; };
+		6845F7211AC3818B0043629D /* NSArray+JSONModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+JSONModel.m"; sourceTree = "<group>"; };
+		6845F7221AC3818B0043629D /* JSONModelLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONModelLib.h; sourceTree = "<group>"; };
+		6845F7241AC3818B0043629D /* JSONAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONAPI.h; sourceTree = "<group>"; };
+		6845F7251AC3818B0043629D /* JSONAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONAPI.m; sourceTree = "<group>"; };
+		6845F7261AC3818B0043629D /* JSONHTTPClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONHTTPClient.h; sourceTree = "<group>"; };
+		6845F7271AC3818B0043629D /* JSONHTTPClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONHTTPClient.m; sourceTree = "<group>"; };
+		6845F7281AC3818B0043629D /* JSONModel+networking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSONModel+networking.h"; sourceTree = "<group>"; };
+		6845F7291AC3818B0043629D /* JSONModel+networking.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "JSONModel+networking.m"; sourceTree = "<group>"; };
+		6845F72B1AC3818B0043629D /* JSONKeyMapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONKeyMapper.h; sourceTree = "<group>"; };
+		6845F72C1AC3818B0043629D /* JSONKeyMapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONKeyMapper.m; sourceTree = "<group>"; };
+		6845F72D1AC3818B0043629D /* JSONValueTransformer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONValueTransformer.h; sourceTree = "<group>"; };
+		6845F72E1AC3818B0043629D /* JSONValueTransformer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONValueTransformer.m; sourceTree = "<group>"; };
+		6845F7321AC3831B0043629D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +96,7 @@
 		09C0FBF21A1D6D4700D5A86B = {
 			isa = PBXGroup;
 			children = (
+				6845F72F1AC3818F0043629D /* Frameworks */,
 				09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */,
 				09C0FC0A1A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
 				09C0FBFC1A1D6D4700D5A86B /* Products */,
@@ -115,6 +140,76 @@
 				09C0FC0C1A1D6D4700D5A86B /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6845F7151AC3818B0043629D /* JSONModel */ = {
+			isa = PBXGroup;
+			children = (
+				6845F7161AC3818B0043629D /* JSONModel */,
+				6845F71F1AC3818B0043629D /* JSONModelCategories */,
+				6845F7221AC3818B0043629D /* JSONModelLib.h */,
+				6845F7231AC3818B0043629D /* JSONModelNetworking */,
+				6845F72A1AC3818B0043629D /* JSONModelTransformations */,
+			);
+			name = JSONModel;
+			path = Frameworks/JSONModel;
+			sourceTree = "<group>";
+		};
+		6845F7161AC3818B0043629D /* JSONModel */ = {
+			isa = PBXGroup;
+			children = (
+				6845F7171AC3818B0043629D /* JSONModel.h */,
+				6845F7181AC3818B0043629D /* JSONModel.m */,
+				6845F7191AC3818B0043629D /* JSONModelArray.h */,
+				6845F71A1AC3818B0043629D /* JSONModelArray.m */,
+				6845F71B1AC3818B0043629D /* JSONModelClassProperty.h */,
+				6845F71C1AC3818B0043629D /* JSONModelClassProperty.m */,
+				6845F71D1AC3818B0043629D /* JSONModelError.h */,
+				6845F71E1AC3818B0043629D /* JSONModelError.m */,
+			);
+			path = JSONModel;
+			sourceTree = "<group>";
+		};
+		6845F71F1AC3818B0043629D /* JSONModelCategories */ = {
+			isa = PBXGroup;
+			children = (
+				6845F7201AC3818B0043629D /* NSArray+JSONModel.h */,
+				6845F7211AC3818B0043629D /* NSArray+JSONModel.m */,
+			);
+			path = JSONModelCategories;
+			sourceTree = "<group>";
+		};
+		6845F7231AC3818B0043629D /* JSONModelNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				6845F7241AC3818B0043629D /* JSONAPI.h */,
+				6845F7251AC3818B0043629D /* JSONAPI.m */,
+				6845F7261AC3818B0043629D /* JSONHTTPClient.h */,
+				6845F7271AC3818B0043629D /* JSONHTTPClient.m */,
+				6845F7281AC3818B0043629D /* JSONModel+networking.h */,
+				6845F7291AC3818B0043629D /* JSONModel+networking.m */,
+			);
+			path = JSONModelNetworking;
+			sourceTree = "<group>";
+		};
+		6845F72A1AC3818B0043629D /* JSONModelTransformations */ = {
+			isa = PBXGroup;
+			children = (
+				6845F72B1AC3818B0043629D /* JSONKeyMapper.h */,
+				6845F72C1AC3818B0043629D /* JSONKeyMapper.m */,
+				6845F72D1AC3818B0043629D /* JSONValueTransformer.h */,
+				6845F72E1AC3818B0043629D /* JSONValueTransformer.m */,
+			);
+			path = JSONModelTransformations;
+			sourceTree = "<group>";
+		};
+		6845F72F1AC3818F0043629D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6845F7321AC3831B0043629D /* SystemConfiguration.framework */,
+				6845F7151AC3818B0043629D /* JSONModel */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
