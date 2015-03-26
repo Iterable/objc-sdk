@@ -7,6 +7,7 @@
 //
 
 @import Foundation;
+#import "CommerceItem.h"
 
 @interface IterableAPI : NSObject
 
@@ -64,7 +65,7 @@
  @param total   total purchase amount
  @param items   list of purchased items
  */
-- (void)trackPurchase:(NSNumber *)total items:(NSArray *)items dataFields:(NSDictionary *)dataFields;
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items dataFields:(NSDictionary *)dataFields;
 
 /*!
  @method

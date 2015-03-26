@@ -28,9 +28,9 @@
 
 static IterableAPI *sharedInstance = nil;
 
-NSString * const endpoint = @"https://api.iterable.com/api/";
+//NSString * const endpoint = @"https://api.iterable.com/api/";
 // NSString * const endpoint = @"https://canary.iterable.com/api/";
-// NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
+NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
 //NSString * const endpoint = @"http://staging.iterable.com/api/";
 
 
@@ -315,10 +315,44 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
 }
 
-- (void)trackPurchase:(NSNumber *)total items:(NSArray *)items dataFields:(NSDictionary *)dataFields {
-    CommerceItem *item = [[CommerceItem alloc] initWithId:@"myId" name:@"myName" price:@5 quantity:1];
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields {
+    NSDictionary *args;
     
-    NSLog(@"%@", [item toJSONString]);
+    if (!total || !items) {
+         NSLog(@"trackPurchase: total and items must be set");
+    } else {
+        NSMutableArray *itemsToSerialize = [[NSMutableArray alloc] init];
+        for (CommerceItem *item in items) {
+            NSDictionary *itemDict = [item toDictionary];
+            [itemsToSerialize addObject:itemDict];
+        }
+        NSDictionary *apiUserDict = @{
+                                      @"email": self.email
+                                      };
+
+        if (dataFields) {
+            args = @{
+                     @"user": apiUserDict,
+                     @"items": itemsToSerialize,
+                     @"total": total,
+                     @"dataFields": dataFields
+                     };
+        } else {
+            args = @{
+                     @"user": apiUserDict,
+                     @"total": total,
+                     @"items": itemsToSerialize
+                     };
+        }
+        NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
+        [self sendRequest:request onSuccess:^(NSDictionary *data)
+         {
+             NSLog(@"trackPurchase succeeded to send, got data: %@", data);
+         } onFailure:^(NSString *reason, NSData *data)
+         {
+             NSLog(@"trackPurchase failed to send: %@. Got data %@", reason, data);
+         }];
+    }
 }
 
 @end

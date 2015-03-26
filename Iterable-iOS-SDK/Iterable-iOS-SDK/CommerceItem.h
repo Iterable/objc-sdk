@@ -9,6 +9,9 @@
 @import Foundation;
 #import "JSONModel.h"
 
+@protocol CommerceItem
+@end
+
 @interface CommerceItem : JSONModel
 
 //@property (nonatomic) NSString *sku;          // optional
