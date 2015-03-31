@@ -171,27 +171,33 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 - (void)registerToken:(NSData *)token appName:(NSString *)appName {
-    UIDevice *device = [UIDevice currentDevice];
-    NSDictionary *args = @{
-                           @"email": self.email,
-                           @"device": @{
-                                   @"token": [token hexadecimalString],
-                                   @"platform": @"APNS_SANDBOX",
-                                   @"applicationName": appName,
-                                   @"dataFields": @{
-                                           @"name": [device name],
-                                           @"localizedModel": [device localizedModel],
-                                           @"userInterfaceIdiom": [self userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
-                                           @"identifierForVendor": [[device identifierForVendor] UUIDString],
-                                           @"systemName": [device systemName],
-                                           @"systemVersion": [device systemVersion],
-                                           @"model": [device model]
-                                           }
-                                   }
-                           };
-    NSLog(@"%@", args);
-    NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
-    [self sendRequest:request onSuccess:nil onFailure:nil];
+    NSString *hexToken = [token hexadecimalString];
+
+    if ([hexToken length] != 64) {
+         NSLog(@"registerToken: invalid token");
+    } else {
+        UIDevice *device = [UIDevice currentDevice];
+        NSDictionary *args = @{
+                               @"email": self.email,
+                               @"device": @{
+                                       @"token": hexToken,
+                                       @"platform": @"APNS_SANDBOX",
+                                       @"applicationName": appName,
+                                       @"dataFields": @{
+                                               @"name": [device name],
+                                               @"localizedModel": [device localizedModel],
+                                               @"userInterfaceIdiom": [self userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
+                                               @"identifierForVendor": [[device identifierForVendor] UUIDString],
+                                               @"systemName": [device systemName],
+                                               @"systemVersion": [device systemVersion],
+                                               @"model": [device model]
+                                               }
+                                       }
+                               };
+        NSLog(@"%@", args);
+        NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
+        [self sendRequest:request onSuccess:nil onFailure:nil];
+    }
 }
 
 - (void)sendPush {
