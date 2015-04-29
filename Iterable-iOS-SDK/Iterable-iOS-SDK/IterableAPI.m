@@ -29,9 +29,9 @@
 static IterableAPI *sharedInstance = nil;
 
 // TODO dev/prod configs for endpoints
-//NSString * const endpoint = @"https://api.iterable.com/api/";
+NSString * const endpoint = @"https://api.iterable.com/api/";
 // NSString * const endpoint = @"https://canary.iterable.com/api/";
-NSString * const endpoint = @"http://mbp-15-g:9000/api/";
+//NSString * const endpoint = @"http://mbp-15-g:9000/api/";
 //NSString * const endpoint = @"http://staging.iterable.com/api/";
 
 
@@ -370,7 +370,7 @@ NSString * const endpoint = @"http://mbp-15-g:9000/api/";
 
 - (NSString*)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform{
     NSString *result = nil;
-
+    
     switch(pushServicePlatform) {
         case APNS:
             result = @"APNS";
@@ -379,7 +379,7 @@ NSString * const endpoint = @"http://mbp-15-g:9000/api/";
             result = @"APNS_SANDBOX";
             break;
         default:
-            [NSException raise:NSGenericException format:@"Unexpected PushServicePlatform."];
+            NSLog(@"Unexpected PushServicePlatform: %d", pushServicePlatform);
     }
 
     return result;
