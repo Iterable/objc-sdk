@@ -148,19 +148,19 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
      }];
 }
 
-- (void)getUser {
-    NSDictionary *args = @{
-                           @"email": self.email
-                           };
-    NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
-    [self sendRequest:request onSuccess:^(NSDictionary *data)
-     {
-         NSLog(@"getUser succeeded, got data: %@", data);
-     } onFailure:^(NSString *reason, NSData *data)
-     {
-         NSLog(@"getUser failed: %@. Got data %@", reason, data);
-     }];
-}
+//- (void)getUser {
+//    NSDictionary *args = @{
+//                           @"email": self.email
+//                           };
+//    NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
+//    [self sendRequest:request onSuccess:^(NSDictionary *data)
+//     {
+//         NSLog(@"getUser succeeded, got data: %@", data);
+//     } onFailure:^(NSString *reason, NSData *data)
+//     {
+//         NSLog(@"getUser failed: %@. Got data %@", reason, data);
+//     }];
+//}
 
 - (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom {
     NSString *result = nil;

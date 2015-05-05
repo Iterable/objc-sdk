@@ -55,7 +55,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 + (IterableAPI *)sharedInstance;
 
-- (void)getUser;
+// not implemented yet.
+//- (void)getUser;
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform;
 
 /*!
