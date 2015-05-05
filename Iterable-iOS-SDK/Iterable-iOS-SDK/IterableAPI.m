@@ -184,11 +184,18 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
          NSLog(@"registerToken: invalid token");
     } else {
         UIDevice *device = [UIDevice currentDevice];
+        NSString *psp = [self pushServicePlatformToString:pushServicePlatform];
+
+        // TODO - NSError when invalid pushServicePlatform
+        if (!psp) {
+            return;
+        }
+
         NSDictionary *args = @{
                                @"email": self.email,
                                @"device": @{
                                        @"token": hexToken,
-                                       @"platform": [self pushServicePlatformToString:pushServicePlatform],
+                                       @"platform": psp,
                                        @"applicationName": appName,
                                        @"dataFields": @{
                                                @"name": [device name],
