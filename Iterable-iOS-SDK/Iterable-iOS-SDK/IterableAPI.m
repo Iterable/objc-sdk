@@ -28,9 +28,10 @@
 
 static IterableAPI *sharedInstance = nil;
 
+// TODO dev/prod configs for endpoints
 NSString * const endpoint = @"https://api.iterable.com/api/";
 // NSString * const endpoint = @"https://canary.iterable.com/api/";
-// NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
+//NSString * const endpoint = @"http://mbp-15-g:9000/api/";
 //NSString * const endpoint = @"http://staging.iterable.com/api/";
 
 
@@ -147,13 +148,19 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
      }];
 }
 
-- (void)getUser {
-    NSDictionary *args = @{
-                           @"email": self.email
-                           };
-    NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
-    [self sendRequest:request onSuccess:nil onFailure:nil];
-}
+//- (void)getUser {
+//    NSDictionary *args = @{
+//                           @"email": self.email
+//                           };
+//    NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
+//    [self sendRequest:request onSuccess:^(NSDictionary *data)
+//     {
+//         NSLog(@"getUser succeeded, got data: %@", data);
+//     } onFailure:^(NSString *reason, NSData *data)
+//     {
+//         NSLog(@"getUser failed: %@. Got data %@", reason, data);
+//     }];
+//}
 
 - (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom {
     NSString *result = nil;
@@ -170,7 +177,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return result;
 }
 
-- (void)registerToken:(NSData *)token appName:(NSString *)appName {
+- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform {
     NSString *hexToken = [token hexadecimalString];
 
     if ([hexToken length] != 64) {
@@ -181,7 +188,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                @"email": self.email,
                                @"device": @{
                                        @"token": hexToken,
-                                       @"platform": @"APNS_SANDBOX",
+                                       @"platform": [self pushServicePlatformToString:pushServicePlatform],
                                        @"applicationName": appName,
                                        @"dataFields": @{
                                                @"name": [device name],
@@ -359,6 +366,23 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
              NSLog(@"trackPurchase failed to send: %@. Got data %@", reason, data);
          }];
     }
+}
+
+- (NSString*)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform{
+    NSString *result = nil;
+    
+    switch(pushServicePlatform) {
+        case APNS:
+            result = @"APNS";
+            break;
+        case APNS_SANDBOX:
+            result = @"APNS_SANDBOX";
+            break;
+        default:
+            NSLog(@"Unexpected PushServicePlatform: %d", pushServicePlatform);
+    }
+
+    return result;
 }
 
 @end

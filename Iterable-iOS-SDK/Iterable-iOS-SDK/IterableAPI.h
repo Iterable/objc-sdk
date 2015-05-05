@@ -11,6 +11,11 @@
 
 @interface IterableAPI : NSObject
 
+typedef NS_ENUM(NSInteger, PushServicePlatform) {
+    APNS_SANDBOX,
+    APNS
+};
+
 - (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *) email;
 
 /*!
@@ -50,8 +55,9 @@
  */
 + (IterableAPI *)sharedInstance;
 
-- (void)getUser;
-- (void)registerToken:(NSData *)token appName:(NSString *)appName;
+// not implemented yet.
+//- (void)getUser;
+- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform;
 
 /*!
  @method
