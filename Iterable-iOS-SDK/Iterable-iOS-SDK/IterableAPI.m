@@ -15,6 +15,7 @@
 
 #import "IterableAPI.h"
 #import "NSData+Conversion.h"
+#import "CommerceItem.h"
 
 @interface IterableAPI () {
 }
@@ -27,9 +28,10 @@
 
 static IterableAPI *sharedInstance = nil;
 
-// NSString * const endpoint = @"https://api.iterable.com/api/";
-NSString * const endpoint = @"https://canary.iterable.com/api/";
-// NSString * const endpoint = @"http://mbp-15-g-2:9000/api/";
+// TODO dev/prod configs for endpoints
+NSString * const endpoint = @"https://api.iterable.com/api/";
+// NSString * const endpoint = @"https://canary.iterable.com/api/";
+//NSString * const endpoint = @"http://mbp-15-g:9000/api/";
 //NSString * const endpoint = @"http://staging.iterable.com/api/";
 
 
@@ -57,7 +59,7 @@ NSString * const endpoint = @"https://canary.iterable.com/api/";
 + (IterableAPI *)sharedInstance
 {
     if (sharedInstance == nil) {
-        NSLog(@"warning sharedInstance called before sharedInstanceWithApiKey:");
+        NSLog(@"warning sharedInstance called before sharedInstanceWithApiKey");
     }
     return sharedInstance;
 }
@@ -146,13 +148,19 @@ NSString * const endpoint = @"https://canary.iterable.com/api/";
      }];
 }
 
-- (void)getUser {
-    NSDictionary *args = @{
-                           @"email": self.email
-                           };
-    NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
-    [self sendRequest:request onSuccess:nil onFailure:nil];
-}
+//- (void)getUser {
+//    NSDictionary *args = @{
+//                           @"email": self.email
+//                           };
+//    NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
+//    [self sendRequest:request onSuccess:^(NSDictionary *data)
+//     {
+//         NSLog(@"getUser succeeded, got data: %@", data);
+//     } onFailure:^(NSString *reason, NSData *data)
+//     {
+//         NSLog(@"getUser failed: %@. Got data %@", reason, data);
+//     }];
+//}
 
 - (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom {
     NSString *result = nil;
@@ -169,28 +177,41 @@ NSString * const endpoint = @"https://canary.iterable.com/api/";
     return result;
 }
 
-- (void)registerToken:(NSData *)token appName:(NSString *)appName {
-    UIDevice *device = [UIDevice currentDevice];
-    NSDictionary *args = @{
-                           @"email": self.email,
-                           @"device": @{
-                                   @"token": [token hexadecimalString],
-                                   @"platform": @"APNS_SANDBOX",
-                                   @"applicationName": appName,
-                                   @"dataFields": @{
-                                           @"name": [device name],
-                                           @"localizedModel": [device localizedModel],
-                                           @"userInterfaceIdiom": [self userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
-                                           @"identifierForVendor": [[device identifierForVendor] UUIDString],
-                                           @"systemName": [device systemName],
-                                           @"systemVersion": [device systemVersion],
-                                           @"model": [device model]
-                                           }
-                                   }
-                           };
-    NSLog(@"%@", args);
-    NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
-    [self sendRequest:request onSuccess:nil onFailure:nil];
+- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform {
+    NSString *hexToken = [token hexadecimalString];
+
+    if ([hexToken length] != 64) {
+         NSLog(@"registerToken: invalid token");
+    } else {
+        UIDevice *device = [UIDevice currentDevice];
+        NSString *psp = [self pushServicePlatformToString:pushServicePlatform];
+
+        // TODO - NSError when invalid pushServicePlatform
+        if (!psp) {
+            return;
+        }
+
+        NSDictionary *args = @{
+                               @"email": self.email,
+                               @"device": @{
+                                       @"token": hexToken,
+                                       @"platform": psp,
+                                       @"applicationName": appName,
+                                       @"dataFields": @{
+                                               @"name": [device name],
+                                               @"localizedModel": [device localizedModel],
+                                               @"userInterfaceIdiom": [self userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
+                                               @"identifierForVendor": [[device identifierForVendor] UUIDString],
+                                               @"systemName": [device systemName],
+                                               @"systemVersion": [device systemVersion],
+                                               @"model": [device model]
+                                               }
+                                       }
+                               };
+        NSLog(@"%@", args);
+        NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
+        [self sendRequest:request onSuccess:nil onFailure:nil];
+    }
 }
 
 - (void)sendPush {
@@ -217,19 +238,33 @@ NSString * const endpoint = @"https://canary.iterable.com/api/";
 }
 
 - (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields {
-    NSDictionary *args = @{
-                           @"email": self.email,
-                           @"eventName": eventName,
-                           @"dataFields": dataFields
-                           };
-    NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
-    [self sendRequest:request onSuccess:^(NSDictionary *data)
-     {
-        NSLog(@"track succeeded to send, got data: %@", data);
-     } onFailure:^(NSString *reason, NSData *data)
-     {
-         NSLog(@"track failed to send: %@. Got data %@", reason, data);
-     }];
+    if (!eventName) {
+         NSLog(@"track: eventName must be set");
+    } else {
+        NSDictionary *args;
+        if (dataFields) {
+            args = @{
+                    @"email": self.email,
+                    @"eventName": eventName,
+                    @"dataFields": dataFields
+                    };
+            
+        } else {
+            args = @{
+                    @"email": self.email,
+                    @"eventName": eventName,
+                    };
+            
+        }
+        NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
+        [self sendRequest:request onSuccess:^(NSDictionary *data)
+         {
+             NSLog(@"track succeeded to send, got data: %@", data);
+         } onFailure:^(NSString *reason, NSData *data)
+         {
+             NSLog(@"track failed to send: %@. Got data %@", reason, data);
+         }];
+    }
 }
 
 // TODO - not implemented yet. Save the pushPayload locally, and a track a conversion with that.
@@ -244,33 +279,117 @@ NSString * const endpoint = @"https://canary.iterable.com/api/";
 //}
 
 - (void)trackConversion:(NSNumber *)campaignId templateId:(NSNumber *)templateId dataFields:(NSDictionary *)dataFields {
-    NSDictionary *args = @{
-                           @"email": self.email,
-                           @"campaignId": campaignId,
-                           @"templateId": templateId,
-                           @"dataFields": dataFields
-                           };
-    NSURLRequest *request = [self createRequestForAction:@"events/trackConversion" withArgs:args];
-    [self sendRequest:request onSuccess:^(NSDictionary *data)
-     {
-        NSLog(@"trackConversion succeeded to send, got data: %@", data);
-     } onFailure:^(NSString *reason, NSData *data)
-     {
-         NSLog(@"trackConversion failed to send: %@. Got data %@", reason, data);
-     }];
+    NSDictionary *args;
+    
+    if (!campaignId || !templateId) {
+         NSLog(@"trackConversion: campaignId and templateId must be set");
+    } else {
+        if (dataFields) {
+            args = @{
+                     @"email": self.email,
+                     @"campaignId": campaignId,
+                     @"templateId": templateId,
+                     @"dataFields": dataFields
+                     };
+        } else {
+            args = @{
+                     @"email": self.email,
+                     @"campaignId": campaignId,
+                     @"templateId": templateId
+                     };
+        }
+        
+        NSURLRequest *request = [self createRequestForAction:@"events/trackConversion" withArgs:args];
+        [self sendRequest:request onSuccess:^(NSDictionary *data)
+         {
+             NSLog(@"trackConversion succeeded to send, got data: %@", data);
+         } onFailure:^(NSString *reason, NSData *data)
+         {
+             NSLog(@"trackConversion failed to send: %@. Got data %@", reason, data);
+         }];
+    }
+    
 }
 
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields {
-    NSMutableDictionary *reqDataFields = [dataFields mutableCopy];
-    reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
-    NSDictionary *args = @{
+    NSMutableDictionary *reqDataFields;
+    if (dataFields) {
+        reqDataFields = [dataFields mutableCopy];
+        reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
+    } else {
+        reqDataFields = [NSMutableDictionary dictionary];
+        reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
+    }
+    
+    if (!campaignId || !templateId) {
+         NSLog(@"trackPushOpen: campaignId and templateId must be set");
+    } else {
+        NSDictionary *args = @{
                            @"email": self.email,
                            @"campaignId": campaignId,
                            @"templateId": templateId,
                            @"dataFields": reqDataFields
                            };
-    NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
-    [self sendRequest:request onSuccess:nil onFailure:nil];
+        NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
+        [self sendRequest:request onSuccess:nil onFailure:nil];
+    }
+}
+
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields {
+    NSDictionary *args;
+    
+    if (!total || !items) {
+         NSLog(@"trackPurchase: total and items must be set");
+    } else {
+        NSMutableArray *itemsToSerialize = [[NSMutableArray alloc] init];
+        for (CommerceItem *item in items) {
+            NSDictionary *itemDict = [item toDictionary];
+            [itemsToSerialize addObject:itemDict];
+        }
+        NSDictionary *apiUserDict = @{
+                                      @"email": self.email
+                                      };
+
+        if (dataFields) {
+            args = @{
+                     @"user": apiUserDict,
+                     @"items": itemsToSerialize,
+                     @"total": total,
+                     @"dataFields": dataFields
+                     };
+        } else {
+            args = @{
+                     @"user": apiUserDict,
+                     @"total": total,
+                     @"items": itemsToSerialize
+                     };
+        }
+        NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
+        [self sendRequest:request onSuccess:^(NSDictionary *data)
+         {
+             NSLog(@"trackPurchase succeeded to send, got data: %@", data);
+         } onFailure:^(NSString *reason, NSData *data)
+         {
+             NSLog(@"trackPurchase failed to send: %@. Got data %@", reason, data);
+         }];
+    }
+}
+
+- (NSString*)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform{
+    NSString *result = nil;
+    
+    switch(pushServicePlatform) {
+        case APNS:
+            result = @"APNS";
+            break;
+        case APNS_SANDBOX:
+            result = @"APNS_SANDBOX";
+            break;
+        default:
+            NSLog(@"Unexpected PushServicePlatform: %d", pushServicePlatform);
+    }
+
+    return result;
 }
 
 @end
