@@ -1,2 +1,7 @@
 .DS_Store
 xcuserdata
+
+*~
+Podfile.lock
+Pods/
+Iterable-iOS-SDK.xcworkspace/
