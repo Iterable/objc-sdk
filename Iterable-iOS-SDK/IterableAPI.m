@@ -386,7 +386,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
             result = @"APNS_SANDBOX";
             break;
         default:
-            NSLog(@"Unexpected PushServicePlatform: %d", (long)pushServicePlatform);
+            NSLog(@"Unexpected PushServicePlatform: %ld", (long)pushServicePlatform);
     }
 
     return result;
