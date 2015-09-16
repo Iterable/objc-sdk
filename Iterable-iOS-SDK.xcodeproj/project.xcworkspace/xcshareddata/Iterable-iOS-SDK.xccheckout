@@ -14,11 +14,11 @@
 		<string>https://github.com/Iterable/iterable-ios-sdk.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Iterable-iOS-SDK/Iterable-iOS-SDK.xcodeproj</string>
+	<string>Iterable-iOS-SDK.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>B9F0CDD8F7E4E04217782BB576A1115CF5954BFB</key>
-		<string>../../..</string>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/Iterable/iterable-ios-sdk.git</string>
