@@ -7,7 +7,7 @@
 //
 
 @import Foundation;
-#import "JSONModel.h"
+#import <JSONModel/JSONModel.h>
 
 @protocol CommerceItem
 @end
