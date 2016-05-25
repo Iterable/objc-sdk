@@ -9,6 +9,10 @@
 @import Foundation;
 #import "CommerceItem.h"
 
+/**
+ `IterableAPI` contains all the essential functions for communicating with Iterable's API
+ */
+
 @interface IterableAPI : NSObject
 
 /**
@@ -21,7 +25,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
     APNS
 };
 
-/** @name Creating an IterableAPI */
+/////////////////////////////////
+/// @name Creating an IterableAPI
+/////////////////////////////////
 
 /*!
  @method
@@ -53,9 +59,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Initializes a shared instance of Iterable with launchOptions
  
- @discussion This method will set up a singleton instance of the <code>IterableAPI</code> class for
+ @discussion This method will set up a singleton instance of the `IterableAPI` class for
  you using the given project API key. When you want to make calls to Iterable
- elsewhere in your code, you can use <code>sharedInstance</code>. If launchOptions is there and
+ elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
  the app was launched from a remote push notification, we will track a pushOpen.
  
  @param apiKey          your Iterable apiKey
@@ -71,23 +77,24 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Get the previously instantiated singleton instance of the API
  
- @discussion Must be initialized with <code>sharedInstanceWithApiKey:</code> before
+ @discussion Must be initialized with `sharedInstanceWithApiKey:` before
  calling this class method.
  
  @return the existing IterableAPI instance
  */
 + (IterableAPI *)sharedInstance;
 
-
-/** @name Registering a token */
+/////////////////////////////
+/// @name Registering a token
+/////////////////////////////
 
 /*!
  @method 
  
  @abstract Register this device's token with Iterable
 
- @param token       The token representing this device/application pair <br/>
-                    Obtained from method <code>application:didRegisterForRemoteNotificationsWithDeviceToken</code>
+ @param token       The token representing this device/application pair, obtained from
+                    `application:didRegisterForRemoteNotificationsWithDeviceToken`
                     after registering for remote notifications
  @param appName     The application name, as configured in Iterable during set up of the push integration
  @param pushServicePlatform     Dictates whether to register this token in the sandbox or production environment
@@ -95,18 +102,20 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform;
 
-/** @name Tracking events */
+/////////////////////////
+/// @name Tracking events
+/////////////////////////
 
 /*!
  @method
  
  @abstract Tracks a purchase
  
- @discussion Pass in the total purchase amount and an <code>NSArray</code> of CommerceItems
+ @discussion Pass in the total purchase amount and an `NSArray` of `CommerceItem`s
  
  @param total       total purchase amount
  @param items       list of purchased items
- @param dataFields  a <code>Dictionary</code> containing any additional information to save along with the event
+ @param dataFields  an `NSDictionary` containing any additional information to save along with the event
  */
 - (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items dataFields:(NSDictionary *)dataFields;
 
@@ -115,10 +124,10 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Tracks a pushOpen event.
  
- @discussion Pass in the <code>userInfo</code> from the push notification payload
+ @discussion Pass in the `userInfo` from the push notification payload
  
  @param userInfo    the push notification payload
- @param dataFields  a <code>Dictionary</code> containing any additional information to save along with the event
+ @param dataFields  an `NSDictionary` containing any additional information to save along with the event
  */
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields;
 
@@ -132,7 +141,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @param campaignId          The campaignId of the the push notification that caused this open event
  @param templateId          The templateId  of the the push notification that caused this open event
  @param appAlreadyRunning   This will get merged into the dataFields. Whether the app is already running when the notification was received
- @param dataFields          A <code>Dictionary</code> containing any additional information to save along with the event
+ @param dataFields          An `NSDictionary` containing any additional information to save along with the event
  */
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields;
 
@@ -143,8 +152,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @discussion Pass in the the custom event data.
  
- @param eventName           Name of the event
- @param dataFields          Dictionary of custom data fields.
+ @param eventName   Name of the event
+ @param dataFields  An `NSDictionary` containing any additional information to save along with the event
  */
 - (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields;
 

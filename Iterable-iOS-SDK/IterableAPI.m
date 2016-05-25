@@ -19,8 +19,17 @@
 
 @interface IterableAPI () {
 }
+
+/**
+ The apiKey that this IterableAPI is using
+ */
 @property(nonatomic, readonly, copy) NSString *apiKey;
+
+/**
+ The email of the logged in user that this IterableAPI is using
+ */
 @property(nonatomic, readonly, copy) NSString *email;
+
 @end
 
 @implementation IterableAPI {
@@ -28,22 +37,24 @@
 
 static IterableAPI *sharedInstance = nil;
 
-// TODO dev/prod configs for endpoints
+// dev/prod configs for endpoints
 NSString * const endpoint = @"https://api.iterable.com/api/";
-// NSString * const endpoint = @"https://canary.iterable.com/api/";
+//NSString * const endpoint = @"https://canary.iterable.com/api/";
 //NSString * const endpoint = @"http://mbp-15-g:9000/api/";
 //NSString * const endpoint = @"http://staging.iterable.com/api/";
 
-/** @name Internal methods */
+//////////////////////////
+/// @name Internal methods
+//////////////////////////
 
 /**
- * @method
- *
- * @abstract Converts a PushServicePlatform into a NSString recognized by Iterable
- *
- * @param pushServicePlatform the PushServicePlatform
- *
- * @return an NSString that the Iterable backend can understand
+ @method
+ 
+ @abstract Converts a PushServicePlatform into a NSString recognized by Iterable
+ 
+ @param pushServicePlatform the PushServicePlatform
+ 
+ @return an NSString that the Iterable backend can understand
  */
 - (NSString*)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform{
     NSString *result = nil;
@@ -62,7 +73,15 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return result;
 }
 
-
+/**
+ @method
+ 
+ @abstract Creates a full URL with host and apiKey, given the endpoint URI
+ 
+ @param action the endpoint URI
+ 
+ @return an NSString containing the full URL
+ */
 - (NSURL *)getUrlForAction:(NSString *)action
 {
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey]];
