@@ -34,45 +34,32 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 //NSString * const endpoint = @"http://mbp-15-g:9000/api/";
 //NSString * const endpoint = @"http://staging.iterable.com/api/";
 
+/** @name Internal methods */
 
-- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
-{
-    if (self = [super init]) {
-        _apiKey = [apiKey copy];
-        _email = [email copy];
+/**
+ * @method
+ *
+ * @abstract Converts a PushServicePlatform into a NSString recognized by Iterable
+ *
+ * @param pushServicePlatform the PushServicePlatform
+ *
+ * @return an NSString that the Iterable backend can understand
+ */
+- (NSString*)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform{
+    NSString *result = nil;
+    
+    switch(pushServicePlatform) {
+        case APNS:
+            result = @"APNS";
+            break;
+        case APNS_SANDBOX:
+            result = @"APNS_SANDBOX";
+            break;
+        default:
+            NSLog(@"Unexpected PushServicePlatform: %ld", (long)pushServicePlatform);
     }
     
-    if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-        // Automatically try to track a pushOpen
-        [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] dataFields:nil];
-    }
-    
-    return self;
-}
-
-
-- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
-{
-    return [self initWithApiKey:apiKey andEmail:email launchOptions:nil];
-}
-
-+ (IterableAPI *)sharedInstance
-{
-    if (sharedInstance == nil) {
-        NSLog(@"warning sharedInstance called before sharedInstanceWithApiKey");
-    }
-    return sharedInstance;
-}
-
-// should be called on app open
-+ (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
-{
-    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
-    });
-    return sharedInstance;
+    return result;
 }
 
 
@@ -80,23 +67,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 {
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey]];
 }
-
-//- (void)setIterableData:(NSDictionary *)userInfo
-//{
-//    if (userInfo && userInfo[@"itbl"]) {
-//        NSDictionary *itbl;
-//        itbl = [userInfo[@"itbl"] copy];                // this is a shallow copy
-////        NSMutableDictionary *data = [NSMutableDictionary dictionaryWithDictionary:userInfo[@"itbl"]];
-//        if ([itbl isKindOfClass:[NSDictionary class]]) {
-//            self.iterableData = [NSMutableDictionary dictionaryWithDictionary:itbl];
-//        } else {
-//            NSLog(@"[Iterable] %@", @"%@ error setting Iterable data %@");
-//        }
-//    } else {
-//        NSLog(@"[Iterable] %@", @"%@ error setting Iterable data %@");
-//    }
-//    NSLog(@"just set Iterable data to: %@", self.iterableData);
-//}
 
 - (NSString *)dictToJson:(NSDictionary *)dict {
     NSError *error;
@@ -148,20 +118,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
      }];
 }
 
-//- (void)getUser {
-//    NSDictionary *args = @{
-//                           @"email": self.email
-//                           };
-//    NSURLRequest *request = [self createRequestForAction:@"users/get" withArgs:args];
-//    [self sendRequest:request onSuccess:^(NSDictionary *data)
-//     {
-//         NSLog(@"getUser succeeded, got data: %@", data);
-//     } onFailure:^(NSString *reason, NSData *data)
-//     {
-//         NSLog(@"getUser failed: %@. Got data %@", reason, data);
-//     }];
-//}
-
 - (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom {
     NSString *result = nil;
     switch (idiom) {
@@ -177,6 +133,49 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return result;
 }
 
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
+{
+    if (self = [super init]) {
+        _apiKey = [apiKey copy];
+        _email = [email copy];
+    }
+    
+    if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        // Automatically try to track a pushOpen
+        [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] dataFields:nil];
+    }
+    
+    return self;
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
+{
+    return [self initWithApiKey:apiKey andEmail:email launchOptions:nil];
+}
+
+// documented in IterableAPI.h
++ (IterableAPI *)sharedInstance
+{
+    if (sharedInstance == nil) {
+        NSLog(@"warning sharedInstance called before sharedInstanceWithApiKey");
+    }
+    return sharedInstance;
+}
+
+// documented in IterableAPI.h
++ (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
+{
+    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
+    });
+    return sharedInstance;
+}
+
+// documented in IterableAPI.h
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform {
     NSString *hexToken = [token hexadecimalString];
 
@@ -214,21 +213,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
 }
 
-// TODO - make appAlreadyRunning a parameter?
-- (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields {
-    NSLog(@"[Iterable] %@", @"%@ tracking push open %@");
-                             
-    if (userInfo && userInfo[@"itbl"]) {
-        NSDictionary *pushData = userInfo[@"itbl"];
-        if ([pushData isKindOfClass:[NSDictionary class]] && pushData[@"campaignId"]) {
-            [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false dataFields:dataFields];
-        } else {
-            // TODO - throw error here, bad push payload
-            NSLog(@"[Iterable] %@", @"%@ error tracking push open %@");
-        }
-    }
-}
-
 - (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields {
     if (!eventName) {
          NSLog(@"track: eventName must be set");
@@ -259,6 +243,22 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
 }
 
+// TODO - make appAlreadyRunning a parameter?
+- (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields {
+    NSLog(@"[Iterable] %@", @"%@ tracking push open %@");
+    
+    if (userInfo && userInfo[@"itbl"]) {
+        NSDictionary *pushData = userInfo[@"itbl"];
+        if ([pushData isKindOfClass:[NSDictionary class]] && pushData[@"campaignId"]) {
+            [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false dataFields:dataFields];
+        } else {
+            // TODO - throw error here, bad push payload
+            NSLog(@"[Iterable] %@", @"%@ error tracking push open %@");
+        }
+    }
+}
+
+// documented in IterableAPI.h
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields {
     NSMutableDictionary *reqDataFields;
     if (dataFields) {
@@ -283,6 +283,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
 }
 
+// documented in IterableAPI.h
 - (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields {
     NSDictionary *args;
     
@@ -321,23 +322,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
              NSLog(@"trackPurchase failed to send: %@. Got data %@", reason, data);
          }];
     }
-}
-
-- (NSString*)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform{
-    NSString *result = nil;
-    
-    switch(pushServicePlatform) {
-        case APNS:
-            result = @"APNS";
-            break;
-        case APNS_SANDBOX:
-            result = @"APNS_SANDBOX";
-            break;
-        default:
-            NSLog(@"Unexpected PushServicePlatform: %ld", (long)pushServicePlatform);
-    }
-
-    return result;
 }
 
 @end

@@ -21,6 +21,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
     APNS
 };
 
+/** @name Creating an IterableAPI */
+
 /*!
  @method
  
@@ -76,6 +78,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 + (IterableAPI *)sharedInstance;
 
+
+/** @name Registering a token */
+
 /*!
  @method 
  
@@ -90,6 +95,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform;
 
+/** @name Tracking events */
+
 /*!
  @method
  
@@ -97,8 +104,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @discussion Pass in the total purchase amount and an <code>NSArray</code> of CommerceItems
  
- @param total   total purchase amount
- @param items   list of purchased items
+ @param total       total purchase amount
+ @param items       list of purchased items
+ @param dataFields  a <code>Dictionary</code> containing any additional information to save along with the event
  */
 - (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items dataFields:(NSDictionary *)dataFields;
 
