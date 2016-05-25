@@ -214,14 +214,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
 }
 
-- (void)sendPush {
-    NSDictionary *args = @{
-                           @"email": self.email
-                           };
-    NSURLRequest *request = [self createRequestForAction:@"users/push" withArgs:args];
-    [self sendRequest:request onSuccess:nil onFailure:nil];
-}
-
 // TODO - make appAlreadyRunning a parameter?
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields {
     NSLog(@"[Iterable] %@", @"%@ tracking push open %@");
@@ -265,50 +257,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
              NSLog(@"track failed to send: %@. Got data %@", reason, data);
          }];
     }
-}
-
-// TODO - not implemented yet. Save the pushPayload locally, and a track a conversion with that.
-//- (void)trackConversion
-//{
-//    // TODO test when templateId is missing
-//    if (self.iterableData[@"campaignId"]) {
-//        [self trackConversion:self.iterableData[@"campaignId"] templateId:self.iterableData[@"templateId"]];
-//    } else {
-//        NSLog(@"[Iterable] %@", @"%@ error tracking conversion, no campaignId set%@");
-//    }
-//}
-
-- (void)trackConversion:(NSNumber *)campaignId templateId:(NSNumber *)templateId dataFields:(NSDictionary *)dataFields {
-    NSDictionary *args;
-    
-    if (!campaignId || !templateId) {
-         NSLog(@"trackConversion: campaignId and templateId must be set");
-    } else {
-        if (dataFields) {
-            args = @{
-                     @"email": self.email,
-                     @"campaignId": campaignId,
-                     @"templateId": templateId,
-                     @"dataFields": dataFields
-                     };
-        } else {
-            args = @{
-                     @"email": self.email,
-                     @"campaignId": campaignId,
-                     @"templateId": templateId
-                     };
-        }
-        
-        NSURLRequest *request = [self createRequestForAction:@"events/trackConversion" withArgs:args];
-        [self sendRequest:request onSuccess:^(NSDictionary *data)
-         {
-             NSLog(@"trackConversion succeeded to send, got data: %@", data);
-         } onFailure:^(NSString *reason, NSData *data)
-         {
-             NSLog(@"trackConversion failed to send: %@. Got data %@", reason, data);
-         }];
-    }
-    
 }
 
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields {

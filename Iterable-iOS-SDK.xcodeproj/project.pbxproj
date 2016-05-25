@@ -170,6 +170,7 @@
 				09C0FBF91A1D6D4700D5A86B /* CopyFiles */,
 				0937342D1A1D99BB00C950B6 /* Headers */,
 				8C6D14F67EEC705CE589F47D /* Copy Pods Resources */,
+				092302A31CF6455A004EA265 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -244,6 +245,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		092302A31CF6455A004EA265 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#if [ ${CONFIGURATION} == \"Release\" ]; then\nAPPLEDOC_PATH=`which appledoc`\nif [ $APPLEDOC_PATH ]; then\n$APPLEDOC_PATH \\\n--project-name ${PRODUCT_NAME} \\\n--project-company \"Iterable\" \\\n--company-id \"com.iterable\" \\\n--output ${PRODUCT_NAME}Docs \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-install-docset \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--exit-threshold 2 \\\n${PROJECT_DIR}/${PRODUCT_NAME}\nfi;\n#fi;\n";
+		};
 		27B2E67D4C7F362C40CE20AB /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
