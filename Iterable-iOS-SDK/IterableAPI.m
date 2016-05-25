@@ -80,13 +80,22 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @param action the endpoint URI
  
- @return an NSString containing the full URL
+ @return an `NSString` containing the full URL
  */
 - (NSURL *)getUrlForAction:(NSString *)action
 {
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey]];
 }
 
+/**
+ @method
+ 
+ @abstract Converts an `NSDictionary` into a JSON string
+ 
+ @param dict the `NSDictionary`
+ 
+ @return an `NSString` containing the JSON representation of `dict`
+ */
 - (NSString *)dictToJson:(NSDictionary *)dict {
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict
@@ -100,6 +109,16 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
 }
 
+/**
+ @method 
+ 
+ @abstract Creates a POST request to the specified action URI, with body data `args`
+ 
+ @param action  the action URI
+ @param args    the data to POST
+ 
+ @return a POST-method `NSURLRequest` to the specified action with the specified data
+ */
 - (NSURLRequest *)createRequestForAction:(NSString *)action withArgs:(NSDictionary *)args {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrlForAction:action]];
     [request setHTTPMethod:@"POST"];
@@ -107,9 +126,25 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return request;
 }
 
+/**
+ @method
+ 
+ @abstract executes the given `request`, attaching success and failure handlers
+ 
+ @discussion A request is consider successful as long as it does not meet any of the criteria outlined below:
+ 
+ - there is no response
+ - the server responds with a non-OK status
+ - the server responds with a string that can not be parsed into JSON
+ - the server responds with a string that can be parsed into JSON, but is not a dictionary
+
+ @param request     An `NSURLRequest` with the request to execute.
+ @param onSuccess   A closure to execute if the request is successful. 
+                    It should accept one argument, an `NSDictionary` of the response.
+ @param onFailure   A closure to execute if the request fails. 
+                    It should accept two arguments: an `NSString` containing the reason this request failed, and an `NSData` containing the raw response.
+ */
 - (void)sendRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure {
-    // TODO - figure out which operation queue to use; main queue or an empty alloc/init queue [NSOperationQueue mainQueue]
-    // TODO - don't init NSOperationQueue every single time
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[[NSOperationQueue alloc] init]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
@@ -137,6 +172,15 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
      }];
 }
 
+/**
+ @method
+ 
+ @abstract Generates an `NSString` representing a `UIUserInterfaceIdiom`
+ 
+ @param idiom the `UIUserInterfaceIdiom` to convert to a string
+ 
+ @return a string representing the `idiom`
+ */
 - (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom {
     NSString *result = nil;
     switch (idiom) {
@@ -204,8 +248,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         UIDevice *device = [UIDevice currentDevice];
         NSString *psp = [self pushServicePlatformToString:pushServicePlatform];
 
-        // TODO - NSError when invalid pushServicePlatform
         if (!psp) {
+            NSLog(@"registerToken: invalid pushServicePlatform");
             return;
         }
 
@@ -232,9 +276,10 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
 }
 
+// documented in IterableAPI.h
 - (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields {
     if (!eventName) {
-         NSLog(@"track: eventName must be set");
+        NSLog(@"track: eventName must be set");
     } else {
         NSDictionary *args;
         if (dataFields) {
@@ -262,7 +307,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
 }
 
-// TODO - make appAlreadyRunning a parameter?
+// documented in IterableAPI.h
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields {
     NSLog(@"[Iterable] %@", @"%@ tracking push open %@");
     
