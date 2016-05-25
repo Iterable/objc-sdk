@@ -20,16 +20,6 @@
 @interface IterableAPI () {
 }
 
-/**
- The apiKey that this IterableAPI is using
- */
-@property(nonatomic, readonly, copy) NSString *apiKey;
-
-/**
- The email of the logged in user that this IterableAPI is using
- */
-@property(nonatomic, readonly, copy) NSString *email;
-
 @end
 
 @implementation IterableAPI {

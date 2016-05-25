@@ -15,8 +15,22 @@
 
 @interface IterableAPI : NSObject
 
+////////////////////
+/// @name Properties
+////////////////////
+
 /**
- * Enum representing platform 
+ The apiKey that this IterableAPI is using
+ */
+@property(nonatomic, readonly, copy) NSString *apiKey;
+
+/**
+ The email of the logged in user that this IterableAPI is using
+ */
+@property(nonatomic, readonly, copy) NSString *email;
+
+/**
+ Enum representing platform 
  */
 typedef NS_ENUM(NSInteger, PushServicePlatform) {
     /** The sandbox push service */

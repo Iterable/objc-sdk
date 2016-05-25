@@ -11,15 +11,6 @@
 
 @interface CommerceItem () {
 }
-
-//@property (nonatomic) NSString *sku;          // optional
-//@property (nonatomic) NSString *description;          // optional
-//@property (nonatomic) NSArray *categories;          // optional, array of strings
-
-//@property (nonatomic) NSString *imageUrl;
-//@property (nonatomic) NSString *url;
-//@property (nonatomic) NSDictionary *dataFields;
-
 @end
 
 @implementation CommerceItem {
