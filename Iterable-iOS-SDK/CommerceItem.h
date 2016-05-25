@@ -9,6 +9,9 @@
 @import Foundation;
 #import <JSONModel/JSONModel.h>
 
+/**
+ required by `JSONModel` for this class to work with collections, such as `NSArray`
+ */
 @protocol CommerceItem
 @end
 

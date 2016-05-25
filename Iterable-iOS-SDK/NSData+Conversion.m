@@ -16,6 +16,8 @@
 @implementation NSData (NSData_Conversion)
 
 #pragma mark - String Conversion
+
+// documented in NSData+Conversion.h
 - (NSString *)hexadecimalString {
     /* Returns hexadecimal string of NSData. Empty string if data is empty.   */
     const unsigned char *dataBuffer = (const unsigned char *)[self bytes];

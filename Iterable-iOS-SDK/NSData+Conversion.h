@@ -16,9 +16,19 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ category applied to `NSData`, contains a way to express an `NSData` as a hexadecimal `NSString`
+ */
 @interface NSData (NSData_Conversion)
 
 #pragma mark - String Conversion
+/**
+ @method
+ 
+ @abstract Hexadecimal string representation of this `NSData`
+ 
+ @return hexadecimal string representation of this `NSData`; empty string if this `NSData` is empty
+ */
 - (NSString *)hexadecimalString;
 
 @end
