@@ -262,7 +262,14 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                };
         NSLog(@"[Iterable] %@", args);
         NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
-        [self sendRequest:request onSuccess:nil onFailure:nil];
+        [self sendRequest:request onSuccess:^(NSDictionary *data)
+         {
+             NSLog(@"[Iterable] registerToken succeeded, got response: %@", data);
+         } onFailure:^(NSString *reason, NSData *data)
+         {
+             NSLog(@"[Iterable] registerToken failed: %@. Got response %@", reason, data);
+         }];
+
     }
 }
 
@@ -289,10 +296,10 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
         [self sendRequest:request onSuccess:^(NSDictionary *data)
          {
-             NSLog(@"[Iterable] track succeeded to send, got data: %@", data);
+             NSLog(@"[Iterable] track succeeded, got response: %@", data);
          } onFailure:^(NSString *reason, NSData *data)
          {
-             NSLog(@"[Iterable] track failed to send: %@. Got data %@", reason, data);
+             NSLog(@"[Iterable] track failed: %@. Got response %@", reason, data);
          }];
     }
 }
@@ -333,7 +340,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                            @"dataFields": reqDataFields
                            };
         NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
-        [self sendRequest:request onSuccess:nil onFailure:nil];
+        [self sendRequest:request onSuccess:^(NSDictionary *data)
+         {
+             NSLog(@"[Iterable] trackPushOpen succeeded, got response: %@", data);
+         } onFailure:^(NSString *reason, NSData *data)
+         {
+             NSLog(@"[Iterable] trackPushOpen failed: %@. Got response %@", reason, data);
+         }];
     }
 }
 
@@ -370,10 +383,10 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
         [self sendRequest:request onSuccess:^(NSDictionary *data)
          {
-             NSLog(@"[Iterable] trackPurchase succeeded to send, got data: %@", data);
+             NSLog(@"[Iterable] trackPurchase succeeded, got response: %@", data);
          } onFailure:^(NSString *reason, NSData *data)
          {
-             NSLog(@"[Iterable] trackPurchase failed to send: %@. Got data %@", reason, data);
+             NSLog(@"[Iterable] trackPurchase failed: %@. Got response %@", reason, data);
          }];
     }
 }
