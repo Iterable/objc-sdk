@@ -46,7 +46,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @return an NSString that the Iterable backend can understand
  */
-+ (NSString*)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform
++ (NSString *)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform
 {
     NSString *result = nil;
     
@@ -87,7 +87,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @return an `NSString` containing the JSON representation of `dict`
  */
-- (NSString *)dictToJson:(NSDictionary *)dict
++ (NSString *)dictToJson:(NSDictionary *)dict
 {
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict
@@ -115,7 +115,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrlForAction:action]];
     [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:[[self dictToJson:args] dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setHTTPBody:[[IterableAPI dictToJson:args] dataUsingEncoding:NSUTF8StringEncoding]];
     return request;
 }
 
@@ -175,7 +175,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @return a string representing the `idiom`
  */
-- (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom
++ (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom
 {
     NSString *result = nil;
     switch (idiom) {
@@ -190,6 +190,11 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
     return result;
 }
+
+
+//////////////////////////////////////////////////////////////
+/// @name Implementations of things documents in IterableAPI.h
+//////////////////////////////////////////////////////////////
 
 // documented in IterableAPI.h
 - (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
@@ -258,7 +263,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                        @"dataFields": @{
                                                @"name": [device name],
                                                @"localizedModel": [device localizedModel],
-                                               @"userInterfaceIdiom": [self userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
+                                               @"userInterfaceIdiom": [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
                                                @"identifierForVendor": [[device identifierForVendor] UUIDString],
                                                @"systemName": [device systemName],
                                                @"systemVersion": [device systemVersion],

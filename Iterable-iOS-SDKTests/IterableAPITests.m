@@ -10,8 +10,11 @@
 
 #import "IterableAPI.h"
 
+// category to "expose" private methods; see http://stackoverflow.com/questions/1098550/unit-testing-of-private-methods-in-xcode
 @interface IterableAPI (Test)
-+ (NSString*)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform;
++ (NSString *)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform;
++ (NSString *)dictToJson:(NSDictionary *)dict;
++ (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom;
 @end
 
 @interface IterableAPITests : XCTestCase
@@ -30,10 +33,47 @@
 }
 
 - (void)testPushServicePlatformToString {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
     XCTAssertEqualObjects(@"APNS", [IterableAPI pushServicePlatformToString:APNS]);
     XCTAssertEqualObjects(@"APNS_SANDBOX", [IterableAPI pushServicePlatformToString:APNS_SANDBOX]);
+    XCTAssertNil([IterableAPI pushServicePlatformToString:231097]);
+}
+
+- (void)testDictToJson {
+    NSDictionary *args = @{
+                           @"email": @"ilya@iterable.com",
+                           @"device": @{
+                                   @"token": @"foo",
+                                   @"platform": @"bar",
+                                   @"applicationName": @"baz",
+                                   @"dataFields": @{
+                                           @"name": @"green",
+                                           @"localizedModel": @"eggs",
+                                           @"userInterfaceIdiom": @"and",
+                                           @"identifierForVendor": @"ham",
+                                           @"systemName": @"iterable",
+                                           @"systemVersion": @"is",
+                                           @"model": @"awesome"
+                                           }
+                                   }
+                           };
+    NSString *expected = @"{\"email\":\"ilya@iterable.com\",\"device\":{\"applicationName\":\"baz\",\"dataFields\":{\"systemName\":\"iterable\",\"model\":\"awesome\",\"localizedModel\":\"eggs\",\"userInterfaceIdiom\":\"and\",\"systemVersion\":\"is\",\"name\":\"green\",\"identifierForVendor\":\"ham\"},\"token\":\"foo\",\"platform\":\"bar\"}}";
+    XCTAssertEqualObjects(expected, [IterableAPI dictToJson:args]);
+    
+    // just in case, make sure they're the same when we serialize it back...
+    id object = [NSJSONSerialization
+                 JSONObjectWithData:[expected dataUsingEncoding:NSUTF8StringEncoding]
+                 options:0
+                 error:nil];
+    XCTAssertEqualObjects(args, object);
+}
+
+- (void)testUserInterfaceIdionEnumToString {
+    XCTAssertEqualObjects(@"Phone", [IterableAPI userInterfaceIdiomEnumToString:UIUserInterfaceIdiomPhone]);
+    XCTAssertEqualObjects(@"Pad", [IterableAPI userInterfaceIdiomEnumToString:UIUserInterfaceIdiomPad]);
+    // we don't care about TVs for now
+    XCTAssertEqualObjects(@"Unspecified", [IterableAPI userInterfaceIdiomEnumToString:UIUserInterfaceIdiomTV]);
+    XCTAssertEqualObjects(@"Unspecified", [IterableAPI userInterfaceIdiomEnumToString:UIUserInterfaceIdiomUnspecified]);
+    XCTAssertEqualObjects(@"Unspecified", [IterableAPI userInterfaceIdiomEnumToString:192387]);
 }
 
 @end
