@@ -20,7 +20,7 @@
 - (id)initWithId:(NSString *)id name:(NSString *)name price:(NSNumber *)price quantity:(NSUInteger)quantity {
     if (self = [super init]) {
         if (!id || !name || !price || !quantity) {
-            NSLog(@"invalid parameters while created CommerceItem");
+            NSLog(@"[Iterable] invalid parameters while created CommerceItem");
         } else {
             _id = id;
             _name = name;

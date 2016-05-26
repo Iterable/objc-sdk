@@ -57,7 +57,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
             result = @"APNS_SANDBOX";
             break;
         default:
-            NSLog(@"Unexpected PushServicePlatform: %ld", (long)pushServicePlatform);
+            NSLog(@"[Iterable] Unexpected PushServicePlatform: %ld", (long)pushServicePlatform);
     }
     
     return result;
@@ -92,7 +92,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                                        options:0
                                                          error:&error];
     if (! jsonData) {
-        NSLog(@"dictToJson failed: %@", error);
+        NSLog(@"[Iterable] dictToJson failed: %@", error);
         return nil;
     } else {
         return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -212,7 +212,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 + (IterableAPI *)sharedInstance
 {
     if (sharedInstance == nil) {
-        NSLog(@"warning sharedInstance called before sharedInstanceWithApiKey");
+        NSLog(@"[Iterable] warning sharedInstance called before sharedInstanceWithApiKey");
     }
     return sharedInstance;
 }
@@ -233,13 +233,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     NSString *hexToken = [token hexadecimalString];
 
     if ([hexToken length] != 64) {
-         NSLog(@"registerToken: invalid token");
+         NSLog(@"[Iterable] registerToken: invalid token");
     } else {
         UIDevice *device = [UIDevice currentDevice];
         NSString *psp = [self pushServicePlatformToString:pushServicePlatform];
 
         if (!psp) {
-            NSLog(@"registerToken: invalid pushServicePlatform");
+            NSLog(@"[Iterable] registerToken: invalid pushServicePlatform");
             return;
         }
 
@@ -260,7 +260,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                                }
                                        }
                                };
-        NSLog(@"%@", args);
+        NSLog(@"[Iterable] %@", args);
         NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
         [self sendRequest:request onSuccess:nil onFailure:nil];
     }
@@ -269,7 +269,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 // documented in IterableAPI.h
 - (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields {
     if (!eventName) {
-        NSLog(@"track: eventName must be set");
+        NSLog(@"[Iterable] track: eventName must be set");
     } else {
         NSDictionary *args;
         if (dataFields) {
@@ -289,17 +289,17 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
         [self sendRequest:request onSuccess:^(NSDictionary *data)
          {
-             NSLog(@"track succeeded to send, got data: %@", data);
+             NSLog(@"[Iterable] track succeeded to send, got data: %@", data);
          } onFailure:^(NSString *reason, NSData *data)
          {
-             NSLog(@"track failed to send: %@. Got data %@", reason, data);
+             NSLog(@"[Iterable] track failed to send: %@. Got data %@", reason, data);
          }];
     }
 }
 
 // documented in IterableAPI.h
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields {
-    NSLog(@"[Iterable] %@", @"%@ tracking push open %@");
+    NSLog(@"[Iterable] tracking push open");
     
     if (userInfo && userInfo[@"itbl"]) {
         NSDictionary *pushData = userInfo[@"itbl"];
@@ -307,7 +307,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
             [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false dataFields:dataFields];
         } else {
             // TODO - throw error here, bad push payload
-            NSLog(@"[Iterable] %@", @"%@ error tracking push open %@");
+            NSLog(@"[Iterable] error tracking push open");
         }
     }
 }
@@ -324,7 +324,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
     
     if (!campaignId || !templateId) {
-         NSLog(@"trackPushOpen: campaignId and templateId must be set");
+         NSLog(@"[Iterable] trackPushOpen: campaignId and templateId must be set");
     } else {
         NSDictionary *args = @{
                            @"email": self.email,
@@ -342,7 +342,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     NSDictionary *args;
     
     if (!total || !items) {
-         NSLog(@"trackPurchase: total and items must be set");
+         NSLog(@"[Iterable] trackPurchase: total and items must be set");
     } else {
         NSMutableArray *itemsToSerialize = [[NSMutableArray alloc] init];
         for (CommerceItem *item in items) {
@@ -370,10 +370,10 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
         [self sendRequest:request onSuccess:^(NSDictionary *data)
          {
-             NSLog(@"trackPurchase succeeded to send, got data: %@", data);
+             NSLog(@"[Iterable] trackPurchase succeeded to send, got data: %@", data);
          } onFailure:^(NSString *reason, NSData *data)
          {
-             NSLog(@"trackPurchase failed to send: %@. Got data %@", reason, data);
+             NSLog(@"[Iterable] trackPurchase failed to send: %@. Got data %@", reason, data);
          }];
     }
 }
