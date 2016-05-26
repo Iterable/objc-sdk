@@ -46,7 +46,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @return an NSString that the Iterable backend can understand
  */
-- (NSString*)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform{
++ (NSString*)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform
+{
     NSString *result = nil;
     
     switch(pushServicePlatform) {
@@ -86,7 +87,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @return an `NSString` containing the JSON representation of `dict`
  */
-- (NSString *)dictToJson:(NSDictionary *)dict {
+- (NSString *)dictToJson:(NSDictionary *)dict
+{
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict
                                                        options:0
@@ -109,7 +111,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @return a POST-method `NSURLRequest` to the specified action with the specified data
  */
-- (NSURLRequest *)createRequestForAction:(NSString *)action withArgs:(NSDictionary *)args {
+- (NSURLRequest *)createRequestForAction:(NSString *)action withArgs:(NSDictionary *)args
+{
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrlForAction:action]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[[self dictToJson:args] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -134,7 +137,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  @param onFailure   A closure to execute if the request fails. 
                     It should accept two arguments: an `NSString` containing the reason this request failed, and an `NSData` containing the raw response.
  */
-- (void)sendRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure {
+- (void)sendRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure
+{
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[[NSOperationQueue alloc] init]
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
@@ -171,7 +175,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @return a string representing the `idiom`
  */
-- (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom {
+- (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom
+{
     NSString *result = nil;
     switch (idiom) {
         case UIUserInterfaceIdiomPhone:
@@ -229,14 +234,15 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform {
+- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform
+{
     NSString *hexToken = [token hexadecimalString];
 
     if ([hexToken length] != 64) {
          NSLog(@"[Iterable] registerToken: invalid token");
     } else {
         UIDevice *device = [UIDevice currentDevice];
-        NSString *psp = [self pushServicePlatformToString:pushServicePlatform];
+        NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
 
         if (!psp) {
             NSLog(@"[Iterable] registerToken: invalid pushServicePlatform");
@@ -274,7 +280,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields {
+- (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields
+{
     if (!eventName) {
         NSLog(@"[Iterable] track: eventName must be set");
     } else {
@@ -305,7 +312,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields {
+- (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields
+{
     NSLog(@"[Iterable] tracking push open");
     
     if (userInfo && userInfo[@"itbl"]) {
@@ -320,7 +328,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields {
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields
+{
     NSMutableDictionary *reqDataFields;
     if (dataFields) {
         reqDataFields = [dataFields mutableCopy];
@@ -351,7 +360,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields {
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields
+{
     NSDictionary *args;
     
     if (!total || !items) {
