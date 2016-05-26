@@ -20,12 +20,8 @@ Pod::Spec.new do |s|
   s.summary      = "Iterable's official SDK for iOS"
 
   s.description  = <<-DESC
-                   Wrapper for Iterable's API with some additional utility functions for iOS
-
-                   * Think: Why did you write this? What is the focus? What does it do?
-                   * CocoaPods will be using this to generate tags, and improve search results.
-                   * Try to keep it short, snappy and to the point.
-                   * Finally, don't worry about the indent, CocoaPods strips it!
+                   iOS SDK containing a wrapper around Iterable's API, in addition
+                   to some utility functions
                    DESC
 
   s.homepage     = "https://iterable.com/"
