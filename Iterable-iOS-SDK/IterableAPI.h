@@ -10,9 +10,18 @@
 #import "CommerceItem.h"
 
 /**
+ Enum representing push platform; apple push notification service, production vs sandbox
+ */
+typedef NS_ENUM(NSInteger, PushServicePlatform) {
+    /** The sandbox push service */
+    APNS_SANDBOX,
+    /** The production push service */
+    APNS
+};
+
+/**
  `IterableAPI` contains all the essential functions for communicating with Iterable's API
  */
-
 @interface IterableAPI : NSObject
 
 ////////////////////
@@ -29,15 +38,6 @@
  */
 @property(nonatomic, readonly, copy) NSString *email;
 
-/**
- Enum representing platform 
- */
-typedef NS_ENUM(NSInteger, PushServicePlatform) {
-    /** The sandbox push service */
-    APNS_SANDBOX,
-    /** The production push service */
-    APNS
-};
 
 /////////////////////////////////
 /// @name Creating an IterableAPI
@@ -111,7 +111,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
                     `application:didRegisterForRemoteNotificationsWithDeviceToken`
                     after registering for remote notifications
  @param appName     The application name, as configured in Iterable during set up of the push integration
- @param pushServicePlatform     Dictates whether to register this token in the sandbox or production environment
+ @param pushServicePlatform     The PushServicePlatform to use for this device; dictates whether to register this token in the sandbox or production environment
+ 
+ @see PushServicePlatform
  
  */
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform;
@@ -130,6 +132,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @param total       total purchase amount
  @param items       list of purchased items
  @param dataFields  an `NSDictionary` containing any additional information to save along with the event
+ 
+ @see CommerceItem
  */
 - (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items dataFields:(NSDictionary *)dataFields;
 
