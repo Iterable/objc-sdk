@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		091489E21CF6986900482D82 /* IterableAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 091489E11CF6986900482D82 /* IterableAPITests.m */; };
+		091489E81CF6AC1800482D82 /* CommerceItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 091489E71CF6AC1800482D82 /* CommerceItemTests.m */; };
 		093734271A1D701F00C950B6 /* IterableAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 093734261A1D701F00C950B6 /* IterableAPI.m */; };
 		0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 093734251A1D6E8800C950B6 /* IterableAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		094995471A8588400047E59B /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 094995461A8588400047E59B /* NSData+Conversion.m */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		01863EC5A183DF82D804C925 /* libPods-Iterable-iOS-SDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091489E11CF6986900482D82 /* IterableAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAPITests.m; sourceTree = "<group>"; };
+		091489E71CF6AC1800482D82 /* CommerceItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItemTests.m; sourceTree = "<group>"; };
 		093734251A1D6E8800C950B6 /* IterableAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAPI.h; sourceTree = "<group>"; };
 		093734261A1D701F00C950B6 /* IterableAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAPI.m; sourceTree = "<group>"; };
 		094995451A85880A0047E59B /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			children = (
 				09C0FC0B1A1D6D4700D5A86B /* Supporting Files */,
 				091489E11CF6986900482D82 /* IterableAPITests.m */,
+				091489E71CF6AC1800482D82 /* CommerceItemTests.m */,
 			);
 			path = "Iterable-iOS-SDKTests";
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				091489E21CF6986900482D82 /* IterableAPITests.m in Sources */,
+				091489E81CF6AC1800482D82 /* CommerceItemTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
