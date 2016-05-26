@@ -1,8 +1,8 @@
-# Iterable iOS SDK
-
 [![CocoaPods](https://img.shields.io/cocoapods/v/IterableSDK.svg?style=flat)](https://cocoapods.org/pods/IterableSDK)
 [![License](https://img.shields.io/cocoapods/l/IterableSDK.svg?style=flat)](https://opensource.org/licenses/MIT)
 [![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](https://cocoadocs.org/docsets/IterableSDK)
+
+# Iterable iOS SDK
 
 `iterable-ios-sdk` is an Objective-C implementation of an iOS client for Iterable.
 
