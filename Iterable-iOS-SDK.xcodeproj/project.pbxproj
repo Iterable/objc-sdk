@@ -40,7 +40,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		093734241A1D6E6400C950B6 /* old.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = old.txt; sourceTree = "<group>"; };
 		093734251A1D6E8800C950B6 /* IterableAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAPI.h; sourceTree = "<group>"; };
 		093734261A1D701F00C950B6 /* IterableAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAPI.m; sourceTree = "<group>"; };
 		094995451A85880A0047E59B /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
@@ -100,7 +99,6 @@
 		09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */ = {
 			isa = PBXGroup;
 			children = (
-				093734241A1D6E6400C950B6 /* old.txt */,
 				093734251A1D6E8800C950B6 /* IterableAPI.h */,
 				6804B85F1AC0F363000A126B /* CommerceItem.m */,
 				6804B8651AC10426000A126B /* CommerceItem.h */,
