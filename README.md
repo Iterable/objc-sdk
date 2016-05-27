@@ -35,7 +35,7 @@ If your project is built with `Swift`, you will need a `bridging header`. See [h
 
 The steps using the SDK can be summarized as such:
 
-1. Once you know the email of the user, created a shared instance of an `IterableAPI` using 
+1. Once you know the email of the user, **create a shared instance of an `IterableAPI`** using 
 ```
 [IterableAPI sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions]
 ```
@@ -43,9 +43,48 @@ The `apiKey` should correspond to the API key of your project in Iterable. If yo
 Ideally, you will call this from inside `application:didFinishLaunchingWithOptions:` and pass in `launchOptions`. This will let the SDK automatically track a push open for you if the application was launched from a remote Iterable push notification. 
 This method creates a singleton `IterableAPI` for your use. You can retrieve it later with `[IterableAPI sharedInstance]`. If retrieving it later, be sure that you have either instantiated it earlier, or check for a non-nil return value. 
 
-2. Register for remote notifications - more notes coming
+2. **Register for remote notifications**
+See [Registering for Remote Notifications](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html#//apple_ref/doc/uid/TP40008194-CH103-SW2) from Apple's documentation.
+a. Register your app’s supported interaction types 
+b. Call the `registerForRemoteNotifications` method to register your app for remote notifications.
+c. Use your app delegate’s `application:didRegisterForRemoteNotificationsWithDeviceToken:` method to receive the device token needed to deliver remote notifications. Use the `application:didFailToRegisterForRemoteNotificationsWithError:` method to process errors.
 
-3. Send the token to Iterable via `registerDeviceToken` - more notes coming
+3. **Send the token to Iterable** via `- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform` 
+***Device tokens can change, so your app needs to reregister every time it is launched and pass the received token back to your server***. Don't cache your token on the device; send it every time you receive one. 
+
+Putting it all together:
+
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // other setup tasks here....
+ 
+    // Register the supported interaction types.
+    UIUserNotificationType types = UIUserNotificationTypeBadge |
+                 UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    UIUserNotificationSettings *mySettings =
+                [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+ 
+    // Register for remote notifications.
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+}
+ 
+// Handle remote notification registration.
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)token {
+    self.registered = YES; // if you wanted to track whether you've registered for push, this is the place to do it
+
+    NSString *applicationName = @"YOUR ITERABLE PUSH INTEGRATION NAME"; // the application name configured in Iterable when setting up your push credentials
+    PushServicePlatform platform = APNS_SANDBOX; // use APNS for production
+    IterableAPI *iterable = [IterableAPI sharedInstance]; // you should call sharedInstanceWithApiKey before this
+    if (iterable != nil) {
+        [iterable registerToken:token appName:applicationName pushServicePlatform:psp]; // register the token with Iterable
+    }    
+}
+ 
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"Error in registration for remote notifications. Error: %@", error);
+}
+```
 
 Congratulations! You can now send remote push notifications to your device from Iterable!
 
