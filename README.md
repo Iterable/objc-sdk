@@ -47,7 +47,8 @@ See [Registering for Remote Notifications](https://developer.apple.com/library/i
   2. Call the `registerForRemoteNotifications` method to register your app for remote notifications.
   3. Use your app delegate’s `application:didRegisterForRemoteNotificationsWithDeviceToken:` method to receive the device token needed to deliver remote notifications. Use the `application:didFailToRegisterForRemoteNotificationsWithError:` method to process errors.
 
-3. **Send the token to Iterable** via `- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform` 
+3. **Send the token to Iterable**  
+   Use `- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform` to send the token to Iterable   
    ***Device tokens can change, so your app needs to reregister every time it is launched and pass the received token back to your server***. Don't cache your token on the device; send it every time you receive one. 
 
 Putting it all together:
