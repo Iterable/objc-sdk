@@ -27,11 +27,7 @@
 
 static IterableAPI *sharedInstance = nil;
 
-// dev/prod configs for endpoints
 NSString * const endpoint = @"https://api.iterable.com/api/";
-//NSString * const endpoint = @"https://canary.iterable.com/api/";
-//NSString * const endpoint = @"http://mbp-15-g:9000/api/";
-//NSString * const endpoint = @"http://staging.iterable.com/api/";
 
 //////////////////////////
 /// @name Internal methods
