@@ -8,3 +8,4 @@ Iterable-iOS-SDK.xcworkspace/
 Iterable-iOS-SDKDocs/
 
 *.xccheckout
+.idea/
