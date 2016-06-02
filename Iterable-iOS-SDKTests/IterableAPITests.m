@@ -8,6 +8,8 @@
 
 #import <XCTest/XCTest.h>
 
+#import <asl.h>
+
 #import "IterableAPI.h"
 
 // category to "expose" private methods; see http://stackoverflow.com/questions/1098550/unit-testing-of-private-methods-in-xcode
@@ -24,11 +26,13 @@
 
 - (void)setUp {
     [super setUp];
+    asl_add_log_file(NULL, STDERR_FILENO); // output logs to STDERR
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
+    asl_remove_log_file(NULL, STDERR_FILENO); // output logs to STDERR
     [super tearDown];
 }
 

@@ -12,12 +12,13 @@
 		093734271A1D701F00C950B6 /* IterableAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 093734261A1D701F00C950B6 /* IterableAPI.m */; };
 		0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 093734251A1D6E8800C950B6 /* IterableAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		094995471A8588400047E59B /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 094995461A8588400047E59B /* NSData+Conversion.m */; };
+		0995DBDD1CFFF7FE00D50F19 /* IterableLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 0995DBDC1CFFF7FE00D50F19 /* IterableLogging.m */; };
 		09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */; };
 		6804B8601AC0F363000A126B /* CommerceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6804B85F1AC0F363000A126B /* CommerceItem.m */; };
 		6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6845F7321AC3831B0043629D /* SystemConfiguration.framework */; };
 		68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6804B8651AC10426000A126B /* CommerceItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7105D44DF701C00D57236C96 /* libPods-Iterable-iOS-SDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01863EC5A183DF82D804C925 /* libPods-Iterable-iOS-SDKTests.a */; };
-		B0C6AFA1DEC88CD78B295FBB /* libPods-Iterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B24B9314380BA3C429C443DB /* libPods-Iterable-iOS-SDK.a */; };
+		BAD9820A90AF60003B37558C /* libPods-Iterable-iOS-SDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2AFB3ED0100E0D7CD9B5F0B /* libPods-Iterable-iOS-SDKTests.a */; };
+		C65F6E43E1CE5B47E656C4E9 /* libPods-Iterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27BFDE60C2FA15EB7F812F46 /* libPods-Iterable-iOS-SDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,24 +44,28 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		01863EC5A183DF82D804C925 /* libPods-Iterable-iOS-SDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		091489E11CF6986900482D82 /* IterableAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAPITests.m; sourceTree = "<group>"; };
 		091489E71CF6AC1800482D82 /* CommerceItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItemTests.m; sourceTree = "<group>"; };
 		093734251A1D6E8800C950B6 /* IterableAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAPI.h; sourceTree = "<group>"; };
 		093734261A1D701F00C950B6 /* IterableAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAPI.m; sourceTree = "<group>"; };
 		094995451A85880A0047E59B /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
 		094995461A8588400047E59B /* NSData+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
+		0950CD6F1D00000D0002BFD7 /* libJSONModel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJSONModel.a; path = "Pods/../build/Debug-iphoneos/JSONModel/libJSONModel.a"; sourceTree = "<group>"; };
+		0950CD711D0000B90002BFD7 /* libJSONModel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJSONModel.a; path = "Pods/../build/Debug-iphoneos/JSONModel/libJSONModel.a"; sourceTree = "<group>"; };
+		0995DBDB1CFFF70800D50F19 /* IterableLogging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableLogging.h; sourceTree = "<group>"; };
+		0995DBDC1CFFF7FE00D50F19 /* IterableLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableLogging.m; sourceTree = "<group>"; };
 		09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libIterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C0FC061A1D6D4700D5A86B /* Iterable-iOS-SDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Iterable-iOS-SDKTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C0FC0C1A1D6D4700D5A86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3F28F2A395046FF0EB215FC4 /* Pods-Iterable-iOS-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.release.xcconfig"; sourceTree = "<group>"; };
-		4BC295F2A5C92110657100E6 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.release.xcconfig"; sourceTree = "<group>"; };
-		67A100DE6B02A10998243606 /* Pods-Iterable-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
+		27BFDE60C2FA15EB7F812F46 /* libPods-Iterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		50B627639A91F8FD17DE5BDD /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6804B85F1AC0F363000A126B /* CommerceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItem.m; sourceTree = "<group>"; };
 		6804B8651AC10426000A126B /* CommerceItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommerceItem.h; sourceTree = "<group>"; };
 		6845F7321AC3831B0043629D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		B24B9314380BA3C429C443DB /* libPods-Iterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F353058068F58B2CAE8414C6 /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8049D1DA5721AE4EFB4DB30E /* Pods-Iterable-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
+		C2AFB3ED0100E0D7CD9B5F0B /* libPods-Iterable-iOS-SDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9AFCF23147AE0D57DA551D8 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.release.xcconfig"; sourceTree = "<group>"; };
+		E53AD2D9C0DA0D122C60B146 /* Pods-Iterable-iOS-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +74,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */,
-				B0C6AFA1DEC88CD78B295FBB /* libPods-Iterable-iOS-SDK.a in Frameworks */,
+				C65F6E43E1CE5B47E656C4E9 /* libPods-Iterable-iOS-SDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,7 +83,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */,
-				7105D44DF701C00D57236C96 /* libPods-Iterable-iOS-SDKTests.a in Frameworks */,
+				BAD9820A90AF60003B37558C /* libPods-Iterable-iOS-SDKTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +97,7 @@
 				09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */,
 				09C0FC0A1A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
 				09C0FBFC1A1D6D4700D5A86B /* Products */,
-				6C6B0D9414E0DD39ABD637A0 /* Pods */,
+				47369735BCC42DB1D852F8EC /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -114,6 +119,8 @@
 				093734261A1D701F00C950B6 /* IterableAPI.m */,
 				094995451A85880A0047E59B /* NSData+Conversion.h */,
 				094995461A8588400047E59B /* NSData+Conversion.m */,
+				0995DBDB1CFFF70800D50F19 /* IterableLogging.h */,
+				0995DBDC1CFFF7FE00D50F19 /* IterableLogging.m */,
 			);
 			path = "Iterable-iOS-SDK";
 			sourceTree = "<group>";
@@ -136,25 +143,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		47369735BCC42DB1D852F8EC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8049D1DA5721AE4EFB4DB30E /* Pods-Iterable-iOS-SDK.debug.xcconfig */,
+				E53AD2D9C0DA0D122C60B146 /* Pods-Iterable-iOS-SDK.release.xcconfig */,
+				50B627639A91F8FD17DE5BDD /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */,
+				C9AFCF23147AE0D57DA551D8 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		6845F72F1AC3818F0043629D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0950CD711D0000B90002BFD7 /* libJSONModel.a */,
+				0950CD6F1D00000D0002BFD7 /* libJSONModel.a */,
 				6845F7321AC3831B0043629D /* SystemConfiguration.framework */,
-				B24B9314380BA3C429C443DB /* libPods-Iterable-iOS-SDK.a */,
-				01863EC5A183DF82D804C925 /* libPods-Iterable-iOS-SDKTests.a */,
+				27BFDE60C2FA15EB7F812F46 /* libPods-Iterable-iOS-SDK.a */,
+				C2AFB3ED0100E0D7CD9B5F0B /* libPods-Iterable-iOS-SDKTests.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		6C6B0D9414E0DD39ABD637A0 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				67A100DE6B02A10998243606 /* Pods-Iterable-iOS-SDK.debug.xcconfig */,
-				3F28F2A395046FF0EB215FC4 /* Pods-Iterable-iOS-SDK.release.xcconfig */,
-				F353058068F58B2CAE8414C6 /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */,
-				4BC295F2A5C92110657100E6 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,13 +185,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09C0FC0F1A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDK" */;
 			buildPhases = (
-				2D78CFFA0E062113422FB6A0 /* 📦 Check Pods Manifest.lock */,
+				8AB82FE222A06BEF618570B8 /* 📦 Check Pods Manifest.lock */,
 				09C0FBF71A1D6D4700D5A86B /* Sources */,
 				09C0FBF81A1D6D4700D5A86B /* Frameworks */,
 				09C0FBF91A1D6D4700D5A86B /* CopyFiles */,
 				0937342D1A1D99BB00C950B6 /* Headers */,
 				092302A31CF6455A004EA265 /* ShellScript */,
-				AFC95AAE93E58EA8E3F8DF7E /* 📦 Copy Pods Resources */,
+				04F66644F57F3FE43141F674 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -197,12 +206,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09C0FC121A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDKTests" */;
 			buildPhases = (
-				93F2EF7DB2CCF26003B3BC06 /* 📦 Check Pods Manifest.lock */,
+				434E13C1C6EB8AFE5F3DCFBD /* 📦 Check Pods Manifest.lock */,
 				09C0FC021A1D6D4700D5A86B /* Sources */,
 				09C0FC031A1D6D4700D5A86B /* Frameworks */,
 				09C0FC041A1D6D4700D5A86B /* Resources */,
-				DC983EF82524C34960FA2C74 /* 📦 Embed Pods Frameworks */,
-				3CF51CA4E1A5848FD3F20F75 /* 📦 Copy Pods Resources */,
+				21EEA7A5E6EE5C3C8CD564E0 /* 📦 Embed Pods Frameworks */,
+				F9DEAC94DB30D3F412B02021 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -220,7 +229,7 @@
 		09C0FBF31A1D6D4700D5A86B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Iterable;
 				TargetAttributes = {
 					09C0FBFA1A1D6D4700D5A86B = {
@@ -260,65 +269,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		092302A31CF6455A004EA265 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#if [ ${CONFIGURATION} == \"Release\" ]; then\nAPPLEDOC_PATH=`which appledoc`\nif [ $APPLEDOC_PATH ]; then\n$APPLEDOC_PATH \\\n--project-name ${PRODUCT_NAME} \\\n--project-company \"Iterable\" \\\n--company-id \"com.iterable\" \\\n--output ${PRODUCT_NAME}Docs \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-install-docset \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--exit-threshold 2 \\\n${PROJECT_DIR}/${PRODUCT_NAME}\nfi;\n#fi;\n";
-		};
-		2D78CFFA0E062113422FB6A0 /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		3CF51CA4E1A5848FD3F20F75 /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		93F2EF7DB2CCF26003B3BC06 /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		AFC95AAE93E58EA8E3F8DF7E /* 📦 Copy Pods Resources */ = {
+		04F66644F57F3FE43141F674 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -333,7 +284,20 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DC983EF82524C34960FA2C74 /* 📦 Embed Pods Frameworks */ = {
+		092302A31CF6455A004EA265 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#if [ ${CONFIGURATION} == \"Release\" ]; then\nAPPLEDOC_PATH=`which appledoc`\nif [ $APPLEDOC_PATH ]; then\n$APPLEDOC_PATH \\\n--project-name ${PRODUCT_NAME} \\\n--project-company \"Iterable\" \\\n--company-id \"com.iterable\" \\\n--output ${PRODUCT_NAME}Docs \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-install-docset \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--exit-threshold 2 \\\n${PROJECT_DIR}/${PRODUCT_NAME}\nfi;\n#fi;\n";
+		};
+		21EEA7A5E6EE5C3C8CD564E0 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -348,6 +312,51 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		434E13C1C6EB8AFE5F3DCFBD /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8AB82FE222A06BEF618570B8 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F9DEAC94DB30D3F412B02021 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -358,6 +367,7 @@
 				094995471A8588400047E59B /* NSData+Conversion.m in Sources */,
 				093734271A1D701F00C950B6 /* IterableAPI.m in Sources */,
 				6804B8601AC0F363000A126B /* CommerceItem.m in Sources */,
+				0995DBDD1CFFF7FE00D50F19 /* IterableLogging.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +410,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -457,7 +468,7 @@
 		};
 		09C0FC101A1D6D4700D5A86B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 67A100DE6B02A10998243606 /* Pods-Iterable-iOS-SDK.debug.xcconfig */;
+			baseConfigurationReference = 8049D1DA5721AE4EFB4DB30E /* Pods-Iterable-iOS-SDK.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iOS Development: Andrew Boni (AE77H9E7TE)";
 				OTHER_LDFLAGS = (
@@ -474,7 +485,7 @@
 		};
 		09C0FC111A1D6D4700D5A86B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3F28F2A395046FF0EB215FC4 /* Pods-Iterable-iOS-SDK.release.xcconfig */;
+			baseConfigurationReference = E53AD2D9C0DA0D122C60B146 /* Pods-Iterable-iOS-SDK.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iOS Development: Andrew Boni (AE77H9E7TE)";
 				OTHER_LDFLAGS = (
@@ -491,28 +502,32 @@
 		};
 		09C0FC131A1D6D4700D5A86B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F353058068F58B2CAE8414C6 /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */;
+			baseConfigurationReference = 50B627639A91F8FD17DE5BDD /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
+					"COCOAPODS=1",
 				);
 				INFOPLIST_FILE = "Iterable-iOS-SDKTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "Iterable.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		09C0FC141A1D6D4700D5A86B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4BC295F2A5C92110657100E6 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */;
+			baseConfigurationReference = C9AFCF23147AE0D57DA551D8 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+				);
 				INFOPLIST_FILE = "Iterable-iOS-SDKTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "Iterable.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
