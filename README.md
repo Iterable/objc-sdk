@@ -74,6 +74,7 @@ If your project is built with `Swift`, you will need a `bridging header`. See [h
     PushServicePlatform platform = APNS_SANDBOX; // use APNS for production
     IterableAPI *iterable = [IterableAPI sharedInstance]; // you should call sharedInstanceWithApiKey before this
     if (iterable != nil) {
+        // if you have in-app options to disable push notifications, don't call registerToken if the user disabled notifications (as registerToken will add and enable the device)
         [iterable registerToken:token appName:applicationName pushServicePlatform:psp]; // register the token with Iterable
     }    
 }
