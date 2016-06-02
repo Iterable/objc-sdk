@@ -17,17 +17,13 @@
     
 }
 
-- (id)initWithId:(NSString *)id name:(NSString *)name price:(NSNumber *)price quantity:(NSUInteger)quantity
+- (id)initWithId:(nonnull NSString *)id name:(nonnull NSString *)name price:(nonnull NSNumber *)price quantity:(NSUInteger)quantity
 {
     if (self = [super init]) {
-        if (!id || !name || !price || !quantity) {
-            NSLog(@"[Iterable] invalid parameters while created CommerceItem");
-        } else {
-            _id = id;
-            _name = name;
-            _price = price;
-            _quantity = quantity;
-        }
+        _id = id;
+        _name = name;
+        _price = price;
+        _quantity = quantity;
     }
     return self;
 }
