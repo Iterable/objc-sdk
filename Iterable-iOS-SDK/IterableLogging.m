@@ -9,9 +9,20 @@
 #import <Foundation/Foundation.h>
 #include <asl.h>
 
+// adds STDERR to the asl logger
+void AddStderrOnce()
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        asl_add_log_file(NULL, STDERR_FILENO);
+    });
+}
+
+// macro that generates a logging function for each level
 #define __ITERABLE_MAKE_LOG_FUNCTION(LEVEL, NAME) \
 void NAME (NSString *format, ...) \
 { \
+    AddStderrOnce(); \
     va_list args; \
     va_start(args, format); \
 \
