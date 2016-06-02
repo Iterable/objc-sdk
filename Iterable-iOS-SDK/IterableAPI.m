@@ -13,9 +13,12 @@
 @import Foundation;
 @import UIKit;
 
+#include <asl.h>
+
 #import "IterableAPI.h"
 #import "NSData+Conversion.h"
 #import "CommerceItem.h"
+#import "IterableLogging.h"
 
 @interface IterableAPI () {
 }
@@ -54,7 +57,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
             result = @"APNS_SANDBOX";
             break;
         default:
-            NSLog(@"[Iterable] Unexpected PushServicePlatform: %ld", (long)pushServicePlatform);
+            LogError(@"Unexpected PushServicePlatform: %ld", (long)pushServicePlatform);
     }
     
     return result;
@@ -90,7 +93,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                                        options:0
                                                          error:&error];
     if (! jsonData) {
-        NSLog(@"[Iterable] dictToJson failed: %@", error);
+        LogWarning(@"dictToJson failed: %@", error);
         return nil;
     } else {
         return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -218,7 +221,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 + (IterableAPI *)sharedInstance
 {
     if (sharedInstance == nil) {
-        NSLog(@"[Iterable] warning sharedInstance called before sharedInstanceWithApiKey");
+        LogError(@"[sharedInstance called before sharedInstanceWithApiKey");
     }
     return sharedInstance;
 }
@@ -230,6 +233,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
+        asl_add_log_file(NULL, STDERR_FILENO); // output logs to STDERR 
     });
     return sharedInstance;
 }
@@ -240,13 +244,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     NSString *hexToken = [token hexadecimalString];
 
     if ([hexToken length] != 64) {
-         NSLog(@"[Iterable] registerToken: invalid token");
+         LogError(@"registerToken: invalid token");
     } else {
         UIDevice *device = [UIDevice currentDevice];
         NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
 
         if (!psp) {
-            NSLog(@"[Iterable] registerToken: invalid pushServicePlatform");
+            LogError(@"registerToken: invalid pushServicePlatform");
             return;
         }
 
@@ -267,55 +271,51 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                                }
                                        }
                                };
-        NSLog(@"[Iterable] %@", args);
+        LogDebug(@"sending registerToken request with args %@", args);
         NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
         [self sendRequest:request onSuccess:^(NSDictionary *data)
          {
-             NSLog(@"[Iterable] registerToken succeeded, got response: %@", data);
+             LogDebug(@"registerToken succeeded, got response: %@", data);
          } onFailure:^(NSString *reason, NSData *data)
          {
-             NSLog(@"[Iterable] registerToken failed: %@. Got response %@", reason, data);
+             LogWarning(@"registerToken failed: %@. Got response %@", reason, data);
          }];
 
     }
 }
 
 // documented in IterableAPI.h
-- (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields
+- (void)track:(nonnull NSString *)eventName dataFields:(NSDictionary *)dataFields
 {
-    if (!eventName) {
-        NSLog(@"[Iterable] track: eventName must be set");
+    NSDictionary *args;
+    if (dataFields) {
+        args = @{
+                 @"email": self.email,
+                 @"eventName": eventName,
+                 @"dataFields": dataFields
+                 };
+        
     } else {
-        NSDictionary *args;
-        if (dataFields) {
-            args = @{
-                    @"email": self.email,
-                    @"eventName": eventName,
-                    @"dataFields": dataFields
-                    };
-            
-        } else {
-            args = @{
-                    @"email": self.email,
-                    @"eventName": eventName,
-                    };
-            
-        }
-        NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
-        [self sendRequest:request onSuccess:^(NSDictionary *data)
-         {
-             NSLog(@"[Iterable] track succeeded, got response: %@", data);
-         } onFailure:^(NSString *reason, NSData *data)
-         {
-             NSLog(@"[Iterable] track failed: %@. Got response %@", reason, data);
-         }];
+        args = @{
+                 @"email": self.email,
+                 @"eventName": eventName,
+                 };
+        
     }
+    NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
+    [self sendRequest:request onSuccess:^(NSDictionary *data)
+     {
+         LogDebug(@"track succeeded, got response: %@", data);
+     } onFailure:^(NSString *reason, NSData *data)
+     {
+         LogWarning(@"track failed: %@. Got response %@", reason, data);
+     }];
 }
 
 // documented in IterableAPI.h
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields
 {
-    NSLog(@"[Iterable] tracking push open");
+    LogDebug(@"tracking push open");
     
     if (userInfo && userInfo[@"itbl"]) {
         NSDictionary *pushData = userInfo[@"itbl"];
@@ -323,13 +323,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
             [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false dataFields:dataFields];
         } else {
             // TODO - throw error here, bad push payload
-            NSLog(@"[Iterable] error tracking push open");
+            LogError(@"error tracking push open");
         }
     }
 }
 
 // documented in IterableAPI.h
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields
+- (void)trackPushOpen:(nonnull NSNumber *)campaignId templateId:(nonnull NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields
 {
     NSMutableDictionary *reqDataFields;
     if (dataFields) {
@@ -340,66 +340,58 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
     }
     
-    if (!campaignId || !templateId) {
-         NSLog(@"[Iterable] trackPushOpen: campaignId and templateId must be set");
-    } else {
-        NSDictionary *args = @{
+    NSDictionary *args = @{
                            @"email": self.email,
                            @"campaignId": campaignId,
                            @"templateId": templateId,
                            @"dataFields": reqDataFields
                            };
-        NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
-        [self sendRequest:request onSuccess:^(NSDictionary *data)
-         {
-             NSLog(@"[Iterable] trackPushOpen succeeded, got response: %@", data);
-         } onFailure:^(NSString *reason, NSData *data)
-         {
-             NSLog(@"[Iterable] trackPushOpen failed: %@. Got response %@", reason, data);
-         }];
-    }
+    NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
+    [self sendRequest:request onSuccess:^(NSDictionary *data)
+     {
+         LogDebug(@"trackPushOpen succeeded, got response: %@", data);
+     } onFailure:^(NSString *reason, NSData *data)
+     {
+         LogWarning(@"trackPushOpen failed: %@. Got response %@", reason, data);
+     }];
 }
 
 // documented in IterableAPI.h
-- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields
+- (void)trackPurchase:(nonnull NSNumber *)total items:(nonnull NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields
 {
     NSDictionary *args;
     
-    if (!total || !items) {
-         NSLog(@"[Iterable] trackPurchase: total and items must be set");
-    } else {
-        NSMutableArray *itemsToSerialize = [[NSMutableArray alloc] init];
-        for (CommerceItem *item in items) {
-            NSDictionary *itemDict = [item toDictionary];
-            [itemsToSerialize addObject:itemDict];
-        }
-        NSDictionary *apiUserDict = @{
-                                      @"email": self.email
-                                      };
-
-        if (dataFields) {
-            args = @{
-                     @"user": apiUserDict,
-                     @"items": itemsToSerialize,
-                     @"total": total,
-                     @"dataFields": dataFields
-                     };
-        } else {
-            args = @{
-                     @"user": apiUserDict,
-                     @"total": total,
-                     @"items": itemsToSerialize
-                     };
-        }
-        NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
-        [self sendRequest:request onSuccess:^(NSDictionary *data)
-         {
-             NSLog(@"[Iterable] trackPurchase succeeded, got response: %@", data);
-         } onFailure:^(NSString *reason, NSData *data)
-         {
-             NSLog(@"[Iterable] trackPurchase failed: %@. Got response %@", reason, data);
-         }];
+    NSMutableArray *itemsToSerialize = [[NSMutableArray alloc] init];
+    for (CommerceItem *item in items) {
+        NSDictionary *itemDict = [item toDictionary];
+        [itemsToSerialize addObject:itemDict];
     }
+    NSDictionary *apiUserDict = @{
+                                  @"email": self.email
+                                  };
+    
+    if (dataFields) {
+        args = @{
+                 @"user": apiUserDict,
+                 @"items": itemsToSerialize,
+                 @"total": total,
+                 @"dataFields": dataFields
+                 };
+    } else {
+        args = @{
+                 @"user": apiUserDict,
+                 @"total": total,
+                 @"items": itemsToSerialize
+                 };
+    }
+    NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
+    [self sendRequest:request onSuccess:^(NSDictionary *data)
+     {
+         LogDebug(@"trackPurchase succeeded, got response: %@", data);
+     } onFailure:^(NSString *reason, NSData *data)
+     {
+         LogWarning(@"trackPurchase failed: %@. Got response %@", reason, data);
+     }];
 }
 
 @end
