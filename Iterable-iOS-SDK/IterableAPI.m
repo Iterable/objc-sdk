@@ -233,7 +233,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
-        asl_add_log_file(NULL, STDERR_FILENO); // output logs to STDERR 
     });
     return sharedInstance;
 }
