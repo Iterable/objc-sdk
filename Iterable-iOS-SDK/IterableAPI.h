@@ -99,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return the existing IterableAPI instance
  */
-+ (IterableAPI *)sharedInstance;
++ (nullable IterableAPI *)sharedInstance;
 
 /////////////////////////////
 /// @name Registering a token

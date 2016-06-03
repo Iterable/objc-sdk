@@ -86,7 +86,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @return an `NSString` containing the JSON representation of `dict`
  */
-+ (NSString *)dictToJson:(NSDictionary *)dict
++ (nullable NSString *)dictToJson:(NSDictionary *)dict
 {
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict
@@ -114,7 +114,11 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrlForAction:action]];
     [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:[[IterableAPI dictToJson:args] dataUsingEncoding:NSUTF8StringEncoding]];
+    NSString *bodyPossiblyNil = [IterableAPI dictToJson:args];
+    // if dictToJson fails, try sending the event anyways, just don't set the body
+    if (bodyPossiblyNil) {
+        [request setHTTPBody:[bodyPossiblyNil dataUsingEncoding:NSUTF8StringEncoding]];
+    }
     return request;
 }
 
