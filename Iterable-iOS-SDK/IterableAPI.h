@@ -19,6 +19,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
     APNS
 };
 
+// all params are nonnull, unless annotated otherwise
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  `IterableAPI` contains all the essential functions for communicating with Iterable's API
  */
@@ -66,7 +69,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @return an instance of IterableAPI
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions;
+- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions;
 
 /*!
  @method
@@ -84,7 +87,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @return an instance of IterableAPI
  */
-+ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions;
++ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions;
 
 /*!
  @method
@@ -94,9 +97,11 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @discussion Must be initialized with `sharedInstanceWithApiKey:` before
  calling this class method.
  
- @return the existing IterableAPI instance
+ @return the existing `IterableAPI` instance
+ 
+ @warning `sharedInstance` will return `nil` if called before calling `sharedInstanceWithApiKey:andEmail:launchOptions:` 
  */
-+ (IterableAPI *)sharedInstance;
++ (nullable IterableAPI *)sharedInstance;
 
 /////////////////////////////
 /// @name Registering a token
@@ -131,11 +136,36 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @param total       total purchase amount
  @param items       list of purchased items
+ 
+ @see CommerceItem
+ */
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items;
+
+/*!
+ @method
+ 
+ @abstract Tracks a purchase
+ 
+ @discussion Pass in the total purchase amount and an `NSArray` of `CommerceItem`s
+ 
+ @param total       total purchase amount
+ @param items       list of purchased items
  @param dataFields  an `NSDictionary` containing any additional information to save along with the event
  
  @see CommerceItem
  */
-- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items dataFields:(NSDictionary *)dataFields;
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items dataFields:(nullable NSDictionary *)dataFields;
+
+/*!
+ @method
+ 
+ @abstract Tracks a pushOpen event.
+ 
+ @discussion Pass in the `userInfo` from the push notification payload
+ 
+ @param userInfo    the push notification payload
+ */
+- (void)trackPushOpen:(NSDictionary *)userInfo;
 
 /*!
  @method
@@ -147,7 +177,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @param userInfo    the push notification payload
  @param dataFields  an `NSDictionary` containing any additional information to save along with the event
  */
-- (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields;
+- (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(nullable NSDictionary *)dataFields;
 
 /*!
  @method
@@ -171,8 +201,21 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @discussion Pass in the the custom event data.
  
  @param eventName   Name of the event
+ */
+- (void)track:(NSString *)eventName;
+
+/*!
+ @method
+ 
+ @abstract Tracks a custom event.
+ 
+ @discussion Pass in the the custom event data.
+ 
+ @param eventName   Name of the event
  @param dataFields  An `NSDictionary` containing any additional information to save along with the event
  */
-- (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields;
+- (void)track:(NSString *)eventName dataFields:(nullable NSDictionary *)dataFields;
 
 @end
+
+NS_ASSUME_NONNULL_END
