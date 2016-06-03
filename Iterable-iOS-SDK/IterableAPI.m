@@ -247,7 +247,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     NSString *hexToken = [token hexadecimalString];
 
     if ([hexToken length] != 64) {
-         LogError(@"registerToken: invalid token");
+        LogError(@"registerToken: invalid token");
     } else {
         UIDevice *device = [UIDevice currentDevice];
         NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];

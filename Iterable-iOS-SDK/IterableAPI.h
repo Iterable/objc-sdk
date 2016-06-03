@@ -97,7 +97,9 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion Must be initialized with `sharedInstanceWithApiKey:` before
  calling this class method.
  
- @return the existing IterableAPI instance
+ @return the existing `IterableAPI` instance
+ 
+ @warning `sharedInstance` will return `nil` if called before calling `sharedInstanceWithApiKey:andEmail:launchOptions:` 
  */
 + (nullable IterableAPI *)sharedInstance;
 
