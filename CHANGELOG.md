@@ -4,6 +4,22 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 #### Added
+- nothing yet
+
+#### Removed
+- nothing yet
+
+#### Changed
+- nothing yet
+
+#### Fixed
+- nothing yet
+
+
+## [2.0.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/2.0.0)
+ _Released on 2016-06-02_
+
+#### Added
 - fleshed out README
 - added CHANGELOG
 - added CONTRIBUTING
@@ -17,9 +33,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Changed
 - updated pod version to 7.0 (from 5.0) in preparation for NSURLSession
 - logging changes
-
-#### Fixed
-- nothing yet
 
 
 ## [1.0.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/1.0.0)
