@@ -9,8 +9,6 @@
 #ifndef IterableLogging_h
 #define IterableLogging_h
 
-#include <asl.h>
-
 ////////////////////////
 /// @name Logging macros
 ////////////////////////
