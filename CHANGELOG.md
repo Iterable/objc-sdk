@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - added CONTRIBUTING
 - new logging system
 - nullability annotations
+- overrides/defaults for methods that take nullable params
 
 #### Removed
 - unessential logging in non-DEBUG builds
