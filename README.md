@@ -6,6 +6,22 @@
 
 `iterable-ios-sdk` is an Objective-C implementation of an iOS client for Iterable, for iOS versions 7.0 and higher.
 
+# Setting up a push integration in Iterable
+
+Before you even start with the SDK, you will need to set up a push integration in Iterable. This allows Iterable to communicate on your behalf with Apple's Push Notification Service.
+
+If you haven't yet done so, you will need to enable push notifications for your application. This can be done by toggling `Push Notifications` under your target's `Capabilities` in Xcode. You can also do it directly in the app center on Apple's member center; go to `Identifiers -> App IDs -> select your app`. You should see `Push Notifications` under `Application Services`. Hit `Edit` and enable `Push Notifications`.
+
+You will also need to generate an SSL certificate and private key for use with the push service. See the links at the end of this section for more information on how to do that.
+
+Once you have your APNS certificates set up, go to `Integrations -> Mobile Push` in Iterable. When creating an integration, you will need to pick a name and a platform. The name is entirely up to you; it will be the `appName` when you use `registerToken` in our SDK. The platform can be `APNS` or `APNS_SANDBOX`; these correspond to the production and sandbox platforms. Your application will generate a different token depending on whether it is built using a development certificate or a distribution provisioning profile.
+
+For more information, see
+
+* [Configuring Push Notifications](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html#//apple_ref/doc/uid/TP40012582-CH26-SW6)
+* [Creating Certificates](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html#//apple_ref/doc/uid/TP40012582-CH31-SW32)
+* [Amazon's Guide to Creating Certificates](http://docs.aws.amazon.com/sns/latest/dg/mobile-push-apns.html)
+
 # Automatic Installation (via CocoaPods)
 
 Iterable supports [CocoaPods](https://cocoapods.org) for easy installation. If you don't have it yet, you can install it with `Ruby` by running:
@@ -85,6 +101,16 @@ If your project is built with `Swift`, you will need a `bridging header`. See [h
 ```
 
 Congratulations! You can now send remote push notifications to your device from Iterable!
+
+# Receiving Remote Push Notifications
+
+Application Running? | In foreground? | Notification Shown? | Delegate | When | Notes
+--- | --- | --- | --- | --- | ---
+Yes | Yes | No | `application:didReceiveRemoteNotification:` | Immediately | call `trackPushOpen` and pass in `userInfo`
+Yes | No | Yes | `application:didReceiveRemoteNotification:` | On Notification Click | call `trackPushOpen` and pass in `userInfo`
+No | N/A | Yes | `application:didFinishLaunchingWithOptions:` | On Notification Click | instantiate an `IterableAPI` and pass in `launchOptions`; a push open will be tracked automatically
+
+For more information about local and remote notifications, and which callbacks will be called under which circumstances, see [Local and Remote Notifications in Depth](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/WhatAreRemoteNotif.html#//apple_ref/doc/uid/TP40008194-CH102-SW1).
 
 # Additional Information
 
