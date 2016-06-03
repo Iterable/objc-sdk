@@ -17,7 +17,7 @@
     
 }
 
-- (id)initWithId:(nonnull NSString *)id name:(nonnull NSString *)name price:(nonnull NSNumber *)price quantity:(NSUInteger)quantity
+- (id)initWithId:(NSString *)id name:(NSString *)name price:(NSNumber *)price quantity:(NSUInteger)quantity
 {
     if (self = [super init]) {
         _id = id;

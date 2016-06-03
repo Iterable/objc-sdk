@@ -8,7 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - added CHANGELOG
 - added CONTRIBUTING
 - new logging system
-- some nonnull annotations
+- nullability annotations
 
 #### Removed
 - unessential logging in non-DEBUG builds

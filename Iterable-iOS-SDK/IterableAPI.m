@@ -205,7 +205,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     
     if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         // Automatically try to track a pushOpen
-        [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] dataFields:nil];
+        [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
     }
     
     return self;
@@ -284,7 +284,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)track:(nonnull NSString *)eventName dataFields:(NSDictionary *)dataFields
+- (void)track:(NSString *)eventName
+{
+    [self track:eventName dataFields:nil];
+}
+
+// documented in IterableAPI.h
+- (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields
 {
     NSDictionary *args;
     if (dataFields) {
@@ -312,32 +318,36 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
+- (void)trackPushOpen:(NSDictionary *)userInfo
+{
+    [self trackPushOpen:userInfo dataFields:nil];
+}
+
+// documented in IterableAPI.h
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields
 {
     LogDebug(@"tracking push open");
     
     if (userInfo && userInfo[@"itbl"]) {
         NSDictionary *pushData = userInfo[@"itbl"];
-        if ([pushData isKindOfClass:[NSDictionary class]] && pushData[@"campaignId"]) {
+        if ([pushData isKindOfClass:[NSDictionary class]] && pushData[@"campaignId"] && pushData[@"templateId"]) {
             [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false dataFields:dataFields];
         } else {
-            // TODO - throw error here, bad push payload
             LogError(@"error tracking push open");
         }
     }
 }
 
 // documented in IterableAPI.h
-- (void)trackPushOpen:(nonnull NSNumber *)campaignId templateId:(nonnull NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields
 {
     NSMutableDictionary *reqDataFields;
     if (dataFields) {
         reqDataFields = [dataFields mutableCopy];
-        reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
     } else {
         reqDataFields = [NSMutableDictionary dictionary];
-        reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
     }
+    reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
     
     NSDictionary *args = @{
                            @"email": self.email,
@@ -356,7 +366,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)trackPurchase:(nonnull NSNumber *)total items:(nonnull NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items
+{
+    [self trackPurchase:total items:items dataFields:nil];
+}
+
+// documented in IterableAPI.h
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields
 {
     NSDictionary *args;
     

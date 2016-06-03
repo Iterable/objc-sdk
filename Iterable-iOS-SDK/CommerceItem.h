@@ -9,6 +9,9 @@
 @import Foundation;
 #import <JSONModel/JSONModel.h>
 
+// all params are nonnull, unless annotated otherwise
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  required by `JSONModel` for this class to work with collections, such as `NSArray`
  */
@@ -55,3 +58,5 @@
 - (id)initWithId:(NSString *)id name:(NSString *)name price:(NSNumber *)price quantity:(NSUInteger)quantity;
 
 @end
+
+NS_ASSUME_NONNULL_END
