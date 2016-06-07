@@ -28,8 +28,13 @@
 @implementation IterableAPI {
 }
 
+// the shared instance we've created
 static IterableAPI *sharedInstance = nil;
 
+// the URL session we're going to be using
+static NSURLSession *urlSession = nil;
+
+// the API endpoint
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
 //////////////////////////
@@ -142,31 +147,33 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  */
 - (void)sendRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure
 {
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[[NSOperationQueue alloc] init]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-     {
-         if ([data length] > 0 && error == nil) {
-             error = nil;
-             id object = [NSJSONSerialization
-                          JSONObjectWithData:data
-                          options:0
-                          error:&error];
-             if(error) {
-                 NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
-                 if (onFailure != nil) onFailure(reason, data);
-             } else if([object isKindOfClass:[NSDictionary class]]) {
-                 if (onSuccess != nil) onSuccess(object);
-             } else {
-                 if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
-             }
-         } else if ([data length] == 0 && error == nil) {
-             if (onFailure != nil) onFailure(@"No data received", data);
-         } else if (error != nil) {
-             NSString *reason = [NSString stringWithFormat:@"%@", error];
-             if (onFailure != nil) onFailure(reason, data);
-         }
-     }];
+    NSURLSessionDataTask *task = [urlSession dataTaskWithRequest:request
+                                               completionHandler:^(NSData *data,
+                                                                   NSURLResponse *response,
+                                                                   NSError *error)
+    {
+        if ([data length] > 0 && error == nil) {
+            error = nil;
+            id object = [NSJSONSerialization
+                         JSONObjectWithData:data
+                         options:0
+                         error:&error];
+            if(error) {
+                NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+                if (onFailure != nil) onFailure(reason, data);
+            } else if([object isKindOfClass:[NSDictionary class]]) {
+                if (onSuccess != nil) onSuccess(object);
+            } else {
+                if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
+            }
+        } else if ([data length] == 0 && error == nil) {
+            if (onFailure != nil) onFailure(@"No data received", data);
+        } else if (error != nil) {
+            NSString *reason = [NSString stringWithFormat:@"%@", error];
+            if (onFailure != nil) onFailure(reason, data);
+        }
+    }];
+    [task resume];
 }
 
 /**
@@ -194,6 +201,53 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return result;
 }
 
+/**
+ @method
+ 
+ @abstract creates a singleton URLSession for the class to use
+ */
+- (void)createUrlSession
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        urlSession = [NSURLSession sessionWithConfiguration:configuration];
+    });
+}
+
+/**
+ @method
+ 
+ @abstract default success completion handler; debug logs the result from Iterable
+ 
+ @param identifier an identifier for what succeeded; pass in something like the function name
+ 
+ @return a completion handler for use with `onSuccess` of `sendRequest:onSuccess:onFailure:`
+ */
++ (OnSuccessHandler)defaultOnSuccess:(NSString *)identifier
+{
+    return ^(NSDictionary *data)
+    {
+        LogDebug(@"%@ succeeded, got response: %@", identifier, data);
+    };
+}
+
+/**
+ @method
+ 
+ @abstract default failure completion handler; warning logs the result from Iterable
+ 
+ @param identifier an identifier for what succeeded; pass in something like the function name
+ 
+ @return a completion handler for use with `onFailure` of `sendRequest:onSuccess:onFailure:`
+ */
++ (OnFailureHandler)defaultOnFailure:(NSString *)identifier
+{
+    return ^(NSString *reason, NSData *data)
+    {
+        LogWarning(@"%@ failed: %@. Got response %@", identifier, reason, data);
+    };
+}
 
 //////////////////////////////////////////////////////////////
 /// @name Implementations of things documents in IterableAPI.h
@@ -206,6 +260,10 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         _apiKey = [apiKey copy];
         _email = [email copy];
     }
+    
+    // the url session doesn't depend on any options/params, so we'll use a singleton that gets created whenever the class is instantiated
+    // if it gets instantiated again that's fine; we don't need to reconfigure the session, just keep using the old singleton
+    [self createUrlSession];
     
     if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         // Automatically try to track a pushOpen
@@ -276,14 +334,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                };
         LogDebug(@"sending registerToken request with args %@", args);
         NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
-        [self sendRequest:request onSuccess:^(NSDictionary *data)
-         {
-             LogDebug(@"registerToken succeeded, got response: %@", data);
-         } onFailure:^(NSString *reason, NSData *data)
-         {
-             LogWarning(@"registerToken failed: %@. Got response %@", reason, data);
-         }];
-
+        [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
     }
 }
 
@@ -312,13 +363,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         
     }
     NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
-    [self sendRequest:request onSuccess:^(NSDictionary *data)
-     {
-         LogDebug(@"track succeeded, got response: %@", data);
-     } onFailure:^(NSString *reason, NSData *data)
-     {
-         LogWarning(@"track failed: %@. Got response %@", reason, data);
-     }];
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"track"] onFailure:[IterableAPI defaultOnFailure:@"track"]];
 }
 
 // documented in IterableAPI.h
@@ -360,14 +405,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                            @"dataFields": reqDataFields
                            };
     NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
-    [self sendRequest:request onSuccess:^(NSDictionary *data)
-     {
-         LogDebug(@"trackPushOpen succeeded, got response: %@", data);
-     } onFailure:^(NSString *reason, NSData *data)
-     {
-         LogWarning(@"trackPushOpen failed: %@. Got response %@", reason, data);
-     }];
-}
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackPushOpen"] onFailure:[IterableAPI defaultOnFailure:@"trackPushOpen"]];}
 
 // documented in IterableAPI.h
 - (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items
@@ -404,13 +442,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                  };
     }
     NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
-    [self sendRequest:request onSuccess:^(NSDictionary *data)
-     {
-         LogDebug(@"trackPurchase succeeded, got response: %@", data);
-     } onFailure:^(NSString *reason, NSData *data)
-     {
-         LogWarning(@"trackPurchase failed: %@. Got response %@", reason, data);
-     }];
-}
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackPurchase"] onFailure:[IterableAPI defaultOnFailure:@"trackPurchase"]];}
 
 @end
