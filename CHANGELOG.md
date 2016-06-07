@@ -10,7 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - nothing yet
 
 #### Changed
-- nothing yet
+- swap NSURLConnection in favor of NSURLSession
 
 #### Fixed
 - nothing yet

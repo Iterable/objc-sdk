@@ -147,11 +147,10 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  */
 - (void)sendRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure
 {
-    NSURLSessionDataTask *task = [urlSession
-                                  dataTaskWithRequest:request
-                                  completionHandler:^(NSData *data,
-                                                      NSURLResponse *response,
-                                                      NSError *error)
+    NSURLSessionDataTask *task = [urlSession dataTaskWithRequest:request
+                                               completionHandler:^(NSData *data,
+                                                                   NSURLResponse *response,
+                                                                   NSError *error)
     {
         if ([data length] > 0 && error == nil) {
             error = nil;
@@ -210,11 +209,10 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 - (void)createUrlSession
 {
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken,
-                  ^{
-                      NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-                      urlSession = [NSURLSession sessionWithConfiguration:configuration];
-                  });
+    dispatch_once(&onceToken, ^{
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        urlSession = [NSURLSession sessionWithConfiguration:configuration];
+    });
 }
 
 /**
