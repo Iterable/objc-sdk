@@ -9,6 +9,19 @@
 @import Foundation;
 #import "CommerceItem.h"
 
+// all params are nonnull, unless annotated otherwise
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ The prototype for the completion handler block that gets called when an Iterable call is successful
+ */
+typedef void (^OnSuccessHandler)(NSDictionary *data);
+
+/**
+ The prototype for the completion handler block that gets called when an Iterable call fails
+ */
+typedef void (^OnFailureHandler)(NSString *reason, NSData *data);
+
 /**
  Enum representing push platform; apple push notification service, production vs sandbox
  */
@@ -18,9 +31,6 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
     /** The production push service */
     APNS
 };
-
-// all params are nonnull, unless annotated otherwise
-NS_ASSUME_NONNULL_BEGIN
 
 /**
  `IterableAPI` contains all the essential functions for communicating with Iterable's API
