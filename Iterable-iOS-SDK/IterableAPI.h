@@ -133,6 +133,25 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform;
 
+/*!
+ @method
+ 
+ @abstract Register this device's token with Iterable with custom completion blocks
+ 
+ @param token                   The token representing this device/application pair, obtained from
+                                `application:didRegisterForRemoteNotificationsWithDeviceToken`
+                                after registering for remote notifications
+ @param appName                 The application name, as configured in Iterable during set up of the push integration
+ @param pushServicePlatform     The PushServicePlatform to use for this device; dictates whether to register this token in the sandbox or production environment
+ @param onSuccess               OnSuccessHandler to invoke if token registration is successful
+ @param onFailure               OnFailureHandler to invoke if token registration fails
+ 
+ @see PushServicePlatform
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+
 /////////////////////////
 /// @name Tracking events
 /////////////////////////
@@ -154,7 +173,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract Tracks a purchase
+ @abstract Tracks a purchase with additional data
  
  @discussion Pass in the total purchase amount and an `NSArray` of `CommerceItem`s
  
@@ -169,7 +188,26 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract Tracks a pushOpen event.
+ @abstract Tracks a purchase with additional data and custom completion blocks
+ 
+ @discussion Pass in the total purchase amount and an `NSArray` of `CommerceItem`s
+ 
+ @param total       total purchase amount
+ @param items       list of purchased items
+ @param dataFields  an `NSDictionary` containing any additional information to save along with the event
+ @param onSuccess   OnSuccessHandler to invoke if the purchase is tracked successfully
+ @param onFailure   OnFailureHandler to invoke if tracking the purchase fails
+ 
+ @see CommerceItem
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+
+/*!
+ @method
+ 
+ @abstract Tracks a pushOpen event with a push notification payload
  
  @discussion Pass in the `userInfo` from the push notification payload
  
@@ -180,7 +218,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract Tracks a pushOpen event.
+ @abstract Tracks a pushOpen event with a push notification and optional additional data
  
  @discussion Pass in the `userInfo` from the push notification payload
  
@@ -192,7 +230,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract Tracks a pushOpen event
+ @abstract Tracks a pushOpen event for the specified campaign and template ids, whether the app was already running when the push was received, and optional additional data
  
  @discussion Pass in the the relevant campaign data
  
@@ -201,7 +239,26 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @param appAlreadyRunning   This will get merged into the dataFields. Whether the app is already running when the notification was received
  @param dataFields          An `NSDictionary` containing any additional information to save along with the event
  */
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields;
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(nullable NSDictionary *)dataFields;
+
+/*!
+ @method
+ 
+ @abstract Tracks a pushOpen event for the specified campaign and template ids, whether the app was already running when the push was received, and optional additional data, with custom completion blocks
+ 
+ @discussion Pass in the the relevant campaign data
+ 
+ @param campaignId          The campaignId of the the push notification that caused this open event
+ @param templateId          The templateId  of the the push notification that caused this open event
+ @param appAlreadyRunning   This will get merged into the dataFields. Whether the app is already running when the notification was received
+ @param dataFields          An `NSDictionary` containing any additional information to save along with the event
+ @param onSuccess           OnSuccessHandler to invoke if the open is tracked successfully
+ @param onFailure           OnFailureHandler to invoke if tracking the open fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 /*!
  @method
@@ -217,7 +274,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract Tracks a custom event.
+ @abstract Tracks a custom event with optional additional fields
  
  @discussion Pass in the the custom event data.
  
@@ -225,6 +282,23 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @param dataFields  An `NSDictionary` containing any additional information to save along with the event
  */
 - (void)track:(NSString *)eventName dataFields:(nullable NSDictionary *)dataFields;
+
+/*!
+ @method
+ 
+ @abstract Tracks a custom event with optional additional fields and custom completion blocks
+ 
+ @discussion Pass in the the custom event data.
+ 
+ @param eventName   Name of the event
+ @param dataFields  An `NSDictionary` containing any additional information to save along with the event
+ @param onSuccess   OnSuccessHandler to invoke if the track call succeeds
+ @param onFailure   OnFailureHandler to invoke if the track call fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)track:(NSString *)eventName dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 @end
 

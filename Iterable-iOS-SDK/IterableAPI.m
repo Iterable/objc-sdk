@@ -302,6 +302,12 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 // documented in IterableAPI.h
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform
 {
+    [self registerToken:token appName:appName pushServicePlatform:pushServicePlatform onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
+}
+
+// documented in IterableAPI.h
+- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
     NSString *hexToken = [token hexadecimalString];
 
     if ([hexToken length] != 64) {
@@ -334,7 +340,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                };
         LogDebug(@"sending registerToken request with args %@", args);
         NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
-        [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
+        [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
     }
 }
 
@@ -346,6 +352,12 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 
 // documented in IterableAPI.h
 - (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields
+{
+    [self track:eventName dataFields:dataFields onSuccess:[IterableAPI defaultOnSuccess:@"track"] onFailure:[IterableAPI defaultOnFailure:@"track"]];
+}
+
+// documented in IterableAPI.h
+- (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
     NSDictionary *args;
     if (dataFields) {
@@ -363,7 +375,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         
     }
     NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
-    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"track"] onFailure:[IterableAPI defaultOnFailure:@"track"]];
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
 // documented in IterableAPI.h
@@ -390,6 +402,12 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 // documented in IterableAPI.h
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields
 {
+    [self trackPushOpen:campaignId templateId:templateId appAlreadyRunning:appAlreadyRunning dataFields:dataFields onSuccess:[IterableAPI defaultOnSuccess:@"trackPushOpen"] onFailure:[IterableAPI defaultOnFailure:@"trackPushOpen"]];
+}
+
+// documented in IterableAPI.h
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
     NSMutableDictionary *reqDataFields;
     if (dataFields) {
         reqDataFields = [dataFields mutableCopy];
@@ -405,7 +423,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                            @"dataFields": reqDataFields
                            };
     NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
-    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackPushOpen"] onFailure:[IterableAPI defaultOnFailure:@"trackPushOpen"]];}
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+}
 
 // documented in IterableAPI.h
 - (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items
@@ -415,6 +434,12 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 
 // documented in IterableAPI.h
 - (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields
+{
+    [self trackPurchase:total items:items dataFields:dataFields onSuccess:[IterableAPI defaultOnSuccess:@"trackPurchase"] onFailure:[IterableAPI defaultOnFailure:@"trackPurchase"]];
+}
+
+// documented in IterableAPI.h
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem> *)items dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
     NSDictionary *args;
     
@@ -442,6 +467,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                  };
     }
     NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
-    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackPurchase"] onFailure:[IterableAPI defaultOnFailure:@"trackPurchase"]];}
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];}
 
 @end
