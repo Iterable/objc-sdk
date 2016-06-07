@@ -10,10 +10,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - nothing yet
 
 #### Changed
-- swap NSURLConnection in favor of NSURLSession
+- nothing yet
 
 #### Fixed
 - nothing yet
+
+
+## [2.0.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/2.0.1)
+ _Released on 2016-06-06_
+  
+#### Changed
+- swap out NSURLConnection in favor of NSURLSession
 
 
 ## [2.0.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/2.0.0)
