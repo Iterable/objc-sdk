@@ -19,6 +19,8 @@ You will also need to generate an SSL certificate and private key for use with t
 
 Once you have your APNS certificates set up, go to `Integrations -> Mobile Push` in Iterable. When creating an integration, you will need to pick a name and a platform. The name is entirely up to you; it will be the `appName` when you use `registerToken` in our SDK. The platform can be `APNS` or `APNS_SANDBOX`; these correspond to the production and sandbox platforms. Your application will generate a different token depending on whether it is built using a development certificate or a distribution provisioning profile.
 
+![Creating an integration in Iterable](http://support.iterable.com/hc/en-us/article_attachments/202957719/Screen_Shot_2015-07-30_at_3.15.56_PM.png)
+
 For more information, see
 
 * [Configuring Push Notifications](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html#//apple_ref/doc/uid/TP40012582-CH26-SW6)
