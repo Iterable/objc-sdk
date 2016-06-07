@@ -28,8 +28,13 @@
 @implementation IterableAPI {
 }
 
+// the shared instance we've created
 static IterableAPI *sharedInstance = nil;
 
+// the URL session we're going to be using
+static NSURLSession *urlSession = nil;
+
+// the API endpoint
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
 //////////////////////////
@@ -142,31 +147,36 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  */
 - (void)sendRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure
 {
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[[NSOperationQueue alloc] init]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-     {
-         if ([data length] > 0 && error == nil) {
-             error = nil;
-             id object = [NSJSONSerialization
-                          JSONObjectWithData:data
-                          options:0
-                          error:&error];
-             if(error) {
-                 NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
-                 if (onFailure != nil) onFailure(reason, data);
-             } else if([object isKindOfClass:[NSDictionary class]]) {
-                 if (onSuccess != nil) onSuccess(object);
-             } else {
-                 if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
-             }
-         } else if ([data length] == 0 && error == nil) {
-             if (onFailure != nil) onFailure(@"No data received", data);
-         } else if (error != nil) {
-             NSString *reason = [NSString stringWithFormat:@"%@", error];
-             if (onFailure != nil) onFailure(reason, data);
-         }
-     }];
+    NSURLSessionDataTask *task = [urlSession
+                                  dataTaskWithRequest:request
+                                  completionHandler:^(NSData *data,
+                                                      NSURLResponse *response,
+                                                      NSError *error)
+                                  
+                                  // TODO - refactor this into separate func
+                                  {
+                                      if ([data length] > 0 && error == nil) {
+                                          error = nil;
+                                          id object = [NSJSONSerialization
+                                                       JSONObjectWithData:data
+                                                       options:0
+                                                       error:&error];
+                                          if(error) {
+                                              NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+                                              if (onFailure != nil) onFailure(reason, data);
+                                          } else if([object isKindOfClass:[NSDictionary class]]) {
+                                              if (onSuccess != nil) onSuccess(object);
+                                          } else {
+                                              if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
+                                          }
+                                      } else if ([data length] == 0 && error == nil) {
+                                          if (onFailure != nil) onFailure(@"No data received", data);
+                                      } else if (error != nil) {
+                                          NSString *reason = [NSString stringWithFormat:@"%@", error];
+                                          if (onFailure != nil) onFailure(reason, data);
+                                      }
+                                  }];
+    [task resume];
 }
 
 /**
@@ -194,6 +204,21 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return result;
 }
 
+/**
+ @method
+ 
+ @abstract creates a singleton URLSession for the class to use
+ */
+- (void)createUrlSession
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken,
+                  ^{
+                      NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+                      urlSession = [NSURLSession sessionWithConfiguration:configuration];
+                  });
+}
+
 
 //////////////////////////////////////////////////////////////
 /// @name Implementations of things documents in IterableAPI.h
@@ -206,6 +231,10 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         _apiKey = [apiKey copy];
         _email = [email copy];
     }
+    
+    // the url session doesn't depend on any options/params, so we'll use a singleton that gets created whenever the class is instantiated
+    // if it gets instantiated again that's fine; we don't need to reconfigure the session, just keep using the old singleton
+    [self createUrlSession];
     
     if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         // Automatically try to track a pushOpen
