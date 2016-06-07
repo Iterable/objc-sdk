@@ -8,7 +8,10 @@
 
 # Setting up a push integration in Iterable
 
-Before you even start with the SDK, you will need to set up a push integration in Iterable. This allows Iterable to communicate on your behalf with Apple's Push Notification Service.
+Before you even start with the SDK, you will need to 
+
+1. Set your application up to receive push notifications, and 
+2. Set up a push integration in Iterable. This allows Iterable to communicate on your behalf with Apple's Push Notification Service
 
 If you haven't yet done so, you will need to enable push notifications for your application. This can be done by toggling `Push Notifications` under your target's `Capabilities` in Xcode. You can also do it directly in the app center on Apple's member center; go to `Identifiers -> App IDs -> select your app`. You should see `Push Notifications` under `Application Services`. Hit `Edit` and enable `Push Notifications`.
 
@@ -21,6 +24,8 @@ For more information, see
 * [Configuring Push Notifications](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html#//apple_ref/doc/uid/TP40012582-CH26-SW6)
 * [Creating Certificates](https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/MaintainingCertificates/MaintainingCertificates.html#//apple_ref/doc/uid/TP40012582-CH31-SW32)
 * [Amazon's Guide to Creating Certificates](http://docs.aws.amazon.com/sns/latest/dg/mobile-push-apns.html)
+
+Congratulations, you've configured your mobile application to receive push notifications! Now, let's set up the Iterable SDK...
 
 # Automatic Installation (via CocoaPods)
 
@@ -45,7 +50,10 @@ $ pod install
 ```
 
 Congratulations! You have now imported the Iterable SDK into your project! 
+
+<aside class="notice">
 If your project is built with `Swift`, you will need a `bridging header`. See [here](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html) for more information on how to create one.
+</aside>
 
 # Using the SDK
 
@@ -57,12 +65,12 @@ If your project is built with `Swift`, you will need a `bridging header`. See [h
 
 2. **Register for remote notifications**  
    See [Registering for Remote Notifications](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html#//apple_ref/doc/uid/TP40008194-CH103-SW2) from Apple's documentation.
-  1. Register your app’s supported interaction types 
-  2. Call the `registerForRemoteNotifications` method to register your app for remote notifications.
-  3. Use your app delegate’s `application:didRegisterForRemoteNotificationsWithDeviceToken:` method to receive the device token needed to deliver remote notifications. Use the `application:didFailToRegisterForRemoteNotificationsWithError:` method to process errors.
+  1. Register your app’s supported interaction types via `UIApplication`'s [registerUserNotificationSettings:](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/index.html#//apple_ref/occ/instm/UIApplication/registerUserNotificationSettings:). The first time you call this method, iOS will prompt the user to allow the specified interactions. The OS will asynchronously let you know the user's choices via [application:didRegisterUserNotificationSettings:](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didRegisterUserNotificationSettings:).
+  2. Call `UIApplication`'s [registerForRemoteNotifications](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/index.html#//apple_ref/occ/instm/UIApplication/registerForRemoteNotifications) method to register your app for remote notifications.
+  3. Use your app delegate’s [application:didRegisterForRemoteNotificationsWithDeviceToken:](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didRegisterForRemoteNotificationsWithDeviceToken:) method to receive the device token needed to deliver remote notifications. Use the [application:didFailToRegisterForRemoteNotificationsWithError:](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didFailToRegisterForRemoteNotificationsWithError:) method to process errors.
 
 3. **Send the token to Iterable**  
-   Use `- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform` to send the token to Iterable   
+   Use the SDK's `- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform` to send the token to Iterable   
    ***Device tokens can change, so your app needs to reregister every time it is launched and pass the received token back to your server***. Don't cache your token on the device; send it every time you receive one. 
 
 #### Putting it all together:
