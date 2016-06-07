@@ -51,9 +51,7 @@ $ pod install
 
 Congratulations! You have now imported the Iterable SDK into your project! 
 
-<aside class="notice">
-If your project is built with `Swift`, you will need a `bridging header`. See [here](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html) for more information on how to create one.
-</aside>
+> If your project is built with `Swift`, you will need a `bridging header`. See [here](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html) for more information on how to create one.
 
 # Using the SDK
 
