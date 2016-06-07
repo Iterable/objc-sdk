@@ -20,7 +20,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
  _Released on 2016-06-06_
   
 #### Changed
-- swap out NSURLConnection in favor of NSURLSession
+- NSURLConnection is deprecated as of iOS9; this release drops in its replacement, NSURLSession
 
 
 ## [2.0.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/2.0.0)
