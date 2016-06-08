@@ -4,14 +4,27 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 #### Added
-- completion handler blocks for all the Iterable APIs
-- class to represent Iterable notification metadata
+- nothing yet
 
 #### Removed
 - nothing yet
 
 #### Changed
-- no longer tracks push opens from test pushes, proofs
+- nothing yet
+
+#### Fixed
+- nothing yet
+
+
+## [2.1.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/2.1.0)
+ _Released on 2016-06-07_
+ 
+#### Added
+- completion handler blocks for all the Iterable APIs
+- class to represent Iterable notification metadata
+
+#### Changed
+- no longer tracks push opens from test and proof pushes
 
 #### Fixed
 - no longer tracks push opens from ghost pushes
