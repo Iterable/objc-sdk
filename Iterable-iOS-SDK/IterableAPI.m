@@ -387,14 +387,22 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 // documented in IterableAPI.h
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields
 {
+    [self trackPushOpen:userInfo dataFields:dataFields onSuccess:[IterableAPI defaultOnSuccess:@"trackPushOpen"] onFailure:[IterableAPI defaultOnFailure:@"trackPushOpen"]];
+}
+
+// documented in IterableAPI.h
+- (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
     LogDebug(@"tracking push open");
     
     if (userInfo && userInfo[@"itbl"]) {
         NSDictionary *pushData = userInfo[@"itbl"];
         if ([pushData isKindOfClass:[NSDictionary class]] && pushData[@"campaignId"] && pushData[@"templateId"]) {
-            [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false dataFields:dataFields];
+            [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false dataFields:dataFields onSuccess:onSuccess onFailure:onFailure];
         } else {
-            LogError(@"error tracking push open");
+            if (onFailure) {
+                onFailure(@"Not tracking push open - payload is not an Iterable notification", [[NSData alloc] init]);
+            }
         }
     }
 }

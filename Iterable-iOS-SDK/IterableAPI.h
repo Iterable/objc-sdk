@@ -230,6 +230,23 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
+ @abstract Tracks a pushOpen event with a push notification, optional additional data, and custom completion blocks
+ 
+ @discussion Pass in the `userInfo` from the push notification payload
+ 
+ @param userInfo    the push notification payload
+ @param dataFields  an `NSDictionary` containing any additional information to save along with the event
+ @param onSuccess           OnSuccessHandler to invoke if the open is tracked successfully
+ @param onFailure           OnFailureHandler to invoke if tracking the open fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+
+/*!
+ @method
+ 
  @abstract Tracks a pushOpen event for the specified campaign and template ids, whether the app was already running when the push was received, and optional additional data
  
  @discussion Pass in the the relevant campaign data
