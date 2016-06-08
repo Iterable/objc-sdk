@@ -14,6 +14,7 @@
 		094995471A8588400047E59B /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 094995461A8588400047E59B /* NSData+Conversion.m */; };
 		0995DBDD1CFFF7FE00D50F19 /* IterableLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 0995DBDC1CFFF7FE00D50F19 /* IterableLogging.m */; };
 		09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */; };
+		09CCB9301D07A7EA003EB75D /* IterableNotificationMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CCB92F1D07A7EA003EB75D /* IterableNotificationMetadata.m */; };
 		6804B8601AC0F363000A126B /* CommerceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6804B85F1AC0F363000A126B /* CommerceItem.m */; };
 		6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6845F7321AC3831B0043629D /* SystemConfiguration.framework */; };
 		68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6804B8651AC10426000A126B /* CommerceItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -57,6 +58,8 @@
 		09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libIterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C0FC061A1D6D4700D5A86B /* Iterable-iOS-SDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Iterable-iOS-SDKTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		09C0FC0C1A1D6D4700D5A86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		09CCB92D1D07A2E9003EB75D /* IterableNotificationMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableNotificationMetadata.h; sourceTree = "<group>"; };
+		09CCB92F1D07A7EA003EB75D /* IterableNotificationMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableNotificationMetadata.m; sourceTree = "<group>"; };
 		27BFDE60C2FA15EB7F812F46 /* libPods-Iterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		50B627639A91F8FD17DE5BDD /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6804B85F1AC0F363000A126B /* CommerceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItem.m; sourceTree = "<group>"; };
@@ -121,6 +124,8 @@
 				094995461A8588400047E59B /* NSData+Conversion.m */,
 				0995DBDB1CFFF70800D50F19 /* IterableLogging.h */,
 				0995DBDC1CFFF7FE00D50F19 /* IterableLogging.m */,
+				09CCB92D1D07A2E9003EB75D /* IterableNotificationMetadata.h */,
+				09CCB92F1D07A7EA003EB75D /* IterableNotificationMetadata.m */,
 			);
 			path = "Iterable-iOS-SDK";
 			sourceTree = "<group>";
@@ -364,6 +369,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09CCB9301D07A7EA003EB75D /* IterableNotificationMetadata.m in Sources */,
 				094995471A8588400047E59B /* NSData+Conversion.m in Sources */,
 				093734271A1D701F00C950B6 /* IterableAPI.m in Sources */,
 				6804B8601AC0F363000A126B /* CommerceItem.m in Sources */,
