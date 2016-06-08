@@ -120,6 +120,24 @@ No | N/A | Yes | `application:didFinishLaunchingWithOptions:` | On Notification 
 
 For more information about local and remote notifications, and which callbacks will be called under which circumstances, see [Local and Remote Notifications in Depth](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/WhatAreRemoteNotif.html#//apple_ref/doc/uid/TP40008194-CH102-SW1).
 
+#### Iterable Notifications
+
+All notifications from Iterable will come with a field called `itbl` in the payload. This field will contain a dictionary of data for Iterable's use. You can access it directly, but you should avoid doing so, as those fields might change. As of now, the fields include
+
+*  `campaignId` - the campaign id (in Iterable). Not relevant for proof and test pushes.
+*  `templateId` - the template id (in Iterable). Not relevant for test pushes.
+*  `isGhostPush` - whether this is a ghost push. See section below on uninstall tracking.
+
+#### Uninstall Tracking
+
+Iterable will track uninstalls with no additional work by you. 
+
+This is implemented by sending a second push notification some time (currently, twelve hours) after the original campaign. If we receive feedback that the device's token is no longer valid, we assign an uninstall to the device, attributing it to the most recent campaign within twelve hours. An "real" campaign send (as opposed to the later "ghost" send) can also trigger recording an uninstall. In this case, if there was no previous campaign within the attribution period, an uninstall will still be tracked, but it will not be attributed to any campaign.
+
+These "ghost" notifications will **not** automatically create a notification on the device. In fact, your application won't even be notified at all, unless you've enabled background mode. If you'd like your application to receive and act on these "ghost" pushes, you can enable background mode (this won't make the notifications show up; it'll just let your app handle them). To do this, go to your target in Xcode, then go to `Capabilities -> Background Modes` and enable `Background fetch` and `Remote notifications`.
+
+After enabling background mode, you will need to implement a different method instead of `application:didReceiveRemoteNotification:`; this method is [application:didReceiveRemoteNotification:fetchCompletionHandler:](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:fetchCompletionHandler:). This method, unlike `application:didReceiveRemoteNotification:`, will be called regardless of whether your application is running in the foreground or background. Once you are done, don't forget to call the completion handler with a `UIBackgroundFetchResult`. For more information on background mode notifications, see the `Discussion` under the [documentation for the method](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:fetchCompletionHandler:).
+
 # Additional Information
 
 See our [setup guide](http://support.iterable.com/hc/en-us/articles/204780589-Push-Notification-Setup-iOS-and-Android-) for more information.
