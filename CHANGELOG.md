@@ -11,10 +11,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - nothing yet
 
 #### Changed
-- nothing yet
+- no longer tracks push opens from test pushes, proofs
 
 #### Fixed
-- only track a push open from real campaigns
+- no longer tracks push opens from ghost pushes
 
 
 ## [2.0.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/2.0.1)
