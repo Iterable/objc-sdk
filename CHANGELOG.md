@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 #### Added
-- nothing yet
+- completion handler blocks for all the Iterable APIs
 
 #### Removed
 - nothing yet
