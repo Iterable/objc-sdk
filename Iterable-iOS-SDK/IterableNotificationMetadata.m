@@ -85,17 +85,17 @@ static NSString *const IsGhostPushField = @"isGhostPush";
 
 // documented in IterableNotification.h
 - (BOOL)isProof {
-    return _campaignId == 0 && _templateId != 0;
+    return _campaignId.integerValue == 0 && _templateId.integerValue != 0;
 }
 
 // documented in IterableNotification.h
 - (BOOL)isTestPush {
-    return _campaignId == 0 && _templateId == 0;
+    return _campaignId.integerValue == 0 && _templateId.integerValue == 0;
 }
 
 // documented in IterableNotification.h
 - (BOOL)isRealCampaignNotification {
-    return !([self isProof] || [self isTestPush] || _isGhostPush);
+    return !(_isGhostPush || [self isProof] || [self isTestPush]);
 }
 
 @end
