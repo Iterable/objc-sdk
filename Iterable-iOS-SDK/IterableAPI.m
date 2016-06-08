@@ -19,6 +19,7 @@
 #import "NSData+Conversion.h"
 #import "CommerceItem.h"
 #import "IterableLogging.h"
+#import "IterableNotificationMetadata.h"
 
 @interface IterableAPI () {
 }
@@ -249,6 +250,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     };
 }
 
+
 //////////////////////////////////////////////////////////////
 /// @name Implementations of things documents in IterableAPI.h
 //////////////////////////////////////////////////////////////
@@ -393,16 +395,12 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 // documented in IterableAPI.h
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
-    LogDebug(@"tracking push open");
-    
-    if (userInfo && userInfo[@"itbl"]) {
-        NSDictionary *pushData = userInfo[@"itbl"];
-        if ([pushData isKindOfClass:[NSDictionary class]] && pushData[@"campaignId"] && pushData[@"templateId"]) {
-            [self trackPushOpen:pushData[@"campaignId"] templateId:pushData[@"templateId"] appAlreadyRunning:false dataFields:dataFields onSuccess:onSuccess onFailure:onFailure];
-        } else {
-            if (onFailure) {
-                onFailure(@"Not tracking push open - payload is not an Iterable notification", [[NSData alloc] init]);
-            }
+    IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromLaunchOptions:userInfo];
+    if (notification && [notification isRealCampaignNotification]) {
+        [self trackPushOpen:notification.campaignId templateId:notification.templateId appAlreadyRunning:false dataFields:dataFields onSuccess:onSuccess onFailure:onFailure];
+    } else {
+        if (onFailure) {
+            onFailure(@"Not tracking push open - payload is not an Iterable notification, or a test/proof/ghost push", [[NSData alloc] init]);
         }
     }
 }
