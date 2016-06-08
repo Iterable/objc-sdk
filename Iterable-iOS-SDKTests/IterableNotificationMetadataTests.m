@@ -47,14 +47,6 @@
                                              }
                                      },
                                  
-                                 // no "campaignId"
-                                 @{
-                                     @"itbl": @{
-                                             @"templateId": @0,
-                                             @"isGhostPush": @NO
-                                             }
-                                     },
-                                 
                                  // "campaignId" not a number
                                  @{
                                      @"itbl": @{
@@ -126,6 +118,22 @@
     NSDictionary *payload = @{
                               @"itbl": @{
                                       @"campaignId": @0,
+                                      @"templateId": @777,
+                                      @"isGhostPush": @NO
+                                      }
+                              };
+    IterableNotificationMetadata *metadata = [IterableNotificationMetadata metadataFromLaunchOptions:payload];
+    XCTAssertEqual(metadata.campaignId, @0);
+    XCTAssertEqual(metadata.templateId, @777);
+    XCTAssertFalse(metadata.isGhostPush);
+    XCTAssertTrue([metadata isProof]);
+    XCTAssertFalse([metadata isTestPush]);
+    XCTAssertFalse([metadata isRealCampaignNotification]);
+}
+
+- (void)testValidProofPayloadNoCampaignId {
+    NSDictionary *payload = @{
+                              @"itbl": @{
                                       @"templateId": @777,
                                       @"isGhostPush": @NO
                                       }
