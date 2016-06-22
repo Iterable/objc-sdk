@@ -312,43 +312,37 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 {
     NSString *hexToken = [token hexadecimalString];
 
-    // the Apple docs state that the push token is 32 bytes
-    // however, it also warns "APNs device tokens are of variable length. Do not hardcode their size."
-    // https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW12
-    // seems WWDC2015 announced the tokens were going to be upped to 100 bytes
-    // http://odecee.com.au/wwdc-2015-big-changes-to-apple-push-notifications/
-    if ([hexToken length] != 64) {
-        LogError(@"registerToken: invalid token");
-    } else {
-        UIDevice *device = [UIDevice currentDevice];
-        NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
-
-        if (!psp) {
-            LogError(@"registerToken: invalid pushServicePlatform");
-            return;
+    UIDevice *device = [UIDevice currentDevice];
+    NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
+    
+    if (!psp) {
+        LogError(@"registerToken: invalid pushServicePlatform");
+        if (onFailure) {
+            onFailure(@"Not registering device token - the specified PushServicePlatform is invalid", [[NSData alloc] init]);
         }
-
-        NSDictionary *args = @{
-                               @"email": self.email,
-                               @"device": @{
-                                       @"token": hexToken,
-                                       @"platform": psp,
-                                       @"applicationName": appName,
-                                       @"dataFields": @{
-                                               @"name": [device name],
-                                               @"localizedModel": [device localizedModel],
-                                               @"userInterfaceIdiom": [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
-                                               @"identifierForVendor": [[device identifierForVendor] UUIDString],
-                                               @"systemName": [device systemName],
-                                               @"systemVersion": [device systemVersion],
-                                               @"model": [device model]
-                                               }
-                                       }
-                               };
-        LogDebug(@"sending registerToken request with args %@", args);
-        NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
-        [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+        return;
     }
+    
+    NSDictionary *args = @{
+                           @"email": self.email,
+                           @"device": @{
+                                   @"token": hexToken,
+                                   @"platform": psp,
+                                   @"applicationName": appName,
+                                   @"dataFields": @{
+                                           @"name": [device name],
+                                           @"localizedModel": [device localizedModel],
+                                           @"userInterfaceIdiom": [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
+                                           @"identifierForVendor": [[device identifierForVendor] UUIDString],
+                                           @"systemName": [device systemName],
+                                           @"systemVersion": [device systemVersion],
+                                           @"model": [device model]
+                                           }
+                                   }
+                           };
+    LogDebug(@"sending registerToken request with args %@", args);
+    NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
 // documented in IterableAPI.h
