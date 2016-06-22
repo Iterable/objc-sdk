@@ -10,10 +10,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - nothing yet
 
 #### Changed
-- nothing yet
+- `registerToken` no longer checks the token to be 32 bytes/64 hex chars
 
 #### Fixed
-- nothing yet
+- `registerToken` now calls the failure handler if an invalid `PushServicePlatform` is passed in
 
 
 ## [2.1.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/2.1.0)
