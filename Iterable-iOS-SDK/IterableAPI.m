@@ -312,38 +312,37 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 {
     NSString *hexToken = [token hexadecimalString];
 
-    if ([hexToken length] != 64) {
-        LogError(@"registerToken: invalid token");
-    } else {
-        UIDevice *device = [UIDevice currentDevice];
-        NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
-
-        if (!psp) {
-            LogError(@"registerToken: invalid pushServicePlatform");
-            return;
+    UIDevice *device = [UIDevice currentDevice];
+    NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
+    
+    if (!psp) {
+        LogError(@"registerToken: invalid pushServicePlatform");
+        if (onFailure) {
+            onFailure(@"Not registering device token - the specified PushServicePlatform is invalid", [[NSData alloc] init]);
         }
-
-        NSDictionary *args = @{
-                               @"email": self.email,
-                               @"device": @{
-                                       @"token": hexToken,
-                                       @"platform": psp,
-                                       @"applicationName": appName,
-                                       @"dataFields": @{
-                                               @"name": [device name],
-                                               @"localizedModel": [device localizedModel],
-                                               @"userInterfaceIdiom": [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
-                                               @"identifierForVendor": [[device identifierForVendor] UUIDString],
-                                               @"systemName": [device systemName],
-                                               @"systemVersion": [device systemVersion],
-                                               @"model": [device model]
-                                               }
-                                       }
-                               };
-        LogDebug(@"sending registerToken request with args %@", args);
-        NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
-        [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+        return;
     }
+    
+    NSDictionary *args = @{
+                           @"email": self.email,
+                           @"device": @{
+                                   @"token": hexToken,
+                                   @"platform": psp,
+                                   @"applicationName": appName,
+                                   @"dataFields": @{
+                                           @"name": [device name],
+                                           @"localizedModel": [device localizedModel],
+                                           @"userInterfaceIdiom": [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
+                                           @"identifierForVendor": [[device identifierForVendor] UUIDString],
+                                           @"systemName": [device systemName],
+                                           @"systemVersion": [device systemVersion],
+                                           @"model": [device model]
+                                           }
+                                   }
+                           };
+    LogDebug(@"sending registerToken request with args %@", args);
+    NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
 // documented in IterableAPI.h
@@ -473,6 +472,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                  };
     }
     NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
-    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];}
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+}
 
 @end
