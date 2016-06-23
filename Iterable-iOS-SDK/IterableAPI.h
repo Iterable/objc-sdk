@@ -168,7 +168,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @see CommerceItem
  */
-- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items;
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem *>*)items;
 
 /*!
  @method
@@ -183,7 +183,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @see CommerceItem
  */
-- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items dataFields:(nullable NSDictionary *)dataFields;
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem *>*)items dataFields:(nullable NSDictionary *)dataFields;
 
 /*!
  @method
@@ -202,7 +202,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @see OnSuccessHandler
  @see OnFailureHandler
  */
-- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem>*)items dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+- (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem *>*)items dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 /*!
  @method

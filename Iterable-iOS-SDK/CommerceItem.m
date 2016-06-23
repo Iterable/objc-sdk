@@ -28,7 +28,14 @@
     return self;
 }
 
-
-
+- (NSDictionary *)toDictionary
+{
+    return @{
+             @"id": self.id,
+             @"name": self.name,
+             @"price": self.price,
+             @"quantity": @(self.quantity)
+             };
+}
 
 @end

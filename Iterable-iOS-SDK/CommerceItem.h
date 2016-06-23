@@ -7,21 +7,14 @@
 //
 
 @import Foundation;
-#import <JSONModel/JSONModel.h>
 
 // all params are nonnull, unless annotated otherwise
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- required by `JSONModel` for this class to work with collections, such as `NSArray`
- */
-@protocol CommerceItem
-@end
-
-/**
  `CommerceItem` represents a product. These are used by the commerce API; see [IterableAPI trackPurchase:items:dataFields:]
  */
-@interface CommerceItem : JSONModel
+@interface CommerceItem : NSObject
 
 ////////////////////
 /// @name Properties
@@ -56,6 +49,15 @@ NS_ASSUME_NONNULL_BEGIN
  @return an instance of `CommerceItem` with the specified properties
  */
 - (id)initWithId:(NSString *)id name:(NSString *)name price:(NSNumber *)price quantity:(NSUInteger)quantity;
+
+/**
+ @method
+ 
+ @abstract A Dictionary respresentation of this item
+ 
+ @return An NSDictionary representing this item
+ */
+- (NSDictionary *)toDictionary;
 
 @end
 
