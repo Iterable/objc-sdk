@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		093028C81D1B56E000E7CFBE /* IterableSDKFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 093028CB1D1B56E000E7CFBE /* Build configuration list for PBXAggregateTarget "IterableSDKFramework" */;
+			buildPhases = (
+				093028CC1D1B576200E7CFBE /* Build on both platforms and run lipo */,
+			);
+			dependencies = (
+			);
+			name = IterableSDKFramework;
+			productName = IterableSDKFramework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		091489E21CF6986900482D82 /* IterableAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 091489E11CF6986900482D82 /* IterableAPITests.m */; };
 		091489E81CF6AC1800482D82 /* CommerceItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 091489E71CF6AC1800482D82 /* CommerceItemTests.m */; };
@@ -52,8 +66,6 @@
 		093734261A1D701F00C950B6 /* IterableAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAPI.m; sourceTree = "<group>"; };
 		094995451A85880A0047E59B /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
 		094995461A8588400047E59B /* NSData+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
-		0950CD6F1D00000D0002BFD7 /* libJSONModel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJSONModel.a; path = "Pods/../build/Debug-iphoneos/JSONModel/libJSONModel.a"; sourceTree = "<group>"; };
-		0950CD711D0000B90002BFD7 /* libJSONModel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJSONModel.a; path = "Pods/../build/Debug-iphoneos/JSONModel/libJSONModel.a"; sourceTree = "<group>"; };
 		0995DBDB1CFFF70800D50F19 /* IterableLogging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableLogging.h; sourceTree = "<group>"; };
 		0995DBDC1CFFF7FE00D50F19 /* IterableLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableLogging.m; sourceTree = "<group>"; };
 		09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libIterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,8 +177,6 @@
 		6845F72F1AC3818F0043629D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0950CD711D0000B90002BFD7 /* libJSONModel.a */,
-				0950CD6F1D00000D0002BFD7 /* libJSONModel.a */,
 				6845F7321AC3831B0043629D /* SystemConfiguration.framework */,
 				27BFDE60C2FA15EB7F812F46 /* libPods-Iterable-iOS-SDK.a */,
 				C2AFB3ED0100E0D7CD9B5F0B /* libPods-Iterable-iOS-SDKTests.a */,
@@ -193,13 +203,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09C0FC0F1A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDK" */;
 			buildPhases = (
-				8AB82FE222A06BEF618570B8 /* 📦 Check Pods Manifest.lock */,
+				8AB82FE222A06BEF618570B8 /* [CP] Check Pods Manifest.lock */,
 				09C0FBF71A1D6D4700D5A86B /* Sources */,
 				09C0FBF81A1D6D4700D5A86B /* Frameworks */,
 				09C0FBF91A1D6D4700D5A86B /* CopyFiles */,
 				0937342D1A1D99BB00C950B6 /* Headers */,
 				092302A31CF6455A004EA265 /* ShellScript */,
-				04F66644F57F3FE43141F674 /* 📦 Copy Pods Resources */,
+				04F66644F57F3FE43141F674 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -214,12 +224,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09C0FC121A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDKTests" */;
 			buildPhases = (
-				434E13C1C6EB8AFE5F3DCFBD /* 📦 Check Pods Manifest.lock */,
+				434E13C1C6EB8AFE5F3DCFBD /* [CP] Check Pods Manifest.lock */,
 				09C0FC021A1D6D4700D5A86B /* Sources */,
 				09C0FC031A1D6D4700D5A86B /* Frameworks */,
 				09C0FC041A1D6D4700D5A86B /* Resources */,
-				21EEA7A5E6EE5C3C8CD564E0 /* 📦 Embed Pods Frameworks */,
-				F9DEAC94DB30D3F412B02021 /* 📦 Copy Pods Resources */,
+				21EEA7A5E6EE5C3C8CD564E0 /* [CP] Embed Pods Frameworks */,
+				F9DEAC94DB30D3F412B02021 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -240,6 +250,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Iterable;
 				TargetAttributes = {
+					093028C81D1B56E000E7CFBE = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
 					09C0FBFA1A1D6D4700D5A86B = {
 						CreatedOnToolsVersion = 6.1;
 					};
@@ -262,6 +275,7 @@
 			targets = (
 				09C0FBFA1A1D6D4700D5A86B /* Iterable-iOS-SDK */,
 				09C0FC051A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
+				093028C81D1B56E000E7CFBE /* IterableSDKFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -277,14 +291,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		04F66644F57F3FE43141F674 /* 📦 Copy Pods Resources */ = {
+		04F66644F57F3FE43141F674 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,14 +319,28 @@
 			shellPath = /bin/sh;
 			shellScript = "#if [ ${CONFIGURATION} == \"Release\" ]; then\nAPPLEDOC_PATH=`which appledoc`\nif [ $APPLEDOC_PATH ]; then\n$APPLEDOC_PATH \\\n--project-name ${PRODUCT_NAME} \\\n--project-company \"Iterable\" \\\n--company-id \"com.iterable\" \\\n--output ${PRODUCT_NAME}Docs \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-install-docset \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--exit-threshold 2 \\\n${PROJECT_DIR}/${PRODUCT_NAME}\nfi;\n#fi;\n";
 		};
-		21EEA7A5E6EE5C3C8CD564E0 /* 📦 Embed Pods Frameworks */ = {
+		093028CC1D1B576200E7CFBE /* Build on both platforms and run lipo */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "Build on both platforms and run lipo";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# based on https://www.raywenderlich.com/65964/create-a-framework-for-ios and https://github.com/jverkoey/iOS-Framework#static_library_target\n# also, need to explicitly add armv7s to target architectures; see also: http://stackoverflow.com/questions/28270582/building-ios-framework-missing-architecture-armv7s-and-x86-64-on-fat-file\n\nset -o errexit\nset +o nounset\n# Avoid recursively calling this script.\nif [[ $ITBL_MASTER_SCRIPT_RUNNING ]]; then\nexit 0\nfi\nset -o nounset\nexport ITBL_MASTER_SCRIPT_RUNNING=1\n\nITBL_TARGET_NAME=${PROJECT_NAME}\nITBL_EXECUTABLE_PATH=\"lib${ITBL_TARGET_NAME}.a\"\nITBL_WRAPPER_NAME=\"${ITBL_TARGET_NAME}.framework\"\n\n# The following conditionals come from\n# https://github.com/kstenerud/iOS-Universal-Framework\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nITBL_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nITBL_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# Build for the simulator architecture\necho \"Building static library: workspace=${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace, scheme=${ITBL_TARGET_NAME}, platform=iphonesimulator, destination='platform=iOS Simulator,name=iPad'\"\n# iPhone5 is the last one on armv7s, iPhone6+ is on armv7\nxcrun xcodebuild ONLY_ACTIVE_ARCH=NO -workspace \"${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace\" -scheme \"${ITBL_TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphonesimulator -destination \"platform=iOS Simulator,name=iPhone 6\" BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\n# Build for real devices\necho \"Building static library: workspace=${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace, scheme=${ITBL_TARGET_NAME}, platform=iphoneos, sdk version=${ITBL_SDK_VERSION}\"\nxcrun xcodebuild ONLY_ACTIVE_ARCH=NO -workspace \"${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace\" -scheme \"${ITBL_TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos${ITBL_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\necho \"Done building architectures. Running lipo...\"\n\nDESTINATION_UNIVERSAL_DIR=\"${BUILD_ROOT}/Universal/\"\nmkdir -p ${DESTINATION_UNIVERSAL_DIR}\n# Smash the two static libraries into one fat binary and store it in the .framework\nxcrun lipo -create \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${ITBL_EXECUTABLE_PATH}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${ITBL_EXECUTABLE_PATH}\" -output \"${DESTINATION_UNIVERSAL_DIR}/${ITBL_TARGET_NAME}.a\"\n";
+		};
+		21EEA7A5E6EE5C3C8CD564E0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,14 +348,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		434E13C1C6EB8AFE5F3DCFBD /* 📦 Check Pods Manifest.lock */ = {
+		434E13C1C6EB8AFE5F3DCFBD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,14 +363,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		8AB82FE222A06BEF618570B8 /* 📦 Check Pods Manifest.lock */ = {
+		8AB82FE222A06BEF618570B8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,14 +378,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		F9DEAC94DB30D3F412B02021 /* 📦 Copy Pods Resources */ = {
+		F9DEAC94DB30D3F412B02021 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +429,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		093028C91D1B56E000E7CFBE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		093028CA1D1B56E000E7CFBE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		09C0FC0D1A1D6D4700D5A86B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -480,6 +522,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8049D1DA5721AE4EFB4DB30E /* Pods-Iterable-iOS-SDK.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+				);
 				CODE_SIGN_IDENTITY = "iOS Development: Andrew Boni (AE77H9E7TE)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -497,6 +543,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E53AD2D9C0DA0D122C60B146 /* Pods-Iterable-iOS-SDK.release.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+				);
 				CODE_SIGN_IDENTITY = "iOS Development: Andrew Boni (AE77H9E7TE)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -547,6 +597,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		093028CB1D1B56E000E7CFBE /* Build configuration list for PBXAggregateTarget "IterableSDKFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				093028C91D1B56E000E7CFBE /* Debug */,
+				093028CA1D1B56E000E7CFBE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		09C0FBF61A1D6D4700D5A86B /* Build configuration list for PBXProject "Iterable-iOS-SDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
