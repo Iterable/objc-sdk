@@ -6,9 +6,26 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		093028C81D1B56E000E7CFBE /* IterableSDKFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 093028CB1D1B56E000E7CFBE /* Build configuration list for PBXAggregateTarget "IterableSDKFramework" */;
+			buildPhases = (
+				093028CC1D1B576200E7CFBE /* Build on both platforms and run lipo */,
+			);
+			dependencies = (
+			);
+			name = IterableSDKFramework;
+			productName = IterableSDKFramework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		091489E21CF6986900482D82 /* IterableAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 091489E11CF6986900482D82 /* IterableAPITests.m */; };
 		091489E81CF6AC1800482D82 /* CommerceItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 091489E71CF6AC1800482D82 /* CommerceItemTests.m */; };
+		093028D11D1B93EB00E7CFBE /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = 094995451A85880A0047E59B /* NSData+Conversion.h */; };
+		093028D21D1B942100E7CFBE /* IterableNotificationMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = 09CCB92D1D07A2E9003EB75D /* IterableNotificationMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		093028D31D1B958700E7CFBE /* IterableLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 0995DBDB1CFFF70800D50F19 /* IterableLogging.h */; };
 		093734271A1D701F00C950B6 /* IterableAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 093734261A1D701F00C950B6 /* IterableAPI.m */; };
 		0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 093734251A1D6E8800C950B6 /* IterableAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		094995471A8588400047E59B /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 094995461A8588400047E59B /* NSData+Conversion.m */; };
@@ -19,8 +36,6 @@
 		6804B8601AC0F363000A126B /* CommerceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6804B85F1AC0F363000A126B /* CommerceItem.m */; };
 		6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6845F7321AC3831B0043629D /* SystemConfiguration.framework */; };
 		68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6804B8651AC10426000A126B /* CommerceItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BAD9820A90AF60003B37558C /* libPods-Iterable-iOS-SDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2AFB3ED0100E0D7CD9B5F0B /* libPods-Iterable-iOS-SDKTests.a */; };
-		C65F6E43E1CE5B47E656C4E9 /* libPods-Iterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27BFDE60C2FA15EB7F812F46 /* libPods-Iterable-iOS-SDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +67,6 @@
 		093734261A1D701F00C950B6 /* IterableAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAPI.m; sourceTree = "<group>"; };
 		094995451A85880A0047E59B /* NSData+Conversion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
 		094995461A8588400047E59B /* NSData+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
-		0950CD6F1D00000D0002BFD7 /* libJSONModel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJSONModel.a; path = "Pods/../build/Debug-iphoneos/JSONModel/libJSONModel.a"; sourceTree = "<group>"; };
-		0950CD711D0000B90002BFD7 /* libJSONModel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libJSONModel.a; path = "Pods/../build/Debug-iphoneos/JSONModel/libJSONModel.a"; sourceTree = "<group>"; };
 		0995DBDB1CFFF70800D50F19 /* IterableLogging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableLogging.h; sourceTree = "<group>"; };
 		0995DBDC1CFFF7FE00D50F19 /* IterableLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableLogging.m; sourceTree = "<group>"; };
 		09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libIterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,15 +75,9 @@
 		09CCB92D1D07A2E9003EB75D /* IterableNotificationMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableNotificationMetadata.h; sourceTree = "<group>"; };
 		09CCB92F1D07A7EA003EB75D /* IterableNotificationMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableNotificationMetadata.m; sourceTree = "<group>"; };
 		09CCB9311D07BA04003EB75D /* IterableNotificationMetadataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableNotificationMetadataTests.m; sourceTree = "<group>"; };
-		27BFDE60C2FA15EB7F812F46 /* libPods-Iterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		50B627639A91F8FD17DE5BDD /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6804B85F1AC0F363000A126B /* CommerceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItem.m; sourceTree = "<group>"; };
 		6804B8651AC10426000A126B /* CommerceItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommerceItem.h; sourceTree = "<group>"; };
 		6845F7321AC3831B0043629D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		8049D1DA5721AE4EFB4DB30E /* Pods-Iterable-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
-		C2AFB3ED0100E0D7CD9B5F0B /* libPods-Iterable-iOS-SDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9AFCF23147AE0D57DA551D8 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.release.xcconfig"; sourceTree = "<group>"; };
-		E53AD2D9C0DA0D122C60B146 /* Pods-Iterable-iOS-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +86,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */,
-				C65F6E43E1CE5B47E656C4E9 /* libPods-Iterable-iOS-SDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,7 +94,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */,
-				BAD9820A90AF60003B37558C /* libPods-Iterable-iOS-SDKTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,7 +107,6 @@
 				09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */,
 				09C0FC0A1A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
 				09C0FBFC1A1D6D4700D5A86B /* Products */,
-				47369735BCC42DB1D852F8EC /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,25 +155,10 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		47369735BCC42DB1D852F8EC /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				8049D1DA5721AE4EFB4DB30E /* Pods-Iterable-iOS-SDK.debug.xcconfig */,
-				E53AD2D9C0DA0D122C60B146 /* Pods-Iterable-iOS-SDK.release.xcconfig */,
-				50B627639A91F8FD17DE5BDD /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */,
-				C9AFCF23147AE0D57DA551D8 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		6845F72F1AC3818F0043629D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0950CD711D0000B90002BFD7 /* libJSONModel.a */,
-				0950CD6F1D00000D0002BFD7 /* libJSONModel.a */,
 				6845F7321AC3831B0043629D /* SystemConfiguration.framework */,
-				27BFDE60C2FA15EB7F812F46 /* libPods-Iterable-iOS-SDK.a */,
-				C2AFB3ED0100E0D7CD9B5F0B /* libPods-Iterable-iOS-SDKTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -183,6 +172,9 @@
 			files = (
 				0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */,
 				68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */,
+				093028D21D1B942100E7CFBE /* IterableNotificationMetadata.h in Headers */,
+				093028D11D1B93EB00E7CFBE /* NSData+Conversion.h in Headers */,
+				093028D31D1B958700E7CFBE /* IterableLogging.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,13 +185,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09C0FC0F1A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDK" */;
 			buildPhases = (
-				8AB82FE222A06BEF618570B8 /* 📦 Check Pods Manifest.lock */,
 				09C0FBF71A1D6D4700D5A86B /* Sources */,
 				09C0FBF81A1D6D4700D5A86B /* Frameworks */,
 				09C0FBF91A1D6D4700D5A86B /* CopyFiles */,
 				0937342D1A1D99BB00C950B6 /* Headers */,
 				092302A31CF6455A004EA265 /* ShellScript */,
-				04F66644F57F3FE43141F674 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -214,12 +204,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09C0FC121A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDKTests" */;
 			buildPhases = (
-				434E13C1C6EB8AFE5F3DCFBD /* 📦 Check Pods Manifest.lock */,
 				09C0FC021A1D6D4700D5A86B /* Sources */,
 				09C0FC031A1D6D4700D5A86B /* Frameworks */,
 				09C0FC041A1D6D4700D5A86B /* Resources */,
-				21EEA7A5E6EE5C3C8CD564E0 /* 📦 Embed Pods Frameworks */,
-				F9DEAC94DB30D3F412B02021 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -240,6 +227,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = Iterable;
 				TargetAttributes = {
+					093028C81D1B56E000E7CFBE = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
 					09C0FBFA1A1D6D4700D5A86B = {
 						CreatedOnToolsVersion = 6.1;
 					};
@@ -262,6 +252,7 @@
 			targets = (
 				09C0FBFA1A1D6D4700D5A86B /* Iterable-iOS-SDK */,
 				09C0FC051A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
+				093028C81D1B56E000E7CFBE /* IterableSDKFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -277,21 +268,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		04F66644F57F3FE43141F674 /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		092302A31CF6455A004EA265 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -305,65 +281,19 @@
 			shellPath = /bin/sh;
 			shellScript = "#if [ ${CONFIGURATION} == \"Release\" ]; then\nAPPLEDOC_PATH=`which appledoc`\nif [ $APPLEDOC_PATH ]; then\n$APPLEDOC_PATH \\\n--project-name ${PRODUCT_NAME} \\\n--project-company \"Iterable\" \\\n--company-id \"com.iterable\" \\\n--output ${PRODUCT_NAME}Docs \\\n--keep-undocumented-objects \\\n--keep-undocumented-members \\\n--keep-intermediate-files \\\n--no-install-docset \\\n--no-repeat-first-par \\\n--no-warn-invalid-crossref \\\n--exit-threshold 2 \\\n${PROJECT_DIR}/${PRODUCT_NAME}\nfi;\n#fi;\n";
 		};
-		21EEA7A5E6EE5C3C8CD564E0 /* 📦 Embed Pods Frameworks */ = {
+		093028CC1D1B576200E7CFBE /* Build on both platforms and run lipo */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "Build on both platforms and run lipo";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		434E13C1C6EB8AFE5F3DCFBD /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		8AB82FE222A06BEF618570B8 /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		F9DEAC94DB30D3F412B02021 /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "# based on https://www.raywenderlich.com/65964/create-a-framework-for-ios and https://github.com/jverkoey/iOS-Framework#static_library_target\n# also, need to explicitly add armv7s to target architectures; see also: http://stackoverflow.com/questions/28270582/building-ios-framework-missing-architecture-armv7s-and-x86-64-on-fat-file\n\nset -o errexit\nset +o nounset\n# Avoid recursively calling this script.\nif [[ $ITBL_MASTER_SCRIPT_RUNNING ]]; then\nexit 0\nfi\nset -o nounset\nexport ITBL_MASTER_SCRIPT_RUNNING=1\n\nITBL_TARGET_NAME=${PROJECT_NAME}\nITBL_EXECUTABLE_PATH=\"lib${ITBL_TARGET_NAME}.a\"\nITBL_WRAPPER_NAME=\"${ITBL_TARGET_NAME}.framework\"\n\n# The following conditionals come from\n# https://github.com/kstenerud/iOS-Universal-Framework\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nITBL_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nITBL_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# Build for the simulator architecture\necho \"Building static library: workspace=${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace, scheme=${ITBL_TARGET_NAME}, platform=iphonesimulator, destination='platform=iOS Simulator,name=iPad'\"\n# iPhone5 is the last one on armv7s, iPhone6+ is on armv7\nxcrun xcodebuild ONLY_ACTIVE_ARCH=NO -workspace \"${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace\" -scheme \"${ITBL_TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphonesimulator -destination \"platform=iOS Simulator,name=iPhone 6\" BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\n# Build for real devices\necho \"Building static library: workspace=${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace, scheme=${ITBL_TARGET_NAME}, platform=iphoneos, sdk version=${ITBL_SDK_VERSION}\"\nxcrun xcodebuild ONLY_ACTIVE_ARCH=NO -workspace \"${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace\" -scheme \"${ITBL_TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos${ITBL_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\necho \"Done building architectures. Cleaning up previous artifacts...\"\n\nDESTINATION_UNIVERSAL_DIR=\"${PROJECT_DIR}/Artifacts/\"\nrm -r \"${DESTINATION_UNIVERSAL_DIR}\"\nmkdir -p \"${DESTINATION_UNIVERSAL_DIR}\"\n\necho \"Done cleaning up artifacts. Running lipo...\"\n\n# Smash the two static libraries into one fat binary and store it in the .framework\nxcrun lipo -create \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${ITBL_EXECUTABLE_PATH}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${ITBL_EXECUTABLE_PATH}\" -output \"${DESTINATION_UNIVERSAL_DIR}/${ITBL_EXECUTABLE_PATH}\"\n\necho \"Done creating fat file, now copying public headers\"\ncp -r \"${TARGET_BUILD_DIR}/include\" \"${DESTINATION_UNIVERSAL_DIR}/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -401,6 +331,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		093028C91D1B56E000E7CFBE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		093028CA1D1B56E000E7CFBE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		09C0FC0D1A1D6D4700D5A86B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -435,7 +379,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -469,7 +413,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -478,8 +422,11 @@
 		};
 		09C0FC101A1D6D4700D5A86B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8049D1DA5721AE4EFB4DB30E /* Pods-Iterable-iOS-SDK.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+				);
 				CODE_SIGN_IDENTITY = "iOS Development: Andrew Boni (AE77H9E7TE)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -495,8 +442,11 @@
 		};
 		09C0FC111A1D6D4700D5A86B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E53AD2D9C0DA0D122C60B146 /* Pods-Iterable-iOS-SDK.release.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7s,
+				);
 				CODE_SIGN_IDENTITY = "iOS Development: Andrew Boni (AE77H9E7TE)";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -512,7 +462,6 @@
 		};
 		09C0FC131A1D6D4700D5A86B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 50B627639A91F8FD17DE5BDD /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -529,7 +478,6 @@
 		};
 		09C0FC141A1D6D4700D5A86B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9AFCF23147AE0D57DA551D8 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -547,6 +495,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		093028CB1D1B56E000E7CFBE /* Build configuration list for PBXAggregateTarget "IterableSDKFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				093028C91D1B56E000E7CFBE /* Debug */,
+				093028CA1D1B56E000E7CFBE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		09C0FBF61A1D6D4700D5A86B /* Build configuration list for PBXProject "Iterable-iOS-SDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

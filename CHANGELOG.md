@@ -11,6 +11,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 #### Changed
 - `registerToken` no longer checks the token to be 32 bytes/64 hex chars
+- JSONModel removed from project; no longer needs any outside libraries; some CommerceItem/trackPurchase APIs changed as a result of this
+- removed Pods integration
 
 #### Fixed
 - `registerToken` now calls the failure handler if an invalid `PushServicePlatform` is passed in

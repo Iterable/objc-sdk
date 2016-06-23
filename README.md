@@ -55,6 +55,16 @@ Congratulations! You have now imported the Iterable SDK into your project!
 
 > &#x2139; If your project is built with `Swift`, you will need a `bridging header`. See [here](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html) for more information on how to create one.
 
+# Manual Installation
+
+In the `Artifacts` directory, you can find the compiled static library and headers. To include it in your project...
+
+1. Add the headers to your header search paths. `Build Settings` -> `Search Paths` -> `Header Search Paths`. Enter the location where you put the SDK's headers. You should enable recursive (and it'll add `**` to the end of the path).
+2. Link your project against Iterable's SDK. There are two ways to do this.
+  1. Go to `Build Phases` -> `Link Binary With Libraries` and select `libIterable-iOS-SDK.a`, ***OR***
+  2. Go to `Build Settings` -> `Search Paths` -> `Library Search Paths`, and enter the location where `libIterable-iOS-SDK.a` resides. Next, tell your project that it should look for `Iterable-iOS-SDK` during the linking phase by going to `Build Settings` -> `Linking` -> `Other Linker Flags`, and add `-lIterable-iOS-SDK` 
+3. Go to `Build Settings` -> `Linking` -> `Other Linker Flags`, and add `-ObjC`. It is required for the `NSData+Conversion.h` category to be picked up properly during linking. For more information, see [this](https://developer.apple.com/library/mac/qa/qa1490/_index.html).
+
 # Using the SDK
 
 1. Once you know the email of the user, **create a shared instance of an `IterableAPI`**
