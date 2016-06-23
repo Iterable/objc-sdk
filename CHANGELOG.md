@@ -16,6 +16,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - nothing yet
 
 
+## [3.0.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/3.0.1)
+ _Released on 2016-06-22_
+ 
+#### Fixed
+- removed JSONModel from dependencies in Podspec
+ 
+ 
 ## [3.0.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/3.0.0)
  _Released on 2016-06-22_
  
