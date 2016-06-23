@@ -10,13 +10,26 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - nothing yet
 
 #### Changed
+- nothing yet
+
+#### Fixed
+- nothing yet
+
+
+## [3.0.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/3.0.0)
+ _Released on 2016-06-22_
+ 
+#### Added
+- now comes with compiled universal static library and public headers in the `Artifacts` directory
+ 
+#### Changed
 - `registerToken` no longer checks the token to be 32 bytes/64 hex chars
-- JSONModel removed from project; no longer needs any outside libraries; some CommerceItem/trackPurchase APIs changed as a result of this
-- removed Pods integration
+- `JSONModel` removed from project; no longer needs any outside libraries; some `CommerceItem`/`trackPurchase` APIs changed as a result of this
+- removed `Pods` integration
 
 #### Fixed
 - `registerToken` now calls the failure handler if an invalid `PushServicePlatform` is passed in
-
+ 
 
 ## [2.1.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/2.1.0)
  _Released on 2016-06-07_
