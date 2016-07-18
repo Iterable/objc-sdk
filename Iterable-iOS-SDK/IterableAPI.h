@@ -152,6 +152,13 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
+/////////////////////////////
+/// @name Disabling a token
+/////////////////////////////
+
+- (void)disableToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform;
+
+
 /////////////////////////
 /// @name Tracking events
 /////////////////////////

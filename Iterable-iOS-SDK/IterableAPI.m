@@ -345,6 +345,35 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
+- (void)disableToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform {
+    NSString *hexToken = [token hexadecimalString];
+    
+    if ([hexToken length] != 64) {
+        NSLog(@"registerToken: invalid token");
+    } else {
+        NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
+        
+        if (!psp) {
+            LogError(@"disableToken: invalid pushServicePlatform");
+            return;
+        }
+        
+        NSDictionary *args = @{
+                               @"email": self.email,
+                               @"token": hexToken
+                               };
+        LogDebug(@"sending disableToken request with args %@", args);
+        NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
+        [self sendRequest:request onSuccess:^(NSDictionary *data)
+         {
+             LogDebug(@"disable succeeded to send, got data: %@", data);
+         } onFailure:^(NSString *reason, NSData *data)
+         {
+             LogDebug(@"disable failed to send: %@. Got data %@", reason, data);
+         }];
+    }
+}
+
 // documented in IterableAPI.h
 - (void)track:(NSString *)eventName
 {
