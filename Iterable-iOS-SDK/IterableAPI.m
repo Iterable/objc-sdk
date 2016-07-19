@@ -344,33 +344,35 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
-- (void)disableToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform {
+// documented in IterableAPI.h
+- (void)disableToken:(NSData *)token
+{
+    return [self disableToken:token andEmail:nil onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
+}
+
+// documented in IterableAPI.h
+- (void)disableToken:(NSData *)token andEmail:(NSString *)email
+{
+    return [self disableToken:token andEmail:email onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
+}
+
+// documented in IterableAPI.h
+- (void)disableToken:(NSData *)token onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    return [self disableToken:token andEmail:nil onSuccess:onSuccess onFailure:onFailure];
+}
+
+// documented in IterableAPI.h
+- (void)disableToken:(NSData *)token andEmail:(nullable NSString *)email onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
     NSString *hexToken = [token hexadecimalString];
-    
-    if ([hexToken length] != 64) {
-        NSLog(@"registerToken: invalid token");
-    } else {
-        NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
-        
-        if (!psp) {
-            LogError(@"disableToken: invalid pushServicePlatform");
-            return;
-        }
-        
-        NSDictionary *args = @{
-                               @"email": self.email,
-                               @"token": hexToken
-                               };
-        LogDebug(@"sending disableToken request with args %@", args);
-        NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
-        [self sendRequest:request onSuccess:^(NSDictionary *data)
-         {
-             LogDebug(@"disable succeeded to send, got data: %@", data);
-         } onFailure:^(NSString *reason, NSData *data)
-         {
-             LogDebug(@"disable failed to send: %@. Got data %@", reason, data);
-         }];
-    }
+    NSDictionary *args = @{
+                           @"email": email,
+                           @"token": hexToken
+                           };
+    LogDebug(@"sending disableToken request with args %@", args);
+    NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
 // documented in IterableAPI.h
