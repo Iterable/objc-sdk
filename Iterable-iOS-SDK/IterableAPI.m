@@ -330,7 +330,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                    @"platform": psp,
                                    @"applicationName": appName,
                                    @"dataFields": @{
-                                           @"name": [device name],
                                            @"localizedModel": [device localizedModel],
                                            @"userInterfaceIdiom": [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
                                            @"identifierForVendor": [[device identifierForVendor] UUIDString],
