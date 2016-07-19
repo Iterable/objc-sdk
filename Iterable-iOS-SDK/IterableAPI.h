@@ -159,7 +159,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract Disable this device's token with Iterable with custom completion blocks
+ @abstract Disable this device's token with Iterable
  
  @param token                   The token representing this device/application pair, obtained from
  `application:didRegisterForRemoteNotificationsWithDeviceToken` after registering for remote notifications
@@ -169,13 +169,14 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract Disable this device's token with Iterable with custom completion blocks
+ @abstract Disable this device's token with Iterable
  
  @param token                   The token representing this device/application pair, obtained from
  `application:didRegisterForRemoteNotificationsWithDeviceToken` after registering for remote notifications
- @param email                   The email of the specific user this device belongs to to disable. Will disable device under all users with this device if not specified.
+  @param disableAll             Disables all emails with the given token if set.
  */
-- (void)disableToken:(NSData *)token andEmail:(NSString *)email;
+- (void)disableToken:(NSData *)token disableAll:(BOOL)disableAll;
+
 /*!
  @method
  
@@ -183,8 +184,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @param token                   The token representing this device/application pair, obtained from
  `application:didRegisterForRemoteNotificationsWithDeviceToken` after registering for remote notifications
- @param onSuccess               OnSuccessHandler to invoke if token registration is successful
- @param onFailure               OnFailureHandler to invoke if token registration fails
+ @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
+ @param onFailure               OnFailureHandler to invoke if disabling the token fails
  
  @see OnSuccessHandler
  @see OnFailureHandler
@@ -198,14 +199,14 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @param token                   The token representing this device/application pair, obtained from
  `application:didRegisterForRemoteNotificationsWithDeviceToken` after registering for remote notifications
- @param email                   The email of the specific user this device belongs to to disable. Will disable device under all users with this device if not specified.
- @param onSuccess               OnSuccessHandler to invoke if token registration is successful
- @param onFailure               OnFailureHandler to invoke if token registration fails
+ @param disableAll              Disables all emails with the given token if set.
+ @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
+ @param onFailure               OnFailureHandler to invoke if disabling the token fails
  
  @see OnSuccessHandler
  @see OnFailureHandler
  */
-- (void)disableToken:(NSData *)token andEmail:(nullable NSString *)email onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+- (void)disableToken:(NSData *)token disableAll:(BOOL)disableAll onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 
 /////////////////////////

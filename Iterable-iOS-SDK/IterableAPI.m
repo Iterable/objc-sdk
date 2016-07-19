@@ -347,29 +347,38 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 // documented in IterableAPI.h
 - (void)disableToken:(NSData *)token
 {
-    return [self disableToken:token andEmail:nil onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
+    return [self disableToken:token disableAll:FALSE onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
 }
 
 // documented in IterableAPI.h
-- (void)disableToken:(NSData *)token andEmail:(NSString *)email
+- (void)disableToken:(NSData *)token disableAll:(BOOL)disableAll
 {
-    return [self disableToken:token andEmail:email onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
+    return [self disableToken:token onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
 }
 
 // documented in IterableAPI.h
 - (void)disableToken:(NSData *)token onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
-    return [self disableToken:token andEmail:nil onSuccess:onSuccess onFailure:onFailure];
+    return [self disableToken:token disableAll:FALSE onSuccess:onSuccess onFailure:onFailure];
 }
 
+
 // documented in IterableAPI.h
-- (void)disableToken:(NSData *)token andEmail:(nullable NSString *)email onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+- (void)disableToken:(NSData *)token disableAll:(BOOL)disableAll onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
     NSString *hexToken = [token hexadecimalString];
+    
+    NSString *disableEmail = self.email;
+    
+    if (disableAll) {
+        disableEmail = nil;
+    }
+    
     NSDictionary *args = @{
-                           @"email": email,
+                           @"email": disableEmail,
                            @"token": hexToken
                            };
+
     LogDebug(@"sending disableToken request with args %@", args);
     NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
