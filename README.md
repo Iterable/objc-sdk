@@ -1,6 +1,6 @@
 [![CocoaPods](https://img.shields.io/cocoapods/v/IterableSDK.svg?style=flat)](https://cocoapods.org/pods/IterableSDK)
 [![License](https://img.shields.io/cocoapods/l/IterableSDK.svg?style=flat)](https://opensource.org/licenses/MIT)
-[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](http://cocoadocs.org/docsets/IterableSDK/3.0.1/)
+[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](http://cocoadocs.org/docsets/IterableSDK/3.1.0/)
 
 # Iterable iOS SDK
 
@@ -152,6 +152,12 @@ This is implemented by sending a second push notification some time (currently, 
 These "ghost" notifications will **not** automatically create a notification on the device. In fact, your application won't even be notified at all, unless you've enabled background mode. If you'd like your application to receive and act on these "ghost" pushes, you can enable background mode (this won't make the notifications show up; it'll just let your app handle them). To do this, go to your target in Xcode, then go to `Capabilities -> Background Modes` and enable `Background fetch` and `Remote notifications`.
 
 After enabling background mode, you will need to implement a different method instead of `application:didReceiveRemoteNotification:`; this method is [application:didReceiveRemoteNotification:fetchCompletionHandler:](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:fetchCompletionHandler:). This method, unlike `application:didReceiveRemoteNotification:`, will be called regardless of whether your application is running in the foreground or background. Once you are done, don't forget to call the completion handler with a `UIBackgroundFetchResult`. For more information on background mode notifications, see the `Discussion` under the [documentation for the method](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/#//apple_ref/occ/intfm/UIApplicationDelegate/application:didReceiveRemoteNotification:fetchCompletionHandler:).
+
+#### Disabling push notifications to a device
+
+When a user logs out, you typically want to disable push notifications to that user/device. This can be accomplished by calling `disableDeviceForCurrentUser`. Please note that it will only attempt to disable the device if you have previously called `registerToken`.
+
+In order to re-enable push notifcations to that device, simply call `registerToken` as usual when the user logs back in.
 
 # Additional Information
 

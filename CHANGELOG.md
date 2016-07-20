@@ -16,6 +16,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - nothing yet
 
 
+## [3.1.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/3.1.0)
+ _Released on 2016-07-19_
+
+#### Added
+- now includes disableDevice API
+
+#### Removed
+- removed device name from `registerToken` call as it might contain user sensitive data (the user's name)
+
+
 ## [3.0.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/3.0.1)
  _Released on 2016-06-22_
  
