@@ -358,9 +358,15 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  */
 - (void)disableDevice:(BOOL)allUsers onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
-    NSString *disableEmail = allUsers ? nil : self.email;
+    if (!self.hexToken || !self.email) {
+        LogWarning(@"disableDevice: email or token not yet registered");
+        if (onFailure) {
+            onFailure(@"Not disabling device - you must call sharedInstance and registerToken first", [[NSData alloc] init]);
+        }
+        return;
+    }
     NSDictionary *args = @{
-                           @"email": disableEmail,
+                           @"email": allUsers ? [NSNull null]: self.email,
                            @"token": self.hexToken
                            };
     
