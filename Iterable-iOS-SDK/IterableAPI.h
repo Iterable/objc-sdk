@@ -51,6 +51,10 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 @property(nonatomic, readonly, copy) NSString *email;
 
+/**
+ The hex representation of this device token
+ */
+@property(nonatomic, readonly, copy) NSString *hexToken;
 
 /////////////////////////////////
 /// @name Creating an IterableAPI
@@ -153,10 +157,48 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 /////////////////////////////
-/// @name Disabling a token
+/// @name Disabling a device
 /////////////////////////////
 
-- (void)disableToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform;
+/*!
+ @method
+ 
+ @abstract Disable this device's token in Iterable, for the current user
+ */
+- (void)disableDeviceForCurrentUser;
+
+/*!
+ @method
+ 
+ @abstract Disable this device's token in Iterable, for all users with this device
+  */
+- (void)disableDeviceForAllUsers;
+
+/*!
+ @method
+ 
+ @abstract Disable this device's token in Iterable, for the current user, with custom completion blocks
+ 
+ @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
+ @param onFailure               OnFailureHandler to invoke if disabling the token fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)disableDeviceForCurrentUserWithOnSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+
+/*!
+ @method
+ 
+ @abstract Disable this device's token in Iterable, for all users with this device, with custom completion blocks
+ 
+ @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
+ @param onFailure               OnFailureHandler to invoke if disabling the token fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)disableDeviceForAllUsersWithOnSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 
 /////////////////////////

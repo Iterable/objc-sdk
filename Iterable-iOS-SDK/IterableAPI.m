@@ -311,6 +311,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
     NSString *hexToken = [token hexadecimalString];
+    _hexToken = hexToken;
 
     UIDevice *device = [UIDevice currentDevice];
     NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
@@ -344,33 +345,58 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
-- (void)disableToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform {
-    NSString *hexToken = [token hexadecimalString];
-    
-    if ([hexToken length] != 64) {
-        NSLog(@"registerToken: invalid token");
-    } else {
-        NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
-        
-        if (!psp) {
-            LogError(@"disableToken: invalid pushServicePlatform");
-            return;
+/*!
+ @method
+ 
+ @abstract Disable this device's token in Iterable with custom completion blocks. `allUsers` indicates whether to disable for all users with this token, or only current user 
+ 
+ @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
+ @param onFailure               OnFailureHandler to invoke if disabling the token fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)disableDevice:(BOOL)allUsers onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    if (!self.hexToken || (!allUsers && !self.email)) {
+        LogWarning(@"disableDevice: email or token not yet registered");
+        if (onFailure) {
+            onFailure(@"Not disabling device - you must call registerToken first, and sharedInstance must have an email", [[NSData alloc] init]);
         }
-        
-        NSDictionary *args = @{
-                               @"email": self.email,
-                               @"token": hexToken
-                               };
-        LogDebug(@"sending disableToken request with args %@", args);
-        NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
-        [self sendRequest:request onSuccess:^(NSDictionary *data)
-         {
-             LogDebug(@"disable succeeded to send, got data: %@", data);
-         } onFailure:^(NSString *reason, NSData *data)
-         {
-             LogDebug(@"disable failed to send: %@. Got data %@", reason, data);
-         }];
+        return;
     }
+    NSDictionary *args = @{
+                           @"email": allUsers ? [NSNull null]: self.email,
+                           @"token": self.hexToken
+                           };
+    
+    LogDebug(@"sending disableToken request with args %@", args);
+    NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+}
+
+// documented in IterableAPI.h
+- (void)disableDeviceForCurrentUser
+{
+    return [self disableDeviceForCurrentUserWithOnSuccess:[IterableAPI defaultOnSuccess:@"disableDevice"] onFailure:[IterableAPI defaultOnFailure:@"disableDevice"]];
+}
+
+// documented in IterableAPI.h
+- (void)disableDeviceForAllUsers
+{
+    return [self disableDeviceForAllUsersWithOnSuccess:[IterableAPI defaultOnSuccess:@"disableDevice"] onFailure:[IterableAPI defaultOnFailure:@"disableDevice"]];
+}
+
+// documented in IterableAPI.h
+- (void)disableDeviceForCurrentUserWithOnSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    return [self disableDevice:FALSE onSuccess:onSuccess onFailure:onFailure];
+}
+
+// documented in IterableAPI.h
+- (void)disableDeviceForAllUsersWithOnSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    return [self disableDevice:TRUE onSuccess:onSuccess onFailure:onFailure];
 }
 
 // documented in IterableAPI.h
