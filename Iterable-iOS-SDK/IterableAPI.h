@@ -302,10 +302,11 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @param campaignId          The campaignId of the the push notification that caused this open event
  @param templateId          The templateId  of the the push notification that caused this open event
+ @param messageId           The messageId  of the the push notification that caused this open event
  @param appAlreadyRunning   This will get merged into the dataFields. Whether the app is already running when the notification was received
  @param dataFields          An `NSDictionary` containing any additional information to save along with the event
  */
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(nullable NSDictionary *)dataFields;
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(nullable NSDictionary *)dataFields;
 
 /*!
  @method
@@ -316,6 +317,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @param campaignId          The campaignId of the the push notification that caused this open event
  @param templateId          The templateId  of the the push notification that caused this open event
+ @param messageId           The messageId  of the the push notification that caused this open event
  @param appAlreadyRunning   This will get merged into the dataFields. Whether the app is already running when the notification was received
  @param dataFields          An `NSDictionary` containing any additional information to save along with the event
  @param onSuccess           OnSuccessHandler to invoke if the open is tracked successfully
@@ -324,7 +326,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @see OnSuccessHandler
  @see OnFailureHandler
  */
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 /*!
  @method

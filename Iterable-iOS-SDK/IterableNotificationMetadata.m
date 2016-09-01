@@ -19,6 +19,7 @@
 static NSString *const MetadataField = @"itbl";
 static NSString *const CampaignIdField = @"campaignId";
 static NSString *const TemplateIdField = @"templateId";
+static NSString *const MessageIdField = @"messageId";
 static NSString *const IsGhostPushField = @"isGhostPush";
 
 //////////////////////////
@@ -41,6 +42,7 @@ static NSString *const IsGhostPushField = @"isGhostPush";
         return [pushData isKindOfClass:[NSDictionary class]]
             && (pushData[CampaignIdField] ? [pushData[CampaignIdField] isKindOfClass:[NSNumber class]] : YES) // campaignId doesn't have to be there (because of proofs)
             && [pushData[TemplateIdField] isKindOfClass:[NSNumber class]]
+            && [pushData[MessageIdField] isKindOfClass:[NSString class]]
             && [pushData[IsGhostPushField] isKindOfClass:[NSNumber class]];
     } else {
         return NO;
@@ -64,6 +66,7 @@ static NSString *const IsGhostPushField = @"isGhostPush";
         NSDictionary *pushData = userInfo[MetadataField];
         _campaignId = pushData[CampaignIdField] ? pushData[CampaignIdField] : @0;
         _templateId = pushData[TemplateIdField];
+        _messageId = pushData[MessageIdField];
         _isGhostPush = [pushData[IsGhostPushField] boolValue];
     }
     return self;
