@@ -450,7 +450,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 {
     IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromLaunchOptions:userInfo];
     if (notification && [notification isRealCampaignNotification]) {
-        [self trackPushOpen:notification.campaignId templateId:notification.templateId appAlreadyRunning:false dataFields:dataFields onSuccess:onSuccess onFailure:onFailure];
+        [self trackPushOpen:notification.campaignId templateId:notification.templateId messageId:notification.messageId appAlreadyRunning:false dataFields:dataFields onSuccess:onSuccess onFailure:onFailure];
     } else {
         if (onFailure) {
             onFailure(@"Not tracking push open - payload is not an Iterable notification, or a test/proof/ghost push", [[NSData alloc] init]);
@@ -459,13 +459,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields
 {
-    [self trackPushOpen:campaignId templateId:templateId appAlreadyRunning:appAlreadyRunning dataFields:dataFields onSuccess:[IterableAPI defaultOnSuccess:@"trackPushOpen"] onFailure:[IterableAPI defaultOnFailure:@"trackPushOpen"]];
+    [self trackPushOpen:campaignId templateId:templateId messageId:messageId appAlreadyRunning:appAlreadyRunning dataFields:dataFields onSuccess:[IterableAPI defaultOnSuccess:@"trackPushOpen"] onFailure:[IterableAPI defaultOnFailure:@"trackPushOpen"]];
 }
 
 // documented in IterableAPI.h
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
     NSMutableDictionary *reqDataFields;
     if (dataFields) {
@@ -479,6 +479,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                            @"email": self.email,
                            @"campaignId": campaignId,
                            @"templateId": templateId,
+                           @"messageId": messageId,
                            @"dataFields": reqDataFields
                            };
     NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
