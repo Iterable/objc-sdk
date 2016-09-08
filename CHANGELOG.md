@@ -15,6 +15,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [3.1.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/3.1.1)
+_Released on 2016-09-08_
+
+#### Added
+- now includes transactionIds along with push notifications
 
 ## [3.1.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/3.1.0)
  _Released on 2016-07-19_
