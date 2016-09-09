@@ -141,6 +141,7 @@ All notifications from Iterable will come with a field called `itbl` in the payl
 
 *  `campaignId` - the campaign id (in Iterable). Not relevant for proof and test pushes.
 *  `templateId` - the template id (in Iterable). Not relevant for test pushes.
+*  `messageId` - the message id (in Iterable).
 *  `isGhostPush` - whether this is a ghost push. See section below on uninstall tracking.
 
 #### Uninstall Tracking
