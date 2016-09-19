@@ -75,13 +75,13 @@ NSDictionary *inAppPayload;
     self.Title.textColor = [UIColor whiteColor];
     
     
-    //update font getter
-    self.Title.font = [UIFont fontWithName: self.titleString size:(fontConstant/16)];
+    self.Title.font = [UIFont fontWithName: self.titleFontName size:(fontConstant/16)];
     self.Title.text = self.titleString;
     self.Title.numberOfLines = 2;
     
     _ImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    //Add in lazy loading
+    
+    //Async load of the center image
     [self processImageDataWithURLString:self.inAppPayload[ITERABLE_IN_APP_IMAGE] andBlock:^(NSData *imageData) {
         if (self.view.window) {
             UIImage *image = [UIImage imageWithData:imageData];
@@ -92,7 +92,6 @@ NSDictionary *inAppPayload;
             [self layoutCenterImage];
         }
     }];
-    //_ImageView.image = [self getImage:inAppPayload[ITERABLE_IN_APP_IMAGE]];
     
     self.ActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.ActionButton addTarget:self
@@ -137,12 +136,10 @@ NSDictionary *inAppPayload;
 {
     NSURL *url = [NSURL URLWithString:urlString];
     
-    //find alternative to this deprecated function
-    dispatch_queue_t requestQueue = dispatch_get_current_queue();
-    dispatch_queue_t downloadQueue = dispatch_queue_create(NULL, NULL);
-    dispatch_async(downloadQueue, ^{
+    dispatch_queue_t loadQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+    dispatch_async(loadQueue, ^{
         NSData * imageData = [NSData dataWithContentsOfURL:url];
-        dispatch_async(requestQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             processImage(imageData);
         });
     });
