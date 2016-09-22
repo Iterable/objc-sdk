@@ -157,7 +157,8 @@ NSDictionary *inAppPayload;
     
     //Main Text
     CGFloat textBodyStartingLocation = _ImageView.center.y + img.y/2;
-    self.TextBody.frame = CGRectMake(0, textBodyStartingLocation, self.view.frame.size.width, self.view.frame.size.height*.9f - textBodyStartingLocation);
+    self.TextBody.frame = CGRectMake(0, textBodyStartingLocation, self.view.frame.size.width*.8f, self.view.frame.size.height*.9f - textBodyStartingLocation);
+    [self.TextBody setCenter:CGPointMake(self.view.center.x, textBodyStartingLocation+self.TextBody.frame.size.height/2)];
 }
 
 -(CGPoint)layoutCenterImage{

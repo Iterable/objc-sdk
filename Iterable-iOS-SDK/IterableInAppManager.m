@@ -28,15 +28,18 @@
 
 //SampleNotification of type
 +(void)showNotification:(NSString*)type {
+    //Get payload from Iterable Server
+    //getNextNotification;
+
     NSDictionary *titleTextPayload = @{
-                                       ITERABLE_IN_APP_TEXT : @"SEATGEEK",
+                                       ITERABLE_IN_APP_TEXT : @"ITERABLE",
                                        ITERABLE_IN_APP_TEXT_COLOR : [NSNumber numberWithInt:22],
                                        ITERABLE_IN_APP_BACKGROUND_COLOR : [NSNumber numberWithInt:19], //#RGBA
                                        ITERABLE_IN_APP_TEXT_FONT : @"Avenir Next"
                                        };
     
     NSDictionary *bodyTextPayload = @{
-                                      ITERABLE_IN_APP_TEXT : @"Sample Image above which can be long and multi line text three line potentially",
+                                      ITERABLE_IN_APP_TEXT : @"Sample Image above. Plus a description which can be long and multi line.",
                                       ITERABLE_IN_APP_TEXT_COLOR : [NSNumber numberWithInt:22],
                                       ITERABLE_IN_APP_BACKGROUND_COLOR : [NSNumber numberWithInt:19] //#RGBA
                                       };
@@ -56,6 +59,12 @@
                      ITERABLE_IN_APP_TYPE : type
                      
                      };
+    
+    
+    SEL sampleActionSelector = @selector(sampleHandleInAppAction:);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:sampleActionSelector name:ITERABLE_IN_APP_ACTION object:nil];
+    
     [self createNotification:inAppPayload];
 }
 
@@ -74,7 +83,7 @@
         IterableAlertViewController *alertViewController = [[IterableAlertViewController alloc] initWithNibName:nil bundle:nil];
         
         //Parse out payload to set these values
-        alertViewController.title = NSLocalizedString(@"Custom UI", nil);
+        alertViewController.title = NSLocalizedString(@"Iterable", nil);
         alertViewController.message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet.", nil);
         
         alertViewController.buttonCornerRadius = 20.0f;
@@ -116,6 +125,13 @@
     
         [rootViewController presentViewController:alertViewController animated:YES completion:nil];
     }
+}
+
++ (void)sampleHandleInAppAction:(NSNotification *)notification
+{
+    NSDictionary* userInfo = notification.userInfo;
+    NSString *actionButtonClicked = userInfo[ITERABLE_IN_APP_ACTION];
+    NSLog(@"actionButton clicked: %@", actionButtonClicked);
 }
 
 

@@ -825,37 +825,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 
 - (void)viewWillLayoutSubviews {
     [self.view updateHorizontalConstraint];
-    
-    float maxHeight;
-    
-    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))
-    {
-        maxHeight = self.view.frame.size.height*.5;
-        //self.view.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        //self.view.contentView.subviews.firstObject.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        
-    } else {
-        maxHeight = self.view.frame.size.width * 3/4; //4:3 aspect ratio
-        //self.view.contentView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*.8);
-        //self.view.contentView.subviews.firstObject.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height*.8);
-        
-    }
-    
-    //Center Image
-/*    float maxWidth = self.view.frame.size.width;
-    float scaleFactor = maxWidth / _contentImageWidth;
-    if (_contentImageHeight*scaleFactor > maxHeight) {
-        scaleFactor = maxHeight / _contentImageHeight;
-    }
-    float newHeight = _contentImageHeight * scaleFactor;
-    float newWidth = _contentImageWidth * scaleFactor;
-    self.view.contentView.subviews.firstObject.backgroundColor = [UIColor purpleColor];
-    
-    self.view.contentView.subviews.firstObject.frame = CGRectMake(0, 0, newWidth, newHeight);
-    self.view.contentView.frame = CGRectMake(0, 0, newWidth, newHeight);
-    */
-    //_ImageView.frame = CGRectMake(0, 0, newWidth, newHeight);
-    //[_ImageView setCenter:CGPointMake(self.view.center.x, self.view.center.y*.9f)];
 }
 
 @end

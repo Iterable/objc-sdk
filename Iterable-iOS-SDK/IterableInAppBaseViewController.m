@@ -21,9 +21,8 @@
 -(void)actionButtonClicked:(UIButton *)sender {
     //call central call backs here
     NSString *actionString = _actionButtonsMapping[sender.tag];
-    
-    NSLog(@"actionString: %@", actionString);
-    //setup call to IterableInAppManager to handle broadcast
+    NSDictionary *info = @{ ITERABLE_IN_APP_ACTION : actionString };
+    [[NSNotificationCenter defaultCenter] postNotificationName:ITERABLE_IN_APP_ACTION object:nil userInfo:info];
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
