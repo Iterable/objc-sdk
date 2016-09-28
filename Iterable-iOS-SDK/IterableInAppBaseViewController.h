@@ -11,7 +11,10 @@
 
 @interface IterableInAppBaseViewController : UIViewController
 
+typedef void (^actionBlock)(NSString *);
+
 -(void)actionButtonClicked:(UIButton *)sender;
 -(void)addActionButton:(NSInteger)id actionString:(NSString *)actionStringValue;
+-(void)setCallback:(actionBlock)callbackBlock;
 
 @end

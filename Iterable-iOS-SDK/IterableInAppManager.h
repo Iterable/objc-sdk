@@ -15,7 +15,6 @@
  */
 @property (nonatomic, readonly) NSArray *actions;
 
-
-+(void) showNotification:(NSString *)type;
++(void) showNotification:(NSString *)type callbackBlock:(void (^)(NSString*))callbackBlock;
 
 @end

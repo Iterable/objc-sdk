@@ -8,21 +8,27 @@
 
 #import "IterableInAppBaseViewController.h"
 #import "IterableConstants.h"
+#import "IterableInAppManager.h"
 
 @interface IterableInAppBaseViewController ()
 
-//todo use these
 @property (nonatomic) NSMutableArray *actionButtonsMapping;
 
 @end
 
 @implementation IterableInAppBaseViewController
 
+typedef void (^actionBlock)(NSString *);
+actionBlock customBlockCallback;
+
 -(void)actionButtonClicked:(UIButton *)sender {
-    //call central call backs here
     NSString *actionString = _actionButtonsMapping[sender.tag];
-    NSDictionary *info = @{ ITERABLE_IN_APP_ACTION : actionString };
-    [[NSNotificationCenter defaultCenter] postNotificationName:ITERABLE_IN_APP_ACTION object:nil userInfo:info];
+    
+    //TODO: track the inApp button click here
+    
+    if (customBlockCallback != nil) {
+        customBlockCallback(actionString);
+    }
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -34,4 +40,9 @@
     }
     _actionButtonsMapping[id] = actionStringValue;
 }
+
+-(void)setCallback:(actionBlock)callbackBlock {
+    customBlockCallback = callbackBlock;
+}
+
 @end

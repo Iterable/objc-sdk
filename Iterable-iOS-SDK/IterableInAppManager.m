@@ -26,9 +26,8 @@
 
 @implementation IterableInAppManager
 
-//SampleNotification of type
-+(void)showNotification:(NSString*)type {
-    //Get payload from Iterable Server
++(void)showNotification:(NSString*)type callbackBlock:(actionBlock)callbackBlock{
+    //TODO:Get payload from Iterable Server
     //getNextNotification;
 
     NSDictionary *titleTextPayload = @{
@@ -60,15 +59,10 @@
                      
                      };
     
-    
-    SEL sampleActionSelector = @selector(sampleHandleInAppAction:);
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:sampleActionSelector name:ITERABLE_IN_APP_ACTION object:nil];
-    
-    [self createNotification:inAppPayload];
+    [self createNotification:inAppPayload callbackBlock:(actionBlock)callbackBlock];
 }
 
-+(void)createNotification:(NSDictionary*)payload {
++(void)createNotification:(NSDictionary*)payload callbackBlock:(actionBlock)callbackBlock {
     UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
     
     NSString* type = payload[ITERABLE_IN_APP_TYPE];
@@ -76,9 +70,9 @@
     if ([type isEqual:ITERABLE_IN_APP_TYPE_FULL]){
         IterableFullScreenViewController *vc = [[IterableFullScreenViewController alloc] init];
         
-         [vc setData:payload];
-         [rootViewController presentViewController:vc animated:YES completion:NULL];
-
+        [vc setData:payload];
+        [vc setCallback:callbackBlock];
+        [rootViewController presentViewController:vc animated:YES completion:NULL];
     } else {
         IterableAlertViewController *alertViewController = [[IterableAlertViewController alloc] initWithNibName:nil bundle:nil];
         
@@ -123,16 +117,9 @@
             [((IterableAlertView *) alertViewController.view) setLocation:NotifLocationCenter];
         }
     
+        [alertViewController setCallback:callbackBlock];
         [rootViewController presentViewController:alertViewController animated:YES completion:nil];
     }
 }
-
-+ (void)sampleHandleInAppAction:(NSNotification *)notification
-{
-    NSDictionary* userInfo = notification.userInfo;
-    NSString *actionButtonClicked = userInfo[ITERABLE_IN_APP_ACTION];
-    NSLog(@"actionButton clicked: %@", actionButtonClicked);
-}
-
 
 @end
