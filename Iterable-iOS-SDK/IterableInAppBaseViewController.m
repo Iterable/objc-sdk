@@ -18,7 +18,6 @@
 
 @implementation IterableInAppBaseViewController
 
-typedef void (^actionBlock)(NSString *);
 actionBlock customBlockCallback;
 
 -(void)actionButtonClicked:(UIButton *)sender {
