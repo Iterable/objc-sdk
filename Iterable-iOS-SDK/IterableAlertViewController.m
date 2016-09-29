@@ -8,6 +8,7 @@
 #import "IterableAlertViewController.h"
 
 #import "IterableAlertView.h"
+#import "IterableConstants.h"
 
 @interface IterableAlertAction ()
 
@@ -321,6 +322,65 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     alertController.message = message;
     
     return alertController;
+}
+
+-(void)setData:(NSDictionary *)jsonPayload {
+    /*_inAppPayload = jsonPayload;
+    
+    _titleFontName = jsonPayload[ITERABLE_IN_APP_TITLE][ITERABLE_IN_APP_TEXT_FONT];
+    _titleColor = jsonPayload[ITERABLE_IN_APP_TITLE][ITERABLE_IN_APP_TEXT_COLOR];
+    _titleString = jsonPayload[ITERABLE_IN_APP_TITLE][ITERABLE_IN_APP_TEXT];
+    
+    _bodyTextFontName = jsonPayload[ITERABLE_IN_APP_BODY][ITERABLE_IN_APP_TEXT_FONT];
+    _bodyTextColor = jsonPayload[ITERABLE_IN_APP_BODY][ITERABLE_IN_APP_TEXT_COLOR];
+    _bodyTextString = jsonPayload[ITERABLE_IN_APP_BODY][ITERABLE_IN_APP_TEXT];
+    
+    _buttonTextFontName = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_TEXT_FONT];
+    _buttonTextColor = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_TEXT_COLOR];
+    _buttonTextString = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_TEXT];
+    _buttonBackgroundColor = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_BACKGROUND_COLOR];*/
+    
+    NSString* type = jsonPayload[ITERABLE_IN_APP_TYPE];
+    
+    self.title = NSLocalizedString(@"Iterable", nil);
+    self.message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet.", nil);
+    
+    self.buttonCornerRadius = 20.0f;
+    
+    self.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:18.0f];
+    self.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
+    self.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:self.buttonTitleFont.pointSize];
+    self.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:self.cancelButtonTitleFont.pointSize];
+    
+    self.alertViewBackgroundColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    self.alertViewCornerRadius = 10.0f;
+    
+    self.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
+    self.messageColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
+    
+    self.buttonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
+    self.buttonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    
+    self.cancelButtonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
+    self.cancelButtonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
+    
+    [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString(@"Ok", nil)
+                                                                  style:UIAlertActionStyleDefault
+                                                             actionName:@"ok"
+                                    ]];
+    
+    [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                  style:UIAlertActionStyleCancel
+                                                             actionName:@"cancel"]];
+    
+    //Set Notification Location
+    if ([type isEqual:ITERABLE_IN_APP_TYPE_TOP]) {
+        [((IterableAlertView *) self.view) setLocation:NotifLocationTop];
+    } else if ([type isEqual:ITERABLE_IN_APP_TYPE_BOTTOM]) {
+        [((IterableAlertView *) self.view) setLocation:NotifLocationBottom];
+    }else {
+        [((IterableAlertView *) self.view) setLocation:NotifLocationCenter];
+    }
 }
 
 -(UIInterfaceOrientation) preferredInterfaceOrientationForPresentation {

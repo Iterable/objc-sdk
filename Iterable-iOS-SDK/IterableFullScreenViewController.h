@@ -16,18 +16,22 @@
 
 @property NSDictionary *inAppPayload;
 
+@property (nonatomic) NSString *imageURL;
+@property (nonatomic) int backgroundColor;
+
 @property (nonatomic) NSString *titleFontName;
-@property (nonatomic) UIColor *titleColor;
+@property (nonatomic) int titleColor;
 @property (nonatomic) NSString *titleString;
 
 @property (nonatomic) NSString *bodyTextFontName;
-@property (nonatomic) UIColor *bodyTextColor;
+@property (nonatomic) int bodyTextColor;
 @property (nonatomic) NSString *bodyTextString;
 
 @property (nonatomic) NSString *buttonTextFontName;
-@property (nonatomic) UIColor *buttonTextColor;
+@property (nonatomic) int buttonTextColor;
 @property (nonatomic) NSString *buttonTextString;
-@property (nonatomic) NSString *buttonBackgroundColor;
+@property (nonatomic) int buttonBackgroundColor;
+@property (nonatomic) NSString *buttonAction;
 
 - (void) setData:(NSDictionary *)jsonPayload;
 

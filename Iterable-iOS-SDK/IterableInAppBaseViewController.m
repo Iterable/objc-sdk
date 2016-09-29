@@ -23,9 +23,7 @@ actionBlock customBlockCallback;
 -(void)actionButtonClicked:(UIButton *)sender {
     NSString *actionString = _actionButtonsMapping[sender.tag];
     
-    //TODO: track the inApp button click here
-    
-    if (customBlockCallback != nil) {
+    if (customBlockCallback != nil && ![actionString isEqualToString:@""]) {
         customBlockCallback(actionString);
     }
     
@@ -37,7 +35,9 @@ actionBlock customBlockCallback;
     {
         _actionButtonsMapping = [NSMutableArray array];
     }
-    _actionButtonsMapping[id] = actionStringValue;
+    if (actionStringValue != nil) {
+        _actionButtonsMapping[id] = actionStringValue;
+    }
 }
 
 -(void)setCallback:(actionBlock)callbackBlock {

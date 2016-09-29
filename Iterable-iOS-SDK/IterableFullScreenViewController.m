@@ -30,49 +30,45 @@ NSDictionary *inAppPayload;
 -(void)setData:(NSDictionary *)jsonPayload {
     _inAppPayload = jsonPayload;
     
-    _titleFontName = jsonPayload[ITERABLE_IN_APP_TITLE][ITERABLE_IN_APP_TEXT_FONT];
-    _titleColor = jsonPayload[ITERABLE_IN_APP_TITLE][ITERABLE_IN_APP_TEXT_COLOR];
-    _titleString = jsonPayload[ITERABLE_IN_APP_TITLE][ITERABLE_IN_APP_TEXT];
+    if ([jsonPayload objectForKey:ITERABLE_IN_APP_TITLE]) {
+        NSDictionary* title = [jsonPayload objectForKey:ITERABLE_IN_APP_TITLE];
+        _titleFontName = [title objectForKey:ITERABLE_IN_APP_TEXT_FONT];
+        _titleColor = [IterableInAppManager getIntFromKey:title keyString:ITERABLE_IN_APP_TEXT_COLOR];
+        _titleString = [title objectForKey:ITERABLE_IN_APP_TEXT];
+    }
     
-    _bodyTextFontName = jsonPayload[ITERABLE_IN_APP_BODY][ITERABLE_IN_APP_TEXT_FONT];
-    _bodyTextColor = jsonPayload[ITERABLE_IN_APP_BODY][ITERABLE_IN_APP_TEXT_COLOR];
-    _bodyTextString = jsonPayload[ITERABLE_IN_APP_BODY][ITERABLE_IN_APP_TEXT];
+    if ([jsonPayload objectForKey:ITERABLE_IN_APP_BODY]) {
+        NSDictionary* body = [jsonPayload objectForKey:ITERABLE_IN_APP_BODY];
+        _bodyTextFontName = [body objectForKey:ITERABLE_IN_APP_TEXT_FONT];
+        _bodyTextColor = [IterableInAppManager getIntFromKey:body keyString:ITERABLE_IN_APP_TEXT_COLOR];
+        _bodyTextString = [body objectForKey:ITERABLE_IN_APP_TEXT];
+    }
     
-    _buttonTextFontName = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_TEXT_FONT];
-    _buttonTextColor = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_TEXT_COLOR];
-    _buttonTextString = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_TEXT];
-    _buttonBackgroundColor = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_BACKGROUND_COLOR];
+    if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON]) {
+        NSDictionary* button = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
+        _buttonTextFontName = [button objectForKey:ITERABLE_IN_APP_TEXT_FONT];
+        _buttonTextColor = [IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR];
+        _buttonTextString = [button objectForKey:ITERABLE_IN_APP_TEXT];
+        _buttonBackgroundColor = [IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR];
+        _buttonAction = [button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION];
+    }
+    
+    _imageURL = [jsonPayload objectForKey:ITERABLE_IN_APP_IMAGE];
+    
+    _backgroundColor = [IterableInAppManager getIntFromKey:jsonPayload keyString:ITERABLE_IN_APP_BACKGROUND_COLOR];
 }
 
 - (void)loadView {
     [super loadView];
     
-    //GetUIColor from _
-    {
-        float customR;
-        float customG;
-        float customB;
-        float customAlpha = 0.0;
-        
-        UIColor *customColor = [UIColor colorWithRed: 22.0f/255.0f
-                                             green: 58.0f/255.0f
-                                              blue: 95.0f/255.0f
-                                             alpha: customAlpha];
-        
-    }
-    
-    // Do any additional setup after loading the view.
-    UIColor *backgroundColor = [UIColor colorWithRed: 22.0f/255.0f
-                                               green: 58.0f/255.0f
-                                                blue: 95.0f/255.0f
-                                               alpha: 1.0f];
+    UIColor *backgroundColor = UIColorFromRGB(_backgroundColor);
     [self.view setBackgroundColor:backgroundColor];
     
     NSInteger fontConstant = (self.view.frame.size.width > self.view.frame.size.height) ? self.view.frame.size.width : self.view.frame.size.height;
     
     self.Title = [[UILabel alloc] initWithFrame:CGRectZero];
     self.Title.textAlignment =  NSTextAlignmentCenter;
-    self.Title.textColor = [UIColor whiteColor];
+    self.Title.textColor = UIColorFromRGB(_titleColor);
     
     
     self.Title.font = [UIFont fontWithName: self.titleFontName size:(fontConstant/16)];
@@ -81,37 +77,36 @@ NSDictionary *inAppPayload;
     
     _ImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     
-    //Async load of the center image
-    [self processImageDataWithURLString:self.inAppPayload[ITERABLE_IN_APP_IMAGE] andBlock:^(NSData *imageData) {
-        if (self.view.window) {
-            UIImage *image = [UIImage imageWithData:imageData];
-            imageWidth = image.size.width;
-            imageHeight = image.size.height;
-            _ImageView.image = image;
-            
-            [self layoutCenterImage];
-        }
-    }];
+    if(_imageURL != nil) {
+        //Async load of the center image
+        [self processImageDataWithURLString:self.imageURL andBlock:^(NSData *imageData) {
+            if (self.view.window) {
+                UIImage *image = [UIImage imageWithData:imageData];
+                imageWidth = image.size.width;
+                imageHeight = image.size.height;
+                _ImageView.image = image;
+                
+                [self layoutCenterImage];
+            }
+        }];
+    }
     
     self.ActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.ActionButton addTarget:self
                       action:@selector(actionButtonClicked:)
             forControlEvents:UIControlEventTouchUpInside];
     [self.ActionButton setTitle:self.buttonTextString forState:UIControlStateNormal];
-    [self.ActionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.ActionButton setTitleColor:UIColorFromRGB(_buttonTextColor) forState:UIControlStateNormal];
     self.ActionButton.frame = CGRectMake(0, self.view.frame.size.height*.9f, self.view.frame.size.width, self.view.frame.size.height*.1f);
-    self.ActionButton.backgroundColor = [UIColor colorWithRed: 1.0f
-                                                    green: 1.0f
-                                                     blue: 1.0f
-                                                    alpha: 0.1f];
+    self.ActionButton.backgroundColor = UIColorFromRGB(_buttonBackgroundColor);
     //Change to match the # of buttons
     self.ActionButton.tag = 0;
-    NSString *actionStringValue = @"fake action string";
+    NSString *actionStringValue = (_buttonAction != nil) ? self.buttonAction : @"";
     [self addActionButton:self.ActionButton.tag actionString:actionStringValue];
-
+   
     self.TextBody = [[UILabel alloc] initWithFrame:CGRectZero];
     self.TextBody.textAlignment =  NSTextAlignmentNatural;
-    self.TextBody.textColor = [UIColor whiteColor];
+    self.TextBody.textColor = UIColorFromRGB(_bodyTextColor);
     self.TextBody.font = [UIFont fontWithName:self.bodyTextFontName size:(fontConstant/30)];
     self.TextBody.text = self.self.bodyTextString;
     self.TextBody.numberOfLines = 3;
