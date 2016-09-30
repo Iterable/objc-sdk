@@ -28,8 +28,6 @@ CGFloat imageHeight =0;
 NSDictionary *inAppPayload;
 
 -(void)setData:(NSDictionary *)jsonPayload {
-    _inAppPayload = jsonPayload;
-    
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_TITLE]) {
         NSDictionary* title = [jsonPayload objectForKey:ITERABLE_IN_APP_TITLE];
         _titleFontName = [title objectForKey:ITERABLE_IN_APP_TEXT_FONT];
@@ -105,7 +103,7 @@ NSDictionary *inAppPayload;
     [self addActionButton:self.ActionButton.tag actionString:actionStringValue];
    
     self.TextBody = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.TextBody.textAlignment =  NSTextAlignmentNatural;
+    self.TextBody.textAlignment =  NSTextAlignmentCenter;
     self.TextBody.textColor = UIColorFromRGB(_bodyTextColor);
     self.TextBody.font = [UIFont fontWithName:self.bodyTextFontName size:(fontConstant/30)];
     self.TextBody.text = self.self.bodyTextString;

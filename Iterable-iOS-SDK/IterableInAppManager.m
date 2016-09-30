@@ -27,38 +27,32 @@
 @implementation IterableInAppManager
 
 +(void)showNotification:(NSString*)type callbackBlock:(actionBlock)callbackBlock{
-    //TODO:Get payload from Iterable Server
-    //getNextNotification;
-
     NSDictionary *titleTextPayload = @{
-                                       ITERABLE_IN_APP_TEXT : @"ITERABLE",
-                                       ITERABLE_IN_APP_TEXT_COLOR : @0xF6AA5FFF,
-                                       //ITERABLE_IN_APP_BACKGROUND_COLOR : [NSNumber numberWithInt:19], //#RGBA
+                                       ITERABLE_IN_APP_TEXT : @"SPOTIFY",
+                                       ITERABLE_IN_APP_TEXT_COLOR : @752244479,
                                        ITERABLE_IN_APP_TEXT_FONT : @"Avenir Next"
                                        };
     
     NSDictionary *bodyTextPayload = @{
-                                      ITERABLE_IN_APP_TEXT : @"Sample Image above. Plus a description which can be long and multi line.",
-                                      ITERABLE_IN_APP_TEXT_COLOR : @0xF6AA5FFF,
-                                      //ITERABLE_IN_APP_BACKGROUND_COLOR : [NSNumber numberWithInt:19] //#RGBA
+                                      ITERABLE_IN_APP_TEXT : @"Get Spotify Premium Free for 6 Months with Iterable.",
+                                      ITERABLE_IN_APP_TEXT_COLOR : @0xFFFFFFFF,
                                       ITERABLE_IN_APP_TEXT_FONT : @"Avenir Next"
                                       };
     
-    
     NSDictionary *sampleButtonPayload = @{
                                           ITERABLE_IN_APP_TEXT : @"Okay",
-                                          ITERABLE_IN_APP_TEXT_COLOR : @0xB61A2FFF,
-                                          ITERABLE_IN_APP_BACKGROUND_COLOR : @0xF6AA5F33,
-                                          ITERABLE_IN_APP_TEXT_FONT : @"Avenir Next",
+                                          ITERABLE_IN_APP_TEXT_COLOR : @255,
+                                          ITERABLE_IN_APP_BACKGROUND_COLOR : @752244479,
+                                          ITERABLE_IN_APP_TEXT_FONT : @"AvenirNext-Medium",
                                           ITERABLE_IN_APP_BUTTON_ACTION : @"yeehaa"
                                           };
     
     NSDictionary *inAppPayload = @{
                      ITERABLE_IN_APP_TITLE : titleTextPayload,
-                     ITERABLE_IN_APP_IMAGE : @"https://s3.amazonaws.com/iterable-android-sdk/Gold+Diamond.png",
+                     ITERABLE_IN_APP_IMAGE : @"https://developer.spotify.com/wp-content/uploads/2016/07/logo@2x.png",
                      ITERABLE_IN_APP_BODY : bodyTextPayload,
                      ITERABLE_IN_APP_BUTTON : sampleButtonPayload,
-                     ITERABLE_IN_APP_BACKGROUND_COLOR: @0x163A5FFF,
+                     ITERABLE_IN_APP_BACKGROUND_COLOR: @0x333333EE,
                      ITERABLE_IN_APP_TYPE : type
                      
                      };

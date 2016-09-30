@@ -14,8 +14,6 @@
 @property (nonatomic, strong) UILabel* TextBody;
 @property (nonatomic, strong) UIButton* ActionButton;
 
-@property NSDictionary *inAppPayload;
-
 @property (nonatomic) NSString *imageURL;
 @property (nonatomic) int backgroundColor;
 

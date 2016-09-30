@@ -9,6 +9,7 @@
 
 #import "IterableAlertView.h"
 #import "IterableConstants.h"
+#import "IterableInAppManager.h"
 
 @interface IterableAlertAction ()
 
@@ -325,62 +326,59 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 -(void)setData:(NSDictionary *)jsonPayload {
-    /*_inAppPayload = jsonPayload;
+    if ([jsonPayload objectForKey:ITERABLE_IN_APP_TITLE]) {
+        NSDictionary* title = [jsonPayload objectForKey:ITERABLE_IN_APP_TITLE];
+        self.title = [title objectForKey:ITERABLE_IN_APP_TEXT];
+        self.titleFont = [UIFont fontWithName:[title objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:18.0f];
+        self.titleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:title keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+    }
     
-    _titleFontName = jsonPayload[ITERABLE_IN_APP_TITLE][ITERABLE_IN_APP_TEXT_FONT];
-    _titleColor = jsonPayload[ITERABLE_IN_APP_TITLE][ITERABLE_IN_APP_TEXT_COLOR];
-    _titleString = jsonPayload[ITERABLE_IN_APP_TITLE][ITERABLE_IN_APP_TEXT];
+    if ([jsonPayload objectForKey:ITERABLE_IN_APP_BODY]) {
+        NSDictionary* body = [jsonPayload objectForKey:ITERABLE_IN_APP_BODY];
+        self.message = [body objectForKey:ITERABLE_IN_APP_TEXT];
+        self.messageFont = [UIFont fontWithName:[body objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:16.0f];
+        self.messageColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
+        
+        self.messageColor = UIColorFromRGB([IterableInAppManager getIntFromKey:body keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+    }
     
-    _bodyTextFontName = jsonPayload[ITERABLE_IN_APP_BODY][ITERABLE_IN_APP_TEXT_FONT];
-    _bodyTextColor = jsonPayload[ITERABLE_IN_APP_BODY][ITERABLE_IN_APP_TEXT_COLOR];
-    _bodyTextString = jsonPayload[ITERABLE_IN_APP_BODY][ITERABLE_IN_APP_TEXT];
+    if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON]) {
+        NSDictionary* button = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
+        self.buttonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
+        self.buttonColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
+        self.buttonTitleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+        [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString([button objectForKey:ITERABLE_IN_APP_TEXT], nil)
+                                                       style:UIAlertActionStyleDefault
+                                                  actionName:[button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION]]];
+        
+        //0x30C752FF = 818369279y
+        //spot
+        //44/214/86 = 0x2CD656FF = 752244479
+        
+        /*self.cancelButtonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
+        self.cancelButtonColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
+        self.cancelButtonTitleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+        [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                       style:UIAlertActionStyleCancel
+                                                  actionName:@"cancel"]];*/
+    }
     
-    _buttonTextFontName = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_TEXT_FONT];
-    _buttonTextColor = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_TEXT_COLOR];
-    _buttonTextString = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_TEXT];
-    _buttonBackgroundColor = jsonPayload[ITERABLE_IN_APP_BUTTON][ITERABLE_IN_APP_BACKGROUND_COLOR];*/
-    
-    NSString* type = jsonPayload[ITERABLE_IN_APP_TYPE];
-    
-    self.title = NSLocalizedString(@"Iterable", nil);
-    self.message = NSLocalizedString(@"Integer posuere erat a ante venenatis dapibus posuere velit aliquet.", nil);
-    
-    self.buttonCornerRadius = 20.0f;
-    
-    self.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:18.0f];
-    self.messageFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];
-    self.buttonTitleFont = [UIFont fontWithName:@"AvenirNext-Regular" size:self.buttonTitleFont.pointSize];
-    self.cancelButtonTitleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:self.cancelButtonTitleFont.pointSize];
-    
-    self.alertViewBackgroundColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
-    self.alertViewCornerRadius = 10.0f;
-    
-    self.titleColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
-    self.messageColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
-    
-    self.buttonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
-    self.buttonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
-    
-    self.cancelButtonColor = [UIColor colorWithRed:0.42f green:0.78 blue:0.32f alpha:1.0f];
-    self.cancelButtonTitleColor = [UIColor colorWithWhite:0.19f alpha:1.0f];
-    
-    [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString(@"Ok", nil)
-                                                                  style:UIAlertActionStyleDefault
-                                                             actionName:@"ok"
-                                    ]];
-    
-    [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                                                                  style:UIAlertActionStyleCancel
-                                                             actionName:@"cancel"]];
-    
+    self.alertViewBackgroundColor = UIColorFromRGB([IterableInAppManager getIntFromKey:jsonPayload keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
+
     //Set Notification Location
+    NSString* type = [jsonPayload objectForKey:ITERABLE_IN_APP_TYPE];
     if ([type isEqual:ITERABLE_IN_APP_TYPE_TOP]) {
         [((IterableAlertView *) self.view) setLocation:NotifLocationTop];
     } else if ([type isEqual:ITERABLE_IN_APP_TYPE_BOTTOM]) {
         [((IterableAlertView *) self.view) setLocation:NotifLocationBottom];
+        self.transitionStyle = IterableAlertViewControllerTransitionStyleSlideFromBottom;
     }else {
         [((IterableAlertView *) self.view) setLocation:NotifLocationCenter];
+        self.transitionStyle = IterableAlertViewControllerTransitionStyleFade;
     }
+    
+    self.buttonCornerRadius = 20.0f;
+    self.alertViewCornerRadius = 10.0f;
 }
 
 -(UIInterfaceOrientation) preferredInterfaceOrientationForPresentation {
@@ -605,12 +603,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     
     self.view.actionButtons = buttons;
 }
-
-/*- (void)actionButtonPressed:(UIButton *)button {
-    IterableAlertAction *action = self.actions[button.tag];
-    action.handler(action);
-    
-}*/
 
 #pragma mark - Getters/Setters
 

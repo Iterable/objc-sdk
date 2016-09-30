@@ -12,6 +12,8 @@
 
 @interface IterableInAppBaseViewController ()
 
+-(void)setData:(NSDictionary *)jsonPayload;
+
 @property (nonatomic) NSMutableArray *actionButtonsMapping;
 
 @end
@@ -42,6 +44,10 @@ actionBlock customBlockCallback;
 
 -(void)setCallback:(actionBlock)callbackBlock {
     customBlockCallback = callbackBlock;
+}
+
+-(void)setData:(NSDictionary *)jsonPayload {
+    NSLog(@"setData on IterableInAppBaseViewController should not be called directly");
 }
 
 @end
