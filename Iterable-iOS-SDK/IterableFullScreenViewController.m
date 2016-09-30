@@ -38,12 +38,15 @@ NSDictionary *inAppPayload;
     }
     
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON]) {
-        NSDictionary* button = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
-        _buttonTextFontName = [button objectForKey:ITERABLE_IN_APP_TEXT_FONT];
-        _buttonTextColor = [IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR];
-        _buttonTextString = [button objectForKey:ITERABLE_IN_APP_TEXT];
-        _buttonBackgroundColor = [IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR];
-        _buttonAction = [button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION];
+        NSArray* buttons = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
+        if ([buttons count] > 0) {
+            NSDictionary* button = [buttons objectAtIndex:0];
+            _buttonTextFontName = [button objectForKey:ITERABLE_IN_APP_TEXT_FONT];
+            _buttonTextColor = [IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR];
+            _buttonTextString = [button objectForKey:ITERABLE_IN_APP_TEXT];
+            _buttonBackgroundColor = [IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR];
+            _buttonAction = [button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION];
+        }
     }
     
     _imageURL = [jsonPayload objectForKey:ITERABLE_IN_APP_IMAGE];

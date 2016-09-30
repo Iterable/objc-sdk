@@ -10,14 +10,10 @@
 #import <UIKit/UIKit.h>
 
 #import "IterableInAppManager.h"
-
 #import "IterableInAppBaseViewController.h"
 #import "IterableAlertView.h"
 #import "IterableAlertViewController.h"
 #import "IterableFullScreenViewController.h"
-
-
-
 #import "IterableConstants.h"
 
 @interface IterableInAppManager ()
@@ -48,14 +44,23 @@
                                           ITERABLE_IN_APP_BUTTON_ACTION : @"yeehaa"
                                           };
     
+    NSDictionary *sampleButtonPayload2 = @{
+                                          ITERABLE_IN_APP_TEXT : @"Cancel",
+                                          ITERABLE_IN_APP_TEXT_COLOR : @255,
+                                          ITERABLE_IN_APP_BACKGROUND_COLOR : @0xFF0000FF,
+                                          ITERABLE_IN_APP_TEXT_FONT : @"AvenirNext-Medium",
+                                          ITERABLE_IN_APP_BUTTON_ACTION : @"booo"
+                                          };
+    
+    NSArray *buttons = @[sampleButtonPayload, sampleButtonPayload2];
+    
     NSDictionary *inAppPayload = @{
                      ITERABLE_IN_APP_TITLE : titleTextPayload,
                      ITERABLE_IN_APP_IMAGE : @"https://developer.spotify.com/wp-content/uploads/2016/07/logo@2x.png",
                      ITERABLE_IN_APP_BODY : bodyTextPayload,
-                     ITERABLE_IN_APP_BUTTON : sampleButtonPayload,
+                     ITERABLE_IN_APP_BUTTON : buttons,
                      ITERABLE_IN_APP_BACKGROUND_COLOR: @0x333333EE,
                      ITERABLE_IN_APP_TYPE : type
-                     
                      };
     
     [self createNotification:inAppPayload callbackBlock:(actionBlock)callbackBlock];

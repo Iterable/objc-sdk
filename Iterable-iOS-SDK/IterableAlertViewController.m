@@ -341,24 +341,25 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     }
     
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON]) {
-        NSDictionary* button = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
-        self.buttonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
-        self.buttonColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
-        self.buttonTitleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
-        [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString([button objectForKey:ITERABLE_IN_APP_TEXT], nil)
-                                                       style:UIAlertActionStyleDefault
-                                                  actionName:[button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION]]];
-        
-        //0x30C752FF = 818369279y
-        //spot
-        //44/214/86 = 0x2CD656FF = 752244479
-        
-        self.cancelButtonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
-        self.cancelButtonColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
-        self.cancelButtonTitleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
-        [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
-                                                       style:UIAlertActionStyleCancel
-                                                  actionName:@"cancel"]];
+        NSArray* buttons = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
+        for (int i = 0; i < [buttons count]; i++) {
+            NSDictionary* button = (NSDictionary *)[buttons objectAtIndex:i];
+            if (i == [buttons count]-1) {
+                self.cancelButtonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
+                self.cancelButtonColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
+                self.cancelButtonTitleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+                [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString([button objectForKey:ITERABLE_IN_APP_TEXT], nil)
+                                                               style:UIAlertActionStyleCancel
+                                                          actionName:[button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION]]];
+            } else {
+                self.buttonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
+                self.buttonColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
+                self.buttonTitleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+                [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString([button objectForKey:ITERABLE_IN_APP_TEXT], nil)
+                                                               style:UIAlertActionStyleDefault
+                                                          actionName:[button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION]]];
+            }
+        }
     }
     
     self.alertViewBackgroundColor = UIColorFromRGB([IterableInAppManager getIntFromKey:jsonPayload keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
