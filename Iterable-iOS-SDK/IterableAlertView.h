@@ -55,14 +55,13 @@ typedef NS_ENUM(NSUInteger, IterableInAppNotificationLocation) {
 @property (nonatomic) UIColor *destructiveButtonTitleColor;
 
 @property (nonatomic) CGFloat buttonCornerRadius;
+
 @property (nonatomic) CGFloat maximumWidth;
-//@property (nonatomic) CGFloat startingDimmingBackgroundAlpha;
 
 @property (nonatomic, readonly) UIView *alertBackgroundView;
 
 @property (nonatomic, readonly) NSLayoutConstraint *backgroundViewVerticalCenteringConstraint;
 
-//@property (nonatomic) NSArray *actions;
 @property (nonatomic) NSArray *actionButtons;
 
 @property (nonatomic) NSArray *textFields;

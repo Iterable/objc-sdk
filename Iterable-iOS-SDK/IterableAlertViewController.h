@@ -224,11 +224,4 @@ typedef NS_ENUM(NSInteger, IterableAlertViewControllerTransitionStyle) {
  */
 - (void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *textField))configurationHandler;
 
-/**
- Sets the contentView with a loaded image
- 
- @param url
- */
-- (void)setContentViewWithImageFromURL:(NSString *) imgUrl;
-
 @end

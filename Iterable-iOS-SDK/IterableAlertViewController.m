@@ -337,8 +337,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         NSDictionary* body = [jsonPayload objectForKey:ITERABLE_IN_APP_BODY];
         self.message = [body objectForKey:ITERABLE_IN_APP_TEXT];
         self.messageFont = [UIFont fontWithName:[body objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:16.0f];
-        self.messageColor = [UIColor colorWithWhite:0.92f alpha:1.0f];
-        
         self.messageColor = UIColorFromRGB([IterableInAppManager getIntFromKey:body keyString:ITERABLE_IN_APP_TEXT_COLOR]);
     }
     
@@ -355,12 +353,12 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         //spot
         //44/214/86 = 0x2CD656FF = 752244479
         
-        /*self.cancelButtonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
+        self.cancelButtonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
         self.cancelButtonColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
         self.cancelButtonTitleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
         [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
                                                        style:UIAlertActionStyleCancel
-                                                  actionName:@"cancel"]];*/
+                                                  actionName:@"cancel"]];
     }
     
     self.alertViewBackgroundColor = UIColorFromRGB([IterableInAppManager getIntFromKey:jsonPayload keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
@@ -799,31 +797,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     for (IterableAlertViewButton *button in self.view.actionButtons) {
         button.cornerRadius = buttonCornerRadius;
     }
-}
-
-- (void)setContentViewWithImageFromURL:(NSString*)imgUrl {
-    NSURL *imageURL = [NSURL URLWithString:imgUrl];
-    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-    UIImage *image = [UIImage imageWithData:imageData];
-    _contentImageWidth = image.size.width;
-    _contentImageHeight = image.size.height;
-    
-    //UIView *centerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 400)];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 1000, 1000)];
-    
-    //[imageView setContentMode:UIViewContentModeScaleToFill];
-    imageView.backgroundColor = [UIColor redColor];
-    [imageView setImage:image];
-    
-    //[centerView addSubview:imageView];
-    
-/*    CGSize imageSize = image.size;
-    [centerView sizeThatFits:imageSize];
-    CGPoint imageViewCenter = centerView.center;
-    imageViewCenter.x = CGRectGetMidX(self.view.frame);
-    [centerView setCenter:imageViewCenter];*/
-    
-    [self setAlertViewContentView:imageView];
 }
 
 - (void)addAction:(UIAlertAction *)action {

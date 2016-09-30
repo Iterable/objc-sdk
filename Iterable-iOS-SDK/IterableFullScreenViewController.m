@@ -11,11 +11,6 @@
 
 @interface IterableFullScreenViewController ()
 @property (nonatomic, strong) UIImageView* ImageView;
-/*@property (nonatomic, strong) UILabel* Title;
-@property (nonatomic, strong) UILabel* TextBody;
-@property (nonatomic, strong) UIButton* ActionButton;*/
-
-//todo use these
 @property (nonatomic) NSDictionary *actionButtons;
 
 @end

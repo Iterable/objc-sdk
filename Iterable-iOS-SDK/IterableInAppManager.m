@@ -27,6 +27,7 @@
 @implementation IterableInAppManager
 
 +(void)showNotification:(NSString*)type callbackBlock:(actionBlock)callbackBlock{
+    //Sample json used to test
     NSDictionary *titleTextPayload = @{
                                        ITERABLE_IN_APP_TEXT : @"SPOTIFY",
                                        ITERABLE_IN_APP_TEXT_COLOR : @752244479,
@@ -77,7 +78,7 @@
 }
 
 +(int)getIntFromKey:(NSDictionary*)payload keyString:(NSString*)keyString {
-    return [[payload objectForKey:keyString] integerValue];
+    return [[payload objectForKey:keyString] intValue];
 }
 
 @end

@@ -112,16 +112,6 @@
 
 - (void)setEnabled:(BOOL)enabled {
     [super setEnabled:enabled];
-    
-//    if (!enabled) {
-//        self.backgroundColor = [UIColor lightGrayColor];
-//        self.layer.borderColor = self.tintColor.CGColor;
-//        [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    } else {
-//        self.backgroundColor = self.tintColor;
-//        self.layer.borderColor = self.tintColor.CGColor;
-//        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    }
 }
 
 - (void)tintColorDidChange {
@@ -147,30 +137,6 @@
 - (void)setCornerRadius:(CGFloat)cornerRadius {
     self.layer.cornerRadius = cornerRadius;
 }
-
-//- (void)setEnabled:(BOOL)enabled {
-//    [super setEnabled:enabled];
-//
-//    if (enabled) {
-//        self.layer.backgroundColor = self.tintColor.CGColor;
-//        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    } else {
-//        self.layer.backgroundColor = [UIColor lightGrayColor].CGColor;
-//        [self setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    }
-//}
-
-//- (void)setType:(IterableAlertViewButtonType)type {
-//    _type = type;
-//    
-//    if (type == IterableAlertViewButtonTypeBordered) {
-//        self.layer.backgroundColor = [UIColor clearColor].CGColor;
-//        [self setTitleColor:self.tintColor forState:UIControlStateNormal];
-//    } else {
-//        self.layer.backgroundColor = self.tintColor.CGColor;
-//        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    }
-//}
 
 - (CGSize)intrinsicContentSize {
     if (self.hidden) {
@@ -208,13 +174,13 @@
     
     if (self.state == UIControlStateHighlighted) {
         self.layer.backgroundColor = self.tintColor.CGColor;
-        //        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+        //[self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     } else {
         if (self.type == IterableAlertViewButtonTypeBordered) {
             self.layer.backgroundColor = nil;
             [self setTitleColor:self.tintColor forState:UIControlStateNormal];
         } else {
-            //            [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            //[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
     }
 }
@@ -258,7 +224,6 @@
         _alertBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         [self.alertBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
         self.alertBackgroundView.backgroundColor = [UIColor colorWithWhite:0.97f alpha:1.0f];
-//        self.alertBackgroundView.layer.cornerRadius = 6.0f;
         [self addSubview:_alertBackgroundView];
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
