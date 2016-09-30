@@ -26,6 +26,7 @@ actionBlock customBlockCallback;
     NSString *actionString = _actionButtonsMapping[sender.tag];
     
     if (customBlockCallback != nil && ![actionString isEqualToString:@""]) {
+        //TODO: add in click tracking
         customBlockCallback(actionString);
     }
     

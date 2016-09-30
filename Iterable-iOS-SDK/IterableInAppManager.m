@@ -25,13 +25,13 @@
 +(void)showNotification:(NSString*)type callbackBlock:(actionBlock)callbackBlock{
     //Sample json used to test
     NSDictionary *titleTextPayload = @{
-                                       ITERABLE_IN_APP_TEXT : @"SPOTIFY",
+                                       ITERABLE_IN_APP_TEXT : @"ITERABLE",
                                        ITERABLE_IN_APP_TEXT_COLOR : @752244479,
                                        ITERABLE_IN_APP_TEXT_FONT : @"Avenir Next"
                                        };
     
     NSDictionary *bodyTextPayload = @{
-                                      ITERABLE_IN_APP_TEXT : @"Get Spotify Premium Free for 6 Months with Iterable.",
+                                      ITERABLE_IN_APP_TEXT : @"Try out the new Iterable in app notifications.",
                                       ITERABLE_IN_APP_TEXT_COLOR : @0xFFFFFFFF,
                                       ITERABLE_IN_APP_TEXT_FONT : @"Avenir Next"
                                       };
@@ -41,7 +41,7 @@
                                           ITERABLE_IN_APP_TEXT_COLOR : @255,
                                           ITERABLE_IN_APP_BACKGROUND_COLOR : @752244479,
                                           ITERABLE_IN_APP_TEXT_FONT : @"AvenirNext-Medium",
-                                          ITERABLE_IN_APP_BUTTON_ACTION : @"yeehaa"
+                                          ITERABLE_IN_APP_BUTTON_ACTION : @"okay"
                                           };
     
     NSDictionary *sampleButtonPayload2 = @{
@@ -49,14 +49,14 @@
                                           ITERABLE_IN_APP_TEXT_COLOR : @255,
                                           ITERABLE_IN_APP_BACKGROUND_COLOR : @0xFF0000FF,
                                           ITERABLE_IN_APP_TEXT_FONT : @"AvenirNext-Medium",
-                                          ITERABLE_IN_APP_BUTTON_ACTION : @"booo"
+                                          ITERABLE_IN_APP_BUTTON_ACTION : @"cancel"
                                           };
     
     NSArray *buttons = @[sampleButtonPayload, sampleButtonPayload2];
     
     NSDictionary *inAppPayload = @{
                      ITERABLE_IN_APP_TITLE : titleTextPayload,
-                     ITERABLE_IN_APP_IMAGE : @"https://developer.spotify.com/wp-content/uploads/2016/07/logo@2x.png",
+                     ITERABLE_IN_APP_IMAGE : @"https://s3.amazonaws.com/iterable-android-sdk/Gold+Diamond.png",
                      ITERABLE_IN_APP_BODY : bodyTextPayload,
                      ITERABLE_IN_APP_BUTTON : buttons,
                      ITERABLE_IN_APP_BACKGROUND_COLOR: @0x333333EE,
@@ -76,6 +76,8 @@
     } else {
         baseNotification = [[IterableAlertViewController alloc] initWithNibName:nil bundle:nil];
     }
+    
+    //TODO: add in view tracking
     
     [baseNotification setData:payload];
     [baseNotification setCallback:callbackBlock];
