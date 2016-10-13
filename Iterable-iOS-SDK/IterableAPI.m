@@ -250,12 +250,17 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     };
 }
 
-
-//////////////////////////////////////////////////////////////
-/// @name Implementations of things documents in IterableAPI.h
-//////////////////////////////////////////////////////////////
-
-// documented in IterableAPI.h
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with launchOptions
+ 
+ @param apiKey          your Iterable apiKey
+ @param email           the email of the user logged in
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ 
+ @return an instance of IterableAPI
+ */
 - (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
 {
     if (self = [super init]) {
@@ -263,6 +268,40 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         _email = [email copy];
     }
     
+    return [self createSession:launchOptions];
+}
+
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with launchOptions
+ 
+ @param apiKey          your Iterable apiKey
+ @param userId          the userId of the user logged in
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
+{
+    if (self = [super init]) {
+        _apiKey = [apiKey copy];
+        _userId = [userId copy];
+    }
+    return [self createSession:launchOptions];
+}
+
+/*!
+ @method
+ 
+ @abstract creates an iterable session with launchOptions
+
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype)createSession:(NSDictionary *)launchOptions
+{
     // the url session doesn't depend on any options/params, so we'll use a singleton that gets created whenever the class is instantiated
     // if it gets instantiated again that's fine; we don't need to reconfigure the session, just keep using the old singleton
     [self createUrlSession];
@@ -275,11 +314,9 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return self;
 }
 
-// documented in IterableAPI.h
-- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
-{
-    return [self initWithApiKey:apiKey andEmail:email launchOptions:nil];
-}
+//////////////////////////////////////////////////////////////
+/// @name Implementations of things documents in IterableAPI.h
+//////////////////////////////////////////////////////////////
 
 // documented in IterableAPI.h
 + (IterableAPI *)sharedInstance
@@ -297,6 +334,17 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
+    });
+    return sharedInstance;
+}
+
+// documented in IterableAPI.h
++ (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
+{
+    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions];
     });
     return sharedInstance;
 }
@@ -324,22 +372,33 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         return;
     }
     
-    NSDictionary *args = @{
-                           @"email": self.email,
-                           @"device": @{
-                                   @"token": hexToken,
-                                   @"platform": psp,
-                                   @"applicationName": appName,
-                                   @"dataFields": @{
-                                           @"localizedModel": [device localizedModel],
-                                           @"userInterfaceIdiom": [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
-                                           @"identifierForVendor": [[device identifierForVendor] UUIDString],
-                                           @"systemName": [device systemName],
-                                           @"systemVersion": [device systemVersion],
-                                           @"model": [device model]
-                                           }
-                                   }
-                           };
+    NSDictionary *deviceDictionary = @{
+                 @"token": hexToken,
+                 @"platform": psp,
+                 @"applicationName": appName,
+                 @"dataFields": @{
+                         @"localizedModel": [device localizedModel],
+                         @"userInterfaceIdiom": [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
+                         @"identifierForVendor": [[device identifierForVendor] UUIDString],
+                         @"systemName": [device systemName],
+                         @"systemVersion": [device systemVersion],
+                         @"model": [device model]
+                         }
+                 };
+
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                 @"email": self.email,
+                 @"device": deviceDictionary
+                 };
+    } else {
+        args = @{
+                 @"userId": self.userId,
+                 @"device": deviceDictionary
+                 };
+    }
+    
     LogDebug(@"sending registerToken request with args %@", args);
     NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
@@ -365,10 +424,18 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         }
         return;
     }
-    NSDictionary *args = @{
-                           @"email": allUsers ? [NSNull null]: self.email,
-                           @"token": self.hexToken
-                           };
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                 @"email": allUsers ? [NSNull null]: self.email,
+                 @"token": self.hexToken
+                 };
+    } else {
+        args = @{
+                 @"userId": allUsers ? [NSNull null]: self.userId,
+                 @"token": self.hexToken
+                 };
+    }
     
     LogDebug(@"sending disableToken request with args %@", args);
     NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
@@ -416,18 +483,32 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 {
     NSDictionary *args;
     if (dataFields) {
-        args = @{
-                 @"email": self.email,
-                 @"eventName": eventName,
-                 @"dataFields": dataFields
-                 };
         
+        if (_email != nil) {
+            args = @{
+                     @"email": self.email,
+                     @"eventName": eventName,
+                     @"dataFields": dataFields
+                     };
+        } else {
+            args = @{
+                     @"userId": self.userId,
+                     @"eventName": eventName,
+                     @"dataFields": dataFields
+                     };
+        }
     } else {
-        args = @{
-                 @"email": self.email,
-                 @"eventName": eventName,
-                 };
-        
+        if (_email != nil) {
+            args = @{
+                     @"email": self.email,
+                     @"eventName": eventName,
+                     };
+        } else {
+            args = @{
+                     @"userId": self.userId,
+                     @"eventName": eventName,
+                     };
+        }
     }
     NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
@@ -475,13 +556,25 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
     reqDataFields[@"appAlreadyRunning"] = @(appAlreadyRunning);
     
-    NSDictionary *args = @{
-                           @"email": self.email,
-                           @"campaignId": campaignId,
-                           @"templateId": templateId,
-                           @"messageId": messageId,
-                           @"dataFields": reqDataFields
-                           };
+    NSDictionary *args;
+    
+    if (_email != nil) {
+        args = @{
+          @"email": self.email,
+          @"campaignId": campaignId,
+          @"templateId": templateId,
+          @"messageId": messageId,
+          @"dataFields": reqDataFields
+          };
+    } else {
+        args = @{
+          @"userId": self.userId,
+          @"campaignId": campaignId,
+          @"templateId": templateId,
+          @"messageId": messageId,
+          @"dataFields": reqDataFields
+          };
+    }
     NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
@@ -508,9 +601,17 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         NSDictionary *itemDict = [item toDictionary];
         [itemsToSerialize addObject:itemDict];
     }
-    NSDictionary *apiUserDict = @{
-                                  @"email": self.email
-                                  };
+    NSDictionary *apiUserDict;
+    if (_email != nil) {
+        apiUserDict = @{
+            @"email": self.email
+            };
+    } else {
+        apiUserDict = @{
+            @"userId": self.userId
+            };
+    }
+    
     
     if (dataFields) {
         args = @{
