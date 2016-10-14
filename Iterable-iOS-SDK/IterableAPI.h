@@ -69,6 +69,56 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
+ @abstract Initializes Iterable with just an API key and email, but no launchOptions
+ 
+ @param apiKey   your Iterable apiKey
+ @param email    the email of the user logged in
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *) email;
+
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with launchOptions
+ 
+ @param apiKey          your Iterable apiKey
+ @param email           the email of the user logged in
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions;
+
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with just an API key and email, but no launchOptions
+ 
+ @param apiKey   your Iterable apiKey
+ @param userId   the userId of the user logged in
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *) userId;
+
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with launchOptions
+ 
+ @param apiKey          your Iterable apiKey
+ @param userId          the userId of the user logged in
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions;
+
+/*!
+ @method
+ 
  @abstract Initializes a shared instance of Iterable with launchOptions
  
  @discussion This method will set up a singleton instance of the `IterableAPI` class for
