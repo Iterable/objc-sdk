@@ -15,6 +15,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.0.0]
+#### Added
+- added `userId` property
+- added new overloaded function for sharedInstanceWithApiKey to pass in a userId instead of an email.
+
+#### Removed
+- removed header for `initWithApiKey`
+
+#### Changed
+- changed the arguments of the following apis to use `userId` if an `email` does not exist: `track`, `trackPushOpen`, `registerToken`, and `disableDevice`.
+
 ## [3.1.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/3.1.1)
 _Released on 2016-09-08_
 
