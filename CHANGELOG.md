@@ -15,7 +15,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
-## [4.0.0]
+## [4.0.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.0.0)
 #### Added
 - added `userId` property
 - added new overloaded function for sharedInstanceWithApiKey to pass in a userId instead of an email.
