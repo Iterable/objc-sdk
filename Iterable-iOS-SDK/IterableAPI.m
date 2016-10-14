@@ -253,49 +253,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 /*!
  @method
  
- @abstract Initializes Iterable with launchOptions
- 
- @param apiKey          your Iterable apiKey
- @param email           the email of the user logged in
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
- 
- @return an instance of IterableAPI
- */
-- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
-{
-    if (self = [super init]) {
-        _apiKey = [apiKey copy];
-        _email = [email copy];
-    }
-    
-    return [self createSession:launchOptions];
-}
-
-/*!
- @method
- 
- @abstract Initializes Iterable with launchOptions
- 
- @param apiKey          your Iterable apiKey
- @param userId          the userId of the user logged in
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
- 
- @return an instance of IterableAPI
- */
-- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
-{
-    if (self = [super init]) {
-        _apiKey = [apiKey copy];
-        _userId = [userId copy];
-    }
-    return [self createSession:launchOptions];
-}
-
-/*!
- @method
- 
  @abstract creates an iterable session with launchOptions
-
+ 
  @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
  
  @return an instance of IterableAPI
@@ -317,6 +276,39 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 //////////////////////////////////////////////////////////////
 /// @name Implementations of things documents in IterableAPI.h
 //////////////////////////////////////////////////////////////
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
+{
+    if (self = [super init]) {
+        _apiKey = [apiKey copy];
+        _email = [email copy];
+    }
+    
+    return [self createSession:launchOptions];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
+{
+    if (self = [super init]) {
+        _apiKey = [apiKey copy];
+        _userId = [userId copy];
+    }
+    return [self createSession:launchOptions];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
+{
+    return [self initWithApiKey:apiKey andEmail:email launchOptions:nil];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId
+{
+    return [self initWithApiKey:apiKey andUserId:userId launchOptions:nil];
+}
 
 // documented in IterableAPI.h
 + (IterableAPI *)sharedInstance
