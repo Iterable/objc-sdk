@@ -52,6 +52,12 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 @property(nonatomic, readonly, copy) NSString *email;
 
 /**
+ The userId of the logged in user that this IterableAPI is using
+ */
+@property(nonatomic, readonly, copy) NSString *userId;
+
+
+/**
  The hex representation of this device token
  */
 @property(nonatomic, readonly, copy) NSString *hexToken;
@@ -63,27 +69,20 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract Initializes Iterable with just an API key and email, but no launchOptions
+ @abstract Initializes a shared instance of Iterable with launchOptions
  
- @param apiKey   your Iterable apiKey
- @param email    the email of the user logged in
- 
- @return an instance of IterableAPI
- */
-- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *) email;
-
-/*!
- @method
- 
- @abstract Initializes Iterable with launchOptions
+ @discussion This method will set up a singleton instance of the `IterableAPI` class for
+ you using the given project API key. When you want to make calls to Iterable
+ elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
+ the app was launched from a remote push notification, we will track a pushOpen.
  
  @param apiKey          your Iterable apiKey
- @param email           the email of the user logged in
+ @param userId           the userId of the user logged in
  @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
  
  @return an instance of IterableAPI
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions;
++ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions;
 
 /*!
  @method
