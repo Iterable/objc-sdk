@@ -52,6 +52,12 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 @property(nonatomic, readonly, copy) NSString *email;
 
 /**
+ The userId of the logged in user that this IterableAPI is using
+ */
+@property(nonatomic, readonly, copy) NSString *userId;
+
+
+/**
  The hex representation of this device token
  */
 @property(nonatomic, readonly, copy) NSString *hexToken;
@@ -84,6 +90,49 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @return an instance of IterableAPI
  */
 - (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions;
+
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with just an API key and email, but no launchOptions
+ 
+ @param apiKey   your Iterable apiKey
+ @param userId   the userId of the user logged in
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *) userId;
+
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with launchOptions
+ 
+ @param apiKey          your Iterable apiKey
+ @param userId          the userId of the user logged in
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions;
+
+/*!
+ @method
+ 
+ @abstract Initializes a shared instance of Iterable with launchOptions
+ 
+ @discussion This method will set up a singleton instance of the `IterableAPI` class for
+ you using the given project API key. When you want to make calls to Iterable
+ elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
+ the app was launched from a remote push notification, we will track a pushOpen.
+ 
+ @param apiKey          your Iterable apiKey
+ @param userId           the userId of the user logged in
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ 
+ @return an instance of IterableAPI
+ */
++ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions;
 
 /*!
  @method
@@ -302,10 +351,11 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @param campaignId          The campaignId of the the push notification that caused this open event
  @param templateId          The templateId  of the the push notification that caused this open event
+ @param messageId           The messageId  of the the push notification that caused this open event
  @param appAlreadyRunning   This will get merged into the dataFields. Whether the app is already running when the notification was received
  @param dataFields          An `NSDictionary` containing any additional information to save along with the event
  */
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(nullable NSDictionary *)dataFields;
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(nullable NSDictionary *)dataFields;
 
 /*!
  @method
@@ -316,6 +366,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @param campaignId          The campaignId of the the push notification that caused this open event
  @param templateId          The templateId  of the the push notification that caused this open event
+ @param messageId           The messageId  of the the push notification that caused this open event
  @param appAlreadyRunning   This will get merged into the dataFields. Whether the app is already running when the notification was received
  @param dataFields          An `NSDictionary` containing any additional information to save along with the event
  @param onSuccess           OnSuccessHandler to invoke if the open is tracked successfully
@@ -324,7 +375,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @see OnSuccessHandler
  @see OnFailureHandler
  */
-- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+- (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 /*!
  @method
