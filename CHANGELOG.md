@@ -15,6 +15,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.0.2](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.0.2)
+#### Fixed
+- include the latest artifacts
+
 ## [4.0.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.0.1)
 #### Added
 - added back in `initWithApiKey`
