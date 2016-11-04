@@ -178,7 +178,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @return an instance of IterableAPI
  */
-+ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(Boolean)useCustomLaunchOptions;
++ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions;
 
 /*!
  @method
