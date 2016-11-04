@@ -275,7 +275,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @return an instance of IterableAPI
  */
-- (instancetype)createSession:(NSDictionary *)launchOptions useCustomLaunchOptions:(Boolean)useCustomLaunchOptions
+- (instancetype)createSession:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
 {
     // the url session doesn't depend on any options/params, so we'll use a singleton that gets created whenever the class is instantiated
     // if it gets instantiated again that's fine; we don't need to reconfigure the session, just keep using the old singleton
@@ -322,7 +322,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(Boolean)useCustomLaunchOptions
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
 {
     if (self = [super init]) {
         _apiKey = [apiKey copy];
@@ -333,7 +333,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(Boolean)useCustomLaunchOptions
+- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
 {
     if (self = [super init]) {
         _apiKey = [apiKey copy];

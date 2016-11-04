@@ -103,7 +103,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @return an instance of IterableAPI
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(Boolean)useCustomLaunchOptions;
+- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions;
 
 /*!
  @method
@@ -142,7 +142,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @return an instance of IterableAPI
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(Boolean)useCustomLaunchOptions;
+- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions;
 
 /*!
  @method
