@@ -15,6 +15,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.1.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.1.1)
+#### Fixed
+- included the latest artifacts
+
+
 ## [4.1.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.1.0)
 #### Added
 - added in new overloaded function for `initWithApiKey` to allow for custom launchOptions not passed from `application:didFinishLaunchingWithOptions`
