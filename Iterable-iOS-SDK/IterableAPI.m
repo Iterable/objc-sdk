@@ -255,19 +255,39 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  
  @abstract creates an iterable session with launchOptions
  
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ @param launchOptions launchOptions from application:didFinishLaunchingWithOptions
  
  @return an instance of IterableAPI
  */
 - (instancetype)createSession:(NSDictionary *)launchOptions
 {
+    return [self createSession:launchOptions useCustomLaunchOptions:false];
+}
+
+/*!
+ @method
+ 
+ @abstract creates an iterable session with launchOptions
+ 
+ @param launchOptions launchOptions from application:didFinishLaunchingWithOptions or custom launchOptions
+ 
+ @param useCustomLaunchOptions whether or not to use the custom launchOption without the UIApplicationLaunchOptionsRemoteNotificationKey
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype)createSession:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
+{
     // the url session doesn't depend on any options/params, so we'll use a singleton that gets created whenever the class is instantiated
     // if it gets instantiated again that's fine; we don't need to reconfigure the session, just keep using the old singleton
     [self createUrlSession];
     
-    if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-        // Automatically try to track a pushOpen
-        [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+    // Automatically try to track a pushOpen
+    if (launchOptions) {
+        if (useCustomLaunchOptions) {
+            [self trackPushOpen:launchOptions];
+        } else if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+            [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+        }
     }
     
     return self;
@@ -276,27 +296,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 //////////////////////////////////////////////////////////////
 /// @name Implementations of things documents in IterableAPI.h
 //////////////////////////////////////////////////////////////
-
-// documented in IterableAPI.h
-- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
-{
-    if (self = [super init]) {
-        _apiKey = [apiKey copy];
-        _email = [email copy];
-    }
-    
-    return [self createSession:launchOptions];
-}
-
-// documented in IterableAPI.h
-- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
-{
-    if (self = [super init]) {
-        _apiKey = [apiKey copy];
-        _userId = [userId copy];
-    }
-    return [self createSession:launchOptions];
-}
 
 // documented in IterableAPI.h
 - (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
@@ -308,6 +307,39 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 - (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId
 {
     return [self initWithApiKey:apiKey andUserId:userId launchOptions:nil];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
+{
+    return [self initWithApiKey:apiKey andEmail:email launchOptions:launchOptions useCustomLaunchOptions:false];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
+{
+    return [self initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions useCustomLaunchOptions:false];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
+{
+    if (self = [super init]) {
+        _apiKey = [apiKey copy];
+        _email = [email copy];
+    }
+    
+    return [self createSession:launchOptions useCustomLaunchOptions:useCustomLaunchOptions];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
+{
+    if (self = [super init]) {
+        _apiKey = [apiKey copy];
+        _userId = [userId copy];
+    }
+    return [self createSession:launchOptions useCustomLaunchOptions:useCustomLaunchOptions];
 }
 
 // documented in IterableAPI.h

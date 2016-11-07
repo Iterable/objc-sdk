@@ -94,6 +94,20 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
+ @abstract Initializes Iterable with launchOptions
+ 
+ @param apiKey                  your Iterable apiKey
+ @param email                   the email of the user logged in
+ @param launchOptions           launchOptions from application:didFinishLaunchingWithOptions or custom launchOptions
+ @param useCustomLaunchOptions  whether or not to use the custom launchOption without the UIApplicationLaunchOptionsRemoteNotificationKey
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions;
+
+/*!
+ @method
+ 
  @abstract Initializes Iterable with just an API key and email, but no launchOptions
  
  @param apiKey   your Iterable apiKey
@@ -115,6 +129,20 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @return an instance of IterableAPI
  */
 - (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions;
+
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with launchOptions
+ 
+ @param apiKey          your Iterable apiKey
+ @param userId          the userId of the user logged in
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions or custom launchOptions
+ @param useCustomLaunchOptions  whether or not to use the custom launchOption without the UIApplicationLaunchOptionsRemoteNotificationKey
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions;
 
 /*!
  @method
