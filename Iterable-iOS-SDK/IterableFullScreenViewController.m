@@ -22,36 +22,44 @@ CGFloat imageHeight =0;
 
 NSDictionary *inAppPayload;
 
+//TODO: possibly set default values here
 -(void)setData:(NSDictionary *)jsonPayload {
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_TITLE]) {
         NSDictionary* title = [jsonPayload objectForKey:ITERABLE_IN_APP_TITLE];
         _titleFontName = [title objectForKey:ITERABLE_IN_APP_TEXT_FONT];
-        _titleColor = [IterableInAppManager getIntFromKey:title keyString:ITERABLE_IN_APP_TEXT_COLOR];
+        _titleColor = [IterableInAppManager getIntColorFromKey:title keyString:ITERABLE_IN_APP_TEXT_COLOR];
         _titleString = [title objectForKey:ITERABLE_IN_APP_TEXT];
     }
     
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_BODY]) {
         NSDictionary* body = [jsonPayload objectForKey:ITERABLE_IN_APP_BODY];
         _bodyTextFontName = [body objectForKey:ITERABLE_IN_APP_TEXT_FONT];
-        _bodyTextColor = [IterableInAppManager getIntFromKey:body keyString:ITERABLE_IN_APP_TEXT_COLOR];
+        _bodyTextColor = [IterableInAppManager getIntColorFromKey:body keyString:ITERABLE_IN_APP_TEXT_COLOR];
         _bodyTextString = [body objectForKey:ITERABLE_IN_APP_TEXT];
     }
     
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON]) {
         NSArray* buttons = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
+        //TODO: support multiple buttons.
         if ([buttons count] > 0) {
             NSDictionary* button = [buttons objectAtIndex:0];
-            _buttonTextFontName = [button objectForKey:ITERABLE_IN_APP_TEXT_FONT];
-            _buttonTextColor = [IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR];
-            _buttonTextString = [button objectForKey:ITERABLE_IN_APP_TEXT];
-            _buttonBackgroundColor = [IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR];
+            _buttonBackgroundColor = [IterableInAppManager getIntColorFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR];
             _buttonAction = [button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION];
+            
+            if ([button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT]) {
+                NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT];
+                if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT])
+                    _buttonTextFontName = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT];
+                if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR])
+                    _buttonTextColor = [IterableInAppManager getIntColorFromKey:buttonContent keyString:ITERABLE_IN_APP_TEXT_COLOR];
+                _buttonTextString = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT];
+            }
         }
     }
     
     _imageURL = [jsonPayload objectForKey:ITERABLE_IN_APP_IMAGE];
     
-    _backgroundColor = [IterableInAppManager getIntFromKey:jsonPayload keyString:ITERABLE_IN_APP_BACKGROUND_COLOR];
+    _backgroundColor = [IterableInAppManager getIntColorFromKey:jsonPayload keyString:ITERABLE_IN_APP_BACKGROUND_COLOR];
 }
 
 - (void)loadView {

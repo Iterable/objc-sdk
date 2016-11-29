@@ -367,6 +367,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 - (void)track:(NSString *)eventName dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
+- (void)spawnInAppNotification;
+
 @end
 
 NS_ASSUME_NONNULL_END

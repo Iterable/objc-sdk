@@ -329,15 +329,19 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_TITLE]) {
         NSDictionary* title = [jsonPayload objectForKey:ITERABLE_IN_APP_TITLE];
         self.title = [title objectForKey:ITERABLE_IN_APP_TEXT];
-        self.titleFont = [UIFont fontWithName:[title objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:18.0f];
-        self.titleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:title keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+        if ([title objectForKey:ITERABLE_IN_APP_TEXT_FONT])
+            self.titleFont = [UIFont fontWithName:[title objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:18.0f];
+        if ([title objectForKey:ITERABLE_IN_APP_TEXT_COLOR])
+            self.titleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:title keyString:ITERABLE_IN_APP_TEXT_COLOR]);
     }
     
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_BODY]) {
         NSDictionary* body = [jsonPayload objectForKey:ITERABLE_IN_APP_BODY];
         self.message = [body objectForKey:ITERABLE_IN_APP_TEXT];
-        self.messageFont = [UIFont fontWithName:[body objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:16.0f];
-        self.messageColor = UIColorFromRGB([IterableInAppManager getIntFromKey:body keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+        if ([body objectForKey:ITERABLE_IN_APP_TEXT_FONT])
+            self.messageFont = [UIFont fontWithName:[body objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:16.0f];
+        if ([body objectForKey:ITERABLE_IN_APP_TEXT_COLOR])
+            self.messageColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:body keyString:ITERABLE_IN_APP_TEXT_COLOR]);
     }
     
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON]) {
@@ -345,16 +349,29 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         for (int i = 0; i < [buttons count]; i++) {
             NSDictionary* button = (NSDictionary *)[buttons objectAtIndex:i];
             if (i == [buttons count]-1) {
-                self.cancelButtonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
-                self.cancelButtonColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
-                self.cancelButtonTitleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
-                [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString([button objectForKey:ITERABLE_IN_APP_TEXT], nil)
+                NSString *title;
+                if ([button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT]) {
+                    NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT];
+                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT])
+                        self.cancelButtonTitleFont = [UIFont fontWithName:[buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
+                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR])
+                        self.cancelButtonTitleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:buttonContent keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+                    title = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT];
+                }
+                self.cancelButtonColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
+                [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString(title, nil)
                                                                style:UIAlertActionStyleCancel
                                                           actionName:[button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION]]];
             } else {
-                self.buttonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
-                self.buttonColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
-                self.buttonTitleColor = UIColorFromRGB([IterableInAppManager getIntFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+                NSString *title;
+                if ([button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT]) {
+                    NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT];
+                    self.buttonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
+                    self.buttonTitleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+                    title = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT];
+                }
+                self.buttonColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
+                
                 [self addAction:[IterableAlertAction actionWithTitle:NSLocalizedString([button objectForKey:ITERABLE_IN_APP_TEXT], nil)
                                                                style:UIAlertActionStyleDefault
                                                           actionName:[button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION]]];
@@ -362,8 +379,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         }
     }
     
-    self.alertViewBackgroundColor = UIColorFromRGB([IterableInAppManager getIntFromKey:jsonPayload keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
-
+    if ([jsonPayload objectForKey:ITERABLE_IN_APP_BACKGROUND_COLOR]) {
+        self.alertViewBackgroundColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:jsonPayload keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
+    }
+        
     //Set Notification Location
     NSString* type = [jsonPayload objectForKey:ITERABLE_IN_APP_TYPE];
     if ([type isEqual:ITERABLE_IN_APP_TYPE_TOP]) {
@@ -376,8 +395,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         self.transitionStyle = IterableAlertViewControllerTransitionStyleFade;
     }
     
-    self.buttonCornerRadius = 20.0f;
-    self.alertViewCornerRadius = 10.0f;
+    self.buttonCornerRadius = 0.0f;
+    self.alertViewCornerRadius = 0.0f;
 }
 
 -(UIInterfaceOrientation) preferredInterfaceOrientationForPresentation {

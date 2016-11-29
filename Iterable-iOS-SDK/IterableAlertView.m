@@ -231,8 +231,8 @@
         self.titleLabel.numberOfLines = 2;
         self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.textColor = [UIColor whiteColor];
-        self.titleLabel.text = NSLocalizedString(@"Title Label", nil);
+        self.titleLabel.textColor = [UIColor blackColor];
+        self.titleLabel.text = NSLocalizedString(@"", nil);
         [self.alertBackgroundView addSubview:self.titleLabel];
         
         _messageTextView = [[IterableAlertTextView alloc] initWithFrame:CGRectZero];
@@ -242,9 +242,9 @@
         [self.messageTextView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
         self.messageTextView.editable = NO;
         self.messageTextView.textAlignment = NSTextAlignmentCenter;
-        self.messageTextView.textColor = [UIColor whiteColor];
+        self.messageTextView.textColor = [UIColor blackColor];
         self.messageTextView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-        self.messageTextView.text = NSLocalizedString(@"Message Text View", nil);
+        self.messageTextView.text = NSLocalizedString(@"", nil);
         [self.alertBackgroundView addSubview:self.messageTextView];
         
         _contentViewContainerView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -330,7 +330,7 @@
                                                                                          metrics:nil
                                                                                            views:NSDictionaryOfVariableBindings(_actionButtonContainerView)]];
         
-        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_titleLabel]-2-[_contentViewContainerView][_messageTextView][_textFieldContainerView][_actionButtonContainerView]-20-|"
+        [self.alertBackgroundView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_titleLabel]-2-[_contentViewContainerView][_messageTextView][_textFieldContainerView]-2-[_actionButtonContainerView]|"
                                                                                          options:0
                                                                                          metrics:nil
                                                                                            views:NSDictionaryOfVariableBindings(_titleLabel,
@@ -468,7 +468,7 @@
                                                                                   multiplier:1.0f
                                                                                     constant:0.0f]];
         
-        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[firstButton]-[lastButton]-|"
+        [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[firstButton][lastButton]|"
                                                                                                options:NSLayoutFormatAlignAllCenterY
                                                                                                metrics:nil
                                                                                                  views:NSDictionaryOfVariableBindings(firstButton, lastButton)]];
@@ -488,7 +488,7 @@
             
             [self.actionButtonContainerView addSubview:actionButton];
             
-            [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[actionButton]-|"
+            [self.actionButtonContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[actionButton]|"
                                                                                                    options:0
                                                                                                    metrics:nil
                                                                                                      views:NSDictionaryOfVariableBindings(actionButton)]];

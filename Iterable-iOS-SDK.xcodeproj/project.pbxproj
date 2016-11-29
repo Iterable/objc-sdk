@@ -143,7 +143,6 @@
 		09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */ = {
 			isa = PBXGroup;
 			children = (
-				093734251A1D6E8800C950B6 /* IterableAPI.h */,
 				1653A80B1D88B25200690298 /* IterableConstants.h */,
 				16ED2E461D90569500ADCAEC /* IterableInAppBaseViewController.h */,
 				16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */,
@@ -157,6 +156,7 @@
 				16ED2E4C1D908D5500ADCAEC /* IterableAlertViewController.m */,
 				6804B85F1AC0F363000A126B /* CommerceItem.m */,
 				6804B8651AC10426000A126B /* CommerceItem.h */,
+				093734251A1D6E8800C950B6 /* IterableAPI.h */,
 				093734261A1D701F00C950B6 /* IterableAPI.m */,
 				094995451A85880A0047E59B /* NSData+Conversion.h */,
 				094995461A8588400047E59B /* NSData+Conversion.m */,

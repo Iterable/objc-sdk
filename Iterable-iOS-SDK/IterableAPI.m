@@ -20,6 +20,7 @@
 #import "CommerceItem.h"
 #import "IterableLogging.h"
 #import "IterableNotificationMetadata.h"
+#import "IterableInAppManager.h"
 
 @interface IterableAPI () {
 }
@@ -72,7 +73,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 /**
  @method
  
- @abstract Creates a full URL with host and apiKey, given the endpoint URI
+ @abstract Creates a full GET URL with host and apiKey, given the endpoint URI
  
  @param action the endpoint URI
  
@@ -81,6 +82,32 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 - (NSURL *)getUrlForAction:(NSString *)action
 {
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey]];
+}
+
+/**
+ @method
+ 
+ @abstract Creates a full GET URL with host and apiKey, given the endpoint URI and parameters
+ 
+ @param action the endpoint URI
+ @param args the `NSDictionary`
+ 
+ @return an `NSString` containing the full URL
+ */
+- (NSURL *)getUrlForGetAction:(NSString *)action withArgs:(NSDictionary *)args
+{
+    NSString *urlCombined = [NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey];
+    //updated this to take in a dictionary are parse values
+    
+    
+    for (NSString* paramKey in args) {
+        NSString* paramValue = args[paramKey];
+        
+        NSString *params = [NSString stringWithFormat:@"&&%@=%@", paramKey, paramValue];
+        urlCombined = [urlCombined stringByAppendingString:params];
+    }
+    
+    return [NSURL URLWithString:urlCombined];
 }
 
 /**
@@ -131,6 +158,23 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 /**
  @method
  
+ @abstract Creates a GET request to the specified action URI, with body data `args`
+ 
+ @param action  the action URI
+ @param args    the data to GET
+ 
+ @return a GET-method `NSURLRequest` to the specified action with the specified data
+ */
+- (NSURLRequest *)createGetRequestForAction:(NSString *)action withArgs:(NSDictionary *)args
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrlForGetAction:action withArgs:args]];
+    [request setHTTPMethod:@"GET"];
+    return request;
+}
+
+/**
+ @method
+ 
  @abstract executes the given `request`, attaching success and failure handlers
  
  @discussion A request is consider successful as long as it does not meet any of the criteria outlined below:
@@ -163,7 +207,10 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                 NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
                 if (onFailure != nil) onFailure(reason, data);
             } else if([object isKindOfClass:[NSDictionary class]]) {
-                if (onSuccess != nil) onSuccess(object);
+                if (onSuccess != nil) {
+                    NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    onSuccess(object);
+                }
             } else {
                 if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
             }
@@ -175,6 +222,27 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         }
     }];
     [task resume];
+}
+
+- (void)sendGetRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure
+{
+    /*NSError *error = [[NSError alloc] init];
+     NSHTTPURLResponse *responseCode = nil;
+     
+     NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
+     
+     if([responseCode statusCode] != 200){
+     //NSLog(@"Error getting %@, HTTP status code %i", url, [responseCode statusCode]);
+     }
+     
+     NSString *sresponse = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];*/
+    
+    ////---------------
+    /*NSURL *url = [NSURL URLWithString:@"http://davids-macbook-pro-2.local:9000/api/inApp/getMessages?api_key=iterableApiKey-dt&&email=dt@iterable.com"];
+    NSError* error = nil;
+    NSData *data = [NSData dataWithContentsOfURL:url options:nil error:error];
+    
+    NSString *ret = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];*/
 }
 
 /**
@@ -612,7 +680,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
             };
     }
     
-    
     if (dataFields) {
         args = @{
                  @"user": apiUserDict,
@@ -628,6 +695,48 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                  };
     }
     NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+}
+
+// documented in IterableAPI.h
+- (void)spawnInAppNotification
+{
+    
+    OnSuccessHandler onSuccess = ^(NSDictionary* dict) {
+        NSLog(@"dict %@", dict);
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [IterableInAppManager showNotification:dict];
+        });
+        
+    };
+    
+    OnFailureHandler onFailure = ^(NSString *reason, NSData *data) {
+        NSLog(@"dict %@", reason);
+        
+    };
+    [self getInAppMessages:onSuccess onFailure:onFailure];
+}
+
+// documented in IterableAPI.h
+- (void)getInAppMessages
+{
+    [self getInAppMessages:[IterableAPI defaultOnSuccess:@"getMessages"] onFailure:[IterableAPI defaultOnFailure:@"getMessages"]];
+}
+
+// documented in IterableAPI.h
+- (void)getInAppMessages:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                @"email": self.email
+                };
+    } else {
+        args = @{
+                @"userId": self.userId
+                };
+    }
+    NSURLRequest *request = [self createGetRequestForAction:@"inApp/getMessages" withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
