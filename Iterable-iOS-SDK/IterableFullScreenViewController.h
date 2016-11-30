@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) UILabel* Title;
 @property (nonatomic, strong) UILabel* TextBody;
-@property (nonatomic, strong) UIButton* ActionButton;
+@property (nonatomic, strong) UIStackView* DialogButtons;
 
 @property (nonatomic) NSString *imageURL;
 @property (nonatomic) int backgroundColor;
@@ -24,12 +24,6 @@
 @property (nonatomic) NSString *bodyTextFontName;
 @property (nonatomic) int bodyTextColor;
 @property (nonatomic) NSString *bodyTextString;
-
-@property (nonatomic) NSString *buttonTextFontName;
-@property (nonatomic) int buttonTextColor;
-@property (nonatomic) NSString *buttonTextString;
-@property (nonatomic) int buttonBackgroundColor;
-@property (nonatomic) NSString *buttonAction;
 
 - (void) setData:(NSDictionary *)jsonPayload;
 

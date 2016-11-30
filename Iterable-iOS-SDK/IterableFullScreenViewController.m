@@ -11,7 +11,7 @@
 
 @interface IterableFullScreenViewController ()
 @property (nonatomic, strong) UIImageView* ImageView;
-@property (nonatomic) NSDictionary *actionButtons;
+@property (nonatomic) NSArray *actionButtons;
 
 @end
 
@@ -39,22 +39,7 @@ NSDictionary *inAppPayload;
     }
     
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON]) {
-        NSArray* buttons = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
-        //TODO: support multiple buttons.
-        if ([buttons count] > 0) {
-            NSDictionary* button = [buttons objectAtIndex:0];
-            _buttonBackgroundColor = [IterableInAppManager getIntColorFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR];
-            _buttonAction = [button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION];
-            
-            if ([button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT]) {
-                NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT];
-                if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT])
-                    _buttonTextFontName = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT];
-                if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR])
-                    _buttonTextColor = [IterableInAppManager getIntColorFromKey:buttonContent keyString:ITERABLE_IN_APP_TEXT_COLOR];
-                _buttonTextString = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT];
-            }
-        }
+        _actionButtons = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
     }
     
     _imageURL = [jsonPayload objectForKey:ITERABLE_IN_APP_IMAGE];
@@ -73,11 +58,10 @@ NSDictionary *inAppPayload;
     self.Title = [[UILabel alloc] initWithFrame:CGRectZero];
     self.Title.textAlignment =  NSTextAlignmentCenter;
     self.Title.textColor = UIColorFromRGB(_titleColor);
-    
-    
     self.Title.font = [UIFont fontWithName: self.titleFontName size:(fontConstant/16)];
     self.Title.text = self.titleString;
     self.Title.numberOfLines = 2;
+    self.Title.adjustsFontSizeToFitWidth = YES;
     
     _ImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     
@@ -95,29 +79,51 @@ NSDictionary *inAppPayload;
         }];
     }
     
-    self.ActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.ActionButton addTarget:self
-                      action:@selector(actionButtonClicked:)
-            forControlEvents:UIControlEventTouchUpInside];
-    [self.ActionButton setTitle:self.buttonTextString forState:UIControlStateNormal];
-    [self.ActionButton setTitleColor:UIColorFromRGB(_buttonTextColor) forState:UIControlStateNormal];
-    self.ActionButton.frame = CGRectMake(0, self.view.frame.size.height*.9f, self.view.frame.size.width, self.view.frame.size.height*.1f);
-    self.ActionButton.backgroundColor = UIColorFromRGB(_buttonBackgroundColor);
-    //Change to match the # of buttons
-    self.ActionButton.tag = 0;
-    NSString *actionStringValue = (_buttonAction != nil) ? self.buttonAction : @"";
-    [self addActionButton:self.ActionButton.tag actionString:actionStringValue];
+    self.DialogButtons = [[UIStackView alloc] initWithFrame:CGRectZero];
+    self.DialogButtons.frame = CGRectMake(0, self.view.frame.size.height*.9f, self.view.frame.size.width, self.view.frame.size.height*.1f);
+    self.DialogButtons.distribution = UIStackViewDistributionFillEqually;
+    
+    for (int i =0; i <_actionButtons.count; i++)
+    {
+        NSDictionary *buttonParams = [_actionButtons objectAtIndex:i];
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.tag = i;
+        [self addActionButton:button.tag actionString:[buttonParams objectForKey:ITERABLE_IN_APP_BUTTON_ACTION]];
+        [button addTarget:self
+                   action:@selector(actionButtonClicked:)
+         forControlEvents:UIControlEventTouchUpInside];
+
+
+         if ([buttonParams objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT]) {
+             NSDictionary* buttonContent = [buttonParams objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT];
+             if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT]) {
+                 NSString *font = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT];
+                 [button.titleLabel setFont:[UIFont fontWithName:font size:(fontConstant/30)]];
+             }
+             if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR]) {
+                 int buttonTextColor = [IterableInAppManager getIntColorFromKey:buttonContent keyString:ITERABLE_IN_APP_TEXT_COLOR];
+                 [button setTitleColor:UIColorFromRGB(buttonTextColor) forState:UIControlStateNormal];
+             }
+             NSString *title = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT];
+             [button setTitle:title forState:UIControlStateNormal];
+
+         }
+        
+        button.backgroundColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:buttonParams keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
+        button.titleLabel.adjustsFontSizeToFitWidth = YES;
+        [self.DialogButtons addArrangedSubview:button];
+    }
    
     self.TextBody = [[UILabel alloc] initWithFrame:CGRectZero];
     self.TextBody.textAlignment =  NSTextAlignmentCenter;
     self.TextBody.textColor = UIColorFromRGB(_bodyTextColor);
     self.TextBody.font = [UIFont fontWithName:self.bodyTextFontName size:(fontConstant/30)];
-    self.TextBody.text = self.self.bodyTextString;
-    self.TextBody.numberOfLines = 3;
+    self.TextBody.text = self.bodyTextString;
+    self.TextBody.adjustsFontSizeToFitWidth = YES;
     
     [self.view addSubview:_ImageView];
     [self.view addSubview:self.Title];
-    [self.view addSubview:self.ActionButton];
+    [self.view addSubview:self.DialogButtons];
     [self.view addSubview:self.TextBody];
 }
 
@@ -149,10 +155,11 @@ NSDictionary *inAppPayload;
     
     //Float title halfway between image and top
     CGFloat titleSizeY = _ImageView.center.y - img.y/2;
-    self.Title.frame = CGRectMake(0, 0, self.view.frame.size.width, titleSizeY);
+    self.Title.frame = CGRectMake(0, 0, self.view.frame.size.width*.9, titleSizeY);
+    [self.Title setCenter:CGPointMake(self.view.frame.size.width/2, titleSizeY/2)];
     
     //Action Button
-    self.ActionButton.frame = CGRectMake(0, self.view.frame.size.height*.9f, self.view.frame.size.width, self.view.frame.size.height*.1f);
+    self.DialogButtons.frame = CGRectMake(0, self.view.frame.size.height*.9f, self.view.frame.size.width, self.view.frame.size.height*.1f);
     
     //Main Text
     CGFloat textBodyStartingLocation = _ImageView.center.y + img.y/2;
