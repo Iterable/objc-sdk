@@ -12,16 +12,22 @@
 
 @interface IterableInAppManager : NSObject
 
+typedef void (^actionBlock)(NSString *);
+
+////////////////////
+/// @name Properties
+////////////////////
+
 /**
  An array of action objects representing the actions that the user can take in response to the alert view
  */
 @property (nonatomic, readonly) NSArray *actions;
 
-typedef void (^actionBlock)(NSString *);
-
 +(void) showNotification:(NSDictionary *)dialogOptions;
 
 +(void) showNotification:(NSString *)type callbackBlock:(actionBlock)callbackBlock;
+
++(NSDictionary *) getNextMessageFromPayload:(NSDictionary *) payload;
 
 +(int) getIntColorFromKey:(NSDictionary*)payload keyString:(NSString*)keyString;
 

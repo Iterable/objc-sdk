@@ -22,7 +22,6 @@ CGFloat imageHeight =0;
 
 NSDictionary *inAppPayload;
 
-//TODO: possibly set default values here
 -(void)setData:(NSDictionary *)jsonPayload {
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_TITLE]) {
         NSDictionary* title = [jsonPayload objectForKey:ITERABLE_IN_APP_TITLE];
@@ -94,8 +93,8 @@ NSDictionary *inAppPayload;
          forControlEvents:UIControlEventTouchUpInside];
 
 
-         if ([buttonParams objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT]) {
-             NSDictionary* buttonContent = [buttonParams objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT];
+         if ([buttonParams objectForKey:ITERABLE_IN_APP_CONTENT]) {
+             NSDictionary* buttonContent = [buttonParams objectForKey:ITERABLE_IN_APP_CONTENT];
              if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT]) {
                  NSString *font = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT];
                  [button.titleLabel setFont:[UIFont fontWithName:font size:(fontConstant/30)]];

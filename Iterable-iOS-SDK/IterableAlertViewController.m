@@ -350,8 +350,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
             NSDictionary* button = (NSDictionary *)[buttons objectAtIndex:i];
             if (i == [buttons count]-1) {
                 NSString *title;
-                if ([button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT]) {
-                    NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT];
+                if ([button objectForKey:ITERABLE_IN_APP_CONTENT]) {
+                    NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_CONTENT];
                     if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT])
                         self.cancelButtonTitleFont = [UIFont fontWithName:[buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
                     if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR])
@@ -364,8 +364,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                                                           actionName:[button objectForKey:ITERABLE_IN_APP_BUTTON_ACTION]]];
             } else {
                 NSString *title;
-                if ([button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT]) {
-                    NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_BUTTON_CONTENT];
+                if ([button objectForKey:ITERABLE_IN_APP_CONTENT]) {
+                    NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_CONTENT];
                     self.buttonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
                     self.buttonTitleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
                     title = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT];

@@ -224,27 +224,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     [task resume];
 }
 
-- (void)sendGetRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure
-{
-    /*NSError *error = [[NSError alloc] init];
-     NSHTTPURLResponse *responseCode = nil;
-     
-     NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
-     
-     if([responseCode statusCode] != 200){
-     //NSLog(@"Error getting %@, HTTP status code %i", url, [responseCode statusCode]);
-     }
-     
-     NSString *sresponse = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];*/
-    
-    ////---------------
-    /*NSURL *url = [NSURL URLWithString:@"http://davids-macbook-pro-2.local:9000/api/inApp/getMessages?api_key=iterableApiKey-dt&&email=dt@iterable.com"];
-    NSError* error = nil;
-    NSData *data = [NSData dataWithContentsOfURL:url options:nil error:error];
-    
-    NSString *ret = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];*/
-}
-
 /**
  @method
  
@@ -701,20 +680,18 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 // documented in IterableAPI.h
 - (void)spawnInAppNotification
 {
-    
-    OnSuccessHandler onSuccess = ^(NSDictionary* dict) {
-        NSLog(@"dict %@", dict);
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [IterableInAppManager showNotification:dict];
-        });
-        
+    OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
+        NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
+        if (dialogOptions != nil) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [IterableInAppManager showNotification:dialogOptions];
+            });
+        } else {
+            LogDebug(@"No notifications found for inApp payload %@", payload);
+        }
     };
-    
-    OnFailureHandler onFailure = ^(NSString *reason, NSData *data) {
-        NSLog(@"dict %@", reason);
-        
-    };
-    [self getInAppMessages:onSuccess onFailure:onFailure];
+
+    [self getInAppMessages:onSuccess onFailure:[IterableAPI defaultOnFailure:@"getInAppMessages"]];
 }
 
 // documented in IterableAPI.h

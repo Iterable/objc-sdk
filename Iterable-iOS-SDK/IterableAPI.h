@@ -367,7 +367,38 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 - (void)track:(NSString *)eventName dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
+/////////////////////////
+/// @name In-App Notifications
+/////////////////////////
+
+/*!
+ @method
+ 
+ @abstract Gets the list of InAppNotification and displays the next notification
+ 
+ */
 - (void)spawnInAppNotification;
+
+/*!
+ @method
+ 
+ @abstract Gets the list of InAppMessages
+ 
+ */
+- (void)getInAppMessages;
+
+/*!
+ @method
+ 
+ @abstract Gets the list of InAppMessages with optional additional fields and custom completion blocks
+ 
+ @param onSuccess   OnSuccessHandler to invoke if the get call succeeds
+ @param onFailure   OnFailureHandler to invoke if the get call fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)getInAppMessages:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 @end
 

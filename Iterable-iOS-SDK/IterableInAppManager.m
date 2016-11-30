@@ -23,12 +23,7 @@
 @implementation IterableInAppManager
 
 +(void) showNotification:(NSDictionary*)dialogOptions{
-    NSDictionary *dialogParameters = [self getNextMessageFromPayload:dialogOptions];
-
-    
-    //NSString *type=[dialogParameters valueForKeyPath:@"content.displayType"];
-
-    [self createNotification:dialogParameters callbackBlock:nil];
+    [self createNotification:dialogOptions callbackBlock:nil];
 }
 
 +(void)showNotification:(NSString*)type callbackBlock:(actionBlock)callbackBlock{
@@ -54,7 +49,7 @@
     NSDictionary *sampleButtonPayload = @{
                                           ITERABLE_IN_APP_BACKGROUND_COLOR : @752244479,
                                           ITERABLE_IN_APP_BUTTON_ACTION : @"okay",
-                                          ITERABLE_IN_APP_BUTTON_CONTENT: @"buttonContent"
+                                          ITERABLE_IN_APP_CONTENT: @"buttonContent"
                                           };
     
     NSDictionary *sampleButtonPayload2 = @{
@@ -111,21 +106,16 @@
 }
 
 + (NSDictionary *) getNextMessageFromPayload:(NSDictionary *) payload {
-    //TODO: error checking for empty list of inapp messages
-    NSDictionary *dict=[payload valueForKeyPath:@"inAppMessages"][0][@"content"];
-    return dict;
-}
-
-+ (UIColor *)colorWithHexString:(NSString *)str {
-    const char *cStr = [str cStringUsingEncoding:NSASCIIStringEncoding];
-    long col = strtol(cStr+1, NULL, 16);
-    
-    unsigned char r, g, b;
-    b = col & 0xFF;
-    g = (col >> 8) & 0xFF;
-    r = (col >> 16) & 0xFF;
-    return [UIColor colorWithRed:(float)r/255.0f green:(float)g/255.0f blue:(float)b/255.0f alpha:1];
-
+    NSDictionary *returnDictionary = nil;
+    if ([payload objectForKey:ITERABLE_IN_APP_MESSAGE]) {
+        NSArray *messageArray = [payload valueForKeyPath:ITERABLE_IN_APP_MESSAGE];
+        NSDictionary *message = [messageArray objectAtIndex:0];
+        if (message != nil) {
+            returnDictionary = [message valueForKeyPath:ITERABLE_IN_APP_CONTENT];
+        }
+        
+    }
+    return returnDictionary;
 }
 
 @end

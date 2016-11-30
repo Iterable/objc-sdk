@@ -13,6 +13,7 @@
 #define ITERABLE_IN_APP_BODY @"body"
 #define ITERABLE_IN_APP_IMAGE @"mainImage"
 #define ITERABLE_IN_APP_BUTTON @"buttons"
+#define ITERABLE_IN_APP_MESSAGE @"inAppMessages"
 
 #define ITERABLE_IN_APP_TYPE @"displayType"
 #define ITERABLE_IN_APP_TYPE_TOP @"TOP"
@@ -28,6 +29,6 @@
 #define ITERABLE_IN_APP_BACKGROUND_COLOR @"backgroundColor"
 
 #define ITERABLE_IN_APP_BUTTON_ACTION @"action"
-#define ITERABLE_IN_APP_BUTTON_CONTENT @"content"
+#define ITERABLE_IN_APP_CONTENT @"content"
 
 #endif /* IterableConstants_h */
