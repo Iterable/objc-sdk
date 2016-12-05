@@ -25,12 +25,10 @@ typedef void (^actionBlock)(NSString *);
 
 +(void) showNotification:(NSDictionary *)dialogOptions;
 
-+(void) showNotification:(NSDictionary *) callbackBlock:(actionBlock)callbackBlock;
++(void) showNotification:(NSDictionary *)dialogOptions callbackBlock:(actionBlock)callbackBlock;
 
 +(NSDictionary *) getNextMessageFromPayload:(NSDictionary *) payload;
 
 +(int) getIntColorFromKey:(NSDictionary*)payload keyString:(NSString*)keyString;
-
-+ (UIColor *)colorWithHexString:(NSString *)str;
 
 @end

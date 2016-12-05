@@ -8,6 +8,7 @@
 
 @import Foundation;
 #import "CommerceItem.h"
+#import "IterableInAppManager.h"
 
 // all params are nonnull, unless annotated otherwise
 NS_ASSUME_NONNULL_BEGIN
@@ -376,8 +377,11 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Gets the list of InAppNotification and displays the next notification
  
+  @param callbackBlock  Callback actionBlock
+ 
  */
-- (void)spawnInAppNotification;
+- (void)spawnInAppNotification:(actionBlock) callbackBlock;
+
 
 /*!
  @method

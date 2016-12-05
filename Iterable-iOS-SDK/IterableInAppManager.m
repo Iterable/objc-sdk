@@ -23,7 +23,11 @@
 @implementation IterableInAppManager
 
 +(void) showNotification:(NSDictionary*)dialogOptions{
-    [self createNotification:dialogOptions callbackBlock:nil];
+    [self showNotification:dialogOptions callbackBlock:nil];
+}
+
++(void) showNotification:(NSDictionary*)dialogOptions callbackBlock:(actionBlock)callbackBlock{
+    [self createNotification:dialogOptions callbackBlock:callbackBlock];
 }
 
 /*+(void)showNotification:(NSString*)type callbackBlock:(actionBlock)callbackBlock{
@@ -76,21 +80,23 @@
 }*/
 
 +(void)createNotification:(NSDictionary*)payload callbackBlock:(actionBlock)callbackBlock {
-    UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-    IterableInAppBaseViewController *baseNotification;
-    
-    NSString* type = [payload objectForKey:ITERABLE_IN_APP_TYPE];
-    if ([type caseInsensitiveCompare:ITERABLE_IN_APP_TYPE_FULL] == NSOrderedSame){
-        baseNotification = [[IterableFullScreenViewController alloc] init];
-    } else {
-        baseNotification = [[IterableAlertViewController alloc] initWithNibName:nil bundle:nil];
+    if (payload != NULL) {
+        UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+        IterableInAppBaseViewController *baseNotification;
+        
+        NSString* type = [payload objectForKey:ITERABLE_IN_APP_TYPE];
+        if ([type caseInsensitiveCompare:ITERABLE_IN_APP_TYPE_FULL] == NSOrderedSame){
+            baseNotification = [[IterableFullScreenViewController alloc] init];
+        } else {
+            baseNotification = [[IterableAlertViewController alloc] initWithNibName:nil bundle:nil];
+        }
+        
+        //TODO: add in view tracking
+        
+        [baseNotification setData:payload];
+        [baseNotification setCallback:callbackBlock];
+        [rootViewController presentViewController:baseNotification animated:YES completion:nil];
     }
-    
-    //TODO: add in view tracking
-    
-    [baseNotification setData:payload];
-    [baseNotification setCallback:callbackBlock];
-    [rootViewController presentViewController:baseNotification animated:YES completion:nil];
 }
 
 +(int)getIntColorFromKey:(NSDictionary*)payload keyString:(NSString*)keyString {

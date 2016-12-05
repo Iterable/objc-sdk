@@ -168,7 +168,7 @@ NSDictionary *inAppPayload;
 
 -(CGPoint)layoutCenterImage{
     float maxHeight;
-    if(UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+    if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
     {
         maxHeight = self.view.frame.size.height*.5;
         self.TextBody.numberOfLines = 2;

@@ -208,7 +208,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                 if (onFailure != nil) onFailure(reason, data);
             } else if([object isKindOfClass:[NSDictionary class]]) {
                 if (onSuccess != nil) {
-                    NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                     onSuccess(object);
                 }
             } else {
@@ -677,14 +676,16 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
+
+
 // documented in IterableAPI.h
-- (void)spawnInAppNotification
+- (void)spawnInAppNotification:(actionBlock)callbackBlock
 {
     OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
         NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
         if (dialogOptions != nil) {
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [IterableInAppManager showNotification:dialogOptions];
+                [IterableInAppManager showNotification:dialogOptions callbackBlock:(actionBlock)callbackBlock];
             });
         } else {
             LogDebug(@"No notifications found for inApp payload %@", payload);

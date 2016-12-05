@@ -9,6 +9,7 @@
 #import "IterableInAppBaseViewController.h"
 #import "IterableConstants.h"
 #import "IterableInAppManager.h"
+#import "IterableAPI.h"
 
 @interface IterableInAppBaseViewController ()
 
@@ -27,6 +28,8 @@ actionBlock customBlockCallback;
     
     if (customBlockCallback != nil && ![actionString isEqualToString:@""]) {
         //TODO: add in click tracking
+        IterableAPI *api = IterableAPI.sharedInstance;
+        [api track:actionString];
         customBlockCallback(actionString);
     }
     
