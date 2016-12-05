@@ -344,8 +344,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
             self.messageColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:body keyString:ITERABLE_IN_APP_TEXT_COLOR]);
     }
     
-    if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON]) {
-        NSArray* buttons = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
+    if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTONS]) {
+        NSArray* buttons = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTONS];
         for (int i = 0; i < [buttons count]; i++) {
             NSDictionary* button = (NSDictionary *)[buttons objectAtIndex:i];
             if (i == [buttons count]-1) {

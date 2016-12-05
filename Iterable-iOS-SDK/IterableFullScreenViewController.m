@@ -37,8 +37,8 @@ NSDictionary *inAppPayload;
         _bodyTextString = [body objectForKey:ITERABLE_IN_APP_TEXT];
     }
     
-    if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON]) {
-        _actionButtons = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTON];
+    if ([jsonPayload objectForKey:ITERABLE_IN_APP_BUTTONS]) {
+        _actionButtons = [jsonPayload objectForKey:ITERABLE_IN_APP_BUTTONS];
     }
     
     _imageURL = [jsonPayload objectForKey:ITERABLE_IN_APP_IMAGE];

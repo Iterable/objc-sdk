@@ -26,7 +26,7 @@
     [self createNotification:dialogOptions callbackBlock:nil];
 }
 
-+(void)showNotification:(NSString*)type callbackBlock:(actionBlock)callbackBlock{
+/*+(void)showNotification:(NSString*)type callbackBlock:(actionBlock)callbackBlock{
     //Sample json used to test
     NSDictionary *titleTextPayload = @{
                                        ITERABLE_IN_APP_TEXT : @"ITERABLE",
@@ -67,13 +67,13 @@
                      //ITERABLE_IN_APP_IMAGE : @"https://s3.amazonaws.com/iterable-android-sdk/Gold+Diamond.png",
                       ITERABLE_IN_APP_IMAGE : @"https://t3.kn3.net/taringa/8/4/3/4/8/5/WandaTiraFinolis/FBE.png",
                      ITERABLE_IN_APP_BODY : bodyTextPayload,
-                     ITERABLE_IN_APP_BUTTON : buttons,
+                     ITERABLE_IN_APP_BUTTONS : buttons,
                      ITERABLE_IN_APP_BACKGROUND_COLOR: @0x333333EE,
                      ITERABLE_IN_APP_TYPE : type
                      };
     
     [self createNotification:inAppPayload callbackBlock:(actionBlock)callbackBlock];
-}
+}*/
 
 +(void)createNotification:(NSDictionary*)payload callbackBlock:(actionBlock)callbackBlock {
     UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;

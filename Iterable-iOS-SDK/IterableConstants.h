@@ -12,7 +12,7 @@
 #define ITERABLE_IN_APP_TITLE @"title"
 #define ITERABLE_IN_APP_BODY @"body"
 #define ITERABLE_IN_APP_IMAGE @"mainImage"
-#define ITERABLE_IN_APP_BUTTON @"buttons"
+#define ITERABLE_IN_APP_BUTTONS @"buttons"
 #define ITERABLE_IN_APP_MESSAGE @"inAppMessages"
 
 #define ITERABLE_IN_APP_TYPE @"displayType"

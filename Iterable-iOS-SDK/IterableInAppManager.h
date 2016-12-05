@@ -25,7 +25,7 @@ typedef void (^actionBlock)(NSString *);
 
 +(void) showNotification:(NSDictionary *)dialogOptions;
 
-+(void) showNotification:(NSString *)type callbackBlock:(actionBlock)callbackBlock;
++(void) showNotification:(NSDictionary *) callbackBlock:(actionBlock)callbackBlock;
 
 +(NSDictionary *) getNextMessageFromPayload:(NSDictionary *) payload;
 
