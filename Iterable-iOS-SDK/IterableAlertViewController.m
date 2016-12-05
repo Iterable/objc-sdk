@@ -366,8 +366,10 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                 NSString *title;
                 if ([button objectForKey:ITERABLE_IN_APP_CONTENT]) {
                     NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_CONTENT];
-                    self.buttonTitleFont = [UIFont fontWithName:[button objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
-                    self.buttonTitleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:button keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT])
+                        self.buttonTitleFont = [UIFont fontWithName:[buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
+                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR])
+                        self.buttonTitleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:buttonContent keyString:ITERABLE_IN_APP_TEXT_COLOR]);
                     title = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT];
                 }
                 self.buttonColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
