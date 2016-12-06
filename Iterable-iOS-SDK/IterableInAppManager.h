@@ -1,6 +1,6 @@
 //
 //  IterableInAppManager.h
-//  Pods
+//  Iterable-iOS-SDK
 //
 //  Created by David Truong on 9/14/16.
 //
@@ -23,12 +23,46 @@ typedef void (^actionBlock)(NSString *);
  */
 @property (nonatomic, readonly) NSArray *actions;
 
+/*!
+ @method
+ 
+ @abstract Creates and shows an InApp Notification
+ 
+ @param dialogOptions   the NSDictionary containing the dialog options
+ */
 +(void) showNotification:(NSDictionary *)dialogOptions;
 
+/*!
+ @method
+ 
+ @abstract Creates and shows a InApp Notification; with callback handler
+ 
+ @param dialogOptions   the NSDictionary containing the dialog options
+ @param callback        the callback to send after a button on the notification is clicked
+ */
 +(void) showNotification:(NSDictionary *)dialogOptions callbackBlock:(actionBlock)callbackBlock;
 
+/*!
+ @method
+ 
+ @abstract Gets the next message from the payload
+ 
+ @param payload         the payload dictionary
+ 
+ @return a NSDictionary containing the InAppMessage parameters
+ */
 +(NSDictionary *) getNextMessageFromPayload:(NSDictionary *) payload;
 
+/*!
+ @method
+ 
+ @abstract Gets the int value of the color from the payload
+ 
+ @param payload          the NSDictionary
+ @param keyString        the key to use to lookup the value in the payload dictionary
+ 
+ @return the int color
+ */
 +(int) getIntColorFromKey:(NSDictionary*)payload keyString:(NSString*)keyString;
 
 @end

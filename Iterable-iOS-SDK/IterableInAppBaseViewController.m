@@ -23,6 +23,7 @@
 
 actionBlock customBlockCallback;
 
+// documented in IterableInAppBaseViewController.h
 -(void)actionButtonClicked:(UIButton *)sender {
     NSString *actionString = _actionButtonsMapping[sender.tag];
     
@@ -36,20 +37,23 @@ actionBlock customBlockCallback;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)addActionButton:(NSInteger)id actionString:(NSString *)actionStringValue {
+// documented in IterableInAppBaseViewController.h
+-(void)addActionButton:(NSInteger)id actionString:(NSString *)actionString {
     if (_actionButtonsMapping == NULL)
     {
         _actionButtonsMapping = [NSMutableArray array];
     }
-    if (actionStringValue != nil) {
-        _actionButtonsMapping[id] = actionStringValue;
+    if (actionString != nil) {
+        _actionButtonsMapping[id] = actionString;
     }
 }
 
+// documented in IterableInAppBaseViewController.h
 -(void)setCallback:(actionBlock)callbackBlock {
     customBlockCallback = callbackBlock;
 }
 
+// documented in IterableInAppBaseViewController.h
 -(void)setData:(NSDictionary *)jsonPayload {
     NSLog(@"setData on IterableInAppBaseViewController should not be called directly");
 }

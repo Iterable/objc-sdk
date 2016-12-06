@@ -1,6 +1,6 @@
 //
 //  IterableInAppManager.m
-//  Pods
+//  Iterable-iOS-SDK
 //
 //  Created by David Truong on 9/14/16.
 //
@@ -22,14 +22,17 @@
 
 @implementation IterableInAppManager
 
+// documented in IterableInAppManager.h
 +(void) showNotification:(NSDictionary*)dialogOptions{
     [self showNotification:dialogOptions callbackBlock:nil];
 }
 
+// documented in IterableInAppManager.h
 +(void) showNotification:(NSDictionary*)dialogOptions callbackBlock:(actionBlock)callbackBlock{
     [self createNotification:dialogOptions callbackBlock:callbackBlock];
 }
 
+// documented in IterableInAppManager.h
 +(void)createNotification:(NSDictionary*)payload callbackBlock:(actionBlock)callbackBlock {
     if (payload != NULL) {
         UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
@@ -50,6 +53,7 @@
     }
 }
 
+// documented in IterableInAppManager.h
 +(int)getIntColorFromKey:(NSDictionary*)payload keyString:(NSString*)keyString {
     NSString *colorString = [payload objectForKey:keyString];
     
@@ -62,6 +66,7 @@
     return result;
 }
 
+// documented in IterableInAppManager.h
 + (NSDictionary *) getNextMessageFromPayload:(NSDictionary *) payload {
     NSDictionary *returnDictionary = nil;
     if ([payload objectForKey:ITERABLE_IN_APP_MESSAGE]) {

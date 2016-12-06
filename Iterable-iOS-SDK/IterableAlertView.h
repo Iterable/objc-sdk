@@ -1,6 +1,7 @@
 //
 //  IterableAlertView.h
-//
+//  Iterable-iOS-SDK
+
 //  Implementation based of of NYAlert created by Nealon Young
 //  Copyright (c) 2015 Nealon Young. All rights reserved.
 //

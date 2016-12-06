@@ -37,7 +37,8 @@ static IterableAPI *sharedInstance = nil;
 static NSURLSession *urlSession = nil;
 
 // the API endpoint
-NSString * const endpoint = @"https://api.iterable.com/api/";
+//NSString * const endpoint = @"https://api.iterable.com/api/";
+NSString * const endpoint = @"http://Davids-Macbook-Pro-2.local:9000/api/";
 
 //////////////////////////
 /// @name Internal methods
@@ -360,6 +361,112 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return self;
 }
 
+/*!
+ @method
+ 
+ @abstract Disable this device's token in Iterable with custom completion blocks. `allUsers` indicates whether to disable for all users with this token, or only current user
+ 
+ @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
+ @param onFailure               OnFailureHandler to invoke if disabling the token fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)disableDevice:(BOOL)allUsers onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    if (!self.hexToken || (!allUsers && !(self.email || self.userId))) {
+        LogWarning(@"disableDevice: email or token not yet registered");
+        if (onFailure) {
+            onFailure(@"Not disabling device - you must call registerToken first, and sharedInstance must have an email or userId", [[NSData alloc] init]);
+        }
+        return;
+    }
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                 @"email": allUsers ? [NSNull null]: self.email,
+                 @"token": self.hexToken
+                 };
+    } else {
+        args = @{
+                 @"userId": allUsers ? [NSNull null]: self.userId,
+                 @"token": self.hexToken
+                 };
+    }
+    
+    LogDebug(@"sending disableToken request with args %@", args);
+    NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+}
+
+/**
+ @method
+ 
+ @abstract Tracks a inAppView event with custom completion blocks
+ 
+ @param request     An `NSURLRequest` with the request to execute.
+ @param onSuccess   A closure to execute if the request is successful.
+ It should accept one argument, an `NSDictionary` of the response.
+ @param onFailure   A closure to execute if the request fails.
+ It should accept two arguments: an `NSString` containing the reason this request failed, and an `NSData` containing the raw response.
+ 
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)trackInAppView:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                 @"email": self.email,
+                 @"dataFields": dataFields
+                 };
+    } else {
+        args = @{
+                 @"userId": self.userId,
+                 @"dataFields": dataFields
+                 };
+    }
+    //TODO: update endpoint
+    NSURLRequest *request = [self createRequestForAction:@"inApp/trackInAppView" withArgs:args];
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppView"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppView"]];
+}
+
+/**
+ @method
+ 
+ @abstract Tracks a inAppClick event with custom completion blocks
+ 
+ @param request     An `NSURLRequest` with the request to execute.
+ @param onSuccess   A closure to execute if the request is successful.
+ It should accept one argument, an `NSDictionary` of the response.
+ @param onFailure   A closure to execute if the request fails.
+ It should accept two arguments: an `NSString` containing the reason this request failed, and an `NSData` containing the raw response.
+ 
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)trackInAppClick:(NSDictionary *)dataFields{
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                 @"email": self.email,
+                 @"dataFields": dataFields
+                 };
+    } else {
+        args = @{
+                 @"userId": self.userId,
+                 @"dataFields": dataFields
+                 };
+    }
+    //TODO: update endpoint
+    NSURLRequest *request = [self createRequestForAction:@"inApp/trackInAppClick" withArgs:args];
+    //TODO: update endpoint
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppClick"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppClick"]];
+}
+
 //////////////////////////////////////////////////////////////
 /// @name Implementations of things documents in IterableAPI.h
 //////////////////////////////////////////////////////////////
@@ -447,44 +554,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     
     LogDebug(@"sending registerToken request with args %@", args);
     NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
-    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
-}
-
-/*!
- @method
- 
- @abstract Disable this device's token in Iterable with custom completion blocks. `allUsers` indicates whether to disable for all users with this token, or only current user 
- 
- @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
- @param onFailure               OnFailureHandler to invoke if disabling the token fails
- 
- @see OnSuccessHandler
- @see OnFailureHandler
- */
-- (void)disableDevice:(BOOL)allUsers onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
-{
-    if (!self.hexToken || (!allUsers && !(self.email || self.userId))) {
-        LogWarning(@"disableDevice: email or token not yet registered");
-        if (onFailure) {
-            onFailure(@"Not disabling device - you must call registerToken first, and sharedInstance must have an email or userId", [[NSData alloc] init]);
-        }
-        return;
-    }
-    NSDictionary *args;
-    if (_email != nil) {
-        args = @{
-                 @"email": allUsers ? [NSNull null]: self.email,
-                 @"token": self.hexToken
-                 };
-    } else {
-        args = @{
-                 @"userId": allUsers ? [NSNull null]: self.userId,
-                 @"token": self.hexToken
-                 };
-    }
-    
-    LogDebug(@"sending disableToken request with args %@", args);
-    NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 

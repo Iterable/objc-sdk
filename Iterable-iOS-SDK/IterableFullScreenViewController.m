@@ -1,6 +1,7 @@
 //
 //  IterableFullScreenViewController.m
-//
+//  Iterable-iOS-SDK
+
 //  Created by David Truong on 8/24/16.
 //  Copyright © 2016 Iterable. All rights reserved.
 //
@@ -13,6 +14,21 @@
 @property (nonatomic, strong) UIImageView* ImageView;
 @property (nonatomic) NSArray *actionButtons;
 
+@property (nonatomic, strong) UILabel* Title;
+@property (nonatomic, strong) UILabel* TextBody;
+@property (nonatomic, strong) UIStackView* DialogButtons;
+
+@property (nonatomic) NSString *imageURL;
+@property (nonatomic) int backgroundColor;
+
+@property (nonatomic) NSString *titleFontName;
+@property (nonatomic) int titleColor;
+@property (nonatomic) NSString *titleString;
+
+@property (nonatomic) NSString *bodyTextFontName;
+@property (nonatomic) int bodyTextColor;
+@property (nonatomic) NSString *bodyTextString;
+
 @end
 
 @implementation IterableFullScreenViewController
@@ -20,8 +36,7 @@
 CGFloat imageWidth =0;
 CGFloat imageHeight =0;
 
-NSDictionary *inAppPayload;
-
+// documented in IterableFullScreenViewController.h
 -(void)setData:(NSDictionary *)jsonPayload {
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_TITLE]) {
         NSDictionary* title = [jsonPayload objectForKey:ITERABLE_IN_APP_TITLE];
@@ -46,6 +61,11 @@ NSDictionary *inAppPayload;
     _backgroundColor = [IterableInAppManager getIntColorFromKey:jsonPayload keyString:ITERABLE_IN_APP_BACKGROUND_COLOR];
 }
 
+/**
+ @method
+ 
+ @abstract Creates a custom view hierarchy for the dialog
+ */
 - (void)loadView {
     [super loadView];
     
@@ -66,7 +86,7 @@ NSDictionary *inAppPayload;
     
     if(_imageURL != nil) {
         //Async load of the center image
-        [self processImageDataWithURLString:self.imageURL andBlock:^(NSData *imageData) {
+        [self processImageDataWithURLString:self.imageURL setImage:^(NSData *imageData) {
             if (self.view.window) {
                 UIImage *image = [UIImage imageWithData:imageData];
                 imageWidth = image.size.width;
@@ -136,7 +156,16 @@ NSDictionary *inAppPayload;
     return image;
 }
 
-- (void)processImageDataWithURLString:(NSString *)urlString andBlock:(void (^)(NSData *imageData))processImage
+/**
+ @method
+ 
+ @abstract Loads an image from the specified urlString and dispatches the processImage callback when completed.
+ 
+ @param urlString the url to load the image from
+ @param setImage the action block to be called after loading the image
+ 
+ */
+- (void)processImageDataWithURLString:(NSString *)urlString setImage:(void (^)(NSData *imageData))setImage
 {
     NSURL *url = [NSURL URLWithString:urlString];
     
@@ -144,11 +173,16 @@ NSDictionary *inAppPayload;
     dispatch_async(loadQueue, ^{
         NSData * imageData = [NSData dataWithContentsOfURL:url];
         dispatch_async(dispatch_get_main_queue(), ^{
-            processImage(imageData);
+            setImage(imageData);
         });
     });
 }
 
+/**
+ @method
+ 
+ @abstract  Called just before the view controller's view's layoutSubviews method is invoked.
+ */
 - (void)viewWillLayoutSubviews {
     CGPoint img = [self layoutCenterImage];
     
@@ -166,6 +200,13 @@ NSDictionary *inAppPayload;
     [self.TextBody setCenter:CGPointMake(self.view.center.x, textBodyStartingLocation+self.TextBody.frame.size.height/2)];
 }
 
+/**
+ @method
+ 
+ @abstract Layouts the dialog by centering the image then adjusting the
+ 
+ @return a CGPoint representing the size of the center image
+ */
 -(CGPoint)layoutCenterImage{
     float maxHeight;
     if(UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
