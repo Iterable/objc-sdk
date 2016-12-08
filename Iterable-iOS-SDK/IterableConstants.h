@@ -18,7 +18,7 @@
 #define ITERABLE_IN_APP_TYPE @"displayType"
 #define ITERABLE_IN_APP_TYPE_TOP @"TOP"
 #define ITERABLE_IN_APP_TYPE_BOTTOM @"BOTTOM"
-#define ITERABLE_IN_APP_TYPE_CENTER @"CENTER"
+#define ITERABLE_IN_APP_TYPE_CENTER @"MIDDLE"
 #define ITERABLE_IN_APP_TYPE_FULL @"FULL"
 
 //TextBlock
@@ -30,5 +30,7 @@
 
 #define ITERABLE_IN_APP_BUTTON_ACTION @"action"
 #define ITERABLE_IN_APP_CONTENT @"content"
+
+typedef void (^actionBlock)(NSString *);
 
 #endif /* IterableConstants_h */

@@ -155,16 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				1653A80B1D88B25200690298 /* IterableConstants.h */,
-				16ED2E461D90569500ADCAEC /* IterableInAppBaseViewController.h */,
-				16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */,
-				1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */,
-				1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */,
-				16513DD81D89EECC00C205B3 /* IterableInAppManager.h */,
-				16513DD91D89EECC00C205B3 /* IterableInAppManager.m */,
-				16ED2E491D908D5500ADCAEC /* IterableAlertView.h */,
-				16ED2E4A1D908D5500ADCAEC /* IterableAlertView.m */,
-				16ED2E4B1D908D5500ADCAEC /* IterableAlertViewController.h */,
-				16ED2E4C1D908D5500ADCAEC /* IterableAlertViewController.m */,
+				16CE7A051DF8D5A900CADC2D /* InAppNotifications */,
 				6804B85F1AC0F363000A126B /* CommerceItem.m */,
 				6804B8651AC10426000A126B /* CommerceItem.h */,
 				093734251A1D6E8800C950B6 /* IterableAPI.h */,
@@ -196,6 +187,23 @@
 				09C0FC0C1A1D6D4700D5A86B /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		16CE7A051DF8D5A900CADC2D /* InAppNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				16513DD81D89EECC00C205B3 /* IterableInAppManager.h */,
+				16513DD91D89EECC00C205B3 /* IterableInAppManager.m */,
+				16ED2E461D90569500ADCAEC /* IterableInAppBaseViewController.h */,
+				16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */,
+				1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */,
+				1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */,
+				16ED2E491D908D5500ADCAEC /* IterableAlertView.h */,
+				16ED2E4A1D908D5500ADCAEC /* IterableAlertView.m */,
+				16ED2E4B1D908D5500ADCAEC /* IterableAlertViewController.h */,
+				16ED2E4C1D908D5500ADCAEC /* IterableAlertViewController.m */,
+			);
+			name = InAppNotifications;
 			sourceTree = "<group>";
 		};
 		6845F72F1AC3818F0043629D /* Frameworks */ = {

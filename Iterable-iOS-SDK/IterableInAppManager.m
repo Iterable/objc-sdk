@@ -23,22 +23,12 @@
 @implementation IterableInAppManager
 
 // documented in IterableInAppManager.h
-+(void) showNotification:(NSDictionary*)dialogOptions{
-    [self showNotification:dialogOptions callbackBlock:nil];
-}
-
-// documented in IterableInAppManager.h
 +(void) showNotification:(NSDictionary*)dialogOptions callbackBlock:(actionBlock)callbackBlock{
-    [self createNotification:dialogOptions callbackBlock:callbackBlock];
-}
-
-// documented in IterableInAppManager.h
-+(void)createNotification:(NSDictionary*)payload callbackBlock:(actionBlock)callbackBlock {
-    if (payload != NULL) {
+    if (dialogOptions != NULL) {
         UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
         IterableInAppBaseViewController *baseNotification;
         
-        NSString* type = [payload objectForKey:ITERABLE_IN_APP_TYPE];
+        NSString* type = [dialogOptions objectForKey:ITERABLE_IN_APP_TYPE];
         if ([type caseInsensitiveCompare:ITERABLE_IN_APP_TYPE_FULL] == NSOrderedSame){
             baseNotification = [[IterableFullScreenViewController alloc] init];
         } else {
@@ -47,7 +37,7 @@
         
         //TODO: add in view tracking
         
-        [baseNotification setData:payload];
+        [baseNotification setData:dialogOptions];
         [baseNotification setCallback:callbackBlock];
         [rootViewController presentViewController:baseNotification animated:YES completion:nil];
     }

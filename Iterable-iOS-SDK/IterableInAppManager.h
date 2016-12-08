@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IterableConstants.h"
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)((rgbValue & 0xFF)))/255.0 alpha:1.0]
 
 @interface IterableInAppManager : NSObject
-
-typedef void (^actionBlock)(NSString *);
 
 ////////////////////
 /// @name Properties
@@ -22,15 +21,6 @@ typedef void (^actionBlock)(NSString *);
  An array of action objects representing the actions that the user can take in response to the alert view
  */
 @property (nonatomic, readonly) NSArray *actions;
-
-/*!
- @method
- 
- @abstract Creates and shows an InApp Notification
- 
- @param dialogOptions   the NSDictionary containing the dialog options
- */
-+(void) showNotification:(NSDictionary *)dialogOptions;
 
 /*!
  @method

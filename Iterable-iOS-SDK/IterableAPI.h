@@ -8,7 +8,7 @@
 
 @import Foundation;
 #import "CommerceItem.h"
-#import "IterableInAppManager.h"
+#import "IterableConstants.h"
 
 // all params are nonnull, unless annotated otherwise
 NS_ASSUME_NONNULL_BEGIN

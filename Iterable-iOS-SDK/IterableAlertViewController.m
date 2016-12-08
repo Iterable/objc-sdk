@@ -222,7 +222,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 @implementation IterableAlertViewPresentationController
 
 - (void)presentationTransitionWillBegin {
-//    self.presentedViewController.view.layer.cornerRadius = 6.0f;
     self.presentedViewController.view.layer.masksToBounds = YES;
     
     self.backgroundDimmingView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -326,6 +325,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     return alertController;
 }
 
+// documented in IterableAlertViewController.h
 -(void)setData:(NSDictionary *)jsonPayload {
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_TITLE]) {
         NSDictionary* title = [jsonPayload objectForKey:ITERABLE_IN_APP_TITLE];
@@ -353,10 +353,12 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                 NSString *title;
                 if ([button objectForKey:ITERABLE_IN_APP_CONTENT]) {
                     NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_CONTENT];
-                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT])
+                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT]) {
                         self.cancelButtonTitleFont = [UIFont fontWithName:[buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
-                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR])
+                    }
+                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR]) {
                         self.cancelButtonTitleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:buttonContent keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+                    }
                     title = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT];
                 }
                 self.cancelButtonColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);
@@ -367,10 +369,12 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                 NSString *title;
                 if ([button objectForKey:ITERABLE_IN_APP_CONTENT]) {
                     NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_CONTENT];
-                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT])
+                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT]) {
                         self.buttonTitleFont = [UIFont fontWithName:[buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
-                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR])
+                    }
+                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR]) {
                         self.buttonTitleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:buttonContent keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+                    }
                     title = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT];
                 }
                 self.buttonColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:button keyString:ITERABLE_IN_APP_BACKGROUND_COLOR]);

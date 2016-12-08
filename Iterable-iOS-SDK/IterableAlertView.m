@@ -594,15 +594,6 @@
                                                                                        views:NSDictionaryOfVariableBindings(_contentViewContainerView)]];
     
     _contentViewContainerView.center = self.alertBackgroundView.center;
-    
-    /*[self.alertBackgroundView addConstraint:[NSLayoutConstraint constraintWithItem:_contentViewContainerView
-                                                          attribute:NSLayoutAttributeCenterX
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.alertBackgroundView
-                                                          attribute:NSLayoutAttributeCenterX
-                                                         multiplier:1.0
-                                                           constant:0.0]];*/
-
  }
 
 - (void)setStylePopUpDialog {

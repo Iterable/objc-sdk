@@ -37,8 +37,7 @@ static IterableAPI *sharedInstance = nil;
 static NSURLSession *urlSession = nil;
 
 // the API endpoint
-//NSString * const endpoint = @"https://api.iterable.com/api/";
-NSString * const endpoint = @"http://Davids-Macbook-Pro-2.local:9000/api/";
+NSString * const endpoint = @"https://api.iterable.com/api/";
 
 //////////////////////////
 /// @name Internal methods
