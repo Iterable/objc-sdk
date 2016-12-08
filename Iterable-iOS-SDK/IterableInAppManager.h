@@ -30,7 +30,7 @@
  @param dialogOptions   the NSDictionary containing the dialog options
  @param callback        the callback to send after a button on the notification is clicked
  */
-+(void) showNotification:(NSDictionary *)dialogOptions callbackBlock:(actionBlock)callbackBlock;
++(void) showIterableNotification:(NSDictionary *)dialogOptions callbackBlock:(ITEActionBlock)callbackBlock;
 
 /*!
  @method

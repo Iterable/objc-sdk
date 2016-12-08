@@ -33,11 +33,11 @@
 
 @implementation IterableFullScreenViewController
 
-CGFloat imageWidth =0;
-CGFloat imageHeight =0;
+CGFloat imageWidth = 0;
+CGFloat imageHeight = 0;
 
 // documented in IterableFullScreenViewController.h
--(void)setData:(NSDictionary *)jsonPayload {
+-(void)ITESetData:(NSDictionary *)jsonPayload {
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_TITLE]) {
         NSDictionary* title = [jsonPayload objectForKey:ITERABLE_IN_APP_TITLE];
         _titleFontName = [title objectForKey:ITERABLE_IN_APP_TEXT_FONT];
@@ -107,9 +107,9 @@ CGFloat imageHeight =0;
         NSDictionary *buttonParams = [_actionButtons objectAtIndex:i];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.tag = i;
-        [self addActionButton:button.tag actionString:[buttonParams objectForKey:ITERABLE_IN_APP_BUTTON_ACTION]];
+        [self ITEAddActionButton:button.tag actionString:[buttonParams objectForKey:ITERABLE_IN_APP_BUTTON_ACTION]];
         [button addTarget:self
-                   action:@selector(actionButtonClicked:)
+                   action:@selector(ITEActionButtonClicked:)
          forControlEvents:UIControlEventTouchUpInside];
 
 

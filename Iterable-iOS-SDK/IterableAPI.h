@@ -377,10 +377,10 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Gets the list of InAppNotification and displays the next notification
  
-  @param callbackBlock  Callback actionBlock
+  @param callbackBlock  Callback ITEActionBlock
  
  */
-- (void)spawnInAppNotification:(actionBlock) callbackBlock;
+- (void)spawnInAppNotification:(ITEActionBlock) callbackBlock;
 
 
 /*!

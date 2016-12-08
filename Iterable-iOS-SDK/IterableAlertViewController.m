@@ -326,7 +326,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
 }
 
 // documented in IterableAlertViewController.h
--(void)setData:(NSDictionary *)jsonPayload {
+-(void)ITESetData:(NSDictionary *)jsonPayload {
     if ([jsonPayload objectForKey:ITERABLE_IN_APP_TITLE]) {
         NSDictionary* title = [jsonPayload objectForKey:ITERABLE_IN_APP_TITLE];
         self.title = [title objectForKey:ITERABLE_IN_APP_TEXT];
@@ -393,12 +393,12 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
     //Set Notification Location
     NSString* type = [jsonPayload objectForKey:ITERABLE_IN_APP_TYPE];
     if ([type isEqual:ITERABLE_IN_APP_TYPE_TOP]) {
-        [((IterableAlertView *) self.view) setLocation:NotifLocationTop];
+        [((IterableAlertView *) self.view) setInAppLocation:NotifLocationTop];
     } else if ([type isEqual:ITERABLE_IN_APP_TYPE_BOTTOM]) {
-        [((IterableAlertView *) self.view) setLocation:NotifLocationBottom];
+        [((IterableAlertView *) self.view) setInAppLocation:NotifLocationBottom];
         self.transitionStyle = IterableAlertViewControllerTransitionStyleSlideFromBottom;
     }else {
-        [((IterableAlertView *) self.view) setLocation:NotifLocationCenter];
+        [((IterableAlertView *) self.view) setInAppLocation:NotifLocationCenter];
         self.transitionStyle = IterableAlertViewControllerTransitionStyleFade;
     }
     
@@ -589,8 +589,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         IterableAlertViewButton *button = [IterableAlertViewButton buttonWithType:UIButtonTypeCustom];
         
         button.tag = i;
-        [self addActionButton:button.tag actionString:action.actionName];
-        [button addTarget:self action:@selector(actionButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self ITEAddActionButton:button.tag actionString:action.actionName];
+        [button addTarget:self action:@selector(ITEActionButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         
         button.enabled = action.enabled;
         
@@ -599,24 +599,24 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         [button setTitle:action.title forState:UIControlStateNormal];
         
         [button setTitleColor:self.disabledButtonTitleColor forState:UIControlStateDisabled];
-        [button setBackgroundColor:self.disabledButtonColor forState:UIControlStateDisabled];
+        [button ITESetButtonBackgroundColor:self.disabledButtonColor forState:UIControlStateDisabled];
         
         if (action.style == UIAlertActionStyleCancel) {
             [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:self.cancelButtonTitleColor forState:UIControlStateHighlighted];
-            [button setBackgroundColor:self.cancelButtonColor forState:UIControlStateNormal];
+            [button ITESetButtonBackgroundColor:self.cancelButtonColor forState:UIControlStateNormal];
 
             button.titleLabel.font = self.cancelButtonTitleFont;
         } else if (action.style == UIAlertActionStyleDestructive) {
             [button setTitleColor:self.destructiveButtonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:self.destructiveButtonTitleColor forState:UIControlStateHighlighted];
-            [button setBackgroundColor:self.destructiveButtonColor forState:UIControlStateNormal];
+            [button ITESetButtonBackgroundColor:self.destructiveButtonColor forState:UIControlStateNormal];
 
             button.titleLabel.font = self.destructiveButtonTitleFont;
         } else {
             [button setTitleColor:self.buttonTitleColor forState:UIControlStateNormal];
             [button setTitleColor:self.buttonTitleColor forState:UIControlStateHighlighted];
-            [button setBackgroundColor:self.buttonColor forState:UIControlStateNormal];
+            [button ITESetButtonBackgroundColor:self.buttonColor forState:UIControlStateNormal];
 
             button.titleLabel.font = self.buttonTitleFont;
         }
@@ -717,7 +717,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         IterableAlertAction *action = self.actions[idx];
         
         if (action.style != UIAlertActionStyleCancel) {
-            [button setBackgroundColor:buttonColor forState:UIControlStateNormal];
+            [button ITESetButtonBackgroundColor:buttonColor forState:UIControlStateNormal];
         }
     }];
 }
@@ -729,7 +729,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         IterableAlertAction *action = self.actions[idx];
         
         if (action.style == UIAlertActionStyleCancel) {
-            [button setBackgroundColor:cancelButtonColor forState:UIControlStateNormal];
+            [button ITESetButtonBackgroundColor:cancelButtonColor forState:UIControlStateNormal];
         }
     }];
 }
@@ -741,7 +741,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         IterableAlertAction *action = self.actions[idx];
         
         if (action.style == UIAlertActionStyleDestructive) {
-            [button setBackgroundColor:destructiveButtonColor forState:UIControlStateNormal];
+            [button ITESetButtonBackgroundColor:destructiveButtonColor forState:UIControlStateNormal];
         }
     }];
 }
@@ -753,7 +753,7 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
         IterableAlertAction *action = self.actions[idx];
         
         if (!action.enabled) {
-            [button setBackgroundColor:disabledButtonColor forState:UIControlStateNormal];
+            [button ITESetButtonBackgroundColor:disabledButtonColor forState:UIControlStateNormal];
         }
     }];
 }

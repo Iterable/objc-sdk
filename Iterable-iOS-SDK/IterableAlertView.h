@@ -8,21 +8,39 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, IterableAlertViewButtonType) {
+/**
+ ENUM specifying the type of button
+*/
+typedef NS_ENUM(NSUInteger, IterableAlertViewButtonType) {
+    /** Filled Button View */
     IterableAlertViewButtonTypeFilled,
+    /** Bordered Button View */
     IterableAlertViewButtonTypeBordered
 };
 
+/**
+ ENUM specifying the location to display the InApp Notification
+ */
 typedef NS_ENUM(NSUInteger, IterableInAppNotificationLocation) {
+    /** Location Center */
     NotifLocationCenter,
+    /** Location Bottom */
     NotifLocationBottom,
+    /** Location Top */
     NotifLocationTop,
+    /** Location Full Screen */
     NotifLocationFull
 };
 
 @interface UIButton (BackgroundColor)
 
-- (void)setBackgroundColor:(UIColor *)color forState:(UIControlState)state;
+/**
+ @abstract Sets the InApp button background color
+ 
+ @param color The UIcolor
+ @param state The state of the button
+ */
+- (void)ITESetButtonBackgroundColor:(UIColor *)color forState:(UIControlState)state;
 
 @end
 
@@ -36,8 +54,15 @@ typedef NS_ENUM(NSUInteger, IterableInAppNotificationLocation) {
 
 @interface IterableAlertView : UIView
 
-- (void)setLocation:(IterableInAppNotificationLocation)location;
-- (void)setStylePopUpDialog;
+/**
+ @method
+ 
+ @abstract sets the location the InApp notification is displayed at
+ 
+ @param location the location to display the notification
+ */
+- (void)setInAppLocation:(IterableInAppNotificationLocation)location;
+
 - (void)updateHorizontalConstraint;
 
 @property UILabel *titleLabel;

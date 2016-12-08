@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, IterableAlertViewControllerTransitionStyle) {
 /**
  Sets the payload data of the notification
  */
--(void)setData:(NSDictionary *)jsonPayload;
+-(void)ITESetData:(NSDictionary *)jsonPayload;
 
 /**
  The message displayed under the alert view's title

@@ -23,7 +23,7 @@
 @implementation IterableInAppManager
 
 // documented in IterableInAppManager.h
-+(void) showNotification:(NSDictionary*)dialogOptions callbackBlock:(actionBlock)callbackBlock{
++(void) showIterableNotification:(NSDictionary*)dialogOptions callbackBlock:(ITEActionBlock)callbackBlock{
     if (dialogOptions != NULL) {
         UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
         IterableInAppBaseViewController *baseNotification;
@@ -35,10 +35,8 @@
             baseNotification = [[IterableAlertViewController alloc] initWithNibName:nil bundle:nil];
         }
         
-        //TODO: add in view tracking
-        
-        [baseNotification setData:dialogOptions];
-        [baseNotification setCallback:callbackBlock];
+        [baseNotification ITESetData:dialogOptions];
+        [baseNotification ITESetCallback:callbackBlock];
         [rootViewController presentViewController:baseNotification animated:YES completion:nil];
     }
 }

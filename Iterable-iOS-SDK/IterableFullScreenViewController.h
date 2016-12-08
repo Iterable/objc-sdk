@@ -18,7 +18,7 @@
  
  @param jsonPayload the payload data
  */
-- (void) setData:(NSDictionary *)jsonPayload;
+- (void) ITESetData:(NSDictionary *)jsonPayload;
 
 @end
  

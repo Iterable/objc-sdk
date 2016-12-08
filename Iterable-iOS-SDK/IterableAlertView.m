@@ -44,10 +44,18 @@
 
 @implementation UIButton (BackgroundColor)
 
-- (void)setBackgroundColor:(UIColor *)color forState:(UIControlState)state {
+// documented in IterableAlertView.h
+- (void)ITESetButtonBackgroundColor:(UIColor *)color forState:(UIControlState)state {
     [self setBackgroundImage:[self imageWithColor:color] forState:state];
 }
 
+/**
+ @method
+ 
+ @abstract Returns a image with a defined color
+ 
+ @param color the UIColor
+ */
 - (UIImage *)imageWithColor:(UIColor *)color {
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);
@@ -175,13 +183,10 @@
     
     if (self.state == UIControlStateHighlighted) {
         self.layer.backgroundColor = self.tintColor.CGColor;
-        //[self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     } else {
         if (self.type == IterableAlertViewButtonTypeBordered) {
             self.layer.backgroundColor = nil;
             [self setTitleColor:self.tintColor forState:UIControlStateNormal];
-        } else {
-            //[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
     }
 }
@@ -200,21 +205,10 @@
 
 @implementation IterableAlertView
 
--(BOOL)shouldAutorotate {
-    // Preparations to rotate view go here
-    return YES;
-}
-
--(NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait; // or however you want to rotate
-}
-
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
     if (self) {
-        
-        
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
         CGFloat screenScale = [[UIScreen mainScreen] scale];
         CGSize screenSize = CGSizeMake(screenBounds.size.width * screenScale, screenBounds.size.height * screenScale);
@@ -272,7 +266,7 @@
                                                           constant:0.0f]];
         
         _alertBackgroundViewWidth = MIN(CGRectGetWidth([UIApplication sharedApplication].keyWindow.bounds),
-                                        CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds)) * 0.8f;
+                                        CGRectGetHeight([UIApplication sharedApplication].keyWindow.bounds));
         
         if (_alertBackgroundViewWidth > self.maximumWidth) {
             _alertBackgroundViewWidth = self.maximumWidth;
@@ -344,7 +338,14 @@
     return self;
 }
 
-// Pass through touches outside the backgroundView for the presentation controller to handle dismissal
+/**
+ @method
+ 
+ @abstract Pass through touches outside the backgroundView for the presentation controller to handle dismissal
+ 
+ @param point the Point
+  @param event the UIEvent
+ */
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
     for (UIView *subview in self.subviews) {
         if ([subview hitTest:[self convertPoint:point toView:subview] withEvent:event]) {
@@ -355,11 +356,24 @@
     return NO;
 }
 
+/**
+ @method
+ 
+ @abstract Sets the maximumWidth of the InApp
+ 
+ @param maximumWidth
+ */
 - (void)setMaximumWidth:(CGFloat)maximumWidth {
     _maximumWidth = maximumWidth;
     self.alertBackgroundWidthConstraint.constant = maximumWidth;
 }
 
+/**
+ @method
+ 
+ @abstract Updates the horizontal constraints
+ 
+ */
 - (void)updateHorizontalConstraint {
     [self removeConstraint:self.alertBackgroundWidthConstraint];
     
@@ -382,7 +396,13 @@
     
 }
 
-
+/**
+ @method
+ 
+ @abstract Sets the contentView
+ 
+ @param contentView
+ */
 - (void)setContentView:(UIView *)contentView {
     [self.contentView removeFromSuperview];
     
@@ -404,6 +424,13 @@
     }
 }
 
+/**
+ @method
+ 
+ @abstract Sets the textFields
+ 
+ @param textFields
+ */
 - (void)setTextFields:(NSArray *)textFields {
     for (UITextField *textField in self.textFields) {
         [textField removeFromSuperview];
@@ -446,6 +473,13 @@
     }
 }
 
+/**
+ @method
+ 
+ @abstract Set the action buttons
+ 
+ @param actionButtons the array of action Buttons
+ */
 - (void)setActionButtons:(NSArray *)actionButtons {
     for (UIButton *button  in self.actionButtons) {
         [button removeFromSuperview];
@@ -523,7 +557,8 @@
     }
 }
 
-- (void)setLocation:(IterableInAppNotificationLocation)location {
+// documented in IterableAlertView.h
+- (void)setInAppLocation:(IterableInAppNotificationLocation)location {
     if (location == NotifLocationTop) {
         [self removeConstraint:self.backgroundViewVerticalCenteringConstraint];
         _backgroundViewVerticalCenteringConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
@@ -554,6 +589,11 @@
     
 }
 
+/**
+ @method
+ 
+ @abstract Formats the notification to be full screen
+ */
 - (void)setStyleFullScreen {
     
     [self removeConstraint:self.backgroundViewVerticalCenteringConstraint];
@@ -596,6 +636,11 @@
     _contentViewContainerView.center = self.alertBackgroundView.center;
  }
 
+/**
+ @method
+ 
+ @abstract Formats the notification to be a pop up
+ */
 - (void)setStylePopUpDialog {
     [self removeConstraint:self.alertBackgroundWidthConstraint];
         _alertBackgroundWidthConstraint = [NSLayoutConstraint constraintWithItem:self.alertBackgroundView
@@ -604,7 +649,7 @@
                                                                           toItem:nil
                                                                        attribute:NSLayoutAttributeNotAnAttribute
                                                                       multiplier:0.0f
-                                                                        constant:_alertBackgroundViewWidth * .8];
+                                                                        constant:_alertBackgroundViewWidth];
 
     [self addConstraint:self.alertBackgroundWidthConstraint];
 }

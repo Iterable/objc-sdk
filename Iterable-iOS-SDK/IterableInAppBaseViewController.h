@@ -11,7 +11,12 @@
 
 @interface IterableInAppBaseViewController : UIViewController
 
-typedef void (^actionBlock)(NSString *);
+/**
+ @abstract Custom ITEActionBlock
+ 
+ @param The NSString passed into the action block
+ */
+typedef void (^ITEActionBlock)(NSString *);
 
 /**
  @method
@@ -20,7 +25,7 @@ typedef void (^actionBlock)(NSString *);
  
  @param sender the UIButton which called the event
  */
--(void)actionButtonClicked:(UIButton *)sender;
+-(void)ITEActionButtonClicked:(UIButton *)sender;
 
 /**
  @method
@@ -30,7 +35,7 @@ typedef void (^actionBlock)(NSString *);
  @param id the id of the button
  @param actionString the string representing the action button clicked
  */
--(void)addActionButton:(NSInteger)id actionString:(NSString *)actionStringValue;
+-(void)ITEAddActionButton:(NSInteger)id actionString:(NSString *)actionStringValue;
 
 /**
  @method
@@ -39,7 +44,7 @@ typedef void (^actionBlock)(NSString *);
  
  @param jsonPayload the payload data
  */
--(void)setCallback:(actionBlock)callbackBlock;
+-(void)ITESetCallback:(ITEActionBlock)callbackBlock;
 
 /**
  @method
@@ -48,6 +53,6 @@ typedef void (^actionBlock)(NSString *);
  
  @param jsonPayload the payload data
  */
--(void)setData:(NSDictionary *)jsonPayload;
+-(void)ITESetData:(NSDictionary *)jsonPayload;
 
 @end

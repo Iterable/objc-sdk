@@ -13,7 +13,8 @@
 
 @interface IterableInAppBaseViewController ()
 
--(void)setData:(NSDictionary *)jsonPayload;
+// documented in IterableInAppBaseViewController.h
+-(void)ITESetData:(NSDictionary *)jsonPayload;
 
 @property (nonatomic) NSMutableArray *actionButtonsMapping;
 
@@ -21,16 +22,13 @@
 
 @implementation IterableInAppBaseViewController
 
-actionBlock customBlockCallback;
+ITEActionBlock customBlockCallback;
 
 // documented in IterableInAppBaseViewController.h
--(void)actionButtonClicked:(UIButton *)sender {
+-(void)ITEActionButtonClicked:(UIButton *)sender {
     NSString *actionString = _actionButtonsMapping[sender.tag];
     
     if (customBlockCallback != nil && ![actionString isEqualToString:@""]) {
-        //TODO: add in click tracking
-        IterableAPI *api = IterableAPI.sharedInstance;
-        [api track:actionString];
         customBlockCallback(actionString);
     }
     
@@ -38,7 +36,7 @@ actionBlock customBlockCallback;
 }
 
 // documented in IterableInAppBaseViewController.h
--(void)addActionButton:(NSInteger)id actionString:(NSString *)actionString {
+-(void)ITEAddActionButton:(NSInteger)id actionString:(NSString *)actionString {
     if (_actionButtonsMapping == NULL)
     {
         _actionButtonsMapping = [NSMutableArray array];
@@ -49,13 +47,13 @@ actionBlock customBlockCallback;
 }
 
 // documented in IterableInAppBaseViewController.h
--(void)setCallback:(actionBlock)callbackBlock {
+-(void)ITESetCallback:(ITEActionBlock)callbackBlock {
     customBlockCallback = callbackBlock;
 }
 
 // documented in IterableInAppBaseViewController.h
--(void)setData:(NSDictionary *)jsonPayload {
-    NSLog(@"setData on IterableInAppBaseViewController should not be called directly");
+-(void)ITESetData:(NSDictionary *)jsonPayload {
+    NSLog(@"ITESetData on IterableInAppBaseViewController should not be called directly");
 }
 
 @end

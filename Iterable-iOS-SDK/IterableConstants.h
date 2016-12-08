@@ -31,6 +31,6 @@
 #define ITERABLE_IN_APP_BUTTON_ACTION @"action"
 #define ITERABLE_IN_APP_CONTENT @"content"
 
-typedef void (^actionBlock)(NSString *);
+typedef void (^ITEActionBlock)(NSString *);
 
 #endif /* IterableConstants_h */

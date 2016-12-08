@@ -39,6 +39,7 @@ static NSURLSession *urlSession = nil;
 // the API endpoint
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
+
 //////////////////////////
 /// @name Internal methods
 //////////////////////////
@@ -510,7 +511,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 // documented in IterableAPI.h
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
-    NSString *hexToken = [token hexadecimalString];
+    NSString *hexToken = [token ITEHexadecimalString];
     _hexToken = hexToken;
 
     UIDevice *device = [UIDevice currentDevice];
@@ -744,16 +745,14 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
-
-
 // documented in IterableAPI.h
-- (void)spawnInAppNotification:(actionBlock)callbackBlock
+- (void)spawnInAppNotification:(ITEActionBlock)callbackBlock
 {
     OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
         NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
         if (dialogOptions != nil) {
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [IterableInAppManager showNotification:dialogOptions callbackBlock:(actionBlock)callbackBlock];
+                [IterableInAppManager showIterableNotification:dialogOptions callbackBlock:(ITEActionBlock)callbackBlock];
             });
         } else {
             LogDebug(@"No notifications found for inApp payload %@", payload);
