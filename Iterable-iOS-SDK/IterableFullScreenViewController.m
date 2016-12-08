@@ -146,16 +146,6 @@ CGFloat imageHeight = 0;
     [self.view addSubview:self.TextBody];
 }
 
--(UIImage*)getImage:(NSString *)imgUrl {
-    NSURL *imageURL = [NSURL URLWithString:imgUrl];
-    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-    UIImage *image = [UIImage imageWithData:imageData];
-    imageWidth = image.size.width;
-    imageHeight = image.size.height;
-
-    return image;
-}
-
 /**
  @method
  
