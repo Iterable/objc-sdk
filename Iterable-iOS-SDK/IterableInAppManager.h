@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "IterableConstants.h"
+#import "IterableNotificationMetadata.h"
 
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)((rgbValue & 0xFF)))/255.0 alpha:1.0]
 
@@ -28,9 +29,10 @@
  @abstract Creates and shows a InApp Notification; with callback handler
  
  @param dialogOptions   the NSDictionary containing the dialog options
+ @param trackParams     The track params for the notification
  @param callback        the callback to send after a button on the notification is clicked
  */
-+(void) showIterableNotification:(NSDictionary *)dialogOptions callbackBlock:(ITEActionBlock)callbackBlock;
++(void) showIterableNotification:(NSDictionary *)dialogOptions trackParams:(IterableNotificationMetadata *)trackParams callbackBlock:(ITEActionBlock)callbackBlock;
 
 /*!
  @method

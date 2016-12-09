@@ -9,6 +9,7 @@
 @import Foundation;
 #import "CommerceItem.h"
 #import "IterableConstants.h"
+#import "IterableInAppManager.h"
 
 // all params are nonnull, unless annotated otherwise
 NS_ASSUME_NONNULL_BEGIN
@@ -403,6 +404,27 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @see OnFailureHandler
  */
 - (void)getInAppMessages:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+
+/**
+ @method
+ 
+ @abstract Tracks a InAppOpen event with custom completion blocks
+ 
+ @param campaignId     The campaignId of the notification
+ @param templateId     The templateId of the notification
+ */
+- (void)trackInAppOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateID;
+
+/**
+ @method
+ 
+ @abstract Tracks a inAppClick event with custom completion blocks
+ 
+ @param campaignId     The campaignId of the notification
+ @param templateId     The templateId of the notification
+ @param buttonIndex     The index of the button that was clicked
+ */
+- (void)trackInAppClick:(NSNumber *)campaignId templateId:(NSNumber *)templateId buttonIndex:(NSNumber *)buttonIndex;
 
 @end
 

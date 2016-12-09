@@ -9,6 +9,9 @@
 #ifndef IterableConstants_h
 #define IterableConstants_h
 
+#define KEY_CAMPAIGN_ID @"campaignId"
+#define KEY_TEMPLATE_ID @"templateId"
+
 #define ITERABLE_IN_APP_TITLE @"title"
 #define ITERABLE_IN_APP_BODY @"body"
 #define ITERABLE_IN_APP_IMAGE @"mainImage"

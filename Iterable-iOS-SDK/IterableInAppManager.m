@@ -15,6 +15,7 @@
 #import "IterableAlertViewController.h"
 #import "IterableFullScreenViewController.h"
 #import "IterableConstants.h"
+#import "IterableNotificationMetadata.h"
 
 @interface IterableInAppManager ()
 
@@ -23,7 +24,7 @@
 @implementation IterableInAppManager
 
 // documented in IterableInAppManager.h
-+(void) showIterableNotification:(NSDictionary*)dialogOptions callbackBlock:(ITEActionBlock)callbackBlock{
++(void) showIterableNotification:(NSDictionary*)dialogOptions trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock{
     if (dialogOptions != NULL) {
         UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
         IterableInAppBaseViewController *baseNotification;
@@ -36,6 +37,7 @@
         }
         
         [baseNotification ITESetData:dialogOptions];
+        [baseNotification ITESetTrackParams:trackParams];
         [baseNotification ITESetCallback:callbackBlock];
         [rootViewController presentViewController:baseNotification animated:YES completion:nil];
     }
@@ -59,14 +61,13 @@
     NSDictionary *returnDictionary = nil;
     if ([payload objectForKey:ITERABLE_IN_APP_MESSAGE]) {
         NSArray *messageArray = [payload valueForKeyPath:ITERABLE_IN_APP_MESSAGE];
-        NSDictionary *message = [messageArray objectAtIndex:0];
-        if (message != nil) {
-            returnDictionary = [message valueForKeyPath:ITERABLE_IN_APP_CONTENT];
+        if (messageArray != nil && messageArray.count >0) {
+            returnDictionary = [messageArray objectAtIndex:0];
         }
-        
     }
     return returnDictionary;
 }
 
 @end
+
 

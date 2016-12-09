@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "IterableInAppManager.h"
+#import "IterableNotificationMetadata.h"
 
 @interface IterableInAppBaseViewController : UIViewController
 
@@ -54,5 +56,15 @@ typedef void (^ITEActionBlock)(NSString *);
  @param jsonPayload the payload data
  */
 -(void)ITESetData:(NSDictionary *)jsonPayload;
+
+/**
+ @method
+ 
+ @abstract Sets the track params for the viewController
+ 
+ @param trackParams the track parameters
+ */
+-(void)ITESetTrackParams:(IterableNotificationMetadata *)trackParams;
+
 
 @end

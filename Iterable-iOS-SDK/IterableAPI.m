@@ -37,7 +37,8 @@ static IterableAPI *sharedInstance = nil;
 static NSURLSession *urlSession = nil;
 
 // the API endpoint
-NSString * const endpoint = @"https://api.iterable.com/api/";
+//NSString * const endpoint = @"https://api.iterable.com/api/";
+NSString * const endpoint = @"http://Davids-Macbook-Pro-2.local:9000/api/";
 
 
 //////////////////////////
@@ -399,71 +400,45 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
-/**
- @method
- 
- @abstract Tracks a inAppView event with custom completion blocks
- 
- @param request     An `NSURLRequest` with the request to execute.
- @param onSuccess   A closure to execute if the request is successful.
- It should accept one argument, an `NSDictionary` of the response.
- @param onFailure   A closure to execute if the request fails.
- It should accept two arguments: an `NSString` containing the reason this request failed, and an `NSData` containing the raw response.
- 
- 
- @see OnSuccessHandler
- @see OnFailureHandler
- */
-- (void)trackInAppView:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
-{
+// documented in IterableAPI.h
+- (void)trackInAppOpen:(NSNumber*)campaignId templateId:(NSNumber*)templateId {
     NSDictionary *args;
     if (_email != nil) {
         args = @{
                  @"email": self.email,
-                 @"dataFields": dataFields
+                 @"campaignId": campaignId,
+                 @"templateId": templateId
                  };
     } else {
         args = @{
                  @"userId": self.userId,
-                 @"dataFields": dataFields
+                 @"campaignId": campaignId,
+                 @"templateId": templateId
                  };
     }
-    //TODO: update endpoint
-    NSURLRequest *request = [self createRequestForAction:@"inApp/trackInAppView" withArgs:args];
-    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppView"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppView"]];
+    NSURLRequest *request = [self createRequestForAction:@"events/trackInAppOpen" withArgs:args];
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppOpen"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppOpen"]];
 }
 
-/**
- @method
- 
- @abstract Tracks a inAppClick event with custom completion blocks
- 
- @param request     An `NSURLRequest` with the request to execute.
- @param onSuccess   A closure to execute if the request is successful.
- It should accept one argument, an `NSDictionary` of the response.
- @param onFailure   A closure to execute if the request fails.
- It should accept two arguments: an `NSString` containing the reason this request failed, and an `NSData` containing the raw response.
- 
- 
- @see OnSuccessHandler
- @see OnFailureHandler
- */
-- (void)trackInAppClick:(NSDictionary *)dataFields{
+// documented in IterableAPI.h
+- (void)trackInAppClick:(NSNumber*)campaignId templateId:(NSNumber*)templateId buttonIndex:(NSNumber*)buttonIndex {
     NSDictionary *args;
     if (_email != nil) {
         args = @{
                  @"email": self.email,
-                 @"dataFields": dataFields
+                 @"campaignId": campaignId,
+                 @"templateId": templateId,
+                 @"buttonIndex": buttonIndex
                  };
     } else {
         args = @{
                  @"userId": self.userId,
-                 @"dataFields": dataFields
+                 @"campaignId": campaignId,
+                 @"templateId": templateId,
+                 @"buttonIndex": buttonIndex
                  };
     }
-    //TODO: update endpoint
-    NSURLRequest *request = [self createRequestForAction:@"inApp/trackInAppClick" withArgs:args];
-    //TODO: update endpoint
+    NSURLRequest *request = [self createRequestForAction:@"events/trackInAppClick" withArgs:args];
     [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppClick"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppClick"]];
 }
 
@@ -751,9 +726,16 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
         NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
         if (dialogOptions != nil) {
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [IterableInAppManager showIterableNotification:dialogOptions callbackBlock:(ITEActionBlock)callbackBlock];
-            });
+            NSNumber *campaignId = [dialogOptions valueForKey:KEY_CAMPAIGN_ID];
+            NSNumber *templateId = [dialogOptions valueForKey:KEY_TEMPLATE_ID];
+            [self trackInAppOpen:campaignId templateId:templateId];
+            IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:campaignId templateId:templateId];
+            NSDictionary *message = [dialogOptions valueForKeyPath:ITERABLE_IN_APP_CONTENT];
+            if (message != nil) {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [IterableInAppManager showIterableNotification:message trackParams:notification callbackBlock:(ITEActionBlock)callbackBlock];
+                });
+            }
         } else {
             LogDebug(@"No notifications found for inApp payload %@", payload);
         }

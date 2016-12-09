@@ -196,10 +196,10 @@
 				16513DD91D89EECC00C205B3 /* IterableInAppManager.m */,
 				16ED2E461D90569500ADCAEC /* IterableInAppBaseViewController.h */,
 				16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */,
-				1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */,
-				1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */,
 				16ED2E491D908D5500ADCAEC /* IterableAlertView.h */,
 				16ED2E4A1D908D5500ADCAEC /* IterableAlertView.m */,
+				1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */,
+				1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */,
 				16ED2E4B1D908D5500ADCAEC /* IterableAlertViewController.h */,
 				16ED2E4C1D908D5500ADCAEC /* IterableAlertViewController.m */,
 			);
