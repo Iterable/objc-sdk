@@ -389,21 +389,23 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Gets the list of InAppMessages
  
+ @param count  the number of messages to fetch
  */
-- (void)getInAppMessages;
+- (void)getInAppMessages:(NSNumber *)count;
 
 /*!
  @method
  
  @abstract Gets the list of InAppMessages with optional additional fields and custom completion blocks
  
+  @param count  the number of messages to fetch
  @param onSuccess   OnSuccessHandler to invoke if the get call succeeds
  @param onFailure   OnFailureHandler to invoke if the get call fails
  
  @see OnSuccessHandler
  @see OnFailureHandler
  */
-- (void)getInAppMessages:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+- (void)getInAppMessages:(NSNumber *)count onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 /**
  @method

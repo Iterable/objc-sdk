@@ -39,7 +39,6 @@ static NSURLSession *urlSession = nil;
 // the API endpoint
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
-
 //////////////////////////
 /// @name Internal methods
 //////////////////////////
@@ -748,26 +747,28 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         }
     };
 
-    [self getInAppMessages:onSuccess onFailure:[IterableAPI defaultOnFailure:@"getInAppMessages"]];
+    [self getInAppMessages:@1 onSuccess:onSuccess onFailure:[IterableAPI defaultOnFailure:@"getInAppMessages"]];
 }
 
 // documented in IterableAPI.h
-- (void)getInAppMessages
+- (void)getInAppMessages:(NSNumber *)count
 {
-    [self getInAppMessages:[IterableAPI defaultOnSuccess:@"getMessages"] onFailure:[IterableAPI defaultOnFailure:@"getMessages"]];
+    [self getInAppMessages:@1 onSuccess:[IterableAPI defaultOnSuccess:@"getMessages"] onFailure:[IterableAPI defaultOnFailure:@"getMessages"]];
 }
 
 // documented in IterableAPI.h
-- (void)getInAppMessages:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+- (void)getInAppMessages:(NSNumber *)count onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
     NSDictionary *args;
     if (_email != nil) {
         args = @{
-                @"email": self.email
+                @"email": self.email,
+                @"count": count
                 };
     } else {
         args = @{
-                @"userId": self.userId
+                 @"userId": self.userId,
+                 @"count": count
                 };
     }
     NSURLRequest *request = [self createGetRequestForAction:@"inApp/getMessages" withArgs:args];
