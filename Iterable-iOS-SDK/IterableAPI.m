@@ -37,8 +37,7 @@ static IterableAPI *sharedInstance = nil;
 static NSURLSession *urlSession = nil;
 
 // the API endpoint
-//NSString * const endpoint = @"https://api.iterable.com/api/";
-NSString * const endpoint = @"http://Davids-Macbook-Pro-2.local:9000/api/";
+NSString * const endpoint = @"https://api.iterable.com/api/";
 
 
 //////////////////////////
@@ -401,19 +400,21 @@ NSString * const endpoint = @"http://Davids-Macbook-Pro-2.local:9000/api/";
 }
 
 // documented in IterableAPI.h
-- (void)trackInAppOpen:(NSNumber*)campaignId templateId:(NSNumber*)templateId {
+- (void)trackInAppOpen:(NSNumber*)campaignId templateId:(NSNumber*)templateId messageId:(NSString *)messageId {
     NSDictionary *args;
     if (_email != nil) {
         args = @{
                  @"email": self.email,
                  @"campaignId": campaignId,
-                 @"templateId": templateId
+                 @"templateId": templateId,
+                 @"messageId": messageId
                  };
     } else {
         args = @{
                  @"userId": self.userId,
                  @"campaignId": campaignId,
-                 @"templateId": templateId
+                 @"templateId": templateId,
+                 @"messageId": messageId
                  };
     }
     NSURLRequest *request = [self createRequestForAction:@"events/trackInAppOpen" withArgs:args];
@@ -421,13 +422,14 @@ NSString * const endpoint = @"http://Davids-Macbook-Pro-2.local:9000/api/";
 }
 
 // documented in IterableAPI.h
-- (void)trackInAppClick:(NSNumber*)campaignId templateId:(NSNumber*)templateId buttonIndex:(NSNumber*)buttonIndex {
+- (void)trackInAppClick:(NSNumber*)campaignId templateId:(NSNumber*)templateId messageId:(NSString *)messageId buttonIndex:(NSNumber*)buttonIndex {
     NSDictionary *args;
     if (_email != nil) {
         args = @{
                  @"email": self.email,
                  @"campaignId": campaignId,
                  @"templateId": templateId,
+                 @"messageId": messageId,
                  @"buttonIndex": buttonIndex
                  };
     } else {
@@ -435,6 +437,7 @@ NSString * const endpoint = @"http://Davids-Macbook-Pro-2.local:9000/api/";
                  @"userId": self.userId,
                  @"campaignId": campaignId,
                  @"templateId": templateId,
+                 @"messageId": messageId,
                  @"buttonIndex": buttonIndex
                  };
     }
@@ -726,11 +729,15 @@ NSString * const endpoint = @"http://Davids-Macbook-Pro-2.local:9000/api/";
     OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
         NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
         if (dialogOptions != nil) {
-            NSNumber *campaignId = [dialogOptions valueForKey:KEY_CAMPAIGN_ID];
-            NSNumber *templateId = [dialogOptions valueForKey:KEY_TEMPLATE_ID];
-            [self trackInAppOpen:campaignId templateId:templateId];
-            IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:campaignId templateId:templateId];
             NSDictionary *message = [dialogOptions valueForKeyPath:ITERABLE_IN_APP_CONTENT];
+            NSNumber *templateId = [message valueForKey:KEY_TEMPLATE_ID];
+            
+            NSNumber *campaignId = [dialogOptions valueForKey:KEY_CAMPAIGN_ID];
+            NSString *messageId = [dialogOptions valueForKey:KEY_MESSAGE_ID];
+            
+            [self trackInAppOpen:campaignId templateId:templateId messageId:messageId];
+            IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:campaignId templateId:templateId messageId:messageId];
+            
             if (message != nil) {
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     [IterableInAppManager showIterableNotification:message trackParams:notification callbackBlock:(ITEActionBlock)callbackBlock];

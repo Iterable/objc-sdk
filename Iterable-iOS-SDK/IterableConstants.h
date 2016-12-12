@@ -11,6 +11,7 @@
 
 #define KEY_CAMPAIGN_ID @"campaignId"
 #define KEY_TEMPLATE_ID @"templateId"
+#define KEY_MESSAGE_ID @"messageId"
 
 #define ITERABLE_IN_APP_TITLE @"title"
 #define ITERABLE_IN_APP_BODY @"body"

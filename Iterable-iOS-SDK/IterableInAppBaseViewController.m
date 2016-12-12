@@ -33,7 +33,7 @@ ITEActionBlock customBlockCallback;
     
     if (_trackParams != nil) {
         NSNumber *buttonId = @(sender.tag);
-        [api trackInAppClick:_trackParams.campaignId templateId:_trackParams.templateId buttonIndex:buttonId];
+        [api trackInAppClick:_trackParams.campaignId templateId:_trackParams.templateId messageId:_trackParams.messageId buttonIndex:buttonId];
     }
     
     if (customBlockCallback != nil && ![actionString isEqualToString:@""]) {
