@@ -39,6 +39,7 @@ static NSURLSession *urlSession = nil;
 // the API endpoint
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
+
 //////////////////////////
 /// @name Internal methods
 //////////////////////////
@@ -557,8 +558,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                  };
     }
     
-    LogDebug(@"sending registerToken request with args %@", args);
-    NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
+    LogDebug(@"sending disableToken request with args %@", args);
+    NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
