@@ -89,6 +89,77 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
+ @abstract Initializes Iterable with launchOptions
+ 
+ @param apiKey                  your Iterable apiKey
+ @param email                   the email of the user logged in
+ @param launchOptions           launchOptions from application:didFinishLaunchingWithOptions or custom launchOptions
+ @param useCustomLaunchOptions  whether or not to use the custom launchOption without the UIApplicationLaunchOptionsRemoteNotificationKey
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions;
+
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with just an API key and email, but no launchOptions
+ 
+ @param apiKey   your Iterable apiKey
+ @param userId   the userId of the user logged in
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *) userId;
+
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with launchOptions
+ 
+ @param apiKey          your Iterable apiKey
+ @param userId          the userId of the user logged in
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions;
+
+/*!
+ @method
+ 
+ @abstract Initializes Iterable with launchOptions
+ 
+ @param apiKey          your Iterable apiKey
+ @param userId          the userId of the user logged in
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions or custom launchOptions
+ @param useCustomLaunchOptions  whether or not to use the custom launchOption without the UIApplicationLaunchOptionsRemoteNotificationKey
+ 
+ @return an instance of IterableAPI
+ */
+- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions;
+
+/*!
+ @method
+ 
+ @abstract Initializes a shared instance of Iterable with launchOptions
+ 
+ @discussion This method will set up a singleton instance of the `IterableAPI` class for
+ you using the given project API key. When you want to make calls to Iterable
+ elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
+ the app was launched from a remote push notification, we will track a pushOpen.
+ 
+ @param apiKey          your Iterable apiKey
+ @param userId           the userId of the user logged in
+ @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ 
+ @return an instance of IterableAPI
+ */
++ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions;
+
+/*!
+ @method
+ 
  @abstract Initializes a shared instance of Iterable with launchOptions
  
  @discussion This method will set up a singleton instance of the `IterableAPI` class for

@@ -15,6 +15,35 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.1.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.1.1)
+#### Fixed
+- included the latest artifacts
+
+
+## [4.1.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.1.0)
+#### Added
+- added in new overloaded function for `initWithApiKey` to allow for custom launchOptions not passed from `application:didFinishLaunchingWithOptions`
+
+## [4.0.2](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.0.2)
+#### Fixed
+- include the latest artifacts
+
+## [4.0.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.0.1)
+#### Added
+- added back in `initWithApiKey`
+
+
+## [4.0.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.0.0)
+#### Added
+- added `userId` property
+- added new overloaded function for sharedInstanceWithApiKey to pass in a userId instead of an email.
+
+#### Removed
+- removed header for `initWithApiKey`
+
+#### Changed
+- changed the arguments of the following apis to use `userId` if an `email` does not exist: `track`, `trackPushOpen`, `registerToken`, and `disableDevice`.
+
 ## [3.1.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/3.1.1)
 _Released on 2016-09-08_
 

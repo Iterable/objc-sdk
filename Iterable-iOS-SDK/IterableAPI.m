@@ -299,103 +299,93 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 /*!
  @method
  
- @abstract Initializes Iterable with launchOptions
+ @abstract creates an iterable session with launchOptions
  
- @param apiKey          your Iterable apiKey
- @param email           the email of the user logged in
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ @param launchOptions launchOptions from application:didFinishLaunchingWithOptions
  
  @return an instance of IterableAPI
  */
-- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
+- (instancetype)createSession:(NSDictionary *)launchOptions
 {
-    if (self = [super init]) {
-        _apiKey = [apiKey copy];
-        _email = [email copy];
-    }
-    
-    return [self createSession:launchOptions];
-}
-
-/*!
- @method
- 
- @abstract Initializes Iterable with launchOptions
- 
- @param apiKey          your Iterable apiKey
- @param userId          the userId of the user logged in
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
- 
- @return an instance of IterableAPI
- */
-- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
-{
-    if (self = [super init]) {
-        _apiKey = [apiKey copy];
-        _userId = [userId copy];
-    }
-    return [self createSession:launchOptions];
+    return [self createSession:launchOptions useCustomLaunchOptions:false];
 }
 
 /*!
  @method
  
  @abstract creates an iterable session with launchOptions
-
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
+ 
+ @param launchOptions launchOptions from application:didFinishLaunchingWithOptions or custom launchOptions
+ 
+ @param useCustomLaunchOptions whether or not to use the custom launchOption without the UIApplicationLaunchOptionsRemoteNotificationKey
  
  @return an instance of IterableAPI
  */
-- (instancetype)createSession:(NSDictionary *)launchOptions
+- (instancetype)createSession:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
 {
     // the url session doesn't depend on any options/params, so we'll use a singleton that gets created whenever the class is instantiated
     // if it gets instantiated again that's fine; we don't need to reconfigure the session, just keep using the old singleton
     [self createUrlSession];
     
-    if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-        // Automatically try to track a pushOpen
-        [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+    // Automatically try to track a pushOpen
+    if (launchOptions) {
+        if (useCustomLaunchOptions) {
+            [self trackPushOpen:launchOptions];
+        } else if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+            [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+        }
     }
     
     return self;
 }
 
-/*!
- @method
- 
- @abstract Disable this device's token in Iterable with custom completion blocks. `allUsers` indicates whether to disable for all users with this token, or only current user
- 
- @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
- @param onFailure               OnFailureHandler to invoke if disabling the token fails
- 
- @see OnSuccessHandler
- @see OnFailureHandler
- */
-- (void)disableDevice:(BOOL)allUsers onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+//////////////////////////////////////////////////////////////
+/// @name Implementations of things documents in IterableAPI.h
+//////////////////////////////////////////////////////////////
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
 {
-    if (!self.hexToken || (!allUsers && !(self.email || self.userId))) {
-        LogWarning(@"disableDevice: email or token not yet registered");
-        if (onFailure) {
-            onFailure(@"Not disabling device - you must call registerToken first, and sharedInstance must have an email or userId", [[NSData alloc] init]);
-        }
-        return;
-    }
-    NSDictionary *args;
-    if (_email != nil) {
-        args = @{
-                 @"email": allUsers ? [NSNull null]: self.email,
-                 @"token": self.hexToken
-                 };
-    } else {
-        args = @{
-                 @"userId": allUsers ? [NSNull null]: self.userId,
-                 @"token": self.hexToken
-                 };
+    return [self initWithApiKey:apiKey andEmail:email launchOptions:nil];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId
+{
+    return [self initWithApiKey:apiKey andUserId:userId launchOptions:nil];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
+{
+    return [self initWithApiKey:apiKey andEmail:email launchOptions:launchOptions useCustomLaunchOptions:false];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
+{
+    return [self initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions useCustomLaunchOptions:false];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
+{
+    if (self = [super init]) {
+        _apiKey = [apiKey copy];
+        _email = [email copy];
     }
     
-    LogDebug(@"sending disableToken request with args %@", args);
-    NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
-    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+    return [self createSession:launchOptions useCustomLaunchOptions:useCustomLaunchOptions];
+}
+
+// documented in IterableAPI.h
+- (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
+{
+    if (self = [super init]) {
+        _apiKey = [apiKey copy];
+        _userId = [userId copy];
+    }
+    return [self createSession:launchOptions useCustomLaunchOptions:useCustomLaunchOptions];
 }
 
 // documented in IterableAPI.h
@@ -526,6 +516,44 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         args = @{
                  @"userId": self.userId,
                  @"device": deviceDictionary
+                 };
+    }
+    
+    LogDebug(@"sending registerToken request with args %@", args);
+    NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+}
+
+/*!
+ @method
+ 
+ @abstract Disable this device's token in Iterable with custom completion blocks. `allUsers` indicates whether to disable for all users with this token, or only current user 
+ 
+ @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
+ @param onFailure               OnFailureHandler to invoke if disabling the token fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)disableDevice:(BOOL)allUsers onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    if (!self.hexToken || (!allUsers && !(self.email || self.userId))) {
+        LogWarning(@"disableDevice: email or token not yet registered");
+        if (onFailure) {
+            onFailure(@"Not disabling device - you must call registerToken first, and sharedInstance must have an email or userId", [[NSData alloc] init]);
+        }
+        return;
+    }
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                 @"email": allUsers ? [NSNull null]: self.email,
+                 @"token": self.hexToken
+                 };
+    } else {
+        args = @{
+                 @"userId": allUsers ? [NSNull null]: self.userId,
+                 @"token": self.hexToken
                  };
     }
     
@@ -703,6 +731,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
             @"userId": self.userId
             };
     }
+    
     
     if (dataFields) {
         args = @{

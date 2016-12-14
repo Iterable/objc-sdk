@@ -31,6 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, copy) NSNumber *templateId;
 
 /**
+ The messageId of this notification
+ */
+@property(nonatomic, readonly, copy) NSString *messageId;
+
+/**
  Whether this notification is a ghost push
  */
 @property(nonatomic, readonly) BOOL isGhostPush;
