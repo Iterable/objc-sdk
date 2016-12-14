@@ -34,6 +34,22 @@
  */
 +(void) showIterableNotification:(NSDictionary *)dialogOptions trackParams:(IterableNotificationMetadata *)trackParams callbackBlock:(ITEActionBlock)callbackBlock;
 
+
+/*!
+ @method
+ 
+ @abstract displays a iOS system style notification with two buttons
+ 
+ @param title           the NSDictionary containing the dialog options
+ @param body            the notification message body
+ @param buttonLeft      the text of the left button
+ @param buttonRight     the text of the right button
+ @param callbackBlock   the callback to send after a button on the notification is clicked
+ 
+ @discussion            passes the string of the button clicked to the callbackBlock
+ */
++(void) showSystemNotification:(NSString *)title body:(NSString *)body buttonLeft:(NSString *)buttonLeft buttonRight:(NSString *)buttonRight callbackBlock:(ITEActionBlock)callbackBlock;
+
 /*!
  @method
  

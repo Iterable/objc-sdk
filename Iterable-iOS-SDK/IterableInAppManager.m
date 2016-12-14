@@ -44,6 +44,49 @@
 }
 
 // documented in IterableInAppManager.h
++(void) showSystemNotification:(NSString *)title body:(NSString *)body buttonLeft:(NSString *)buttonLeft buttonRight:(NSString *)buttonRight callbackBlock:(ITEActionBlock)callbackBlock{
+
+    UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:title
+                                          message: body
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    if(buttonLeft != nil) {
+        [self addAlertActionButton:alertController keyString:buttonLeft callbackBlock:callbackBlock];
+    }
+    
+    if(buttonRight != nil) {
+        [self addAlertActionButton:alertController keyString:buttonRight callbackBlock:callbackBlock];
+    }
+    
+    [rootViewController presentViewController:alertController animated:YES completion:nil];
+
+}
+
+/*
+@method
+ 
+@abstract Creates and adds an alert action button to an alertController
+ 
+@param alertController  The alert controller to add the button to
+@param keyString        the text of the button
+@param callbackBlock    the callback to send after a button on the notification is clicked
+
+@discussion            passes the string of the button clicked to the callbackBlock
+*/
++(void)addAlertActionButton:(UIAlertController*)alertController keyString:(NSString*)keyString callbackBlock:(ITEActionBlock)callbackBlock {
+    UIAlertAction* button = [UIAlertAction
+                              actionWithTitle:keyString
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action) {
+                                  [alertController dismissViewControllerAnimated:NO completion:nil];
+                                  callbackBlock(keyString);
+                              }];
+    [alertController addAction: button];
+}
+
+// documented in IterableInAppManager.h
 +(int)getIntColorFromKey:(NSDictionary*)payload keyString:(NSString*)keyString {
     NSString *colorString = [payload objectForKey:keyString];
     
