@@ -71,24 +71,6 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract Initializes a shared instance of Iterable with launchOptions
- 
- @discussion This method will set up a singleton instance of the `IterableAPI` class for
- you using the given project API key. When you want to make calls to Iterable
- elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
- the app was launched from a remote push notification, we will track a pushOpen.
- 
- @param apiKey          your Iterable apiKey
- @param userId           the userId of the user logged in
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
- 
- @return an instance of IterableAPI
- */
-+ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions;
-
-/*!
- @method
- 
  @abstract Initializes Iterable with launchOptions
  
  @param apiKey                  your Iterable apiKey
@@ -483,9 +465,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Tracks a InAppOpen event with custom completion blocks
  
- @param campaignId     The campaignId of the notification
- @param templateId     The templateId of the notification
- @param messageId      The messageId of the notification
+ @param campaignId      The campaignId of the notification
+ @param templateId      The templateId of the notification
+ @param messageId       The messageId of the notification
  */
 - (void)trackInAppOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateID messageId:(NSString *)messageId;
 
@@ -494,9 +476,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Tracks a inAppClick event with custom completion blocks
  
- @param campaignId     The campaignId of the notification
- @param templateId     The templateId of the notification
- @param messageId      The messageId of the notification
+ @param campaignId      The campaignId of the notification
+ @param templateId      The templateId of the notification
+ @param messageId       The messageId of the notification
  @param buttonIndex     The index of the button that was clicked
  */
 - (void)trackInAppClick:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId  buttonIndex:(NSNumber *)buttonIndex;
@@ -504,11 +486,11 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract displays a iOS system style notification with two buttons
+ @abstract displays a iOS system style notification with one button
  
  @param title           the NSDictionary containing the dialog options
  @param body            the notification message body
- @param button      the text of the left button
+ @param button          the text of the left button
  @param callbackBlock   the callback to send after a button on the notification is clicked
  
  @discussion            passes the string of the button clicked to the callbackBlock

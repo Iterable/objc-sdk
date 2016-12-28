@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "IterableConstants.h"
 
-@implementation IterableConstants
+@implementation IterableConstants : NSObject
+
 NSString *const ITBL_KEY_API_KEY             = @"api_key";
 NSString *const ITBL_KEY_APPLICATION_NAME    = @"applicationName";
 NSString *const ITBL_KEY_CAMPAIGN_ID         = @"campaignId";
@@ -38,4 +39,5 @@ NSString *const ITBL_DEVICE_MODEL            = @"model";
 NSString *const ITBL_DEVICE_SYSTEM_NAME      = @"systemName";
 NSString *const ITBL_DEVICE_SYSTEM_VERSION   = @"systemVersion";
 NSString *const ITBL_DEVICE_USER_INTERFACE   = @"userInterfaceIdiom";
+
 @end

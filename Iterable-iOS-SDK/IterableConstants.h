@@ -9,18 +9,7 @@
 #ifndef IterableConstants_h
 #define IterableConstants_h
 
-//API Endpoint Key Constants
-#define ENDPOINT_COMMERCE_TRACK_PURCHASE @"commerce/trackPurchase"
-#define ENDPOINT_DISABLE_DEVICE @"users/disableDevice"
-#define ENDPOINT_GET_INAPP_MESSAGES @"inApp/getMessages"
-#define ENDPOINT_PUSH_TARGET @"push/target"
-#define ENDPOINT_REGISTER_DEVICE_TOKEN @"users/registerDeviceToken"
-#define ENDPOINT_TRACK @"events/track"
-#define ENDPOINT_TRACK_INAPP_CLICK @"events/trackInAppClick"
-#define ENDPOINT_TRACK_INAPP_OPEN @"events/trackInAppOpen"
-#define ENDPOINT_TRACK_PUSH_OPEN @"events/trackPushOpen"
-#define ENDPOINT_UPDATE_EMAIL @"users/updateEmail"
-#define ENDPOINT_UPDATE_USER @"users/update"
+@interface IterableConstants : NSObject
 
 //API Fields
 extern NSString *const ITBL_KEY_API_KEY;
@@ -52,14 +41,29 @@ extern NSString *const ITBL_DEVICE_SYSTEM_NAME;
 extern NSString *const ITBL_DEVICE_SYSTEM_VERSION;
 extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 
+@end
+
+//API Endpoint Key Constants
+#define ENDPOINT_COMMERCE_TRACK_PURCHASE @"commerce/trackPurchase"
+#define ENDPOINT_DISABLE_DEVICE @"users/disableDevice"
+#define ENDPOINT_GET_INAPP_MESSAGES @"inApp/getMessages"
+#define ENDPOINT_PUSH_TARGET @"push/target"
+#define ENDPOINT_REGISTER_DEVICE_TOKEN @"users/registerDeviceToken"
+#define ENDPOINT_TRACK @"events/track"
+#define ENDPOINT_TRACK_INAPP_CLICK @"events/trackInAppClick"
+#define ENDPOINT_TRACK_INAPP_OPEN @"events/trackInAppOpen"
+#define ENDPOINT_TRACK_PUSH_OPEN @"events/trackPushOpen"
+#define ENDPOINT_UPDATE_EMAIL @"users/updateEmail"
+#define ENDPOINT_UPDATE_USER @"users/update"
+
 //MISC
 #define ITBL_KEY_GET @"GET"
 #define ITBL_KEY_POST @"POST"
 
 #define ITBL_KEY_APNS @"APNS"
 #define ITBL_KEY_APNS_SANDBOX @"APNS_SANDBOX"
-#define ITBL_KEY_PAD @"PAD"
-#define ITBL_KEY_PHONE @"PHONE"
+#define ITBL_KEY_PAD @"Pad"
+#define ITBL_KEY_PHONE @"Phone"
 #define ITBL_KEY_UNSPECIFIED @"Unspecified"
 
 

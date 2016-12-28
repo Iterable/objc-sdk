@@ -38,6 +38,7 @@
 		1653A80E1D88B25200690298 /* IterableConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80B1D88B25200690298 /* IterableConstants.h */; };
 		1653A80F1D88B25200690298 /* IterableFullScreenViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */; };
 		1653A8101D88B25200690298 /* IterableFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */; };
+		16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E02BAC1E035EA400644C15 /* IterableConstants.m */; };
 		16ED2E481D9056E500ADCAEC /* IterableInAppBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */; };
 		16ED2E4D1D908D5500ADCAEC /* IterableAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 16ED2E491D908D5500ADCAEC /* IterableAlertView.h */; };
 		16ED2E4E1D908D5500ADCAEC /* IterableAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16ED2E4A1D908D5500ADCAEC /* IterableAlertView.m */; };
@@ -94,6 +95,7 @@
 		1653A80B1D88B25200690298 /* IterableConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableConstants.h; sourceTree = "<group>"; };
 		1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableFullScreenViewController.h; sourceTree = "<group>"; };
 		1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableFullScreenViewController.m; sourceTree = "<group>"; };
+		16E02BAC1E035EA400644C15 /* IterableConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableConstants.m; sourceTree = "<group>"; };
 		16ED2E461D90569500ADCAEC /* IterableInAppBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableInAppBaseViewController.h; sourceTree = "<group>"; };
 		16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppBaseViewController.m; sourceTree = "<group>"; };
 		16ED2E491D908D5500ADCAEC /* IterableAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableAlertView.h; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				1653A80B1D88B25200690298 /* IterableConstants.h */,
+				16E02BAC1E035EA400644C15 /* IterableConstants.m */,
 				16CE7A051DF8D5A900CADC2D /* InAppNotifications */,
 				6804B85F1AC0F363000A126B /* CommerceItem.m */,
 				6804B8651AC10426000A126B /* CommerceItem.h */,
@@ -460,6 +463,7 @@
 				093734271A1D701F00C950B6 /* IterableAPI.m in Sources */,
 				1653A8101D88B25200690298 /* IterableFullScreenViewController.m in Sources */,
 				6804B8601AC0F363000A126B /* CommerceItem.m in Sources */,
+				16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */,
 				0995DBDD1CFFF7FE00D50F19 /* IterableLogging.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
