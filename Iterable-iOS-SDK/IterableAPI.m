@@ -105,7 +105,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     for (NSString* paramKey in args) {
         NSString* paramValue = args[paramKey];
         
-        NSString *params = [NSString stringWithFormat:@"&&%@=%@", paramKey, paramValue];
+        NSString *params = [NSString stringWithFormat:@"&%@=%@", paramKey, paramValue];
         urlCombined = [urlCombined stringByAppendingString:params];
     }
     

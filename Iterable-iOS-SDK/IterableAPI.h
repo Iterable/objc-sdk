@@ -126,7 +126,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Initializes a shared instance of Iterable with launchOptions
  
- @discussion This method will set up a singleton instance of the `IterableAPI` class for
+ @discussion The sharedInstanceWithApiKey with email is preferred over userId.
+ This method will set up a singleton instance of the `IterableAPI` class for
  you using the given project API key. When you want to make calls to Iterable
  elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
  the app was launched from a remote push notification, we will track a pushOpen.
@@ -144,7 +145,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Initializes a shared instance of Iterable with launchOptions
  
- @discussion This method will set up a singleton instance of the `IterableAPI` class for
+ @discussion The sharedInstanceWithApiKey with email is preferred over userId.
+ This method will set up a singleton instance of the `IterableAPI` class for
  you using the given project API key. When you want to make calls to Iterable
  elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
  the app was launched from a remote push notification, we will track a pushOpen.
