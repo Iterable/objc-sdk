@@ -33,9 +33,22 @@
 		09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */; };
 		09CCB9301D07A7EA003EB75D /* IterableNotificationMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CCB92F1D07A7EA003EB75D /* IterableNotificationMetadata.m */; };
 		09CCB9321D07BA04003EB75D /* IterableNotificationMetadataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CCB9311D07BA04003EB75D /* IterableNotificationMetadataTests.m */; };
+		16513DDE1D89EECC00C205B3 /* IterableInAppManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 16513DD81D89EECC00C205B3 /* IterableInAppManager.h */; };
+		16513DDF1D89EECC00C205B3 /* IterableInAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 16513DD91D89EECC00C205B3 /* IterableInAppManager.m */; };
+		1653A80E1D88B25200690298 /* IterableConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80B1D88B25200690298 /* IterableConstants.h */; };
+		1653A80F1D88B25200690298 /* IterableFullScreenViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */; };
+		1653A8101D88B25200690298 /* IterableFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */; };
+		16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E02BAC1E035EA400644C15 /* IterableConstants.m */; };
+		16ED2E481D9056E500ADCAEC /* IterableInAppBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */; };
+		16ED2E4D1D908D5500ADCAEC /* IterableAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 16ED2E491D908D5500ADCAEC /* IterableAlertView.h */; };
+		16ED2E4E1D908D5500ADCAEC /* IterableAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16ED2E4A1D908D5500ADCAEC /* IterableAlertView.m */; };
+		16ED2E4F1D908D5500ADCAEC /* IterableAlertViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 16ED2E4B1D908D5500ADCAEC /* IterableAlertViewController.h */; };
+		16ED2E501D908D5500ADCAEC /* IterableAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16ED2E4C1D908D5500ADCAEC /* IterableAlertViewController.m */; };
 		6804B8601AC0F363000A126B /* CommerceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6804B85F1AC0F363000A126B /* CommerceItem.m */; };
 		6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6845F7321AC3831B0043629D /* SystemConfiguration.framework */; };
 		68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6804B8651AC10426000A126B /* CommerceItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		732C5DFD870D53D1FF92968A /* libPods-Iterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A424C23BE698D06646FF675 /* libPods-Iterable-iOS-SDK.a */; };
+		FE48CCB848FD3067A759904D /* libPods-Iterable-iOS-SDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15E14DC3FEF5EE94DFA2424E /* libPods-Iterable-iOS-SDKTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +74,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0290BF4E4E3F49179434A202 /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.debug.xcconfig"; sourceTree = "<group>"; };
 		091489E11CF6986900482D82 /* IterableAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAPITests.m; sourceTree = "<group>"; };
 		091489E71CF6AC1800482D82 /* CommerceItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItemTests.m; sourceTree = "<group>"; };
 		093734251A1D6E8800C950B6 /* IterableAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAPI.h; sourceTree = "<group>"; };
@@ -75,9 +89,26 @@
 		09CCB92D1D07A2E9003EB75D /* IterableNotificationMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableNotificationMetadata.h; sourceTree = "<group>"; };
 		09CCB92F1D07A7EA003EB75D /* IterableNotificationMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableNotificationMetadata.m; sourceTree = "<group>"; };
 		09CCB9311D07BA04003EB75D /* IterableNotificationMetadataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableNotificationMetadataTests.m; sourceTree = "<group>"; };
+		15E14DC3FEF5EE94DFA2424E /* libPods-Iterable-iOS-SDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		16513DD81D89EECC00C205B3 /* IterableInAppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableInAppManager.h; sourceTree = "<group>"; };
+		16513DD91D89EECC00C205B3 /* IterableInAppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppManager.m; sourceTree = "<group>"; };
+		1653A80B1D88B25200690298 /* IterableConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableConstants.h; sourceTree = "<group>"; };
+		1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableFullScreenViewController.h; sourceTree = "<group>"; };
+		1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableFullScreenViewController.m; sourceTree = "<group>"; };
+		16E02BAC1E035EA400644C15 /* IterableConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableConstants.m; sourceTree = "<group>"; };
+		16ED2E461D90569500ADCAEC /* IterableInAppBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableInAppBaseViewController.h; sourceTree = "<group>"; };
+		16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppBaseViewController.m; sourceTree = "<group>"; };
+		16ED2E491D908D5500ADCAEC /* IterableAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableAlertView.h; sourceTree = "<group>"; };
+		16ED2E4A1D908D5500ADCAEC /* IterableAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAlertView.m; sourceTree = "<group>"; };
+		16ED2E4B1D908D5500ADCAEC /* IterableAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableAlertViewController.h; sourceTree = "<group>"; };
+		16ED2E4C1D908D5500ADCAEC /* IterableAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAlertViewController.m; sourceTree = "<group>"; };
+		19153EFC2173C02102CEADDF /* Pods-Iterable-iOS-SDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		6804B85F1AC0F363000A126B /* CommerceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItem.m; sourceTree = "<group>"; };
 		6804B8651AC10426000A126B /* CommerceItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommerceItem.h; sourceTree = "<group>"; };
 		6845F7321AC3831B0043629D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6A424C23BE698D06646FF675 /* libPods-Iterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C67AA6DFEC454FF39AD12F3F /* Pods-Iterable-iOS-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.release.xcconfig"; sourceTree = "<group>"; };
+		DA3D876BD230574973D99AD7 /* Pods-Iterable-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +117,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */,
+				732C5DFD870D53D1FF92968A /* libPods-Iterable-iOS-SDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +126,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */,
+				FE48CCB848FD3067A759904D /* libPods-Iterable-iOS-SDKTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +140,7 @@
 				09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */,
 				09C0FC0A1A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
 				09C0FBFC1A1D6D4700D5A86B /* Products */,
+				6E5391F86A2C1A9760767AA2 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,9 +156,12 @@
 		09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */ = {
 			isa = PBXGroup;
 			children = (
-				093734251A1D6E8800C950B6 /* IterableAPI.h */,
+				1653A80B1D88B25200690298 /* IterableConstants.h */,
+				16E02BAC1E035EA400644C15 /* IterableConstants.m */,
+				16CE7A051DF8D5A900CADC2D /* InAppNotifications */,
 				6804B85F1AC0F363000A126B /* CommerceItem.m */,
 				6804B8651AC10426000A126B /* CommerceItem.h */,
+				093734251A1D6E8800C950B6 /* IterableAPI.h */,
 				093734261A1D701F00C950B6 /* IterableAPI.m */,
 				094995451A85880A0047E59B /* NSData+Conversion.h */,
 				094995461A8588400047E59B /* NSData+Conversion.m */,
@@ -155,12 +192,42 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		16CE7A051DF8D5A900CADC2D /* InAppNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				16513DD81D89EECC00C205B3 /* IterableInAppManager.h */,
+				16513DD91D89EECC00C205B3 /* IterableInAppManager.m */,
+				16ED2E461D90569500ADCAEC /* IterableInAppBaseViewController.h */,
+				16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */,
+				16ED2E491D908D5500ADCAEC /* IterableAlertView.h */,
+				16ED2E4A1D908D5500ADCAEC /* IterableAlertView.m */,
+				1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */,
+				1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */,
+				16ED2E4B1D908D5500ADCAEC /* IterableAlertViewController.h */,
+				16ED2E4C1D908D5500ADCAEC /* IterableAlertViewController.m */,
+			);
+			name = InAppNotifications;
+			sourceTree = "<group>";
+		};
 		6845F72F1AC3818F0043629D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				6845F7321AC3831B0043629D /* SystemConfiguration.framework */,
+				6A424C23BE698D06646FF675 /* libPods-Iterable-iOS-SDK.a */,
+				15E14DC3FEF5EE94DFA2424E /* libPods-Iterable-iOS-SDKTests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6E5391F86A2C1A9760767AA2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DA3D876BD230574973D99AD7 /* Pods-Iterable-iOS-SDK.debug.xcconfig */,
+				C67AA6DFEC454FF39AD12F3F /* Pods-Iterable-iOS-SDK.release.xcconfig */,
+				0290BF4E4E3F49179434A202 /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */,
+				19153EFC2173C02102CEADDF /* Pods-Iterable-iOS-SDKTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,11 +237,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1653A80E1D88B25200690298 /* IterableConstants.h in Headers */,
+				1653A80F1D88B25200690298 /* IterableFullScreenViewController.h in Headers */,
 				0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */,
+				16ED2E4D1D908D5500ADCAEC /* IterableAlertView.h in Headers */,
 				68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */,
 				093028D21D1B942100E7CFBE /* IterableNotificationMetadata.h in Headers */,
 				093028D11D1B93EB00E7CFBE /* NSData+Conversion.h in Headers */,
 				093028D31D1B958700E7CFBE /* IterableLogging.h in Headers */,
+				16ED2E4F1D908D5500ADCAEC /* IterableAlertViewController.h in Headers */,
+				16513DDE1D89EECC00C205B3 /* IterableInAppManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,11 +257,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09C0FC0F1A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDK" */;
 			buildPhases = (
+				0BDA72EACF999D5691131544 /* [CP] Check Pods Manifest.lock */,
 				09C0FBF71A1D6D4700D5A86B /* Sources */,
 				09C0FBF81A1D6D4700D5A86B /* Frameworks */,
 				09C0FBF91A1D6D4700D5A86B /* CopyFiles */,
 				0937342D1A1D99BB00C950B6 /* Headers */,
 				092302A31CF6455A004EA265 /* ShellScript */,
+				671E406F347F37D9966A559B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -204,9 +278,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09C0FC121A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDKTests" */;
 			buildPhases = (
+				A871FA5575B70BA38F2E9BB6 /* [CP] Check Pods Manifest.lock */,
 				09C0FC021A1D6D4700D5A86B /* Sources */,
 				09C0FC031A1D6D4700D5A86B /* Frameworks */,
 				09C0FC041A1D6D4700D5A86B /* Resources */,
+				C298E8428D565981255CFA0B /* [CP] Embed Pods Frameworks */,
+				0BF672D58ECE2DD93FF6A058 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -295,6 +372,81 @@
 			shellPath = /bin/sh;
 			shellScript = "# based on https://www.raywenderlich.com/65964/create-a-framework-for-ios and https://github.com/jverkoey/iOS-Framework#static_library_target\n# also, need to explicitly add armv7s to target architectures; see also: http://stackoverflow.com/questions/28270582/building-ios-framework-missing-architecture-armv7s-and-x86-64-on-fat-file\n\nset -o errexit\nset +o nounset\n# Avoid recursively calling this script.\nif [[ $ITBL_MASTER_SCRIPT_RUNNING ]]; then\nexit 0\nfi\nset -o nounset\nexport ITBL_MASTER_SCRIPT_RUNNING=1\n\nITBL_TARGET_NAME=${PROJECT_NAME}\nITBL_EXECUTABLE_PATH=\"lib${ITBL_TARGET_NAME}.a\"\nITBL_WRAPPER_NAME=\"${ITBL_TARGET_NAME}.framework\"\n\n# The following conditionals come from\n# https://github.com/kstenerud/iOS-Universal-Framework\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nITBL_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nITBL_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# Build for the simulator architecture\necho \"Building static library: workspace=${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace, scheme=${ITBL_TARGET_NAME}, platform=iphonesimulator, destination='platform=iOS Simulator,name=iPad'\"\n# iPhone5 is the last one on armv7s, iPhone6+ is on armv7\nxcrun xcodebuild ONLY_ACTIVE_ARCH=NO -workspace \"${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace\" -scheme \"${ITBL_TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphonesimulator -destination \"platform=iOS Simulator,name=iPhone 6\" BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\n# Build for real devices\necho \"Building static library: workspace=${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace, scheme=${ITBL_TARGET_NAME}, platform=iphoneos, sdk version=${ITBL_SDK_VERSION}\"\nxcrun xcodebuild ONLY_ACTIVE_ARCH=NO -workspace \"${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace\" -scheme \"${ITBL_TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos${ITBL_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\necho \"Done building architectures. Cleaning up previous artifacts...\"\n\nDESTINATION_UNIVERSAL_DIR=\"${PROJECT_DIR}/Artifacts/\"\nrm -r \"${DESTINATION_UNIVERSAL_DIR}\"\nmkdir -p \"${DESTINATION_UNIVERSAL_DIR}\"\n\necho \"Done cleaning up artifacts. Running lipo...\"\n\n# Smash the two static libraries into one fat binary and store it in the .framework\nxcrun lipo -create \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${ITBL_EXECUTABLE_PATH}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${ITBL_EXECUTABLE_PATH}\" -output \"${DESTINATION_UNIVERSAL_DIR}/${ITBL_EXECUTABLE_PATH}\"\n\necho \"Done creating fat file, now copying public headers\"\ncp -r \"${TARGET_BUILD_DIR}/include\" \"${DESTINATION_UNIVERSAL_DIR}/\"\n";
 		};
+		0BDA72EACF999D5691131544 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		0BF672D58ECE2DD93FF6A058 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		671E406F347F37D9966A559B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A871FA5575B70BA38F2E9BB6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C298E8428D565981255CFA0B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -303,9 +455,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				09CCB9301D07A7EA003EB75D /* IterableNotificationMetadata.m in Sources */,
+				16ED2E481D9056E500ADCAEC /* IterableInAppBaseViewController.m in Sources */,
+				16513DDF1D89EECC00C205B3 /* IterableInAppManager.m in Sources */,
+				16ED2E4E1D908D5500ADCAEC /* IterableAlertView.m in Sources */,
 				094995471A8588400047E59B /* NSData+Conversion.m in Sources */,
+				16ED2E501D908D5500ADCAEC /* IterableAlertViewController.m in Sources */,
 				093734271A1D701F00C950B6 /* IterableAPI.m in Sources */,
+				1653A8101D88B25200690298 /* IterableFullScreenViewController.m in Sources */,
 				6804B8601AC0F363000A126B /* CommerceItem.m in Sources */,
+				16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */,
 				0995DBDD1CFFF7FE00D50F19 /* IterableLogging.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -422,6 +580,7 @@
 		};
 		09C0FC101A1D6D4700D5A86B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA3D876BD230574973D99AD7 /* Pods-Iterable-iOS-SDK.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = (
 					"$(ARCHS_STANDARD)",
@@ -442,6 +601,7 @@
 		};
 		09C0FC111A1D6D4700D5A86B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C67AA6DFEC454FF39AD12F3F /* Pods-Iterable-iOS-SDK.release.xcconfig */;
 			buildSettings = {
 				ARCHS = (
 					"$(ARCHS_STANDARD)",
@@ -462,6 +622,7 @@
 		};
 		09C0FC131A1D6D4700D5A86B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0290BF4E4E3F49179434A202 /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -478,6 +639,7 @@
 		};
 		09C0FC141A1D6D4700D5A86B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 19153EFC2173C02102CEADDF /* Pods-Iterable-iOS-SDKTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";

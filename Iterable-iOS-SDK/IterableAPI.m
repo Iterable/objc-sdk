@@ -20,6 +20,8 @@
 #import "CommerceItem.h"
 #import "IterableLogging.h"
 #import "IterableNotificationMetadata.h"
+#import "IterableInAppManager.h"
+#import "IterableConstants.h"
 
 @interface IterableAPI () {
 }
@@ -37,6 +39,7 @@ static NSURLSession *urlSession = nil;
 
 // the API endpoint
 NSString * const endpoint = @"https://api.iterable.com/api/";
+
 
 //////////////////////////
 /// @name Internal methods
@@ -57,10 +60,10 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     
     switch(pushServicePlatform) {
         case APNS:
-            result = @"APNS";
+            result = ITBL_KEY_APNS;
             break;
         case APNS_SANDBOX:
-            result = @"APNS_SANDBOX";
+            result = ITBL_KEY_APNS_SANDBOX;
             break;
         default:
             LogError(@"Unexpected PushServicePlatform: %ld", (long)pushServicePlatform);
@@ -72,7 +75,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 /**
  @method
  
- @abstract Creates a full URL with host and apiKey, given the endpoint URI
+ @abstract Creates a full GET URL with host and apiKey, given the endpoint URI
  
  @param action the endpoint URI
  
@@ -81,6 +84,32 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 - (NSURL *)getUrlForAction:(NSString *)action
 {
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey]];
+}
+
+/**
+ @method
+ 
+ @abstract Creates a full GET URL with host and apiKey, given the endpoint URI and parameters
+ 
+ @param action the endpoint URI
+ @param args the `NSDictionary`
+ 
+ @return an `NSString` containing the full URL
+ */
+- (NSURL *)getUrlForGetAction:(NSString *)action withArgs:(NSDictionary *)args
+{
+    NSString *urlCombined = [NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey];
+    //updated this to take in a dictionary are parse values
+    
+    
+    for (NSString* paramKey in args) {
+        NSString* paramValue = args[paramKey];
+        
+        NSString *params = [NSString stringWithFormat:@"&%@=%@", paramKey, paramValue];
+        urlCombined = [urlCombined stringByAppendingString:params];
+    }
+    
+    return [NSURL URLWithString:urlCombined];
 }
 
 /**
@@ -119,12 +148,29 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 - (NSURLRequest *)createRequestForAction:(NSString *)action withArgs:(NSDictionary *)args
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrlForAction:action]];
-    [request setHTTPMethod:@"POST"];
+    [request setHTTPMethod:ITBL_KEY_POST];
     NSString *bodyPossiblyNil = [IterableAPI dictToJson:args];
     // if dictToJson fails, try sending the event anyways, just don't set the body
     if (bodyPossiblyNil) {
         [request setHTTPBody:[bodyPossiblyNil dataUsingEncoding:NSUTF8StringEncoding]];
     }
+    return request;
+}
+
+/**
+ @method
+ 
+ @abstract Creates a GET request to the specified action URI, with body data `args`
+ 
+ @param action  the action URI
+ @param args    the data to GET
+ 
+ @return a GET-method `NSURLRequest` to the specified action with the specified data
+ */
+- (NSURLRequest *)createGetRequestForAction:(NSString *)action withArgs:(NSDictionary *)args
+{
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[self getUrlForGetAction:action withArgs:args]];
+    [request setHTTPMethod:ITBL_KEY_GET];
     return request;
 }
 
@@ -163,7 +209,9 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                 NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
                 if (onFailure != nil) onFailure(reason, data);
             } else if([object isKindOfClass:[NSDictionary class]]) {
-                if (onSuccess != nil) onSuccess(object);
+                if (onSuccess != nil) {
+                    onSuccess(object);
+                }
             } else {
                 if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
             }
@@ -191,13 +239,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     NSString *result = nil;
     switch (idiom) {
         case UIUserInterfaceIdiomPhone:
-            result = @"Phone";
+            result = ITBL_KEY_PHONE;
             break;
         case UIUserInterfaceIdiomPad:
-            result = @"Pad";
+            result = ITBL_KEY_PAD;
             break;
         default:
-            result = @"Unspecified";
+            result = ITBL_KEY_UNSPECIFIED;
     }
     return result;
 }
@@ -343,6 +391,57 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
+- (void)trackInAppOpen:(NSNumber*)campaignId templateId:(NSNumber*)templateId messageId:(NSString *)messageId {
+    NSDictionary *args;
+    
+    if (_email != nil) {
+        args = @{
+                 ITBL_KEY_EMAIL: self.email,
+                 ITBL_KEY_CAMPAIGN_ID: campaignId,
+                 ITBL_KEY_TEMPLATE_ID: templateId,
+                 ITBL_KEY_MESSAGE_ID: messageId
+                 };
+    } else {
+        args = @{
+                 ITBL_KEY_USER_ID: self.userId,
+                 ITBL_KEY_CAMPAIGN_ID: campaignId,
+                 ITBL_KEY_TEMPLATE_ID: templateId,
+                 ITBL_KEY_MESSAGE_ID: messageId
+                 };
+    }
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_TRACK_INAPP_OPEN withArgs:args];
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppOpen"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppOpen"]];
+}
+
+// documented in IterableAPI.h
+- (void)trackInAppClick:(NSNumber*)campaignId templateId:(NSNumber*)templateId messageId:(NSString *)messageId buttonIndex:(NSNumber*)buttonIndex {
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                 ITBL_KEY_EMAIL: self.email,
+                 ITBL_KEY_CAMPAIGN_ID: campaignId,
+                 ITBL_KEY_TEMPLATE_ID: templateId,
+                 ITBL_KEY_MESSAGE_ID: messageId,
+                 ITERABLE_IN_APP_BUTTON_INDEX: buttonIndex
+                 };
+    } else {
+        args = @{
+                 ITBL_KEY_USER_ID: self.userId,
+                 ITBL_KEY_CAMPAIGN_ID: campaignId,
+                 ITBL_KEY_TEMPLATE_ID: templateId,
+                 ITBL_KEY_MESSAGE_ID: messageId,
+                 ITERABLE_IN_APP_BUTTON_INDEX: buttonIndex
+                 };
+    }
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_TRACK_INAPP_CLICK withArgs:args];
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppClick"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppClick"]];
+}
+
+//////////////////////////////////////////////////////////////
+/// @name Implementations of things documents in IterableAPI.h
+//////////////////////////////////////////////////////////////
+
+// documented in IterableAPI.h
 + (IterableAPI *)sharedInstance
 {
     if (sharedInstance == nil) {
@@ -382,7 +481,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 // documented in IterableAPI.h
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
-    NSString *hexToken = [token hexadecimalString];
+    NSString *hexToken = [token ITEHexadecimalString];
     _hexToken = hexToken;
 
     UIDevice *device = [UIDevice currentDevice];
@@ -397,34 +496,34 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
     
     NSDictionary *deviceDictionary = @{
-                 @"token": hexToken,
-                 @"platform": psp,
-                 @"applicationName": appName,
-                 @"dataFields": @{
-                         @"localizedModel": [device localizedModel],
-                         @"userInterfaceIdiom": [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
-                         @"identifierForVendor": [[device identifierForVendor] UUIDString],
-                         @"systemName": [device systemName],
-                         @"systemVersion": [device systemVersion],
-                         @"model": [device model]
+                 ITBL_KEY_TOKEN: hexToken,
+                 ITBL_KEY_PLATFORM: psp,
+                 ITBL_KEY_APPLICATION_NAME: appName,
+                 ITBL_KEY_DATA_FIELDS: @{
+                         ITBL_DEVICE_LOCALIZED_MODEL: [device localizedModel],
+                         ITBL_DEVICE_USER_INTERFACE: [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
+                         ITBL_DEVICE_ID_VENDOR: [[device identifierForVendor] UUIDString],
+                         ITBL_DEVICE_SYSTEM_NAME: [device systemName],
+                         ITBL_DEVICE_SYSTEM_VERSION: [device systemVersion],
+                         ITBL_DEVICE_MODEL: [device model]
                          }
                  };
 
     NSDictionary *args;
     if (_email != nil) {
         args = @{
-                 @"email": self.email,
-                 @"device": deviceDictionary
+                 ITBL_KEY_EMAIL: self.email,
+                 ITBL_KEY_DEVICE: deviceDictionary
                  };
     } else {
         args = @{
-                 @"userId": self.userId,
-                 @"device": deviceDictionary
+                 ITBL_KEY_USER_ID: self.userId,
+                 ITBL_KEY_DEVICE: deviceDictionary
                  };
     }
     
     LogDebug(@"sending registerToken request with args %@", args);
-    NSURLRequest *request = [self createRequestForAction:@"users/registerDeviceToken" withArgs:args];
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_REGISTER_DEVICE_TOKEN withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
@@ -451,18 +550,18 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     NSDictionary *args;
     if (_email != nil) {
         args = @{
-                 @"email": allUsers ? [NSNull null]: self.email,
-                 @"token": self.hexToken
+                 ITBL_KEY_EMAIL: allUsers ? [NSNull null]: self.email,
+                 ITBL_KEY_TOKEN: self.hexToken
                  };
     } else {
         args = @{
-                 @"userId": allUsers ? [NSNull null]: self.userId,
-                 @"token": self.hexToken
+                 ITBL_KEY_USER_ID: allUsers ? [NSNull null]: self.userId,
+                 ITBL_KEY_TOKEN: self.hexToken
                  };
     }
     
     LogDebug(@"sending disableToken request with args %@", args);
-    NSURLRequest *request = [self createRequestForAction:@"users/disableDevice" withArgs:args];
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_DISABLE_DEVICE withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
@@ -510,31 +609,31 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
         
         if (_email != nil) {
             args = @{
-                     @"email": self.email,
-                     @"eventName": eventName,
-                     @"dataFields": dataFields
+                     ITBL_KEY_EMAIL: self.email,
+                     ITBL_KEY_EVENT_NAME: eventName,
+                     ITBL_KEY_DATA_FIELDS: dataFields
                      };
         } else {
             args = @{
-                     @"userId": self.userId,
-                     @"eventName": eventName,
-                     @"dataFields": dataFields
+                     ITBL_KEY_USER_ID: self.userId,
+                     ITBL_KEY_EVENT_NAME: eventName,
+                     ITBL_KEY_DATA_FIELDS: dataFields
                      };
         }
     } else {
         if (_email != nil) {
             args = @{
-                     @"email": self.email,
-                     @"eventName": eventName,
+                     ITBL_KEY_EMAIL: self.email,
+                     ITBL_KEY_EVENT_NAME: eventName,
                      };
         } else {
             args = @{
-                     @"userId": self.userId,
-                     @"eventName": eventName,
+                     ITBL_KEY_USER_ID: self.userId,
+                     ITBL_KEY_EVENT_NAME: eventName,
                      };
         }
     }
-    NSURLRequest *request = [self createRequestForAction:@"events/track" withArgs:args];
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_TRACK withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
@@ -584,22 +683,22 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     
     if (_email != nil) {
         args = @{
-          @"email": self.email,
-          @"campaignId": campaignId,
-          @"templateId": templateId,
-          @"messageId": messageId,
-          @"dataFields": reqDataFields
+          ITBL_KEY_EMAIL: self.email,
+          ITBL_KEY_CAMPAIGN_ID: campaignId,
+          ITBL_KEY_TEMPLATE_ID: templateId,
+          ITBL_KEY_MESSAGE_ID: messageId,
+          ITBL_KEY_DATA_FIELDS: reqDataFields
           };
     } else {
         args = @{
-          @"userId": self.userId,
-          @"campaignId": campaignId,
-          @"templateId": templateId,
-          @"messageId": messageId,
-          @"dataFields": reqDataFields
+          ITBL_KEY_USER_ID: self.userId,
+          ITBL_KEY_CAMPAIGN_ID: campaignId,
+          ITBL_KEY_TEMPLATE_ID: templateId,
+          ITBL_KEY_MESSAGE_ID: messageId,
+          ITBL_KEY_DATA_FIELDS: reqDataFields
           };
     }
-    NSURLRequest *request = [self createRequestForAction:@"events/trackPushOpen" withArgs:args];
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_TRACK_PUSH_OPEN withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
@@ -628,31 +727,94 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     NSDictionary *apiUserDict;
     if (_email != nil) {
         apiUserDict = @{
-            @"email": self.email
+            ITBL_KEY_EMAIL: self.email
             };
     } else {
         apiUserDict = @{
-            @"userId": self.userId
+            ITBL_KEY_USER_ID: self.userId
             };
     }
     
     
     if (dataFields) {
         args = @{
-                 @"user": apiUserDict,
-                 @"items": itemsToSerialize,
-                 @"total": total,
-                 @"dataFields": dataFields
+                 ITBL_KEY_USER: apiUserDict,
+                 ITBL_KEY_ITEMS: itemsToSerialize,
+                 ITBL_KEY_TOTAL: total,
+                 ITBL_KEY_DATA_FIELDS: dataFields
                  };
     } else {
         args = @{
-                 @"user": apiUserDict,
-                 @"total": total,
-                 @"items": itemsToSerialize
+                 ITBL_KEY_USER: apiUserDict,
+                 ITBL_KEY_TOTAL: total,
+                 ITBL_KEY_ITEMS: itemsToSerialize
                  };
     }
-    NSURLRequest *request = [self createRequestForAction:@"commerce/trackPurchase" withArgs:args];
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_COMMERCE_TRACK_PURCHASE withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+}
+
+// documented in IterableAPI.h
+- (void)spawnInAppNotification:(ITEActionBlock)callbackBlock
+{
+    OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
+        NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
+        if (dialogOptions != nil) {
+            NSDictionary *message = [dialogOptions valueForKeyPath:ITERABLE_IN_APP_CONTENT];
+            NSNumber *templateId = [message valueForKey:ITBL_KEY_TEMPLATE_ID];
+            
+            NSNumber *campaignId = [dialogOptions valueForKey:ITBL_KEY_CAMPAIGN_ID];
+            NSString *messageId = [dialogOptions valueForKey:ITBL_KEY_MESSAGE_ID];
+            
+            [self trackInAppOpen:campaignId templateId:templateId messageId:messageId];
+            IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:campaignId templateId:templateId messageId:messageId];
+            
+            if (message != nil) {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [IterableInAppManager showIterableNotification:message trackParams:notification callbackBlock:(ITEActionBlock)callbackBlock];
+                });
+            }
+        } else {
+            LogDebug(@"No notifications found for inApp payload %@", payload);
+        }
+    };
+
+    [self getInAppMessages:@1 onSuccess:onSuccess onFailure:[IterableAPI defaultOnFailure:@"getInAppMessages"]];
+}
+
+// documented in IterableAPI.h
+- (void)getInAppMessages:(NSNumber *)count
+{
+    [self getInAppMessages:@1 onSuccess:[IterableAPI defaultOnSuccess:@"getMessages"] onFailure:[IterableAPI defaultOnFailure:@"getMessages"]];
+}
+
+// documented in IterableAPI.h
+- (void)getInAppMessages:(NSNumber *)count onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                ITBL_KEY_EMAIL: self.email,
+                ITBL_KEY_COUNT: count
+                };
+    } else {
+        args = @{
+                 ITBL_KEY_USER_ID: self.userId,
+                 ITBL_KEY_COUNT: count
+                };
+    }
+    NSURLRequest *request = [self createGetRequestForAction:ENDPOINT_GET_INAPP_MESSAGES withArgs:args];
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+}
+
+-(void) showSystemNotification:(NSString *)title body:(NSString *)body button:(NSString *)button callbackBlock:(ITEActionBlock)callbackBlock
+{
+    [IterableInAppManager showSystemNotification:title body:body buttonLeft:button buttonRight:nil callbackBlock:callbackBlock];
+}
+
+-(void) showSystemNotification:(NSString *)title body:(NSString *)body buttonLeft:(NSString *)buttonLeft buttonRight:(NSString *)buttonRight callbackBlock:(ITEActionBlock)callbackBlock
+{
+    [IterableInAppManager showSystemNotification:title body:body buttonLeft:buttonLeft buttonRight:buttonRight  callbackBlock:callbackBlock];
 }
 
 @end

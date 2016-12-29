@@ -29,7 +29,7 @@
  
  @return hexadecimal string representation of this `NSData`; empty string if this `NSData` is empty
  */
-- (NSString *)hexadecimalString;
+- (NSString *)ITEHexadecimalString;
 
 @end
 

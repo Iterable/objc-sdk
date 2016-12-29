@@ -81,16 +81,19 @@
 }
 
 - (void)testValidGhostPayload {
+    //NSNumber *number = [NSNumber numberWithInt:@123];
     NSDictionary *payload = @{
       @"itbl": @{
               @"campaignId": @666,
               @"templateId": @777,
-              @"isGhostPush": @YES
+              @"isGhostPush": @YES,
+              @"messageId": @"123abc"
               }
       };
     IterableNotificationMetadata *metadata = [IterableNotificationMetadata metadataFromLaunchOptions:payload];
-    XCTAssertEqual(metadata.campaignId, @666);
-    XCTAssertEqual(metadata.templateId, @777);
+
+    XCTAssert([metadata.campaignId isEqualToNumber:@666]);
+    XCTAssert([metadata.templateId isEqualToNumber:@777]);
     XCTAssertTrue(metadata.isGhostPush);
     XCTAssertFalse([metadata isProof]);
     XCTAssertFalse([metadata isTestPush]);
@@ -102,12 +105,13 @@
                               @"itbl": @{
                                       @"campaignId": @666,
                                       @"templateId": @777,
-                                      @"isGhostPush": @NO
+                                      @"isGhostPush": @NO,
+                                      @"messageId": @"123abc"
                                       }
                               };
     IterableNotificationMetadata *metadata = [IterableNotificationMetadata metadataFromLaunchOptions:payload];
-    XCTAssertEqual(metadata.campaignId, @666);
-    XCTAssertEqual(metadata.templateId, @777);
+    XCTAssert([metadata.campaignId isEqualToNumber:@666]);
+    XCTAssert([metadata.templateId isEqualToNumber:@777]);
     XCTAssertFalse(metadata.isGhostPush);
     XCTAssertFalse([metadata isProof]);
     XCTAssertFalse([metadata isTestPush]);
@@ -119,12 +123,13 @@
                               @"itbl": @{
                                       @"campaignId": @0,
                                       @"templateId": @777,
-                                      @"isGhostPush": @NO
+                                      @"isGhostPush": @NO,
+                                      @"messageId": @"123abc"
                                       }
                               };
     IterableNotificationMetadata *metadata = [IterableNotificationMetadata metadataFromLaunchOptions:payload];
-    XCTAssertEqual(metadata.campaignId, @0);
-    XCTAssertEqual(metadata.templateId, @777);
+    XCTAssert([metadata.campaignId isEqualToNumber:@0]);
+    XCTAssert([metadata.templateId isEqualToNumber:@777]);
     XCTAssertFalse(metadata.isGhostPush);
     XCTAssertTrue([metadata isProof]);
     XCTAssertFalse([metadata isTestPush]);
@@ -135,12 +140,13 @@
     NSDictionary *payload = @{
                               @"itbl": @{
                                       @"templateId": @777,
-                                      @"isGhostPush": @NO
+                                      @"isGhostPush": @NO,
+                                      @"messageId": @"123abc"
                                       }
                               };
     IterableNotificationMetadata *metadata = [IterableNotificationMetadata metadataFromLaunchOptions:payload];
-    XCTAssertEqual(metadata.campaignId, @0);
-    XCTAssertEqual(metadata.templateId, @777);
+    XCTAssert([metadata.campaignId isEqualToNumber:@0]);
+    XCTAssert([metadata.templateId isEqualToNumber:@777]);
     XCTAssertFalse(metadata.isGhostPush);
     XCTAssertTrue([metadata isProof]);
     XCTAssertFalse([metadata isTestPush]);
@@ -152,12 +158,13 @@
                               @"itbl": @{
                                       @"campaignId": @0,
                                       @"templateId": @0,
-                                      @"isGhostPush": @NO
+                                      @"isGhostPush": @NO,
+                                      @"messageId": @"123abc"
                                       }
                               };
     IterableNotificationMetadata *metadata = [IterableNotificationMetadata metadataFromLaunchOptions:payload];
-    XCTAssertEqual(metadata.campaignId, @0);
-    XCTAssertEqual(metadata.templateId, @0);
+    XCTAssert([metadata.campaignId isEqualToNumber:@0]);
+    XCTAssert([metadata.templateId isEqualToNumber:@0]);
     XCTAssertFalse(metadata.isGhostPush);
     XCTAssertFalse([metadata isProof]);
     XCTAssertTrue([metadata isTestPush]);
@@ -165,7 +172,7 @@
 }
 
 - (void)testDeserializedFromIterableJson {
-    NSString *jsonGhostPush = @"{\"itbl\":{\"campaignId\":666,\"templateId\":777,\"isGhostPush\":true}}";
+    NSString *jsonGhostPush = @"{\"itbl\":{\"campaignId\":666,\"templateId\":777,\"isGhostPush\":true,\"messageId\":\"123abc\"}}";
     id objGhostPush = [NSJSONSerialization
                  JSONObjectWithData:[jsonGhostPush dataUsingEncoding:NSUTF8StringEncoding]
                  options:0
@@ -174,12 +181,13 @@
                                @"itbl": @{
                                        @"campaignId": @666,
                                        @"templateId": @777,
-                                       @"isGhostPush": @YES
+                                       @"isGhostPush": @YES,
+                                       @"messageId": @"123abc"
                                        }
                                };
     XCTAssertEqualObjects(objGhostPush, expectedGhostPush);
     
-    NSString *jsonReal = @"{\"itbl\":{\"campaignId\":666,\"templateId\":777,\"isGhostPush\":false}}";
+    NSString *jsonReal = @"{\"itbl\":{\"campaignId\":666,\"templateId\":777,\"isGhostPush\":false,\"messageId\":\"123abc\"}}";
     id objReal = [NSJSONSerialization
                        JSONObjectWithData:[jsonReal dataUsingEncoding:NSUTF8StringEncoding]
                        options:0
@@ -188,7 +196,8 @@
                                         @"itbl": @{
                                                 @"campaignId": @666,
                                                 @"templateId": @777,
-                                                @"isGhostPush": @NO
+                                                @"isGhostPush": @NO,
+                                                @"messageId": @"123abc"
                                                 }
                                         };
     XCTAssertEqualObjects(objReal, expectedReal);

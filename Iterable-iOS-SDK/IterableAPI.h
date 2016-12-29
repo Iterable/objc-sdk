@@ -8,6 +8,8 @@
 
 @import Foundation;
 #import "CommerceItem.h"
+#import "IterableConstants.h"
+#import "IterableInAppManager.h"
 
 // all params are nonnull, unless annotated otherwise
 NS_ASSUME_NONNULL_BEGIN
@@ -69,31 +71,6 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /*!
  @method
  
- @abstract Initializes Iterable with just an API key and email, but no launchOptions
- 
- @param apiKey   your Iterable apiKey
- @param email    the email of the user logged in
- 
- @return an instance of IterableAPI
- */
-- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *) email;
-
-/*!
- @method
- 
- @abstract Initializes Iterable with launchOptions
- 
- @param apiKey          your Iterable apiKey
- @param email           the email of the user logged in
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
- 
- @return an instance of IterableAPI
- */
-- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions;
-
-/*!
- @method
- 
  @abstract Initializes Iterable with launchOptions
  
  @param apiKey                  your Iterable apiKey
@@ -149,7 +126,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Initializes a shared instance of Iterable with launchOptions
  
- @discussion This method will set up a singleton instance of the `IterableAPI` class for
+ @discussion The sharedInstanceWithApiKey with email is preferred over userId.
+ This method will set up a singleton instance of the `IterableAPI` class for
  you using the given project API key. When you want to make calls to Iterable
  elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
  the app was launched from a remote push notification, we will track a pushOpen.
@@ -167,7 +145,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Initializes a shared instance of Iterable with launchOptions
  
- @discussion This method will set up a singleton instance of the `IterableAPI` class for
+ @discussion The sharedInstanceWithApiKey with email is preferred over userId.
+ This method will set up a singleton instance of the `IterableAPI` class for
  you using the given project API key. When you want to make calls to Iterable
  elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
  the app was launched from a remote push notification, we will track a pushOpen.
@@ -444,6 +423,97 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @see OnFailureHandler
  */
 - (void)track:(NSString *)eventName dataFields:(nullable NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+
+/////////////////////////
+/// @name In-App Notifications
+/////////////////////////
+
+/*!
+ @method
+ 
+ @abstract Gets the list of InAppNotification and displays the next notification
+ 
+  @param callbackBlock  Callback ITEActionBlock
+ 
+ */
+- (void)spawnInAppNotification:(ITEActionBlock) callbackBlock;
+
+
+/*!
+ @method
+ 
+ @abstract Gets the list of InAppMessages
+ 
+ @param count  the number of messages to fetch
+ */
+- (void)getInAppMessages:(NSNumber *)count;
+
+/*!
+ @method
+ 
+ @abstract Gets the list of InAppMessages with optional additional fields and custom completion blocks
+ 
+  @param count  the number of messages to fetch
+ @param onSuccess   OnSuccessHandler to invoke if the get call succeeds
+ @param onFailure   OnFailureHandler to invoke if the get call fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)getInAppMessages:(NSNumber *)count onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+
+/**
+ @method
+ 
+ @abstract Tracks a InAppOpen event with custom completion blocks
+ 
+ @param campaignId      The campaignId of the notification
+ @param templateId      The templateId of the notification
+ @param messageId       The messageId of the notification
+ */
+- (void)trackInAppOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateID messageId:(NSString *)messageId;
+
+/**
+ @method
+ 
+ @abstract Tracks a inAppClick event with custom completion blocks
+ 
+ @param campaignId      The campaignId of the notification
+ @param templateId      The templateId of the notification
+ @param messageId       The messageId of the notification
+ @param buttonIndex     The index of the button that was clicked
+ */
+- (void)trackInAppClick:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId  buttonIndex:(NSNumber *)buttonIndex;
+
+/*!
+ @method
+ 
+ @abstract displays a iOS system style notification with one button
+ 
+ @param title           the NSDictionary containing the dialog options
+ @param body            the notification message body
+ @param button          the text of the left button
+ @param callbackBlock   the callback to send after a button on the notification is clicked
+ 
+ @discussion            passes the string of the button clicked to the callbackBlock
+ */
+-(void) showSystemNotification:(NSString *)title body:(NSString *)body button:(NSString *)button callbackBlock:(ITEActionBlock)callbackBlock;
+
+/*!
+ @method
+ 
+ @abstract displays a iOS system style notification with two buttons
+ 
+ @param title           the NSDictionary containing the dialog options
+ @param body            the notification message body
+ @param buttonLeft      the text of the left button
+ @param buttonRight     the text of the right button
+ @param callbackBlock   the callback to send after a button on the notification is clicked
+ 
+ @discussion            passes the string of the button clicked to the callbackBlock
+ */
+-(void) showSystemNotification:(NSString *)title body:(NSString *)body buttonLeft:(NSString *)buttonLeft buttonRight:(NSString *)buttonRight callbackBlock:(ITEActionBlock)callbackBlock;
+
 
 @end
 

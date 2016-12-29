@@ -58,15 +58,19 @@
                                            }
                                    }
                            };
-    NSString *expected = @"{\"email\":\"ilya@iterable.com\",\"device\":{\"applicationName\":\"baz\",\"dataFields\":{\"systemName\":\"iterable\",\"model\":\"awesome\",\"localizedModel\":\"eggs\",\"userInterfaceIdiom\":\"and\",\"systemVersion\":\"is\",\"name\":\"green\",\"identifierForVendor\":\"ham\"},\"token\":\"foo\",\"platform\":\"bar\"}}";
-    XCTAssertEqualObjects(expected, [IterableAPI dictToJson:args]);
+    NSString *result = [IterableAPI dictToJson:args];
+    NSData *data = [result dataUsingEncoding:NSUTF8StringEncoding];
+    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    XCTAssertEqualObjects(args, json);
     
-    // just in case, make sure they're the same when we serialize it back...
+    NSString *expected = @"{\"email\":\"ilya@iterable.com\",\"device\":{\"applicationName\":\"baz\",\"dataFields\":{\"systemName\":\"iterable\",\"model\":\"awesome\",\"localizedModel\":\"eggs\",\"userInterfaceIdiom\":\"and\",\"systemVersion\":\"is\",\"name\":\"green\",\"identifierForVendor\":\"ham\"},\"token\":\"foo\",\"platform\":\"bar\"}}";
+    
     id object = [NSJSONSerialization
                  JSONObjectWithData:[expected dataUsingEncoding:NSUTF8StringEncoding]
                  options:0
                  error:nil];
     XCTAssertEqualObjects(args, object);
+    XCTAssertEqualObjects(args, json);
 }
 
 - (void)testUserInterfaceIdionEnumToString {
