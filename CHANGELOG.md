@@ -15,6 +15,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.2.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.2.0)
+#### Added
+- added support for In-App Notifications with different views layouts
+	- Full screen 
+	- Bottom
+	- Center
+	- Top
+- includes tracking for In-App opens and clicks
+- includes support for GET requests
+- added support for system styled dialogs
+- Prefixed common method names
+
 ## [4.1.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.1.1)
 #### Fixed
 - included the latest artifacts

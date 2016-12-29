@@ -1,6 +1,6 @@
 [![CocoaPods](https://img.shields.io/cocoapods/v/IterableSDK.svg?style=flat)](https://cocoapods.org/pods/IterableSDK)
 [![License](https://img.shields.io/cocoapods/l/IterableSDK.svg?style=flat)](https://opensource.org/licenses/MIT)
-[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](http://cocoadocs.org/docsets/IterableSDK/4.1.1/)
+[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](http://cocoadocs.org/docsets/IterableSDK/4.2.0/)
 
 # Iterable iOS SDK
 
@@ -67,9 +67,11 @@ In the `Artifacts` directory, you can find the compiled static library and heade
 
 # Using the SDK
 
-1. Once you know the email or userId of the user, **create a shared instance of an `IterableAPI`**
-  * If you are initializing using a userId, an existing user must already exist for that userId
-  * use `[IterableAPI sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions]` to create an `IterableAPI`
+1. Once you know the email *(Preferred)* or userId of the user, **create a shared instance of an `IterableAPI`**
+  * EMAIL: `[IterableAPI sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions]` to create an `IterableAPI`
+  * USERID: `[IterableAPI sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions]` to create an `IterableAPI`
+	  * If you are initializing using a userId, an existing user must already exist for that userId 
+	  * It is preferred that you initialize by Email since that doesn't require an additional lookup by userId call on the backend.
   * The `apiKey` should correspond to the API key of your project in Iterable. If you'd like, you can specify a different `apiKey` depending on whether you're building in `DEBUG` or `PRODUCTION`, and point the SDK to the relevant Iterable project.
   * Ideally, you will call this from inside `application:didFinishLaunchingWithOptions:` and pass in `launchOptions`. This will let the SDK automatically track a push open for you if the application was launched from a remote Iterable push notification. 
   * This method creates a singleton `IterableAPI` for your use. You can retrieve it later with `[IterableAPI sharedInstance]`. If retrieving it later, be sure that you have either instantiated it earlier, or check for a non-nil return value. 
@@ -160,6 +162,11 @@ After enabling background mode, you will need to implement a different method in
 When a user logs out, you typically want to disable push notifications to that user/device. This can be accomplished by calling `disableDeviceForCurrentUser`. Please note that it will only attempt to disable the device if you have previously called `registerToken`.
 
 In order to re-enable push notifcations to that device, simply call `registerToken` as usual when the user logs back in.
+
+#### InApp Notifications
+To display the user's InApp notifications call `spawnInAppNotification` with a defined `ITEActionBlock` callback handler. When a user clicks a button on the notification, the defined handler is called and passed the action name defined in the InApp template.
+
+InApp opens and button clicks are automatically tracked when the notification is called via `spawnInAppNotification`.
 
 # Additional Information
 
