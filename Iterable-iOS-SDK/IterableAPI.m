@@ -346,6 +346,47 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 //////////////////////////////////////////////////////////////
 
 // documented in IterableAPI.h
++ (IterableAPI *)sharedInstance
+{
+    if (sharedInstance == nil) {
+        LogError(@"[sharedInstance called before sharedInstanceWithApiKey");
+    }
+    return sharedInstance;
+}
+
+// documented in IterableAPI.h
++ (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
+{
+    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
+    });
+    return sharedInstance;
+}
+
+// documented in IterableAPI.h
++ (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
+{
+    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions];
+    });
+    return sharedInstance;
+}
+
+// documented in IterableAPI.h
++(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
+{
+    NSURLSessionDataTask *trackAndRedirectTask = [[NSURLSession sharedSession]
+                                                  dataTaskWithURL:webpageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                      callbackBlock(response.URL.absoluteString);
+                                                  }];
+    [trackAndRedirectTask resume];
+}
+
+// documented in IterableAPI.h
 - (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email
 {
     return [self initWithApiKey:apiKey andEmail:email launchOptions:nil];
@@ -435,41 +476,6 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     }
     NSURLRequest *request = [self createRequestForAction:ENDPOINT_TRACK_INAPP_CLICK withArgs:args];
     [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppClick"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppClick"]];
-}
-
-//////////////////////////////////////////////////////////////
-/// @name Implementations of things documents in IterableAPI.h
-//////////////////////////////////////////////////////////////
-
-// documented in IterableAPI.h
-+ (IterableAPI *)sharedInstance
-{
-    if (sharedInstance == nil) {
-        LogError(@"[sharedInstance called before sharedInstanceWithApiKey");
-    }
-    return sharedInstance;
-}
-
-// documented in IterableAPI.h
-+ (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
-{
-    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
-    });
-    return sharedInstance;
-}
-
-// documented in IterableAPI.h
-+ (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
-{
-    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions];
-    });
-    return sharedInstance;
 }
 
 // documented in IterableAPI.h
@@ -807,11 +813,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
+// documented in IterableAPI.h
 -(void) showSystemNotification:(NSString *)title body:(NSString *)body button:(NSString *)button callbackBlock:(ITEActionBlock)callbackBlock
 {
     [IterableInAppManager showSystemNotification:title body:body buttonLeft:button buttonRight:nil callbackBlock:callbackBlock];
 }
 
+// documented in IterableAPI.h
 -(void) showSystemNotification:(NSString *)title body:(NSString *)body buttonLeft:(NSString *)buttonLeft buttonRight:(NSString *)buttonRight callbackBlock:(ITEActionBlock)callbackBlock
 {
     [IterableInAppManager showSystemNotification:title body:body buttonLeft:buttonLeft buttonRight:buttonRight  callbackBlock:callbackBlock];
