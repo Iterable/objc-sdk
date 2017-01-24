@@ -379,11 +379,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 // documented in IterableAPI.h
 +(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
 {
-    NSURLSessionDataTask *trackAndRedirectTask = [[NSURLSession sharedSession]
+    if ([webpageURL.absoluteString rangeOfString:ITBL_DEEPLINK_IDENTIFIER].location != NSNotFound) {
+        NSURLSessionDataTask *trackAndRedirectTask = [[NSURLSession sharedSession]
                                                   dataTaskWithURL:webpageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                       callbackBlock(response.URL.absoluteString);
                                                   }];
-    [trackAndRedirectTask resume];
+        [trackAndRedirectTask resume];
+    }
 }
 
 // documented in IterableAPI.h

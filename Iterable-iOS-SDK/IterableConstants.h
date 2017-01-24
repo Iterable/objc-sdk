@@ -67,6 +67,9 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITBL_KEY_UNSPECIFIED @"Unspecified"
 
 
+#define ITBL_DEEPLINK_IDENTIFIER @"/a/"
+
+
 //In-App Constants
 #define ITERABLE_IN_APP_TITLE @"title"
 #define ITERABLE_IN_APP_BODY @"body"
