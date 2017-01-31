@@ -386,6 +386,9 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
                                                   }];
         [trackAndRedirectTask resume];
     }
+    else {
+        callbackBlock(webpageURL.absoluteString);
+    }
 }
 
 // documented in IterableAPI.h

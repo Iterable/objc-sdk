@@ -82,4 +82,31 @@
     XCTAssertEqualObjects(@"Unspecified", [IterableAPI userInterfaceIdiomEnumToString:192387]);
 }
 
+- (void)testUniversalDeepLinkRewriting {
+    NSURL *iterableLink = [NSURL URLWithString:@"http://links.iterable.com/a/60402396fbd5433eb35397b47ab2fb83?_e=joneng%40iterable.com&_m=93125f33ba814b13a882358f8e0852e0"];
+    
+    XCTestExpectation *expectation =
+    [self expectationWithDescription:@"High Expectations"];
+    ITEActionBlock aBlock = ^(NSString* redirectUrl) {
+        [expectation fulfill];
+        XCTAssertEqualObjects(@"https://links.iterable.com/api/docs#!/email", redirectUrl);
+        
+    };
+    [IterableAPI getAndTrackDeeplink:iterableLink callbackBlock:aBlock];
+
+    NSURL *normalLink = [NSURL URLWithString:@"http://links.iterable.com/u/60402396fbd5433eb35397b47ab2fb83?_e=joneng%40iterable.com&_m=93125f33ba814b13a882358f8e0852e0"];
+    
+    ITEActionBlock uBlock = ^(NSString* redirectUrl) {
+        XCTAssertEqualObjects(@"http://links.iterable.com/u/60402396fbd5433eb35397b47ab2fb83?_e=joneng%40iterable.com&_m=93125f33ba814b13a882358f8e0852e0", redirectUrl);
+        
+    };
+    [IterableAPI getAndTrackDeeplink:normalLink callbackBlock:uBlock];
+    
+    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Timeout Error: %@", error);
+        }
+    }];
+}
+
 @end
