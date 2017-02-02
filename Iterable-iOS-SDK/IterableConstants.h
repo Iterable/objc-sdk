@@ -67,7 +67,7 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITBL_KEY_UNSPECIFIED @"Unspecified"
 
 
-#define ITBL_DEEPLINK_IDENTIFIER @"/a/"
+#define ITBL_DEEPLINK_IDENTIFIER @"/a/[a-zA-Z0-9]+"
 
 
 //In-App Constants
