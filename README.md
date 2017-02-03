@@ -1,6 +1,6 @@
 [![CocoaPods](https://img.shields.io/cocoapods/v/IterableSDK.svg?style=flat)](https://cocoapods.org/pods/IterableSDK)
 [![License](https://img.shields.io/cocoapods/l/IterableSDK.svg?style=flat)](https://opensource.org/licenses/MIT)
-[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](http://cocoadocs.org/docsets/IterableSDK/4.2.0/)
+[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](http://cocoadocs.org/docsets/IterableSDK/4.3.0/)
 
 # Iterable iOS SDK
 
@@ -167,6 +167,40 @@ In order to re-enable push notifcations to that device, simply call `registerTok
 To display the user's InApp notifications call `spawnInAppNotification` with a defined `ITEActionBlock` callback handler. When a user clicks a button on the notification, the defined handler is called and passed the action name defined in the InApp template.
 
 InApp opens and button clicks are automatically tracked when the notification is called via `spawnInAppNotification`.
+
+#### Deeplinking
+You can setup your app to track email clicks and maintain deeplinking directly into your app with [iOS Universal Links] (https://support.iterable.com/hc/en-us/articles/115000440206). 
+
+From your application's [restorationHandler] (https://developer.apple.com/reference/uikit/uiapplicationdelegate/1623072-application) call `getAndTrackDeeplink` along with a callback to handle the original deeplink url.
+
+
+```swift
+<SWIFT>
+func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+                  restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+    
+    IterableAPI.getAndTrackDeeplink(userActivity.webpageURL!, callbackBlock: {
+        (originalURL) in
+            //Handle Original URL deeplink here
+    });
+    return true
+}
+```
+
+```objective-c
+<OBJECTIVE-C>
+- (BOOL)application:(UIApplication *)application
+ 		continueUserActivity(NSUserActivity *)userActivity 
+ 		restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+    
+    ITEActionBlock callbackBlock = ^(NSString* originalURL) {
+       //Handle Original URL deeplink here
+    };
+    [IterableAPI getAndTrackDeeplink:iterableLink callbackBlock:callbackBlock];
+    
+    return true;
+}
+```
 
 # Additional Information
 
