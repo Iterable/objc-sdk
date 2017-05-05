@@ -24,6 +24,9 @@
 
 @implementation IterableAPITests
 
+NSString *redirectRequest = @"https://httpbin.org/redirect-to?url=http://example.com";
+NSString *exampleUrl = @"http://example.com";
+
 NSString *googleHttps = @"https://www.google.com";
 NSString *googleHttp = @"http://www.google.com";
 NSString *iterableRewriteURL = @"http://links.iterable.com/a/60402396fbd5433eb35397b47ab2fb83?_e=joneng%40iterable.com&_m=93125f33ba814b13a882358f8e0852e0";
@@ -121,6 +124,23 @@ NSString *iterableRewriteURL = @"http://links.iterable.com/a/60402396fbd5433eb35
         
     };
     [IterableAPI getAndTrackDeeplink:normalLink callbackBlock:uBlock];
+    
+    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Timeout Error: %@", error);
+        }
+    }];
+}
+
+- (void)testNoURLRedirect {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"High Expectations"];
+    NSURL *redirectLink = [NSURL URLWithString:redirectRequest];
+    ITEActionBlock redirectBlock = ^(NSString* redirectUrl) {
+        [expectation fulfill];
+        XCTAssertNotEqual(exampleUrl, redirectUrl);
+        XCTAssertEqualObjects(redirectRequest, redirectUrl);
+    };
+    [IterableAPI getAndTrackDeeplink:redirectLink callbackBlock:redirectBlock];
     
     [self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
         if (error) {
