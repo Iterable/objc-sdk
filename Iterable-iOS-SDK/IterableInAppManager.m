@@ -27,6 +27,14 @@
 +(void) showIterableNotification:(NSDictionary*)dialogOptions trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock{
     if (dialogOptions != NULL) {
         UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+        if([rootViewController isKindOfClass:[UIViewController class]])
+        {
+            while (rootViewController.presentedViewController != nil)
+            {
+                rootViewController = rootViewController.presentedViewController;
+            }
+        }
+        
         IterableInAppBaseViewController *baseNotification;
         
         NSString* type = [dialogOptions objectForKey:ITERABLE_IN_APP_TYPE];
@@ -39,14 +47,23 @@
         [baseNotification ITESetData:dialogOptions];
         [baseNotification ITESetTrackParams:trackParams];
         [baseNotification ITESetCallback:callbackBlock];
-        [rootViewController presentViewController:baseNotification animated:YES completion:nil];
+        [rootViewController showViewController:baseNotification sender:self];
     }
 }
 
 // documented in IterableInAppManager.h
 +(void) showSystemNotification:(NSString *)title body:(NSString *)body buttonLeft:(NSString *)buttonLeft buttonRight:(NSString *)buttonRight callbackBlock:(ITEActionBlock)callbackBlock{
-
+    
     UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    
+    if([rootViewController isKindOfClass:[UIViewController class]])
+    {
+        while (rootViewController.presentedViewController != nil)
+        {
+            rootViewController = rootViewController.presentedViewController;
+        }
+    }
+    
     UIAlertController *alertController = [UIAlertController
                                           alertControllerWithTitle:title
                                           message: body
@@ -60,8 +77,7 @@
         [self addAlertActionButton:alertController keyString:buttonRight callbackBlock:callbackBlock];
     }
     
-    [rootViewController presentViewController:alertController animated:YES completion:nil];
-
+    [rootViewController showViewController:alertController sender:self];
 }
 
 /*
@@ -91,10 +107,12 @@
     NSString *colorString = [payload objectForKey:keyString];
     
     unsigned result = 0;
-    NSScanner *scanner = [NSScanner scannerWithString:colorString];
+    if (colorString != nil && colorString.length > 0) {
+        NSScanner *scanner = [NSScanner scannerWithString:colorString];
     
-    [scanner setScanLocation:1];
-    [scanner scanHexInt:&result];
+        [scanner setScanLocation:1];
+        [scanner scanHexInt:&result];
+    }
     
     return result;
 }
