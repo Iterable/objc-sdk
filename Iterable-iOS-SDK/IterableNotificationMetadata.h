@@ -1,5 +1,5 @@
 //
-//  IterableNotification.h
+//  IterableNotificationMetadata.h
 //  Iterable-iOS-SDK
 //
 //  Created by Ilya Brin on 6/7/16.

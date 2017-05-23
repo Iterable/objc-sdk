@@ -1,5 +1,5 @@
 //
-//  IterableNotification.m
+//  IterableNotificationMetadata.m
 //  Iterable-iOS-SDK
 //
 //  Created by Ilya Brin on 6/7/16.
@@ -78,18 +78,16 @@ static NSString *const IsGhostPushField = @"isGhostPush";
  @abstract          Creates an `IterableNotificationMetadata` from a InApp payload
  
  @param campaignId  The notification campaignId
- @param templateId  The notification templateId
  @param messageId   The notification messageId
  
  @return            An instance of `IterableNotificationMetadata` with the specified properties
  
  @warning           This method assumes that `userInfo` is an Iterable notification (via `isIterableNotification` check beforehand)
  */
-- (instancetype)initFromInAppOptions:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId
+- (instancetype)initFromInAppOptions:(NSNumber *)campaignId messageId:(NSString *)messageId
 {
     if (self = [super init]) {
         _campaignId = campaignId;
-        _templateId = templateId;
         _messageId = messageId;
     }
     return self;
@@ -99,7 +97,7 @@ static NSString *const IsGhostPushField = @"isGhostPush";
 /// @name Implementation
 ////////////////////////
 
-// documented in IterableNotification.h
+// documented in IterableNotificationMetadata.h
 + (instancetype)metadataFromLaunchOptions:(NSDictionary *)userInfo
 {
     if ([IterableNotificationMetadata isIterableNotification:userInfo]) {
@@ -109,28 +107,28 @@ static NSString *const IsGhostPushField = @"isGhostPush";
     }
 }
 
-// documented in IterableNotification.h
-+ (instancetype)metadataFromInAppOptions:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId
+// documented in IterableNotificationMetadata.h
++ (instancetype)metadataFromInAppOptions:(NSNumber *)campaignId messageId:(NSString *)messageId
 {
-    if (campaignId != nil && templateId != nil) {
-        return [[IterableNotificationMetadata alloc] initFromInAppOptions:campaignId templateId:templateId messageId:messageId];
+    if (campaignId != nil) {
+        return [[IterableNotificationMetadata alloc] initFromInAppOptions:campaignId messageId:messageId];
     } else {
         return nil;
     }
     
 }
 
-// documented in IterableNotification.h
+// documented in IterableNotificationMetadata.h
 - (BOOL)isProof {
     return _campaignId.integerValue == 0 && _templateId.integerValue != 0;
 }
 
-// documented in IterableNotification.h
+// documented in IterableNotificationMetadata.h
 - (BOOL)isTestPush {
     return _campaignId.integerValue == 0 && _templateId.integerValue == 0;
 }
 
-// documented in IterableNotification.h
+// documented in IterableNotificationMetadata.h
 - (BOOL)isRealCampaignNotification {
     return !(_isGhostPush || [self isProof] || [self isTestPush]);
 }
