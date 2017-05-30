@@ -62,14 +62,13 @@ NS_ASSUME_NONNULL_BEGIN
  
  @abstract  Creates an `IterableNotificationMetadata` from a inApp notification
  
- @param campaignId  The notification campaignId
  @param messageId    The notification messageId
  
  @return    an instance of `IterableNotificationMetadata` with the specified properties; `nil` if this is not a valid InApp notification
  
- @warning   `metadataFromInAppOptions` will return `nil` if campaignId is nil
+ @warning   `metadataFromInAppOptions` will return `nil` if messageId is nil
  */
-+ (nullable instancetype)metadataFromInAppOptions:(NSNumber *)campaignId messageId:(NSString *)messageId;
++ (nullable instancetype)metadataFromInAppOptions:(NSString *)messageId;
 
 ///////////////////////////
 /// @name Utility functions

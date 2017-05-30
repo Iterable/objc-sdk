@@ -77,17 +77,15 @@ static NSString *const IsGhostPushField = @"isGhostPush";
  
  @abstract          Creates an `IterableNotificationMetadata` from a InApp payload
  
- @param campaignId  The notification campaignId
  @param messageId   The notification messageId
  
  @return            An instance of `IterableNotificationMetadata` with the specified properties
  
  @warning           This method assumes that `userInfo` is an Iterable notification (via `isIterableNotification` check beforehand)
  */
-- (instancetype)initFromInAppOptions:(NSNumber *)campaignId messageId:(NSString *)messageId
+- (instancetype)initFromInAppOptions:(NSString *)messageId
 {
     if (self = [super init]) {
-        _campaignId = campaignId;
         _messageId = messageId;
     }
     return self;
@@ -108,10 +106,10 @@ static NSString *const IsGhostPushField = @"isGhostPush";
 }
 
 // documented in IterableNotificationMetadata.h
-+ (instancetype)metadataFromInAppOptions:(NSNumber *)campaignId messageId:(NSString *)messageId
++ (instancetype)metadataFromInAppOptions:(NSString *)messageId
 {
-    if (campaignId != nil) {
-        return [[IterableNotificationMetadata alloc] initFromInAppOptions:campaignId messageId:messageId];
+    if (messageId != nil) {
+        return [[IterableNotificationMetadata alloc] initFromInAppOptions:messageId];
     } else {
         return nil;
     }

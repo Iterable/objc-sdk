@@ -440,7 +440,7 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)trackInAppOpen:(NSNumber*)campaignId messageId:(NSString *)messageId {
+- (void)trackInAppOpen:(NSString *)messageId {
     NSDictionary *args;
     
     if (_email != nil) {
@@ -459,19 +459,17 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)inAppConsume:(NSNumber*)campaignId messageId:(NSString *)messageId {
+- (void)inAppConsume:(NSString *)messageId {
     NSDictionary *args;
     
     if (_email != nil) {
         args = @{
                  ITBL_KEY_EMAIL: self.email,
-                 ITBL_KEY_CAMPAIGN_ID: campaignId,
                  ITBL_KEY_MESSAGE_ID: messageId
                  };
     } else {
         args = @{
                  ITBL_KEY_USER_ID: self.userId,
-                 ITBL_KEY_CAMPAIGN_ID: campaignId,
                  ITBL_KEY_MESSAGE_ID: messageId
                  };
     }
@@ -480,19 +478,17 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 }
 
 // documented in IterableAPI.h
-- (void)trackInAppClick:(NSNumber*)campaignId messageId:(NSString *)messageId buttonIndex:(NSNumber*)buttonIndex {
+- (void)trackInAppClick:(NSString *)messageId buttonIndex:(NSNumber*)buttonIndex {
     NSDictionary *args;
     if (_email != nil) {
         args = @{
                  ITBL_KEY_EMAIL: self.email,
-                 ITBL_KEY_CAMPAIGN_ID: campaignId,
                  ITBL_KEY_MESSAGE_ID: messageId,
                  ITERABLE_IN_APP_BUTTON_INDEX: buttonIndex
                  };
     } else {
         args = @{
                  ITBL_KEY_USER_ID: self.userId,
-                 ITBL_KEY_CAMPAIGN_ID: campaignId,
                  ITBL_KEY_MESSAGE_ID: messageId,
                  ITERABLE_IN_APP_BUTTON_INDEX: buttonIndex
                  };
@@ -795,9 +791,9 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
             NSNumber *campaignId = [dialogOptions valueForKey:ITBL_KEY_CAMPAIGN_ID];
             NSString *messageId = [dialogOptions valueForKey:ITBL_KEY_MESSAGE_ID];
             
-            [self trackInAppOpen:campaignId messageId:messageId];
-            [self inAppConsume:campaignId messageId:messageId];
-            IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:campaignId messageId:messageId];
+            [self trackInAppOpen:messageId];
+            [self inAppConsume:messageId];
+            IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:messageId];
             
             if (message != nil) {
                 dispatch_sync(dispatch_get_main_queue(), ^{
