@@ -468,10 +468,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @abstract Tracks a InAppOpen event with custom completion blocks
  
  @param campaignId      The campaignId of the notification
- @param templateId      The templateId of the notification
  @param messageId       The messageId of the notification
  */
-- (void)trackInAppOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateID messageId:(NSString *)messageId;
+- (void)trackInAppOpen:(NSNumber *)campaignId messageId:(NSString *)messageId;
 
 /**
  @method
@@ -479,11 +478,10 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @abstract Tracks a inAppClick event with custom completion blocks
  
  @param campaignId      The campaignId of the notification
- @param templateId      The templateId of the notification
  @param messageId       The messageId of the notification
  @param buttonIndex     The index of the button that was clicked
  */
-- (void)trackInAppClick:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId  buttonIndex:(NSNumber *)buttonIndex;
+- (void)trackInAppClick:(NSNumber *)campaignId messageId:(NSString *)messageId  buttonIndex:(NSNumber *)buttonIndex;
 
 /*!
  @method

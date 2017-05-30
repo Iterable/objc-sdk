@@ -115,7 +115,6 @@ static NSString *const IsGhostPushField = @"isGhostPush";
     } else {
         return nil;
     }
-    
 }
 
 // documented in IterableNotificationMetadata.h
