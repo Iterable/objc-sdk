@@ -471,7 +471,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @param templateId      The templateId of the notification
  @param messageId       The messageId of the notification
  */
-- (void)trackInAppOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateID messageId:(NSString *)messageId;
+- (void)trackInAppOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId;
 
 /**
  @method
