@@ -15,8 +15,6 @@
 
 /**
  @abstract Custom ITEActionBlock
- 
- @param The NSString passed into the action block
  */
 typedef void (^ITEActionBlock)(NSString *);
 
@@ -37,14 +35,14 @@ typedef void (^ITEActionBlock)(NSString *);
  @param id the id of the button
  @param actionString the string representing the action button clicked
  */
--(void)ITEAddActionButton:(NSInteger)id actionString:(NSString *)actionStringValue;
+-(void)ITEAddActionButton:(NSInteger)id actionString:(NSString *)actionString;
 
 /**
  @method
  
  @abstract Sets the data for the viewController
  
- @param jsonPayload the payload data
+ @param callbackBlock the payload data
  */
 -(void)ITESetCallback:(ITEActionBlock)callbackBlock;
 

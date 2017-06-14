@@ -30,7 +30,7 @@
  
  @param dialogOptions   the NSDictionary containing the dialog options
  @param trackParams     The track params for the notification
- @param callback        the callback to send after a button on the notification is clicked
+ @param callbackBlock        the callback to send after a button on the notification is clicked
  */
 +(void) showIterableNotification:(NSDictionary *)dialogOptions trackParams:(IterableNotificationMetadata *)trackParams callbackBlock:(ITEActionBlock)callbackBlock;
 
