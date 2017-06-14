@@ -361,7 +361,7 @@
  
  @abstract Sets the maximumWidth of the InApp
  
- @param maximumWidth
+ @param maximumWidth max width of the alert
  */
 - (void)setMaximumWidth:(CGFloat)maximumWidth {
     _maximumWidth = maximumWidth;
@@ -401,7 +401,7 @@
  
  @abstract Sets the contentView
  
- @param contentView
+ @param contentView the content view
  */
 - (void)setContentView:(UIView *)contentView {
     [self.contentView removeFromSuperview];
@@ -429,7 +429,7 @@
  
  @abstract Sets the textFields
  
- @param textFields
+ @param textFields the text to display
  */
 - (void)setTextFields:(NSArray *)textFields {
     for (UITextField *textField in self.textFields) {
