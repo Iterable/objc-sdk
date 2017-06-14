@@ -15,6 +15,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.3.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.3.1)
+#### Fixed
+- Fixed rendering of In-App notification to be on top of other views.
+
 ## [4.3.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.3.0)
 #### Added
 - added the `getAndTrackDeeplink` function to track links sent by Iterable and retrieves the destination deeplink url
