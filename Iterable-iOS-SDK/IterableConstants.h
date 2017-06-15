@@ -47,6 +47,7 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ENDPOINT_COMMERCE_TRACK_PURCHASE @"commerce/trackPurchase"
 #define ENDPOINT_DISABLE_DEVICE @"users/disableDevice"
 #define ENDPOINT_GET_INAPP_MESSAGES @"inApp/getMessages"
+#define ENDPOINT_INAPP_CONSUME @"events/inAppConsume"
 #define ENDPOINT_PUSH_TARGET @"push/target"
 #define ENDPOINT_REGISTER_DEVICE_TOKEN @"users/registerDeviceToken"
 #define ENDPOINT_TRACK @"events/track"
