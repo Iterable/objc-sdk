@@ -40,6 +40,8 @@ static NSURLSession *urlSession = nil;
 // the API endpoint
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
+NSMutableCharacterSet* subSet;
+
 
 //////////////////////////
 /// @name Internal methods
@@ -98,27 +100,41 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  */
 - (NSURL *)getUrlForGetAction:(NSString *)action withArgs:(NSDictionary *)args
 {
-    
-    
     NSString *urlCombined = [NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey];
     
     for (NSString* paramKey in args) {
         NSString* paramValue = args[paramKey];
-
-        //Percent encode special characters
-        NSMutableCharacterSet* subSet = [[NSMutableCharacterSet alloc] init];
-        [subSet formUnionWithCharacterSet:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        [subSet removeCharactersInString:@"+"];
-        if ([paramValue isKindOfClass:[NSString class]])
-        {
-            paramValue = [paramValue stringByAddingPercentEncodingWithAllowedCharacters:subSet];
-        }
         
-        NSString *params = [NSString stringWithFormat:@"&%@=%@", paramKey, paramValue];
+        NSString *params = [NSString stringWithFormat:@"&%@=%@", paramKey, [self encodeURLParam:paramValue]];
         urlCombined = [urlCombined stringByAppendingString:params];
     }
     
     return [NSURL URLWithString:urlCombined];
+}
+
+/**
+ @method
+ 
+ @abstract Percent encodes the url query parameters
+ 
+ @param paramValue The value to encode
+ 
+ @return an `NSString` containing the full URL
+ */
+- (NSString *)encodeURLParam:(NSString *)paramValue
+{
+    //Percent encode special characters
+    if ([paramValue isKindOfClass:[NSString class]])
+    {
+        if (subSet == nil) {
+            subSet = [[NSMutableCharacterSet alloc] init];
+            [subSet formUnionWithCharacterSet:[NSCharacterSet URLQueryAllowedCharacterSet]];
+            [subSet removeCharactersInString:@"+"];
+        }
+        paramValue = [paramValue stringByAddingPercentEncodingWithAllowedCharacters:subSet];
+    }
+    
+    return paramValue;
 }
 
 /**
