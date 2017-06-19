@@ -119,7 +119,7 @@ NSCharacterSet* subSet;
  
  @param paramValue The value to encode
  
- @return an `NSString` containing the full URL
+ @return an `NSString` containing the encoded value
  */
 - (NSString *)encodeURLParam:(NSString *)paramValue
 {
@@ -130,10 +130,10 @@ NSCharacterSet* subSet;
             [workingSet removeCharactersInString:@"+"];
             subSet = [workingSet copy];
         }
-        paramValue = [paramValue stringByAddingPercentEncodingWithAllowedCharacters:subSet];
+        return [paramValue stringByAddingPercentEncodingWithAllowedCharacters:subSet];
+    } else {
+        return paramValue;
     }
-    
-    return paramValue;
 }
 
 /**
