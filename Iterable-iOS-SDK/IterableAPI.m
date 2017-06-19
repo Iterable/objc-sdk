@@ -98,12 +98,21 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
  */
 - (NSURL *)getUrlForGetAction:(NSString *)action withArgs:(NSDictionary *)args
 {
-    NSString *urlCombined = [NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey];
-    //updated this to take in a dictionary are parse values
     
+    
+    NSString *urlCombined = [NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey];
     
     for (NSString* paramKey in args) {
         NSString* paramValue = args[paramKey];
+
+        //Percent encode special characters
+        NSMutableCharacterSet* subSet = [[NSMutableCharacterSet alloc] init];
+        [subSet formUnionWithCharacterSet:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        [subSet removeCharactersInString:@"+"];
+        if ([paramValue isKindOfClass:[NSString class]])
+        {
+            paramValue = [paramValue stringByAddingPercentEncodingWithAllowedCharacters:subSet];
+        }
         
         NSString *params = [NSString stringWithFormat:@"&%@=%@", paramKey, paramValue];
         urlCombined = [urlCombined stringByAppendingString:params];
