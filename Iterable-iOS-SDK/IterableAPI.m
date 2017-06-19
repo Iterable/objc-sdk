@@ -40,7 +40,7 @@ static NSURLSession *urlSession = nil;
 // the API endpoint
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
-NSMutableCharacterSet* subSet;
+NSCharacterSet* subSet;
 
 
 //////////////////////////
@@ -123,13 +123,12 @@ NSMutableCharacterSet* subSet;
  */
 - (NSString *)encodeURLParam:(NSString *)paramValue
 {
-    //Percent encode special characters
     if ([paramValue isKindOfClass:[NSString class]])
     {
         if (subSet == nil) {
-            subSet = [[NSMutableCharacterSet alloc] init];
-            [subSet formUnionWithCharacterSet:[NSCharacterSet URLQueryAllowedCharacterSet]];
-            [subSet removeCharactersInString:@"+"];
+            NSMutableCharacterSet* workingSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+            [workingSet removeCharactersInString:@"+"];
+            subSet = [workingSet copy];
         }
         paramValue = [paramValue stringByAddingPercentEncodingWithAllowedCharacters:subSet];
     }
