@@ -40,8 +40,7 @@ static NSURLSession *urlSession = nil;
 // the API endpoint
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
-NSCharacterSet* subSet;
-
+NSCharacterSet* encodedCharacterSet = nil;
 
 //////////////////////////
 /// @name Internal methods
@@ -72,6 +71,13 @@ NSCharacterSet* subSet;
     }
     
     return result;
+}
+
+- (NSCharacterSet *)getEncodedSubset
+{
+    NSMutableCharacterSet* workingSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [workingSet removeCharactersInString:@"+"];
+    return [workingSet copy];
 }
 
 /**
@@ -125,12 +131,7 @@ NSCharacterSet* subSet;
 {
     if ([paramValue isKindOfClass:[NSString class]])
     {
-        if (subSet == nil) {
-            NSMutableCharacterSet* workingSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
-            [workingSet removeCharactersInString:@"+"];
-            subSet = [workingSet copy];
-        }
-        return [paramValue stringByAddingPercentEncodingWithAllowedCharacters:subSet];
+        return [paramValue stringByAddingPercentEncodingWithAllowedCharacters:encodedCharacterSet];
     } else {
         return paramValue;
     }
@@ -352,6 +353,8 @@ NSCharacterSet* subSet;
     // the url session doesn't depend on any options/params, so we'll use a singleton that gets created whenever the class is instantiated
     // if it gets instantiated again that's fine; we don't need to reconfigure the session, just keep using the old singleton
     [self createUrlSession];
+    
+    encodedCharacterSet = [self getEncodedSubset];
     
     // Automatically try to track a pushOpen
     if (launchOptions) {
