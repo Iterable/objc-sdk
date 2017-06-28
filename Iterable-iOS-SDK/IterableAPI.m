@@ -40,6 +40,7 @@ static NSURLSession *urlSession = nil;
 // the API endpoint
 NSString * const endpoint = @"https://api.iterable.com/api/";
 
+NSCharacterSet* encodedCharacterSet = nil;
 
 //////////////////////////
 /// @name Internal methods
@@ -72,6 +73,13 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     return result;
 }
 
+- (NSCharacterSet *)getEncodedSubset
+{
+    NSMutableCharacterSet* workingSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [workingSet removeCharactersInString:@"+"];
+    return [workingSet copy];
+}
+
 /**
  @method
  
@@ -99,17 +107,34 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
 - (NSURL *)getUrlForGetAction:(NSString *)action withArgs:(NSDictionary *)args
 {
     NSString *urlCombined = [NSString stringWithFormat:@"%@%@?api_key=%@", endpoint, action, self.apiKey];
-    //updated this to take in a dictionary are parse values
-    
     
     for (NSString* paramKey in args) {
         NSString* paramValue = args[paramKey];
         
-        NSString *params = [NSString stringWithFormat:@"&%@=%@", paramKey, paramValue];
+        NSString *params = [NSString stringWithFormat:@"&%@=%@", paramKey, [self encodeURLParam:paramValue]];
         urlCombined = [urlCombined stringByAppendingString:params];
     }
     
     return [NSURL URLWithString:urlCombined];
+}
+
+/**
+ @method
+ 
+ @abstract Percent encodes the url query parameters
+ 
+ @param paramValue The value to encode
+ 
+ @return an `NSString` containing the encoded value
+ */
+- (NSString *)encodeURLParam:(NSString *)paramValue
+{
+    if ([paramValue isKindOfClass:[NSString class]])
+    {
+        return [paramValue stringByAddingPercentEncodingWithAllowedCharacters:encodedCharacterSet];
+    } else {
+        return paramValue;
+    }
 }
 
 /**
@@ -328,6 +353,8 @@ NSString * const endpoint = @"https://api.iterable.com/api/";
     // the url session doesn't depend on any options/params, so we'll use a singleton that gets created whenever the class is instantiated
     // if it gets instantiated again that's fine; we don't need to reconfigure the session, just keep using the old singleton
     [self createUrlSession];
+    
+    encodedCharacterSet = [self getEncodedSubset];
     
     // Automatically try to track a pushOpen
     if (launchOptions) {

@@ -17,6 +17,8 @@
 + (NSString *)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform;
 + (NSString *)dictToJson:(NSDictionary *)dict;
 + (NSString *)userInterfaceIdiomEnumToString:(UIUserInterfaceIdiom)idiom;
+
+- (NSString *)encodeURLParam:(NSString *)paramValue;
 @end
 
 @interface IterableAPITests : XCTestCase
@@ -182,6 +184,42 @@ NSString *iterableRewriteURL = @"http://links.iterable.com/a/60402396fbd5433eb35
             NSLog(@"Timeout Error: %@", error);
         }
     }];
+}
+
+- (void)testURLQueryParamRewrite {
+    [IterableAPI sharedInstanceWithApiKey:@"" andEmail:@"" launchOptions:nil];
+    
+    NSCharacterSet* set = [NSCharacterSet URLQueryAllowedCharacterSet];
+    
+    NSMutableString* strSet =[NSMutableString string];
+    for (int plane = 0; plane <= 16; plane++) {
+        if ([set hasMemberInPlane:plane]) {
+            UTF32Char c;
+            for (c = plane << 16; c < (plane+1) << 16; c++) {
+                if ([set longCharacterIsMember:c]) {
+                    UTF32Char c1 = OSSwapHostToLittleInt32(c);
+                    NSString *s = [[NSString alloc] initWithBytes:&c1 length:4 encoding:NSUTF32LittleEndianStringEncoding];
+                    [strSet appendString:s];
+                }
+            }
+        }
+    }
+    
+    //Test full set of possible URLQueryAllowedCharacterSet characters
+    NSString* encodedSet = [[IterableAPI sharedInstance] encodeURLParam:strSet];
+    XCTAssertNotEqual(encodedSet, strSet);
+    XCTAssert([encodedSet isEqualToString:@"!$&'()*%2B,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz~"]);
+    
+    NSString* encoded = [[IterableAPI sharedInstance] encodeURLParam:@"you+me@iterable.com"];
+    XCTAssertNotEqual(encoded, @"you+me@iterable.com");
+    XCTAssert([encoded isEqualToString:@"you%2Bme@iterable.com"]);
+    
+    NSString* emptySet = [[IterableAPI sharedInstance] encodeURLParam:@""];
+    XCTAssertEqual(emptySet, @"");
+    XCTAssert([emptySet isEqualToString:@""]);
+    
+    NSString* nilSet = [[IterableAPI sharedInstance] encodeURLParam:nil];
+    XCTAssertEqual(nilSet, nil);
 }
 
 @end
