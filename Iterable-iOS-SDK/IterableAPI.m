@@ -813,9 +813,6 @@ NSCharacterSet* encodedCharacterSet = nil;
         NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
         if (dialogOptions != nil) {
             NSDictionary *message = [dialogOptions valueForKeyPath:ITERABLE_IN_APP_CONTENT];
-            NSNumber *templateId = [message valueForKey:ITBL_KEY_TEMPLATE_ID];
-            
-            NSNumber *campaignId = [dialogOptions valueForKey:ITBL_KEY_CAMPAIGN_ID];
             NSString *messageId = [dialogOptions valueForKey:ITBL_KEY_MESSAGE_ID];
             
             [self trackInAppOpen:messageId];

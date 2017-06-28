@@ -467,7 +467,6 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Tracks a InAppOpen event with custom completion blocks
  
- @param campaignId      The campaignId of the notification
  @param messageId       The messageId of the notification
  */
 - (void)trackInAppOpen:(NSString *)messageId;
