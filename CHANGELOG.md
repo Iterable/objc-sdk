@@ -15,6 +15,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.3.2](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.3.2)
+#### Added
+- Added the `inAppConsume` function to remove in-app messages from the user queue.
+
+#### Changed
+- Changed the `spawnInAppNotification` function to automatically consume messages from the user messages queue.
+
+#### Fixed
+- Fixed url query string parameter encoding for get requests.
+
 ## [4.3.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.3.1)
 #### Fixed
 - Fixed rendering of In-App notification to be on top of other views.
