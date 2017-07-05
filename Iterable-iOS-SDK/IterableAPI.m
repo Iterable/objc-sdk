@@ -161,7 +161,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 /**
- @method 
+ @method
  
  @abstract Creates a POST request to the specified action URI, with body data `args`
  
@@ -210,12 +210,12 @@ NSCharacterSet* encodedCharacterSet = nil;
  - the server responds with a non-OK status
  - the server responds with a string that can not be parsed into JSON
  - the server responds with a string that can be parsed into JSON, but is not a dictionary
-
+ 
  @param request     An `NSURLRequest` with the request to execute.
- @param onSuccess   A closure to execute if the request is successful. 
-                    It should accept one argument, an `NSDictionary` of the response.
- @param onFailure   A closure to execute if the request fails. 
-                    It should accept two arguments: an `NSString` containing the reason this request failed, and an `NSData` containing the raw response.
+ @param onSuccess   A closure to execute if the request is successful.
+ It should accept one argument, an `NSDictionary` of the response.
+ @param onFailure   A closure to execute if the request fails.
+ It should accept two arguments: an `NSString` containing the reason this request failed, and an `NSData` containing the raw response.
  */
 - (void)sendRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure
 {
@@ -223,30 +223,30 @@ NSCharacterSet* encodedCharacterSet = nil;
                                                completionHandler:^(NSData *data,
                                                                    NSURLResponse *response,
                                                                    NSError *error)
-    {
-        if ([data length] > 0 && error == nil) {
-            error = nil;
-            id object = [NSJSONSerialization
-                         JSONObjectWithData:data
-                         options:0
-                         error:&error];
-            if(error) {
-                NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
-                if (onFailure != nil) onFailure(reason, data);
-            } else if([object isKindOfClass:[NSDictionary class]]) {
-                if (onSuccess != nil) {
-                    onSuccess(object);
-                }
-            } else {
-                if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
-            }
-        } else if ([data length] == 0 && error == nil) {
-            if (onFailure != nil) onFailure(@"No data received", data);
-        } else if (error != nil) {
-            NSString *reason = [NSString stringWithFormat:@"%@", error];
-            if (onFailure != nil) onFailure(reason, data);
-        }
-    }];
+                                  {
+                                      if ([data length] > 0 && error == nil) {
+                                          error = nil;
+                                          id object = [NSJSONSerialization
+                                                       JSONObjectWithData:data
+                                                       options:0
+                                                       error:&error];
+                                          if(error) {
+                                              NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+                                              if (onFailure != nil) onFailure(reason, data);
+                                          } else if([object isKindOfClass:[NSDictionary class]]) {
+                                              if (onSuccess != nil) {
+                                                  onSuccess(object);
+                                              }
+                                          } else {
+                                              if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
+                                          }
+                                      } else if ([data length] == 0 && error == nil) {
+                                          if (onFailure != nil) onFailure(@"No data received", data);
+                                      } else if (error != nil) {
+                                          NSString *reason = [NSString stringWithFormat:@"%@", error];
+                                          if (onFailure != nil) onFailure(reason, data);
+                                      }
+                                  }];
     [task resume];
 }
 
@@ -382,25 +382,31 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 // documented in IterableAPI.h
++ (void)clearSharedInstance
+{
+    @synchronized (self) {
+        sharedInstance = nil;
+    }
+}
+
+// documented in IterableAPI.h
 + (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
 {
-    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    @synchronized (self) {
         sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
-    });
-    return sharedInstance;
+        return sharedInstance;
+    }
 }
 
 // documented in IterableAPI.h
 + (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
 {
-    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    
+    @synchronized (self) {
         sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions];
-    });
-    return sharedInstance;
+        return sharedInstance;
+    }
+    
 }
 
 // documented in IterableAPI.h
@@ -535,7 +541,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 {
     NSString *hexToken = [token ITEHexadecimalString];
     _hexToken = hexToken;
-
+    
     UIDevice *device = [UIDevice currentDevice];
     NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
     
@@ -548,19 +554,19 @@ NSCharacterSet* encodedCharacterSet = nil;
     }
     
     NSDictionary *deviceDictionary = @{
-                 ITBL_KEY_TOKEN: hexToken,
-                 ITBL_KEY_PLATFORM: psp,
-                 ITBL_KEY_APPLICATION_NAME: appName,
-                 ITBL_KEY_DATA_FIELDS: @{
-                         ITBL_DEVICE_LOCALIZED_MODEL: [device localizedModel],
-                         ITBL_DEVICE_USER_INTERFACE: [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
-                         ITBL_DEVICE_ID_VENDOR: [[device identifierForVendor] UUIDString],
-                         ITBL_DEVICE_SYSTEM_NAME: [device systemName],
-                         ITBL_DEVICE_SYSTEM_VERSION: [device systemVersion],
-                         ITBL_DEVICE_MODEL: [device model]
-                         }
-                 };
-
+                                       ITBL_KEY_TOKEN: hexToken,
+                                       ITBL_KEY_PLATFORM: psp,
+                                       ITBL_KEY_APPLICATION_NAME: appName,
+                                       ITBL_KEY_DATA_FIELDS: @{
+                                               ITBL_DEVICE_LOCALIZED_MODEL: [device localizedModel],
+                                               ITBL_DEVICE_USER_INTERFACE: [IterableAPI userInterfaceIdiomEnumToString:[device userInterfaceIdiom]],
+                                               ITBL_DEVICE_ID_VENDOR: [[device identifierForVendor] UUIDString],
+                                               ITBL_DEVICE_SYSTEM_NAME: [device systemName],
+                                               ITBL_DEVICE_SYSTEM_VERSION: [device systemVersion],
+                                               ITBL_DEVICE_MODEL: [device model]
+                                               }
+                                       };
+    
     NSDictionary *args;
     if (_email != nil) {
         args = @{
@@ -582,7 +588,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 /*!
  @method
  
- @abstract Disable this device's token in Iterable with custom completion blocks. `allUsers` indicates whether to disable for all users with this token, or only current user 
+ @abstract Disable this device's token in Iterable with custom completion blocks. `allUsers` indicates whether to disable for all users with this token, or only current user
  
  @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
  @param onFailure               OnFailureHandler to invoke if disabling the token fails
@@ -735,20 +741,20 @@ NSCharacterSet* encodedCharacterSet = nil;
     
     if (_email != nil) {
         args = @{
-          ITBL_KEY_EMAIL: self.email,
-          ITBL_KEY_CAMPAIGN_ID: campaignId,
-          ITBL_KEY_TEMPLATE_ID: templateId,
-          ITBL_KEY_MESSAGE_ID: messageId,
-          ITBL_KEY_DATA_FIELDS: reqDataFields
-          };
+                 ITBL_KEY_EMAIL: self.email,
+                 ITBL_KEY_CAMPAIGN_ID: campaignId,
+                 ITBL_KEY_TEMPLATE_ID: templateId,
+                 ITBL_KEY_MESSAGE_ID: messageId,
+                 ITBL_KEY_DATA_FIELDS: reqDataFields
+                 };
     } else {
         args = @{
-          ITBL_KEY_USER_ID: self.userId,
-          ITBL_KEY_CAMPAIGN_ID: campaignId,
-          ITBL_KEY_TEMPLATE_ID: templateId,
-          ITBL_KEY_MESSAGE_ID: messageId,
-          ITBL_KEY_DATA_FIELDS: reqDataFields
-          };
+                 ITBL_KEY_USER_ID: self.userId,
+                 ITBL_KEY_CAMPAIGN_ID: campaignId,
+                 ITBL_KEY_TEMPLATE_ID: templateId,
+                 ITBL_KEY_MESSAGE_ID: messageId,
+                 ITBL_KEY_DATA_FIELDS: reqDataFields
+                 };
     }
     NSURLRequest *request = [self createRequestForAction:ENDPOINT_TRACK_PUSH_OPEN withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
@@ -779,12 +785,12 @@ NSCharacterSet* encodedCharacterSet = nil;
     NSDictionary *apiUserDict;
     if (_email != nil) {
         apiUserDict = @{
-            ITBL_KEY_EMAIL: self.email
-            };
+                        ITBL_KEY_EMAIL: self.email
+                        };
     } else {
         apiUserDict = @{
-            ITBL_KEY_USER_ID: self.userId
-            };
+                        ITBL_KEY_USER_ID: self.userId
+                        };
     }
     
     
@@ -828,7 +834,7 @@ NSCharacterSet* encodedCharacterSet = nil;
             LogDebug(@"No notifications found for inApp payload %@", payload);
         }
     };
-
+    
     [self getInAppMessages:@1 onSuccess:onSuccess onFailure:[IterableAPI defaultOnFailure:@"getInAppMessages"]];
 }
 
@@ -844,14 +850,14 @@ NSCharacterSet* encodedCharacterSet = nil;
     NSDictionary *args;
     if (_email != nil) {
         args = @{
-                ITBL_KEY_EMAIL: self.email,
-                ITBL_KEY_COUNT: count
-                };
+                 ITBL_KEY_EMAIL: self.email,
+                 ITBL_KEY_COUNT: count
+                 };
     } else {
         args = @{
                  ITBL_KEY_USER_ID: self.userId,
                  ITBL_KEY_COUNT: count
-                };
+                 };
     }
     NSURLRequest *request = [self createGetRequestForAction:ENDPOINT_GET_INAPP_MESSAGES withArgs:args];
     [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
