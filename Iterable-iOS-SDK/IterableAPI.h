@@ -169,22 +169,30 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @return the existing `IterableAPI` instance
  
- @warning `sharedInstance` will return `nil` if called before calling `sharedInstanceWithApiKey:andEmail:launchOptions:` 
+ @warning `sharedInstance` will return `nil` if called before calling `sharedInstanceWithApiKey:andEmail:launchOptions:`
  */
 + (nullable IterableAPI *)sharedInstance;
+
+/*!
+ @method
+ 
+ @abstract Sets the previously instantiated singleton instance of the API to nil
+ 
+ */
++ (void)clearSharedInstance;
 
 /////////////////////////////
 /// @name Registering a token
 /////////////////////////////
 
 /*!
- @method 
+ @method
  
  @abstract Register this device's token with Iterable
-
+ 
  @param token       The token representing this device/application pair, obtained from
-                    `application:didRegisterForRemoteNotificationsWithDeviceToken`
-                    after registering for remote notifications
+ `application:didRegisterForRemoteNotificationsWithDeviceToken`
+ after registering for remote notifications
  @param appName     The application name, as configured in Iterable during set up of the push integration
  @param pushServicePlatform     The PushServicePlatform to use for this device; dictates whether to register this token in the sandbox or production environment
  
@@ -199,8 +207,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @abstract Register this device's token with Iterable with custom completion blocks
  
  @param token                   The token representing this device/application pair, obtained from
-                                `application:didRegisterForRemoteNotificationsWithDeviceToken`
-                                after registering for remote notifications
+ `application:didRegisterForRemoteNotificationsWithDeviceToken`
+ after registering for remote notifications
  @param appName                 The application name, as configured in Iterable during set up of the push integration
  @param pushServicePlatform     The PushServicePlatform to use for this device; dictates whether to register this token in the sandbox or production environment
  @param onSuccess               OnSuccessHandler to invoke if token registration is successful
@@ -227,7 +235,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @method
  
  @abstract Disable this device's token in Iterable, for all users with this device
-  */
+ */
 - (void)disableDeviceForAllUsers;
 
 /*!
@@ -433,7 +441,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Gets the list of InAppNotification and displays the next notification
  
-  @param callbackBlock  Callback ITEActionBlock
+ @param callbackBlock  Callback ITEActionBlock
  
  */
 - (void)spawnInAppNotification:(ITEActionBlock) callbackBlock;
@@ -453,7 +461,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @abstract Gets the list of InAppMessages with optional additional fields and custom completion blocks
  
-  @param count  the number of messages to fetch
+ @param count  the number of messages to fetch
  @param onSuccess   OnSuccessHandler to invoke if the get call succeeds
  @param onFailure   OnFailureHandler to invoke if the get call fails
  
