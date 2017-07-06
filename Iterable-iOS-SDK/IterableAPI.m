@@ -401,12 +401,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 + (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
 {
-    
     @synchronized (self) {
         sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions];
         return sharedInstance;
     }
-    
 }
 
 // documented in IterableAPI.h
