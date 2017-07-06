@@ -173,6 +173,14 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 + (nullable IterableAPI *)sharedInstance;
 
+/*!
+ @method
+ 
+ @abstract Sets the previously instantiated singleton instance of the API to nil
+ 
+ */
++ (void)clearSharedInstance;
+
 /////////////////////////////
 /// @name Registering a token
 /////////////////////////////
