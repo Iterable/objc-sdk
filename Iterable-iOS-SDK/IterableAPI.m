@@ -393,7 +393,9 @@ NSCharacterSet* encodedCharacterSet = nil;
 + (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
 {
     @synchronized (self) {
-        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
+        if(!sharedInstance){
+            sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
+        }
         return sharedInstance;
     }
 }
@@ -402,7 +404,9 @@ NSCharacterSet* encodedCharacterSet = nil;
 + (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
 {
     @synchronized (self) {
-        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions];
+        if(!sharedInstance){
+            sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions];
+        }
         return sharedInstance;
     }
 }
