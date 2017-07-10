@@ -382,25 +382,33 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 // documented in IterableAPI.h
++ (void)clearSharedInstance
+{
+    @synchronized (self) {
+        sharedInstance = nil;
+    }
+}
+
+// documented in IterableAPI.h
 + (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
 {
-    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
-    });
-    return sharedInstance;
+    @synchronized (self) {
+        if(!sharedInstance){
+            sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
+        }
+        return sharedInstance;
+    }
 }
 
 // documented in IterableAPI.h
 + (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
 {
-    // threadsafe way to create a static singleton https://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions];
-    });
-    return sharedInstance;
+    @synchronized (self) {
+        if(!sharedInstance){
+            sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions];
+        }
+        return sharedInstance;
+    }
 }
 
 // documented in IterableAPI.h
