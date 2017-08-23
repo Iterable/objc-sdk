@@ -669,10 +669,10 @@ NSCharacterSet* encodedCharacterSet = nil;
                      ITBL_KEY_MERGE_NESTED: mergeNested
                      };
         }
+        
+        NSURLRequest *request = [self createRequestForAction:ENDPOINT_UPDATE_USER withArgs:args];
+        [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
     }
-    
-    NSURLRequest *request = [self createRequestForAction:ENDPOINT_UPDATE_USER withArgs:args];
-    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
 }
 
 // documented in IterableAPI.h
