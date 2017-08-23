@@ -650,6 +650,32 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 // documented in IterableAPI.h
+- (void)updateUser:(NSDictionary *)dataFields mergeNestedObjects:(BOOL)mergeNestedObjects onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    NSDictionary *args;
+    if (dataFields) {
+        NSNumber *mergeNested = [NSNumber numberWithBool:mergeNestedObjects];
+        
+        if (_email != nil) {
+            args = @{
+                     ITBL_KEY_EMAIL: self.email,
+                     ITBL_KEY_DATA_FIELDS: dataFields,
+                     ITBL_KEY_MERGE_NESTED: mergeNested
+                     };
+        } else {
+            args = @{
+                     ITBL_KEY_USER_ID: self.userId,
+                     ITBL_KEY_DATA_FIELDS: dataFields,
+                     ITBL_KEY_MERGE_NESTED: mergeNested
+                     };
+        }
+    }
+    
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_UPDATE_USER withArgs:args];
+    [self sendRequest:request onSuccess:onSuccess onFailure:onFailure];
+}
+
+// documented in IterableAPI.h
 - (void)track:(NSString *)eventName
 {
     [self track:eventName dataFields:nil];
