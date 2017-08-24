@@ -22,6 +22,7 @@ extern NSString *const ITBL_KEY_DEVICE;
 extern NSString *const ITBL_KEY_EMAIL;
 extern NSString *const ITBL_KEY_EVENT_NAME;
 extern NSString *const ITBL_KEY_ITEMS;
+extern NSString *const ITBL_KEY_MERGE_NESTED;
 extern NSString *const ITBL_KEY_MESSAGE_ID;
 extern NSString *const ITBL_KEY_NEW_EMAIL;
 extern NSString *const ITBL_KEY_PLATFORM;

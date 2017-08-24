@@ -21,6 +21,7 @@ NSString *const ITBL_KEY_DEVICE              = @"device";
 NSString *const ITBL_KEY_EMAIL               = @"email";
 NSString *const ITBL_KEY_EVENT_NAME          = @"eventName";
 NSString *const ITBL_KEY_ITEMS               = @"items";
+NSString *const ITBL_KEY_MERGE_NESTED        = @"mergeNestedObjects";
 NSString *const ITBL_KEY_MESSAGE_ID          = @"messageId";
 NSString *const ITBL_KEY_NEW_EMAIL           = @"newEmail";
 NSString *const ITBL_KEY_PLATFORM            = @"platform";
