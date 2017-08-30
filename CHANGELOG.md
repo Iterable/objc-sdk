@@ -15,6 +15,17 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.3.3](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.3.3)
+#### Added
+- Added the `clearSharedInstance` function to reset the stored Iterable instance.
+- Added the `updateUser` function to add or modify user Fields.
+
+#### Changed
+- Changed the `spawnInAppNotification` function to automatically consume messages from the user messages queue.
+
+#### Fixed
+- Fixed missing header files for constants.
+
 ## [4.3.2](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.3.2)
 #### Added
 - Added the `inAppConsume` function to remove in-app messages from the user queue.

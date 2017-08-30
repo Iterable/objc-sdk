@@ -1,6 +1,6 @@
 [![CocoaPods](https://img.shields.io/cocoapods/v/IterableSDK.svg?style=flat)](https://cocoapods.org/pods/IterableSDK)
 [![License](https://img.shields.io/cocoapods/l/IterableSDK.svg?style=flat)](https://opensource.org/licenses/MIT)
-[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](http://cocoadocs.org/docsets/IterableSDK/4.3.2/)
+[![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](http://cocoadocs.org/docsets/IterableSDK/4.3.3/)
 
 # Iterable iOS SDK
 
@@ -167,6 +167,10 @@ In order to re-enable push notifcations to that device, simply call `registerTok
 To display the user's InApp notifications call `spawnInAppNotification` with a defined `ITEActionBlock` callback handler. When a user clicks a button on the notification, the defined handler is called and passed the action name defined in the InApp template.
 
 InApp opens and button clicks are automatically tracked when the notification is called via `spawnInAppNotification`. Using `spawnInAppNotification` the notification is consumed and removed from the user's in-app messages queue. If you want to retain the messages on the queue, look at using `getInAppMessages` directly. If you use `getInAppMessages` you will need to manage the in-app opens manually in the callback handler.
+
+#### Tracking and Updating User Fields
+
+Custom events can be tracked using the `track` function and user fields can be modified using the `updateUser` function.
 
 #### Deeplinking
 You can setup your app to track email clicks and maintain deeplinking directly into your app with [iOS Universal Links] (https://support.iterable.com/hc/en-us/articles/115000440206). 

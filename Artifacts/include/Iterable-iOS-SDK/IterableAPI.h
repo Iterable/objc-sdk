@@ -9,7 +9,6 @@
 @import Foundation;
 #import "CommerceItem.h"
 #import "IterableConstants.h"
-#import "IterableInAppManager.h"
 
 // all params are nonnull, unless annotated otherwise
 NS_ASSUME_NONNULL_BEGIN
@@ -173,6 +172,14 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 + (nullable IterableAPI *)sharedInstance;
 
+/*!
+ @method
+ 
+ @abstract Sets the previously instantiated singleton instance of the API to nil
+ 
+ */
++ (void)clearSharedInstance;
+
 /////////////////////////////
 /// @name Registering a token
 /////////////////////////////
@@ -256,6 +263,20 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 - (void)disableDeviceForAllUsersWithOnSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
+/*!
+ @method
+ 
+ @abstract Updates the available user fields
+ 
+ @param dataFields              Data fields to store in the user profile
+ @param mergeNestedObjects      Merge top level objects instead of overwriting
+ @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
+ @param onFailure               OnFailureHandler to invoke if disabling the token fails
+ 
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)updateUser:(NSDictionary *)dataFields mergeNestedObjects:(BOOL)mergeNestedObjects onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 /////////////////////////
 /// @name Tracking events
