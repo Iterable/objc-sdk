@@ -533,6 +533,26 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 // documented in IterableAPI.h
+- (void)trackInAppClick:(NSString *)messageId buttonURL:(NSString*)buttonURL {
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                 ITBL_KEY_EMAIL: self.email,
+                 ITBL_KEY_MESSAGE_ID: messageId,
+                 ITERABLE_IN_APP_CLICK_URL: buttonURL
+                 };
+    } else {
+        args = @{
+                 ITBL_KEY_USER_ID: self.userId,
+                 ITBL_KEY_MESSAGE_ID: messageId,
+                 ITERABLE_IN_APP_CLICK_URL: buttonURL
+                 };
+    }
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_TRACK_INAPP_CLICK withArgs:args];
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppClick"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppClick"]];
+}
+
+// documented in IterableAPI.h
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform
 {
     [self registerToken:token appName:appName pushServicePlatform:pushServicePlatform onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
@@ -843,27 +863,31 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)spawnInAppNotification:(ITEActionBlock)callbackBlock
 {
-    OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
-        NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
-        if (dialogOptions != nil) {
-            NSDictionary *message = [dialogOptions valueForKeyPath:ITERABLE_IN_APP_CONTENT];
-            NSString *messageId = [dialogOptions valueForKey:ITBL_KEY_MESSAGE_ID];
-            
-            [self trackInAppOpen:messageId];
-            [self inAppConsume:messageId];
-            IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:messageId];
-            
-            if (message != nil) {
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [IterableInAppManager showIterableNotification:message trackParams:notification callbackBlock:(ITEActionBlock)callbackBlock];
-                });
-            }
-        } else {
-            LogDebug(@"No notifications found for inApp payload %@", payload);
-        }
-    };
-
-    [self getInAppMessages:@1 onSuccess:onSuccess onFailure:[IterableAPI defaultOnFailure:@"getInAppMessages"]];
+//    OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
+//        NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
+//        if (dialogOptions != nil) {
+//            NSDictionary *message = [dialogOptions valueForKeyPath:ITERABLE_IN_APP_CONTENT];
+//            NSString *messageId = [dialogOptions valueForKey:ITBL_KEY_MESSAGE_ID];
+//            
+//            [self trackInAppOpen:messageId];
+//            [self inAppConsume:messageId];
+//            IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:messageId];
+//            
+//            if (message != nil) {
+//                dispatch_sync(dispatch_get_main_queue(), ^{
+//                    [IterableInAppManager showIterableNotification:message trackParams:notification callbackBlock:(ITEActionBlock)callbackBlock];
+//                });
+//            }
+//        } else {
+//            LogDebug(@"No notifications found for inApp payload %@", payload);
+//        }
+//    };
+//
+//    [self getInAppMessages:@1 onSuccess:onSuccess onFailure:[IterableAPI defaultOnFailure:@"getInAppMessages"]];
+    
+    
+    //TODO: If html doesn't exist in the payload - display an error message telling htem to upgrade to a later version of the SDK
+    [IterableInAppManager showIterableNotificationHTML:@"fakeString" callbackBlock:(ITEActionBlock)callbackBlock];
 }
 
 // documented in IterableAPI.h

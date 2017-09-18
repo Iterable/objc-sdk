@@ -16,6 +16,7 @@
 #import "IterableFullScreenViewController.h"
 #import "IterableConstants.h"
 #import "IterableNotificationMetadata.h"
+#import "IterableInAppHTMLViewController.h"
 
 @interface IterableInAppManager ()
 
@@ -48,6 +49,37 @@
         [baseNotification ITESetTrackParams:trackParams];
         [baseNotification ITESetCallback:callbackBlock];
         [rootViewController showViewController:baseNotification sender:self];
+    }
+}
+
+// documented in IterableInAppManager.h
++(void) showIterableNotificationHTML:(NSString*)htmlString callbackBlock:(ITEActionBlock)callbackBlock{
+    if (htmlString != NULL) {
+        UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+        if([rootViewController isKindOfClass:[UIViewController class]])
+        {
+            while (rootViewController.presentedViewController != nil)
+            {
+                rootViewController = rootViewController.presentedViewController;
+            }
+        }
+        
+        IterableInAppHTMLViewController *baseNotification;
+        baseNotification = [[IterableInAppHTMLViewController alloc] init];
+        
+//        [baseNotification ITESetData:dialogOptions];
+//        [baseNotification ITESetTrackParams:trackParams];
+//        [baseNotification ITESetCallback:callbackBlock];
+        
+        rootViewController.definesPresentationContext = YES;
+        //TODO: change background opacity here
+        baseNotification.view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        baseNotification.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        
+        //load webview here
+        [baseNotification setRootViewController:@"fakehtmlString"];
+        
+        [rootViewController presentViewController:baseNotification animated:NO completion:nil];
     }
 }
 

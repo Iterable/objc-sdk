@@ -34,6 +34,17 @@
  */
 +(void) showIterableNotification:(NSDictionary *)dialogOptions trackParams:(IterableNotificationMetadata *)trackParams callbackBlock:(ITEActionBlock)callbackBlock;
 
+/*!
+ @method
+ 
+ @abstract Creates and shows a InApp Notification; with callback handler
+ 
+ @param htmlString   the NSString containing the dialog HTML
+ @param callbackBlock        the callback to send after a button on the notification is clicked
+ */
++(void) showIterableNotificationHTML:(NSString *)htmlString callbackBlock:(ITEActionBlock)callbackBlock;
+
+
 
 /*!
  @method

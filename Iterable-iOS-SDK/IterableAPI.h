@@ -505,6 +505,17 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /**
  @method
  
+ @abstract Tracks a inAppClick event
+ 
+ @param messageId       The messageId of the notification
+ @param buttonURL     The url of the button that was clicked
+ */
+- (void)trackInAppClick:(NSString *)messageId buttonURL:(NSString *)buttonURL;
+
+
+/**
+ @method
+ 
  @abstract Consumes the notification and removes it from the list of inAppMessages
  
  @param messageId       The messageId of the notification

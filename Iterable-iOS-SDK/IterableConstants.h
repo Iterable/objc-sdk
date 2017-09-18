@@ -70,6 +70,8 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 
 
 //In-App Constants
+#define ITERABLE_IN_APP_CLICK_URL @"urlClick"
+
 #define ITERABLE_IN_APP_TITLE @"title"
 #define ITERABLE_IN_APP_BODY @"body"
 #define ITERABLE_IN_APP_IMAGE @"mainImage"
