@@ -53,7 +53,7 @@
 }
 
 // documented in IterableInAppManager.h
-+(void) showIterableNotificationHTML:(NSString*)htmlString callbackBlock:(ITEActionBlock)callbackBlock{
++(void) showIterableNotificationHTML:(NSString*)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundColor:(UIColor *)backgroundColor padding:(UIEdgeInsets)padding{
     if (htmlString != NULL) {
         UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
         if([rootViewController isKindOfClass:[UIViewController class]])
@@ -65,22 +65,23 @@
         }
         
         IterableInAppHTMLViewController *baseNotification;
-        baseNotification = [[IterableInAppHTMLViewController alloc] init];
-        
-//        [baseNotification ITESetData:dialogOptions];
-//        [baseNotification ITESetTrackParams:trackParams];
-//        [baseNotification ITESetCallback:callbackBlock];
+        baseNotification = [[IterableInAppHTMLViewController alloc] initWithData:htmlString];
+        [baseNotification ITESetTrackParams:trackParams];
+        [baseNotification ITESetCallback:callbackBlock];
+        [baseNotification ITESetPadding:padding];
         
         rootViewController.definesPresentationContext = YES;
         //TODO: change background opacity here
-        baseNotification.view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
+        baseNotification.view.backgroundColor = backgroundColor;
         baseNotification.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-        
-        //load webview here
-        [baseNotification setRootViewController:@"fakehtmlString"];
         
         [rootViewController presentViewController:baseNotification animated:NO completion:nil];
     }
+}
+
+// documented in IterableInAppManager.h
++(void) showIterableNotificationHTML:(NSString*)htmlString callbackBlock:(ITEActionBlock)callbackBlock{
+    [IterableInAppManager showIterableNotificationHTML:htmlString trackParams:nil callbackBlock:callbackBlock backgroundColor:[UIColor clearColor] padding:UIEdgeInsetsZero];
 }
 
 // documented in IterableInAppManager.h
@@ -160,6 +161,21 @@
     }
     return returnDictionary;
 }
+
++(UIEdgeInsets)getPaddingFromPayload:(NSDictionary *)payload {
+    UIEdgeInsets padding = UIEdgeInsetsZero;
+    padding.top = ([self decodePadding:[payload objectForKey:@"top"]]) ? -1 : [[payload objectForKey:@"top"] doubleValue];
+    padding.left = [[payload objectForKey:@"left"] doubleValue];
+    padding.bottom = ([self decodePadding:[payload objectForKey:@"bottom"]]) ? -1 : [[payload objectForKey:@"bottom"] doubleValue];
+    padding.right = [[payload objectForKey:@"right"] doubleValue];
+    
+    return padding;
+}
+
++(double)decodePadding:(NSObject *)value {
+    return (value == @"AutoExpand");
+}
+
 
 @end
 

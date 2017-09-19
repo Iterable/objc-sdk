@@ -37,13 +37,25 @@
 /*!
  @method
  
- @abstract Creates and shows a InApp Notification; with callback handler
+ @abstract Creates and shows a HTML InApp Notification with trackParameters, backgroundColor with callback handler
+ 
+ @param htmlString      The NSString containing the dialog HTML
+ @param trackParams     The track params for the notification
+ @param callbackBlock   The callback to send after a button on the notification is clicked
+ @param backgroundColor The background color behind the notification
+ @param padding         The padding around the notification
+ */
++(void) showIterableNotificationHTML:(NSString *)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundColor:(UIColor *)backgroundColor padding:(UIEdgeInsets)padding;
+
+/*!
+ @method
+ 
+ @abstract Creates and shows a HTML InApp Notification; with callback handler
  
  @param htmlString   the NSString containing the dialog HTML
  @param callbackBlock        the callback to send after a button on the notification is clicked
  */
 +(void) showIterableNotificationHTML:(NSString *)htmlString callbackBlock:(ITEActionBlock)callbackBlock;
-
 
 
 /*!
@@ -83,5 +95,8 @@
  @return the int color
  */
 +(int) getIntColorFromKey:(NSDictionary*)payload keyString:(NSString*)keyString;
+
++(UIEdgeInsets) getPaddingFromPayload:(NSDictionary*)payload;
+
 
 @end
