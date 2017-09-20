@@ -23,7 +23,8 @@
 @implementation IterableInAppHTMLViewController
 
 static NSString *const customUrlScheme = @"applewebdata";
-static NSString *const httpUrlScheme = @"http";
+static NSString *const httpUrlScheme = @"http://";
+static NSString *const httpsUrlScheme = @"https://";
 
 INAPP_NOTIFICATION_TYPE location;
 
@@ -159,8 +160,8 @@ BOOL loaded;
                 destinationURL = urlPath;
             }
         } else {
-            NSString urlScheme = request.URL.scheme
-            if ([urlScheme hasPrefix:httpUrlScheme]) {
+            NSString *urlScheme = request.URL.scheme;
+            if ([urlScheme isEqualToString:httpUrlScheme] || [urlScheme isEqualToString:httpsUrlScheme]) {
                 UIApplication *application = [UIApplication sharedApplication];
                 [application openURL:[request URL] options:@{} completionHandler:nil];
             }
