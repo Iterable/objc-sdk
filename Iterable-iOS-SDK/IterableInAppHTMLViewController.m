@@ -13,19 +13,20 @@
 @interface IterableInAppHTMLViewController () <UIWebViewDelegate>
 
 @property (nonatomic) UIWebView *webView;
-@property (nonatomic) UIViewController *rootViewController;
 @property IterableNotificationMetadata *trackParams;
 @property ITEActionBlock customBlockCallback;
 @property UIEdgeInsets insetPadding;
 @property NSString* htmlString;
 
-@property (nonatomic) UIView *fullView;
-
 @end
 
 @implementation IterableInAppHTMLViewController
 
+static NSString *const customUrlScheme = @"applewebdata";
+static NSString *const httpUrlScheme = @"http";
+
 INAPP_NOTIFICATION_TYPE location;
+
 BOOL loaded;
 
 - (instancetype)initWithData:(NSString*)htmlString {
@@ -53,7 +54,10 @@ BOOL loaded;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-     //Todo: trackDialogView
+    if (_trackParams != nil) {
+        IterableAPI *api = IterableAPI.sharedInstance;
+        [api trackInAppOpen:_trackParams.messageId];
+    }
     [_webView layoutSubviews];
 }
 
@@ -74,32 +78,24 @@ BOOL loaded;
         location = INAPP_MIDDLE;
     }
 
-    
     self.view.backgroundColor = [UIColor clearColor];
 
     CGFloat screenWidth = CGRectGetWidth(self.view.bounds);
     CGFloat screenHeight = CGRectGetHeight(self.view.bounds);
-    
-    _fullView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
-    
+
     _webView=[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
-    
-    
-    //load manually
-    [_webView loadHTMLString:_htmlString baseURL:nil];
+    [_webView loadHTMLString:_htmlString baseURL:[NSURL URLWithString:nil]];
     _webView.scrollView.bounces = NO;
-    //_webView.layer.masksToBounds = YES;
     _webView.opaque = NO;
     _webView.backgroundColor = [UIColor clearColor];
     _webView.scrollView.bounces = NO;
     _webView.delegate=self;
     
-    [_fullView addSubview:_webView];
-    [self.view addSubview:_fullView];
+    [self.view addSubview:_webView];
 }
 
 - (void)viewWillLayoutSubviews {
-    //handles the case of rotations and coming back from a link.
+    //handles rotations and navigation coming back from an external link.
     [self resizeWebView:_webView];
 }
 
@@ -111,16 +107,13 @@ BOOL loaded;
     if (location == INAPP_FULL) {
         _webView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     } else {
-
-        float notificationWidth = 100-(_insetPadding.left + _insetPadding.right);
-        
+        //Resizes the frame to match the HTML content with a max of the screen size.
         CGRect frame = aWebView.frame;
-        //Needed to fit the html to size.
         frame.size.height = 1;
         aWebView.frame = frame;
-        
         CGSize fittingSize = [aWebView sizeThatFits:CGSizeZero];
         frame.size = fittingSize;
+        float notificationWidth = 100-(_insetPadding.left + _insetPadding.right);
         frame.size.width = CGRectGetWidth(self.view.bounds)*notificationWidth/100;
         frame.size.height = MIN(frame.size.height, CGRectGetHeight(self.view.bounds));
         aWebView.frame = frame;
@@ -140,7 +133,10 @@ BOOL loaded;
     }
 }
 
-//UIWebViewDelegate Functions
+//////////////////////////////////////////////////////////////
+/// @name UIWebViewDelegate Functions
+//////////////////////////////////////////////////////////////
+
 - (void)webViewDidFinishLoad:(UIWebView *)aWebView {
     loaded = true;
     [self resizeWebView:_webView];
@@ -148,21 +144,37 @@ BOOL loaded;
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if(navigationType == UIWebViewNavigationTypeLinkClicked) {
-        NSString *absoluteURL = [[request URL] absoluteString];
-        if ([absoluteURL hasPrefix:@"itbl://"]) {
-            NSLog(@"%@", absoluteURL);
-            [self dismissViewControllerAnimated:NO completion:^{
-                //Track analytics here for button click and close
-                if (_trackParams != nil) {
-                    IterableAPI *api = IterableAPI.sharedInstance;
-                    [api trackInAppClick:_trackParams.messageId buttonURL:absoluteURL];
+        NSString *destinationURL = [[request URL] absoluteString];
+        if ([request.URL.scheme isEqualToString:customUrlScheme]) {
+            //Removes the extra scheme/host data that is appended to the url.
+            NSArray *urlArray = [destinationURL componentsSeparatedByString: request.URL.host];
+            NSString *urlPath = urlArray[1];
+            if (urlPath.length > 0) {
+                //Removes extra "/" from the url path
+                unichar firstChar = [urlPath characterAtIndex:0];
+                if (firstChar == '/') {
+                    destinationURL = [urlPath substringFromIndex:1];
                 }
-            }];
-            return NO;
+            } else {
+                destinationURL = urlPath;
+            }
         } else {
-            UIApplication *application = [UIApplication sharedApplication];
-            [application openURL:[request URL] options:@{} completionHandler:nil];
+            NSString urlScheme = request.URL.scheme
+            if ([urlScheme hasPrefix:httpUrlScheme]) {
+                UIApplication *application = [UIApplication sharedApplication];
+                [application openURL:[request URL] options:@{} completionHandler:nil];
+            }
         }
+        [self dismissViewControllerAnimated:NO completion:^{
+            if (_customBlockCallback != nil) {
+                _customBlockCallback(destinationURL);
+            }
+            
+            if (_trackParams != nil) {
+                IterableAPI *api = IterableAPI.sharedInstance;
+                [api trackInAppClick:_trackParams.messageId buttonURL:destinationURL];
+            }
+        }];
         return NO;
     }
     return YES;
