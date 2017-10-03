@@ -28,10 +28,6 @@ static NSString *const httpUrlScheme = @"http://";
 static NSString *const httpsUrlScheme = @"https://";
 static NSString *const itblUrlScheme = @"itbl://";
 
-static NSString *const smsUrlScheme = @"sms";
-static NSString *const emailUrlScheme = @"sms";
-
-
 INAPP_NOTIFICATION_TYPE location;
 
 BOOL loaded;
@@ -48,7 +44,7 @@ BOOL loaded;
     _insetPadding = insetPadding;
     
     if ((_insetPadding.left + _insetPadding.right) >= 100) {
-        LogWarning(@"Can't display an in-app with padding > 100. Defaulting to 0 for padding left/right");
+        LogWarning(@"Can't display an in-app with padding > 100%. Defaulting to 0 for padding left/right");
         
         _insetPadding.left = 0;
         _insetPadding.right = 0;
@@ -82,15 +78,7 @@ BOOL loaded;
 - (void)loadView {
     [super loadView];
     
-    if (_insetPadding.top == 0 && _insetPadding.bottom == 0) {
-        location = INAPP_FULL;
-    } else if (_insetPadding.top == 0 && _insetPadding.bottom < 0) {
-        location = INAPP_TOP;
-    } else if (_insetPadding.top < 0 && _insetPadding.bottom == 0) {
-        location = INAPP_BOTTOM;
-    } else if (_insetPadding.top < 0 && _insetPadding.bottom < 0) {
-        location = INAPP_MIDDLE;
-    }
+    location = [IterableInAppHTMLViewController setLocation:_insetPadding];
 
     self.view.backgroundColor = [UIColor clearColor];
 
@@ -150,6 +138,27 @@ BOOL loaded;
         center.x = resizeCenterX;
         aWebView.center = center;
     }
+}
+
++ (NSString *)stripHtmlComments:(NSString *) html {
+
+    
+    return html;
+}
+
++ (INAPP_NOTIFICATION_TYPE)setLocation:(UIEdgeInsets) insetPadding {
+    INAPP_NOTIFICATION_TYPE locationType;
+    if (insetPadding.top == 0 && insetPadding.bottom == 0) {
+        locationType = INAPP_FULL;
+    } else if (insetPadding.top == 0 && insetPadding.bottom < 0) {
+        locationType = INAPP_TOP;
+    } else if (insetPadding.top < 0 && insetPadding.bottom == 0) {
+        locationType = INAPP_BOTTOM;
+    } else {
+        locationType = INAPP_MIDDLE;
+    }
+    
+    return locationType;
 }
 
 //////////////////////////////////////////////////////////////

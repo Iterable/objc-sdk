@@ -33,6 +33,9 @@
 		09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */; };
 		09CCB9301D07A7EA003EB75D /* IterableNotificationMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CCB92F1D07A7EA003EB75D /* IterableNotificationMetadata.m */; };
 		09CCB9321D07BA04003EB75D /* IterableNotificationMetadataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CCB9311D07BA04003EB75D /* IterableNotificationMetadataTests.m */; };
+		1608832D1F83EED500318578 /* IterableInAppNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1608832C1F83EED500318578 /* IterableInAppNotificationTests.m */; };
+		160883301F840B5F00318578 /* IterableInAppHTMLViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1608832E1F840B5F00318578 /* IterableInAppHTMLViewController.h */; };
+		160883311F840B5F00318578 /* IterableInAppHTMLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1608832F1F840B5F00318578 /* IterableInAppHTMLViewController.m */; };
 		16513DDE1D89EECC00C205B3 /* IterableInAppManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 16513DD81D89EECC00C205B3 /* IterableInAppManager.h */; };
 		16513DDF1D89EECC00C205B3 /* IterableInAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 16513DD91D89EECC00C205B3 /* IterableInAppManager.m */; };
 		1653A80E1D88B25200690298 /* IterableConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80B1D88B25200690298 /* IterableConstants.h */; };
@@ -90,6 +93,9 @@
 		09CCB92F1D07A7EA003EB75D /* IterableNotificationMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableNotificationMetadata.m; sourceTree = "<group>"; };
 		09CCB9311D07BA04003EB75D /* IterableNotificationMetadataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableNotificationMetadataTests.m; sourceTree = "<group>"; };
 		15E14DC3FEF5EE94DFA2424E /* libPods-Iterable-iOS-SDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1608832C1F83EED500318578 /* IterableInAppNotificationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppNotificationTests.m; sourceTree = "<group>"; };
+		1608832E1F840B5F00318578 /* IterableInAppHTMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableInAppHTMLViewController.h; sourceTree = "<group>"; };
+		1608832F1F840B5F00318578 /* IterableInAppHTMLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppHTMLViewController.m; sourceTree = "<group>"; };
 		16513DD81D89EECC00C205B3 /* IterableInAppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableInAppManager.h; sourceTree = "<group>"; };
 		16513DD91D89EECC00C205B3 /* IterableInAppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppManager.m; sourceTree = "<group>"; };
 		1653A80B1D88B25200690298 /* IterableConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableConstants.h; sourceTree = "<group>"; };
@@ -180,6 +186,7 @@
 				091489E11CF6986900482D82 /* IterableAPITests.m */,
 				091489E71CF6AC1800482D82 /* CommerceItemTests.m */,
 				09CCB9311D07BA04003EB75D /* IterableNotificationMetadataTests.m */,
+				1608832C1F83EED500318578 /* IterableInAppNotificationTests.m */,
 			);
 			path = "Iterable-iOS-SDKTests";
 			sourceTree = "<group>";
@@ -195,6 +202,8 @@
 		16CE7A051DF8D5A900CADC2D /* InAppNotifications */ = {
 			isa = PBXGroup;
 			children = (
+				1608832E1F840B5F00318578 /* IterableInAppHTMLViewController.h */,
+				1608832F1F840B5F00318578 /* IterableInAppHTMLViewController.m */,
 				16513DD81D89EECC00C205B3 /* IterableInAppManager.h */,
 				16513DD91D89EECC00C205B3 /* IterableInAppManager.m */,
 				16ED2E461D90569500ADCAEC /* IterableInAppBaseViewController.h */,
@@ -247,6 +256,7 @@
 				093028D31D1B958700E7CFBE /* IterableLogging.h in Headers */,
 				16ED2E4F1D908D5500ADCAEC /* IterableAlertViewController.h in Headers */,
 				16513DDE1D89EECC00C205B3 /* IterableInAppManager.h in Headers */,
+				160883301F840B5F00318578 /* IterableInAppHTMLViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +472,7 @@
 				16ED2E501D908D5500ADCAEC /* IterableAlertViewController.m in Sources */,
 				093734271A1D701F00C950B6 /* IterableAPI.m in Sources */,
 				1653A8101D88B25200690298 /* IterableFullScreenViewController.m in Sources */,
+				160883311F840B5F00318578 /* IterableInAppHTMLViewController.m in Sources */,
 				6804B8601AC0F363000A126B /* CommerceItem.m in Sources */,
 				16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */,
 				0995DBDD1CFFF7FE00D50F19 /* IterableLogging.m in Sources */,
@@ -474,6 +485,7 @@
 			files = (
 				091489E21CF6986900482D82 /* IterableAPITests.m in Sources */,
 				09CCB9321D07BA04003EB75D /* IterableNotificationMetadataTests.m in Sources */,
+				1608832D1F83EED500318578 /* IterableInAppNotificationTests.m in Sources */,
 				091489E81CF6AC1800482D82 /* CommerceItemTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

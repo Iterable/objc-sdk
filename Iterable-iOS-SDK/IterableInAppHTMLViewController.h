@@ -60,5 +60,6 @@ typedef enum {
  */
 -(void)ITESetTrackParams:(IterableNotificationMetadata *)trackParams;
 
++(INAPP_NOTIFICATION_TYPE)setLocation:(UIEdgeInsets) insetPadding;
 
 @end
