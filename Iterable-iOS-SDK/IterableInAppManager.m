@@ -53,7 +53,7 @@
 }
 
 // documented in IterableInAppManager.h
-+(void) showIterableNotificationHTML:(NSString*)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundColor:(UIColor *)backgroundColor padding:(UIEdgeInsets)padding{
++(void) showIterableNotificationHTML:(NSString*)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:(double)backgroundAlpha padding:(UIEdgeInsets)padding{
     if (htmlString != NULL) {
         UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
         if([rootViewController isKindOfClass:[UIViewController class]])
@@ -72,7 +72,7 @@
         
         rootViewController.definesPresentationContext = YES;
         //TODO: change background opacity here
-        baseNotification.view.backgroundColor = backgroundColor;
+        baseNotification.view.backgroundColor = [UIColor colorWithWhite:0 alpha:backgroundAlpha];;
         baseNotification.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         
         [rootViewController presentViewController:baseNotification animated:NO completion:nil];
@@ -81,7 +81,7 @@
 
 // documented in IterableInAppManager.h
 +(void) showIterableNotificationHTML:(NSString*)htmlString callbackBlock:(ITEActionBlock)callbackBlock{
-    [IterableInAppManager showIterableNotificationHTML:htmlString trackParams:nil callbackBlock:callbackBlock backgroundColor:[UIColor clearColor] padding:UIEdgeInsetsZero];
+    [IterableInAppManager showIterableNotificationHTML:htmlString trackParams:nil callbackBlock:callbackBlock backgroundAlpha:0 padding:UIEdgeInsetsZero];
 }
 
 // documented in IterableInAppManager.h
@@ -164,16 +164,21 @@
 
 +(UIEdgeInsets)getPaddingFromPayload:(NSDictionary *)payload {
     UIEdgeInsets padding = UIEdgeInsetsZero;
-    padding.top = ([self decodePadding:[payload objectForKey:@"top"]]) ? -1 : [[payload objectForKey:@"top"] doubleValue];
-    padding.left = [[payload objectForKey:@"left"] doubleValue];
-    padding.bottom = ([self decodePadding:[payload objectForKey:@"bottom"]]) ? -1 : [[payload objectForKey:@"bottom"] doubleValue];
-    padding.right = [[payload objectForKey:@"right"] doubleValue];
+    padding.top = [self decodePadding:[payload objectForKey:@"top"]];
+    padding.left = [self decodePadding:[payload objectForKey:@"left"]];
+    padding.bottom = [self decodePadding:[payload objectForKey:@"bottom"]];
+    padding.right = [self decodePadding:[payload objectForKey:@"right"]];
     
     return padding;
 }
 
 +(double)decodePadding:(NSObject *)value {
-    return (value == @"AutoExpand");
+    if ([@"AutoExpand" isEqualToString:[value valueForKey:@"displayOption"]]) {
+        return -1;
+    } else {
+        //TODO: do type check here
+        return [[value valueForKey:@"percentagesdf"] doubleValue];
+    }
 }
 
 

@@ -7,6 +7,7 @@
 
 #import "IterableInAppHTMLViewController.h"
 #import "IterableNotificationMetadata.h"
+#import "IterableLogging.h"
 #import "IterableAPI.h"
 #import "IterableConstants.h"
 
@@ -25,6 +26,11 @@
 static NSString *const customUrlScheme = @"applewebdata";
 static NSString *const httpUrlScheme = @"http://";
 static NSString *const httpsUrlScheme = @"https://";
+static NSString *const itblUrlScheme = @"itbl://";
+
+static NSString *const smsUrlScheme = @"sms";
+static NSString *const emailUrlScheme = @"sms";
+
 
 INAPP_NOTIFICATION_TYPE location;
 
@@ -40,6 +46,13 @@ BOOL loaded;
 // documented in IterableInAppHTMLViewController.h
 -(void)ITESetPadding:(UIEdgeInsets)insetPadding {
     _insetPadding = insetPadding;
+    
+    if ((_insetPadding.left + _insetPadding.right) >= 100) {
+        LogWarning(@"Can't display an in-app with padding > 100. Defaulting to 0 for padding left/right");
+        
+        _insetPadding.left = 0;
+        _insetPadding.right = 0;
+    }
 }
 
 // documented in IterableInAppHTMLViewController.h
@@ -114,10 +127,13 @@ BOOL loaded;
         aWebView.frame = frame;
         CGSize fittingSize = [aWebView sizeThatFits:CGSizeZero];
         frame.size = fittingSize;
-        float notificationWidth = 100-(_insetPadding.left + _insetPadding.right);
-        frame.size.width = CGRectGetWidth(self.view.bounds)*notificationWidth/100;
+        double notificationWidth = 100-(_insetPadding.left + _insetPadding.right);
+        double screenWidth = CGRectGetWidth(self.view.bounds);
+        frame.size.width = screenWidth*notificationWidth/100;
         frame.size.height = MIN(frame.size.height, CGRectGetHeight(self.view.bounds));
         aWebView.frame = frame;
+        
+        double resizeCenterX = screenWidth*(_insetPadding.left + notificationWidth/2)/100;
         
         //Position webview
         CGPoint center = self.view.center;
@@ -130,6 +146,8 @@ BOOL loaded;
                 center.y = self.view.frame.size.height - webViewHeight;
                 break;
         }
+        float ex = center.x;
+        center.x = resizeCenterX;
         aWebView.center = center;
     }
 }
@@ -146,19 +164,30 @@ BOOL loaded;
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if(navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSString *destinationURL = [[request URL] absoluteString];
+        NSString *callbackURL = [[request URL] absoluteString];
+        
+        // Since we are calling loadHTMLString with a nil baseUrl, any request url without a valid scheme get treated as a local resource.
+        // Those local resources get re-written with the applewebdata scheme.
+        // Any urls with valid schemes (XXX://, http, https, apple supported schemes) remain untouched
         if ([request.URL.scheme isEqualToString:customUrlScheme]) {
-            //Removes the extra scheme/host data that is appended to the url.
+            //Removes the extra applewebdata scheme/host data that is appended to the original url.
             NSArray *urlArray = [destinationURL componentsSeparatedByString: request.URL.host];
             NSString *urlPath = urlArray[1];
+            destinationURL = urlPath;
             if (urlPath.length > 0) {
                 //Removes extra "/" from the url path
                 unichar firstChar = [urlPath characterAtIndex:0];
                 if (firstChar == '/') {
                     destinationURL = [urlPath substringFromIndex:1];
                 }
-            } else {
-                destinationURL = urlPath;
             }
+            callbackURL = destinationURL;
+            
+            //Warn the client that the request url does not contain a valid scheme
+            LogWarning(@"Request url contains an invalid scheme: %a", destinationURL);
+        } else if ([destinationURL hasPrefix:itblUrlScheme]) {
+            NSString * strNoURLScheme = [destinationURL stringByReplacingOccurrencesOfString:itblUrlScheme withString:@""];
+            callbackURL = strNoURLScheme;
         } else {
             NSString *urlScheme = request.URL.scheme;
             if ([urlScheme isEqualToString:httpUrlScheme] || [urlScheme isEqualToString:httpsUrlScheme]) {
@@ -168,7 +197,7 @@ BOOL loaded;
         }
         [self dismissViewControllerAnimated:NO completion:^{
             if (_customBlockCallback != nil) {
-                _customBlockCallback(destinationURL);
+                _customBlockCallback(callbackURL);
             }
             
             if (_trackParams != nil) {

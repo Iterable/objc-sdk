@@ -42,10 +42,10 @@
  @param htmlString      The NSString containing the dialog HTML
  @param trackParams     The track params for the notification
  @param callbackBlock   The callback to send after a button on the notification is clicked
- @param backgroundColor The background color behind the notification
+ @param backgroundAlpha The background alpha behind the notification
  @param padding         The padding around the notification
  */
-+(void) showIterableNotificationHTML:(NSString *)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundColor:(UIColor *)backgroundColor padding:(UIEdgeInsets)padding;
++(void) showIterableNotificationHTML:(NSString *)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:(double)backgroundAlpha padding:(UIEdgeInsets)padding;
 
 /*!
  @method
