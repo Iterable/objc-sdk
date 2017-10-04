@@ -52,22 +52,6 @@
     XCTAssertNil(message);
 }
 
-//TODO
-- (void)testGetNextNotificationOne {
-    NSDictionary *payload;
-    NSDictionary *message = [IterableInAppManager getNextMessageFromPayload:payload];
-    
-    XCTAssertNotNil(message);
-}
-
-//TODO
-- (void)testGetNextNotificationMany {
-    NSDictionary *payload;
-    NSDictionary *message = [IterableInAppManager getNextMessageFromPayload:payload];
-    
-    XCTAssertNotNil(message);
-}
-
 - (void)testNotificationCreation {
     //call showIterableNotificationHTML with fake data
     //Check the top level dialog
@@ -180,6 +164,5 @@
     INAPP_NOTIFICATION_TYPE notificationType = [IterableInAppHTMLViewController setLocation:UIEdgeInsetsMake(10,0,20,0)];
     XCTAssertEqual(notificationType, INAPP_CENTER);
 }
-
 
 @end

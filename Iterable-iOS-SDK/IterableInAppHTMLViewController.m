@@ -29,7 +29,6 @@ static NSString *const httpsUrlScheme = @"https://";
 static NSString *const itblUrlScheme = @"itbl://";
 
 INAPP_NOTIFICATION_TYPE location;
-
 BOOL loaded;
 
 - (instancetype)initWithData:(NSString*)htmlString {
@@ -38,6 +37,7 @@ BOOL loaded;
     return self;
 }
 
+// documented in IterableInAppHTMLViewController.h
 -(NSString*)getHtml {
     return self.htmlString;
 }
@@ -64,6 +64,11 @@ BOOL loaded;
     _trackParams = params;
 }
 
+/**
+ @method
+ 
+ @abstract Tracks an inApp open and layouts the webview
+ */
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -78,6 +83,11 @@ BOOL loaded;
     return YES;
 }
 
+/**
+ @method
+ 
+ @abstract Loads the view and sets up the webView
+ */
 - (void)loadView {
     [super loadView];
     
@@ -99,50 +109,63 @@ BOOL loaded;
     [self.view addSubview:_webView];
 }
 
+
+/**
+ @method
+ 
+ @abstract Handles rotations and navigation coming back from an external link.
+ */
 - (void)viewWillLayoutSubviews {
-    //handles rotations and navigation coming back from an external link.
     [self resizeWebView:_webView];
 }
 
+/**
+ @method
+ 
+ @abstract Resizes the webview based upon the insetPadding if the html is finished loading
+ 
+ @param aWebView the webview
+ */
 - (void)resizeWebView:(UIWebView *)aWebView {
-    if (!loaded) {
-        return;
-    }
-    
-    if (location == INAPP_FULL) {
-        _webView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    } else {
-        //Resizes the frame to match the HTML content with a max of the screen size.
-        CGRect frame = aWebView.frame;
-        frame.size.height = 1;
-        aWebView.frame = frame;
-        CGSize fittingSize = [aWebView sizeThatFits:CGSizeZero];
-        frame.size = fittingSize;
-        double notificationWidth = 100-(_insetPadding.left + _insetPadding.right);
-        double screenWidth = CGRectGetWidth(self.view.bounds);
-        frame.size.width = screenWidth*notificationWidth/100;
-        frame.size.height = MIN(frame.size.height, CGRectGetHeight(self.view.bounds));
-        aWebView.frame = frame;
-        
-        double resizeCenterX = screenWidth*(_insetPadding.left + notificationWidth/2)/100;
-        
-        //Position webview
-        CGPoint center = self.view.center;
-        float webViewHeight = aWebView.frame.size.height/2;
-        switch (location) {
-            case INAPP_TOP:
-                center.y = webViewHeight;
-                break;
-            case INAPP_BOTTOM:
-                center.y = self.view.frame.size.height - webViewHeight;
-                break;
+    if (loaded) {
+        if (location == INAPP_FULL) {
+            _webView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        } else {
+            //Resizes the frame to match the HTML content with a max of the screen size.
+            CGRect frame = aWebView.frame;
+            frame.size.height = 1;
+            aWebView.frame = frame;
+            CGSize fittingSize = [aWebView sizeThatFits:CGSizeZero];
+            frame.size = fittingSize;
+            double notificationWidth = 100-(_insetPadding.left + _insetPadding.right);
+            double screenWidth = CGRectGetWidth(self.view.bounds);
+            frame.size.width = screenWidth*notificationWidth/100;
+            frame.size.height = MIN(frame.size.height, CGRectGetHeight(self.view.bounds));
+            aWebView.frame = frame;
+            
+            double resizeCenterX = screenWidth*(_insetPadding.left + notificationWidth/2)/100;
+            
+            //Position webview
+            CGPoint center = self.view.center;;
+            float webViewHeight = aWebView.frame.size.height/2;
+            switch (location) {
+                case INAPP_TOP:
+                    center.y = webViewHeight;
+                    break;
+                case INAPP_BOTTOM:
+                    center.y = self.view.frame.size.height - webViewHeight;
+                    break;
+                case INAPP_CENTER:
+                    break;
+            }
+            float ex = center.x;
+            center.x = resizeCenterX;
+            aWebView.center = center;
         }
-        float ex = center.x;
-        center.x = resizeCenterX;
-        aWebView.center = center;
     }
 }
 
+// documented in IterableInAppHTMLViewController.h
 + (INAPP_NOTIFICATION_TYPE)setLocation:(UIEdgeInsets) insetPadding {
     INAPP_NOTIFICATION_TYPE locationType;
     if (insetPadding.top == 0 && insetPadding.bottom == 0) {
@@ -162,20 +185,36 @@ BOOL loaded;
 /// @name UIWebViewDelegate Functions
 //////////////////////////////////////////////////////////////
 
+/**
+ @method
+ 
+ @abstract Resizes the webview after it is finished loading
+ 
+ @param aWebView the webview
+ */
 - (void)webViewDidFinishLoad:(UIWebView *)aWebView {
     loaded = true;
     [self resizeWebView:_webView];
 }
 
+/**
+ @method
+ 
+ @abstract  Handles when a link is clicked within the webView.
+ 
+ @param     aWebView the webview
+ @param     request the NSURLRequest
+ @param     navigationType the navigation type
+ 
+ @return    If the webView handles the click
+ */
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if(navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSString *destinationURL = [[request URL] absoluteString];
         NSString *callbackURL = [[request URL] absoluteString];
         
-        // Since we are calling loadHTMLString with a nil baseUrl, any request url without a valid scheme get treated as a local resource.
-        // Those local resources get re-written with the applewebdata scheme.
-        // Any urls with valid schemes (XXX://, http, https, apple supported schemes) remain untouched
         if ([request.URL.scheme isEqualToString:customUrlScheme]) {
+            // Since we are calling loadHTMLString with a nil baseUrl, any request url without a valid scheme get treated as a local resource.
             //Removes the extra applewebdata scheme/host data that is appended to the original url.
             NSArray *urlArray = [destinationURL componentsSeparatedByString: request.URL.host];
             NSString *urlPath = urlArray[1];

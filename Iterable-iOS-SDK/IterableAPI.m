@@ -873,9 +873,9 @@ NSCharacterSet* encodedCharacterSet = nil;
                     if ([html containsString:@"href"]) {
 
                         NSDictionary *inAppDisplaySettings = [message valueForKey:@"inAppDisplaySettings"];
-                        double backgroundAlpha = .5f; //[[inAppDisplaySettings valueForKey:@"backgroundAlpha"] doubleValue];
+                        double backgroundAlpha = [[inAppDisplaySettings valueForKey:@"backgroundAlpha"] doubleValue];
                         UIEdgeInsets edgeInsets = [IterableInAppManager getPaddingFromPayload:inAppDisplaySettings];
-                        
+                
                         NSString *messageId = [dialogOptions valueForKey:ITBL_KEY_MESSAGE_ID];
                         IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:messageId];
                         

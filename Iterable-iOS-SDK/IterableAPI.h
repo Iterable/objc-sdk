@@ -512,7 +512,6 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 - (void)trackInAppClick:(NSString *)messageId buttonURL:(NSString *)buttonURL;
 
-
 /**
  @method
  

@@ -24,6 +24,15 @@
 
 @implementation IterableInAppManager
 
+static NSString *const PADDING_TOP = @"top";
+static NSString *const PADDING_LEFT = @"left";
+static NSString *const PADDING_BOTTOM = @"bottom";
+static NSString *const PADDING_RIGHT = @"right";
+
+static NSString *const IN_APP_DISPLAY_OPTION = @"displayOption";
+static NSString *const IN_APP_PERCENTAGE = @"percentage";
+static NSString *const IN_APP_AUTO_EXPAND = @"AutoExpand";
+
 // documented in IterableInAppManager.h
 +(void) showIterableNotification:(NSDictionary*)dialogOptions trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock{
     if (dialogOptions != NULL) {
@@ -71,7 +80,6 @@
         [baseNotification ITESetPadding:padding];
         
         rootViewController.definesPresentationContext = YES;
-        //TODO: change background opacity here
         baseNotification.view.backgroundColor = [UIColor colorWithWhite:0 alpha:backgroundAlpha];;
         baseNotification.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         
@@ -162,30 +170,29 @@
     return returnDictionary;
 }
 
+// documented in IterableInAppManager.h
 +(UIEdgeInsets)getPaddingFromPayload:(NSDictionary *)payload {
     UIEdgeInsets padding = UIEdgeInsetsZero;
-    padding.top = [self decodePadding:[payload objectForKey:@"top"]];
-    padding.left = [self decodePadding:[payload objectForKey:@"left"]];
-    padding.bottom = [self decodePadding:[payload objectForKey:@"bottom"]];
-    padding.right = [self decodePadding:[payload objectForKey:@"right"]];
+    padding.top = [self decodePadding:[payload objectForKey:PADDING_TOP]];
+    padding.left = [self decodePadding:[payload objectForKey:PADDING_LEFT]];
+    padding.bottom = [self decodePadding:[payload objectForKey:PADDING_BOTTOM]];
+    padding.right = [self decodePadding:[payload objectForKey:PADDING_RIGHT]];
     
     return padding;
 }
 
+// documented in IterableInAppManager.h
 +(int)decodePadding:(NSObject *)value {
     int returnValue = 0;
     if ([value isKindOfClass:[NSDictionary class]]) {
-        NSString *valueObject =[value valueForKey:@"displayOption"];
-        if ([@"AutoExpand" isEqualToString:valueObject]) {
+        NSString *valueObject =[value valueForKey:IN_APP_DISPLAY_OPTION];
+        if ([IN_APP_AUTO_EXPAND isEqualToString:valueObject]) {
             returnValue = -1;
         } else {
-            returnValue = [[value valueForKey:@"percentage"] intValue];
+            returnValue = [[value valueForKey:IN_APP_PERCENTAGE] intValue];
         }
     }
     return returnValue;
 }
 
-
 @end
-
-

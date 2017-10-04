@@ -39,13 +39,15 @@ typedef enum {
  @abstract Sets the padding
  
  @param insetPadding the padding
+ 
+ @discussion defaults to 0 for left/right if left+right >100
  */
 -(void)ITESetPadding:(UIEdgeInsets)insetPadding;
 
 /**
  @method
  
- @abstract Sets the data for the viewController
+ @abstract Sets the callback
  
  @param callbackBlock the payload data
  */
@@ -54,14 +56,28 @@ typedef enum {
 /**
  @method
  
- @abstract Sets the track params for the viewController
+ @abstract Sets the track parameters
  
  @param trackParams the track parameters
  */
 -(void)ITESetTrackParams:(IterableNotificationMetadata *)trackParams;
 
+/**
+ @method
+ 
+ @abstract gets the html string
+ 
+ @return a NSString of the html
+ */
 -(NSString *)getHtml;
 
+/**
+ @method
+ 
+ @abstract gets the location from a inset data
+ 
+ @return the location as an INAPP_NOTIFICATION_TYPE
+ */
 +(INAPP_NOTIFICATION_TYPE)setLocation:(UIEdgeInsets) insetPadding;
 
 @end
