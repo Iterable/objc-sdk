@@ -35,7 +35,6 @@ BOOL loaded;
 - (instancetype)initWithData:(NSString*)htmlString {
     self = [super init];
     self.htmlString = htmlString;
-    
     return self;
 }
 
@@ -86,7 +85,7 @@ BOOL loaded;
     CGFloat screenHeight = CGRectGetHeight(self.view.bounds);
 
     _webView=[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
-    [_webView loadHTMLString:_htmlString baseURL:[NSURL URLWithString:nil]];
+    [_webView loadHTMLString:_htmlString baseURL:[NSURL URLWithString:@""]];
     _webView.scrollView.bounces = NO;
     _webView.opaque = NO;
     _webView.backgroundColor = [UIColor clearColor];
@@ -138,12 +137,6 @@ BOOL loaded;
         center.x = resizeCenterX;
         aWebView.center = center;
     }
-}
-
-+ (NSString *)stripHtmlComments:(NSString *) html {
-
-    
-    return html;
 }
 
 + (INAPP_NOTIFICATION_TYPE)setLocation:(UIEdgeInsets) insetPadding {

@@ -98,5 +98,6 @@
 
 +(UIEdgeInsets) getPaddingFromPayload:(NSDictionary*)payload;
 
++(int)decodePadding:(NSObject *)value;
 
 @end

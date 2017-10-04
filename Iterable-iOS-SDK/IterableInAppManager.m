@@ -172,13 +172,17 @@
     return padding;
 }
 
-+(double)decodePadding:(NSObject *)value {
-    if ([@"AutoExpand" isEqualToString:[value valueForKey:@"displayOption"]]) {
-        return -1;
-    } else {
-        //TODO: do type check here
-        return [[value valueForKey:@"percentagesdf"] doubleValue];
++(int)decodePadding:(NSObject *)value {
+    int returnValue = 0;
+    if ([value isKindOfClass:[NSDictionary class]]) {
+        NSString *valueObject =[value valueForKey:@"displayOption"];
+        if ([@"AutoExpand" isEqualToString:valueObject]) {
+            returnValue = -1;
+        } else {
+            returnValue = [[value valueForKey:@"percentage"] intValue];
+        }
     }
+    return returnValue;
 }
 
 
