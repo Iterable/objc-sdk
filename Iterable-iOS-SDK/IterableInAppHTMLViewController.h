@@ -20,7 +20,7 @@ typedef void (^ITEActionBlock)(NSString *);
 typedef enum {
     INAPP_FULL,
     INAPP_TOP,
-    INAPP_MIDDLE,
+    INAPP_CENTER,
     INAPP_BOTTOM
 } INAPP_NOTIFICATION_TYPE;
 
@@ -59,6 +59,8 @@ typedef enum {
  @param trackParams the track parameters
  */
 -(void)ITESetTrackParams:(IterableNotificationMetadata *)trackParams;
+
+-(NSString *)getHtml;
 
 +(INAPP_NOTIFICATION_TYPE)setLocation:(UIEdgeInsets) insetPadding;
 

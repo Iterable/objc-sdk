@@ -38,6 +38,10 @@ BOOL loaded;
     return self;
 }
 
+-(NSString*)getHtml {
+    return self.htmlString;
+}
+
 // documented in IterableInAppHTMLViewController.h
 -(void)ITESetPadding:(UIEdgeInsets)insetPadding {
     _insetPadding = insetPadding;
@@ -148,7 +152,7 @@ BOOL loaded;
     } else if (insetPadding.top < 0 && insetPadding.bottom == 0) {
         locationType = INAPP_BOTTOM;
     } else {
-        locationType = INAPP_MIDDLE;
+        locationType = INAPP_CENTER;
     }
     
     return locationType;
