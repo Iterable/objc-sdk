@@ -353,11 +353,8 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                 NSString *title;
                 if ([button objectForKey:ITERABLE_IN_APP_CONTENT]) {
                     NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_CONTENT];
-                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT]) {
-                        self.cancelButtonTitleFont = [UIFont fontWithName:[buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
-                    }
                     if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR]) {
-//                        self.cancelButtonTitleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:buttonContent keyString:ITERABLE_IN_APP_TEXT_COLOR]);
+                        self.cancelButtonTitleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:buttonContent keyString:ITERABLE_IN_APP_TEXT_COLOR]);
                     }
                     title = [buttonContent objectForKey:ITERABLE_IN_APP_TEXT];
                 }
@@ -369,9 +366,6 @@ static CGFloat const kDefaultDismissalAnimationDuration = 0.6f;
                 NSString *title;
                 if ([button objectForKey:ITERABLE_IN_APP_CONTENT]) {
                     NSDictionary* buttonContent = [button objectForKey:ITERABLE_IN_APP_CONTENT];
-                    if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT]) {
-//                        self.buttonTitleFont = [UIFont fontWithName:[buttonContent objectForKey:ITERABLE_IN_APP_TEXT_FONT] size:self.buttonTitleFont.pointSize];
-                    }
                     if ([buttonContent objectForKey:ITERABLE_IN_APP_TEXT_COLOR]) {
                         self.buttonTitleColor = UIColorFromRGB([IterableInAppManager getIntColorFromKey:buttonContent keyString:ITERABLE_IN_APP_TEXT_COLOR]);
                     }
