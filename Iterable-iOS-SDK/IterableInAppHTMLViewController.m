@@ -143,7 +143,7 @@ BOOL loaded;
             frame.size.height = MIN(frame.size.height, CGRectGetHeight(self.view.bounds));
             aWebView.frame = frame;
             
-            double resizeCenterX = screenWidth*(_insetPadding.left + notificationWidth/2)/100;
+            float resizeCenterX = screenWidth*(_insetPadding.left + notificationWidth/2)/100;
             
             //Position webview
             CGPoint center = self.view.center;;

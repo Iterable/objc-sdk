@@ -911,12 +911,16 @@ NSCharacterSet* encodedCharacterSet = nil;
     if (_email != nil) {
         args = @{
                 ITBL_KEY_EMAIL: self.email,
-                ITBL_KEY_COUNT: count
+                ITBL_KEY_COUNT: count,
+                ITBL_KEY_PLATFORM: ITBL_PLATFORM_IOS,
+                ITBL_KEY_SDK_VERSION: @"0.0.0"
                 };
     } else {
         args = @{
                  ITBL_KEY_USER_ID: self.userId,
-                 ITBL_KEY_COUNT: count
+                 ITBL_KEY_COUNT: count,
+                 ITBL_KEY_PLATFORM: ITBL_PLATFORM_IOS,
+                 ITBL_KEY_SDK_VERSION: @"0.0.0"
                 };
     }
     NSURLRequest *request = [self createGetRequestForAction:ENDPOINT_GET_INAPP_MESSAGES withArgs:args];

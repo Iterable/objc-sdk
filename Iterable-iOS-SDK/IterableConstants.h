@@ -24,6 +24,7 @@ extern NSString *const ITBL_KEY_MESSAGE_ID;
 extern NSString *const ITBL_KEY_NEW_EMAIL;
 extern NSString *const ITBL_KEY_PLATFORM;
 extern NSString *const ITBL_KEY_RECIPIENT_EMAIL;
+extern NSString *const ITBL_KEY_SDK_VERSION;
 extern NSString *const ITBL_KEY_SEND_AT;
 extern NSString *const ITBL_KEY_TOKEN;
 extern NSString *const ITBL_KEY_TEMPLATE_ID;
@@ -64,6 +65,8 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITBL_KEY_PAD @"Pad"
 #define ITBL_KEY_PHONE @"Phone"
 #define ITBL_KEY_UNSPECIFIED @"Unspecified"
+
+#define ITBL_PLATFORM_IOS @"iOS"
 
 
 #define ITBL_DEEPLINK_IDENTIFIER @"/a/[a-zA-Z0-9]+"

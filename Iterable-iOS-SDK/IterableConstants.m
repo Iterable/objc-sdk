@@ -27,6 +27,7 @@ NSString *const ITBL_KEY_MESSAGE_ID          = @"messageId";
 NSString *const ITBL_KEY_NEW_EMAIL           = @"newEmail";
 NSString *const ITBL_KEY_PLATFORM            = @"platform";
 NSString *const ITBL_KEY_RECIPIENT_EMAIL     = @"recipientEmail";
+NSString *const ITBL_KEY_SDK_VERSION         = @"SDKVersion";
 NSString *const ITBL_KEY_SEND_AT             = @"sendAt";
 NSString *const ITBL_KEY_TOKEN               = @"token";
 NSString *const ITBL_KEY_TEMPLATE_ID         = @"templateId";
