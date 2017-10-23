@@ -868,27 +868,25 @@ NSCharacterSet* encodedCharacterSet = nil;
         if (dialogOptions != nil) {
             NSDictionary *message = [dialogOptions valueForKey:ITERABLE_IN_APP_CONTENT];
             if (message != nil) {
-                NSString *html = [message objectForKey:@"html"];
-                if ([html length] != 0) {
-                    if ([html containsString:@"href"]) {
-
-                        NSDictionary *inAppDisplaySettings = [message valueForKey:@"inAppDisplaySettings"];
-                        double backgroundAlpha = [[inAppDisplaySettings valueForKey:@"backgroundAlpha"] doubleValue];
-                        UIEdgeInsets edgeInsets = [IterableInAppManager getPaddingFromPayload:inAppDisplaySettings];
+                NSString *messageId = [dialogOptions valueForKey:ITBL_KEY_MESSAGE_ID];
+                NSString *html = [message objectForKey:ITERABLE_IN_APP_HTML];
                 
-                        NSString *messageId = [dialogOptions valueForKey:ITBL_KEY_MESSAGE_ID];
-                        IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:messageId];
-                        
-                        dispatch_sync(dispatch_get_main_queue(), ^{
-                            [IterableInAppManager showIterableNotificationHTML:html trackParams:(IterableNotificationMetadata*)notification callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:backgroundAlpha padding:edgeInsets];
-                        });
-                        [self inAppConsume:messageId];
-                    } else {
-                        LogWarning(@"No href tag found in the inApp html %@", html);
-                    }
+                //uses the rangeOfString check for backwards compatability with iOS7
+                if (html != nil && !([html rangeOfString:ITERABLE_IN_APP_HREF].location == NSNotFound)) {
+                    NSDictionary *inAppDisplaySettings = [message valueForKey:ITERABLE_IN_APP_DISPLAY_SETTINGS];
+                    double backgroundAlpha = [[inAppDisplaySettings valueForKey:ITERABLE_IN_APP_BACKGROUND_ALPHA] doubleValue];
+                    UIEdgeInsets edgeInsets = [IterableInAppManager getPaddingFromPayload:inAppDisplaySettings];
+                    
+                    IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:messageId];
+                    
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        [IterableInAppManager showIterableNotificationHTML:html trackParams:(IterableNotificationMetadata*)notification callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:backgroundAlpha padding:edgeInsets];
+                    });
                 } else {
-                    LogWarning(@"Empty html found in inApp content %@", message);
+                    LogWarning(@"No href tag found in the in-app html payload: %@", html);
                 }
+                
+                [self inAppConsume:messageId];
             }
         } else {
             LogDebug(@"No notifications found for inApp payload %@", payload);

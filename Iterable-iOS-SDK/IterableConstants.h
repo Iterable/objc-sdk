@@ -95,5 +95,11 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITERABLE_IN_APP_BUTTON_ACTION @"action"
 #define ITERABLE_IN_APP_CONTENT @"content"
 
+//In-App HTML Constants
+#define ITERABLE_IN_APP_BACKGROUND_ALPHA @"backgroundAlpha"
+#define ITERABLE_IN_APP_HTML @"html"
+#define ITERABLE_IN_APP_HREF @"href"
+#define ITERABLE_IN_APP_DISPLAY_SETTINGS @"inAppDisplaySettings"
+
 
 typedef void (^ITEActionBlock)(NSString *);
