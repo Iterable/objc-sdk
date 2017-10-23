@@ -872,7 +872,7 @@ NSCharacterSet* encodedCharacterSet = nil;
                 NSString *html = [message objectForKey:ITERABLE_IN_APP_HTML];
                 
                 //uses the rangeOfString check for backwards compatability with iOS7
-                if (html != nil && !([html rangeOfString:ITERABLE_IN_APP_HREF].location == NSNotFound)) {
+                if (html != nil && !([html rangeOfString:ITERABLE_IN_APP_HREF options:NSCaseInsensitiveSearch].location == NSNotFound)) {
                     NSDictionary *inAppDisplaySettings = [message valueForKey:ITERABLE_IN_APP_DISPLAY_SETTINGS];
                     double backgroundAlpha = [[inAppDisplaySettings valueForKey:ITERABLE_IN_APP_BACKGROUND_ALPHA] doubleValue];
                     UIEdgeInsets edgeInsets = [IterableInAppManager getPaddingFromPayload:inAppDisplaySettings];
