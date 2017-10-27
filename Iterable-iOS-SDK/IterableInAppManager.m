@@ -16,12 +16,22 @@
 #import "IterableFullScreenViewController.h"
 #import "IterableConstants.h"
 #import "IterableNotificationMetadata.h"
+#import "IterableInAppHTMLViewController.h"
 
 @interface IterableInAppManager ()
 
 @end
 
 @implementation IterableInAppManager
+
+static NSString *const PADDING_TOP = @"top";
+static NSString *const PADDING_LEFT = @"left";
+static NSString *const PADDING_BOTTOM = @"bottom";
+static NSString *const PADDING_RIGHT = @"right";
+
+static NSString *const IN_APP_DISPLAY_OPTION = @"displayOption";
+static NSString *const IN_APP_PERCENTAGE = @"percentage";
+static NSString *const IN_APP_AUTO_EXPAND = @"AutoExpand";
 
 // documented in IterableInAppManager.h
 +(void) showIterableNotification:(NSDictionary*)dialogOptions trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock{
@@ -49,6 +59,37 @@
         [baseNotification ITESetCallback:callbackBlock];
         [rootViewController showViewController:baseNotification sender:self];
     }
+}
+
+// documented in IterableInAppManager.h
++(void) showIterableNotificationHTML:(NSString*)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:(double)backgroundAlpha padding:(UIEdgeInsets)padding{
+    if (htmlString != NULL) {
+        UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+        if([rootViewController isKindOfClass:[UIViewController class]])
+        {
+            while (rootViewController.presentedViewController != nil)
+            {
+                rootViewController = rootViewController.presentedViewController;
+            }
+        }
+        
+        IterableInAppHTMLViewController *baseNotification;
+        baseNotification = [[IterableInAppHTMLViewController alloc] initWithData:htmlString];
+        [baseNotification ITESetTrackParams:trackParams];
+        [baseNotification ITESetCallback:callbackBlock];
+        [baseNotification ITESetPadding:padding];
+        
+        rootViewController.definesPresentationContext = YES;
+        baseNotification.view.backgroundColor = [UIColor colorWithWhite:0 alpha:backgroundAlpha];;
+        baseNotification.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+        
+        [rootViewController presentViewController:baseNotification animated:NO completion:nil];
+    }
+}
+
+// documented in IterableInAppManager.h
++(void) showIterableNotificationHTML:(NSString*)htmlString callbackBlock:(ITEActionBlock)callbackBlock{
+    [IterableInAppManager showIterableNotificationHTML:htmlString trackParams:nil callbackBlock:callbackBlock backgroundAlpha:0 padding:UIEdgeInsetsZero];
 }
 
 // documented in IterableInAppManager.h
@@ -129,6 +170,29 @@
     return returnDictionary;
 }
 
+// documented in IterableInAppManager.h
++(UIEdgeInsets)getPaddingFromPayload:(NSDictionary *)payload {
+    UIEdgeInsets padding = UIEdgeInsetsZero;
+    padding.top = [self decodePadding:[payload objectForKey:PADDING_TOP]];
+    padding.left = [self decodePadding:[payload objectForKey:PADDING_LEFT]];
+    padding.bottom = [self decodePadding:[payload objectForKey:PADDING_BOTTOM]];
+    padding.right = [self decodePadding:[payload objectForKey:PADDING_RIGHT]];
+    
+    return padding;
+}
+
+// documented in IterableInAppManager.h
++(int)decodePadding:(NSObject *)value {
+    int returnValue = 0;
+    if ([value isKindOfClass:[NSDictionary class]]) {
+        NSString *valueObject =[value valueForKey:IN_APP_DISPLAY_OPTION];
+        if ([IN_APP_AUTO_EXPAND isEqualToString:valueObject]) {
+            returnValue = -1;
+        } else {
+            returnValue = [[value valueForKey:IN_APP_PERCENTAGE] intValue];
+        }
+    }
+    return returnValue;
+}
+
 @end
-
-

@@ -533,6 +533,26 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 // documented in IterableAPI.h
+- (void)trackInAppClick:(NSString *)messageId buttonURL:(NSString*)buttonURL {
+    NSDictionary *args;
+    if (_email != nil) {
+        args = @{
+                 ITBL_KEY_EMAIL: self.email,
+                 ITBL_KEY_MESSAGE_ID: messageId,
+                 ITERABLE_IN_APP_CLICK_URL: buttonURL
+                 };
+    } else {
+        args = @{
+                 ITBL_KEY_USER_ID: self.userId,
+                 ITBL_KEY_MESSAGE_ID: messageId,
+                 ITERABLE_IN_APP_CLICK_URL: buttonURL
+                 };
+    }
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_TRACK_INAPP_CLICK withArgs:args];
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppClick"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppClick"]];
+}
+
+// documented in IterableAPI.h
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform
 {
     [self registerToken:token appName:appName pushServicePlatform:pushServicePlatform onSuccess:[IterableAPI defaultOnSuccess:@"registerToken"] onFailure:[IterableAPI defaultOnFailure:@"registerToken"]];
@@ -846,23 +866,33 @@ NSCharacterSet* encodedCharacterSet = nil;
     OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
         NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
         if (dialogOptions != nil) {
-            NSDictionary *message = [dialogOptions valueForKeyPath:ITERABLE_IN_APP_CONTENT];
-            NSString *messageId = [dialogOptions valueForKey:ITBL_KEY_MESSAGE_ID];
-            
-            [self trackInAppOpen:messageId];
-            [self inAppConsume:messageId];
-            IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:messageId];
-            
+            NSDictionary *message = [dialogOptions valueForKey:ITERABLE_IN_APP_CONTENT];
             if (message != nil) {
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [IterableInAppManager showIterableNotification:message trackParams:notification callbackBlock:(ITEActionBlock)callbackBlock];
-                });
+                NSString *messageId = [dialogOptions valueForKey:ITBL_KEY_MESSAGE_ID];
+                NSString *html = [message objectForKey:ITERABLE_IN_APP_HTML];
+                
+                //uses the rangeOfString check for backwards compatability with iOS7
+                if (html != nil && !([html rangeOfString:ITERABLE_IN_APP_HREF options:NSCaseInsensitiveSearch].location == NSNotFound)) {
+                    NSDictionary *inAppDisplaySettings = [message valueForKey:ITERABLE_IN_APP_DISPLAY_SETTINGS];
+                    double backgroundAlpha = [[inAppDisplaySettings valueForKey:ITERABLE_IN_APP_BACKGROUND_ALPHA] doubleValue];
+                    UIEdgeInsets edgeInsets = [IterableInAppManager getPaddingFromPayload:inAppDisplaySettings];
+                    
+                    IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:messageId];
+                    
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        [IterableInAppManager showIterableNotificationHTML:html trackParams:(IterableNotificationMetadata*)notification callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:backgroundAlpha padding:edgeInsets];
+                    });
+                } else {
+                    LogWarning(@"No href tag found in the in-app html payload: %@", html);
+                }
+                
+                [self inAppConsume:messageId];
             }
         } else {
             LogDebug(@"No notifications found for inApp payload %@", payload);
         }
     };
-
+    
     [self getInAppMessages:@1 onSuccess:onSuccess onFailure:[IterableAPI defaultOnFailure:@"getInAppMessages"]];
 }
 
@@ -879,12 +909,16 @@ NSCharacterSet* encodedCharacterSet = nil;
     if (_email != nil) {
         args = @{
                 ITBL_KEY_EMAIL: self.email,
-                ITBL_KEY_COUNT: count
+                ITBL_KEY_COUNT: count,
+                ITBL_KEY_PLATFORM: ITBL_PLATFORM_IOS,
+                ITBL_KEY_SDK_VERSION: @"0.0.0"
                 };
     } else {
         args = @{
                  ITBL_KEY_USER_ID: self.userId,
-                 ITBL_KEY_COUNT: count
+                 ITBL_KEY_COUNT: count,
+                 ITBL_KEY_PLATFORM: ITBL_PLATFORM_IOS,
+                 ITBL_KEY_SDK_VERSION: @"0.0.0"
                 };
     }
     NSURLRequest *request = [self createGetRequestForAction:ENDPOINT_GET_INAPP_MESSAGES withArgs:args];

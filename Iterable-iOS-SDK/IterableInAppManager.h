@@ -28,11 +28,34 @@
  
  @abstract Creates and shows a InApp Notification; with callback handler
  
- @param dialogOptions   the NSDictionary containing the dialog options
+ @param dialogOptions   The NSDictionary containing the dialog options
  @param trackParams     The track params for the notification
- @param callbackBlock        the callback to send after a button on the notification is clicked
+ @param callbackBlock   The callback to send after a button on the notification is clicked
  */
 +(void) showIterableNotification:(NSDictionary *)dialogOptions trackParams:(IterableNotificationMetadata *)trackParams callbackBlock:(ITEActionBlock)callbackBlock;
+
+/*!
+ @method
+ 
+ @abstract Creates and shows a HTML InApp Notification with trackParameters, backgroundColor with callback handler
+ 
+ @param htmlString      The NSString containing the dialog HTML
+ @param trackParams     The track params for the notification
+ @param callbackBlock   The callback to send after a button on the notification is clicked
+ @param backgroundAlpha The background alpha behind the notification
+ @param padding         The padding around the notification
+ */
++(void) showIterableNotificationHTML:(NSString *)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:(double)backgroundAlpha padding:(UIEdgeInsets)padding;
+
+/*!
+ @method
+ 
+ @abstract Creates and shows a HTML InApp Notification; with callback handler
+ 
+ @param htmlString      The NSString containing the dialog HTML
+ @param callbackBlock   The callback to send after a button on the notification is clicked
+ */
++(void) showIterableNotificationHTML:(NSString *)htmlString callbackBlock:(ITEActionBlock)callbackBlock;
 
 
 /*!
@@ -40,11 +63,11 @@
  
  @abstract displays a iOS system style notification with two buttons
  
- @param title           the NSDictionary containing the dialog options
- @param body            the notification message body
- @param buttonLeft      the text of the left button
- @param buttonRight     the text of the right button
- @param callbackBlock   the callback to send after a button on the notification is clicked
+ @param title           The NSDictionary containing the dialog options
+ @param body            The notification message body
+ @param buttonLeft      The text of the left button
+ @param buttonRight     The text of the right button
+ @param callbackBlock   The callback to send after a button on the notification is clicked
  
  @discussion            passes the string of the button clicked to the callbackBlock
  */
@@ -55,7 +78,7 @@
  
  @abstract Gets the next message from the payload
  
- @param payload         the payload dictionary
+ @param payload         The payload dictionary
  
  @return a NSDictionary containing the InAppMessage parameters
  */
@@ -72,5 +95,29 @@
  @return the int color
  */
 +(int) getIntColorFromKey:(NSDictionary*)payload keyString:(NSString*)keyString;
+
+/*!
+ @method
+ 
+ @abstract Parses the padding offsets from the payload
+ 
+ @param payload         the payload NSDictionary
+ 
+ @return the UIEdgeInset
+ */
++(UIEdgeInsets) getPaddingFromPayload:(NSDictionary*)payload;
+
+/*!
+ @method
+ 
+ @abstract Gets the int value of the padding from the payload
+ 
+ @param payload          the value
+ 
+ @return the padding integer
+ 
+ @discussion Passes back -1 for Auto expanded padding
+ */
++(int)decodePadding:(NSObject *)value;
 
 @end

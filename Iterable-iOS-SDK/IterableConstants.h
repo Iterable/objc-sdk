@@ -24,6 +24,7 @@ extern NSString *const ITBL_KEY_MESSAGE_ID;
 extern NSString *const ITBL_KEY_NEW_EMAIL;
 extern NSString *const ITBL_KEY_PLATFORM;
 extern NSString *const ITBL_KEY_RECIPIENT_EMAIL;
+extern NSString *const ITBL_KEY_SDK_VERSION;
 extern NSString *const ITBL_KEY_SEND_AT;
 extern NSString *const ITBL_KEY_TOKEN;
 extern NSString *const ITBL_KEY_TEMPLATE_ID;
@@ -65,11 +66,15 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITBL_KEY_PHONE @"Phone"
 #define ITBL_KEY_UNSPECIFIED @"Unspecified"
 
+#define ITBL_PLATFORM_IOS @"iOS"
+
 
 #define ITBL_DEEPLINK_IDENTIFIER @"/a/[a-zA-Z0-9]+"
 
 
 //In-App Constants
+#define ITERABLE_IN_APP_CLICK_URL @"urlClick"
+
 #define ITERABLE_IN_APP_TITLE @"title"
 #define ITERABLE_IN_APP_BODY @"body"
 #define ITERABLE_IN_APP_IMAGE @"mainImage"
@@ -89,6 +94,12 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITERABLE_IN_APP_BACKGROUND_COLOR @"backgroundColor"
 #define ITERABLE_IN_APP_BUTTON_ACTION @"action"
 #define ITERABLE_IN_APP_CONTENT @"content"
+
+//In-App HTML Constants
+#define ITERABLE_IN_APP_BACKGROUND_ALPHA @"backgroundAlpha"
+#define ITERABLE_IN_APP_HTML @"html"
+#define ITERABLE_IN_APP_HREF @"href"
+#define ITERABLE_IN_APP_DISPLAY_SETTINGS @"inAppDisplaySettings"
 
 
 typedef void (^ITEActionBlock)(NSString *);
