@@ -233,12 +233,6 @@ BOOL loaded;
         } else if ([destinationURL hasPrefix:itblUrlScheme]) {
             NSString * strNoURLScheme = [destinationURL stringByReplacingOccurrencesOfString:itblUrlScheme withString:@""];
             callbackURL = strNoURLScheme;
-        } else {
-            NSString *urlScheme = request.URL.scheme;
-            if ([urlScheme isEqualToString:httpUrlScheme] || [urlScheme isEqualToString:httpsUrlScheme]) {
-                UIApplication *application = [UIApplication sharedApplication];
-                [application openURL:[request URL] options:@{} completionHandler:nil];
-            }
         }
         [self dismissViewControllerAnimated:NO completion:^{
             if (_customBlockCallback != nil) {
