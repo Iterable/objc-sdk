@@ -157,8 +157,9 @@ BOOL loaded;
                     break;
                 case INAPP_CENTER:
                     break;
+                case INAPP_FULL:
+                    break;
             }
-            float ex = center.x;
             center.x = resizeCenterX;
             aWebView.center = center;
         }
@@ -202,7 +203,7 @@ BOOL loaded;
  
  @abstract  Handles when a link is clicked within the webView.
  
- @param     aWebView the webview
+ @param     webView the webview
  @param     request the NSURLRequest
  @param     navigationType the navigation type
  

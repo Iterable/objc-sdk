@@ -112,7 +112,7 @@
  
  @abstract Gets the int value of the padding from the payload
  
- @param payload          the value
+ @param value          the value
  
  @return the padding integer
  
