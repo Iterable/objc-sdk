@@ -19,6 +19,7 @@ NSString *const ITBL_KEY_CURRENT_EMAIL       = @"currentEmail";
 NSString *const ITBL_KEY_DATA_FIELDS         = @"dataFields";
 NSString *const ITBL_KEY_DEVICE              = @"device";
 NSString *const ITBL_KEY_EMAIL               = @"email";
+NSString *const ITBL_KEY_EMAIL_LIST_IDS      = @"emailListIds";
 NSString *const ITBL_KEY_EVENT_NAME          = @"eventName";
 NSString *const ITBL_KEY_INAPP_DISPLAY       = @"inAppDisplaySettings";
 NSString *const ITBL_KEY_ITEMS               = @"items";
@@ -32,6 +33,8 @@ NSString *const ITBL_KEY_SEND_AT             = @"sendAt";
 NSString *const ITBL_KEY_TOKEN               = @"token";
 NSString *const ITBL_KEY_TEMPLATE_ID         = @"templateId";
 NSString *const ITBL_KEY_TOTAL               = @"total";
+NSString *const ITBL_KEY_UNSUB_CHANNEL       = @"unsubscribedChannelIds";
+NSString *const ITBL_KEY_UNSUB_MESSAGE       = @"unsubscribedMessageTypeIds";
 NSString *const ITBL_KEY_USER                = @"user";
 NSString *const ITBL_KEY_USER_ID             = @"userId";
 
