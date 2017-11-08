@@ -865,11 +865,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 {
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     
-    if (_email != nil) {
-        [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_EMAIL value:self.email];
-    } else {
-        [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_USER_ID value:self.userId];
-    }
+    [self addEmailOrUserIdToDictionary:mutableDictionary];
     
     [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_EMAIL_LIST_IDS value:emailListIds];
     [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_UNSUB_CHANNEL value:unsubscribedChannelIds];
@@ -959,6 +955,27 @@ NSCharacterSet* encodedCharacterSet = nil;
 /*!
  @method
  
+ @abstract Helper function to add the email or userId to the dictionary
+ 
+ @param mutableDictionary  the dictionary
+ 
+ */
+- (void)addEmailOrUserIdToDictionary:(NSMutableDictionary *) mutableDictionary
+{
+    if (mutableDictionary != nil) {
+        if (self.email != nil) {
+            [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_EMAIL value:self.email];
+        } else {
+            if (self.userId != nil) {
+                [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_USER_ID value:self.userId];
+            }
+        }
+    }
+}
+
+/*!
+ @method
+ 
  @abstract Helper function to add a kvp to a dictionary
  
  @param callbackBlock  Callback ITEActionBlock
@@ -967,7 +984,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 - (void)tryAddValueToMutableDictionary:(NSMutableDictionary *)mutableDictionary key:(NSString *)key value:(NSObject *)value
 {
     if (mutableDictionary != nil && value != nil && key != nil) {
-        [mutableDictionary setObject:value  forKey:key];
+        [mutableDictionary setObject:value forKey:key];
     }
 }
 
