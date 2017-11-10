@@ -15,6 +15,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.4.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.1)
+#### Added
+- Added the `updateSubscriptions` function to create to modify channel, list, and message subscription preferences.
+
 ## [4.4.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.0)
 #### Added
 - Added the `showIterableNotificationHTML` function to create html based in-app notifications
