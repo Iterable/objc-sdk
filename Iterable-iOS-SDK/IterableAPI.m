@@ -861,6 +861,21 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 // documented in IterableAPI.h
+- (void)updateSubscriptions:(NSArray *)emailListIds unsubscribedChannelIds:(NSArray *)unsubscribedChannelIds unsubscribedMessageTypeIds:(NSArray *)unsubscribedMessageTypeIds
+{
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
+    
+    [self addEmailOrUserIdToDictionary:mutableDictionary];
+    
+    [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_EMAIL_LIST_IDS value:emailListIds];
+    [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_UNSUB_CHANNEL value:unsubscribedChannelIds];
+    [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_UNSUB_MESSAGE value:unsubscribedMessageTypeIds];
+
+    NSURLRequest *request = [self createRequestForAction:ENDPOINT_UPDATE_SUBSCRIPTIONS withArgs:mutableDictionary];
+    [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"updateSubscriptions"] onFailure:[IterableAPI defaultOnFailure:@"updateSubscriptions"]];
+}
+
+// documented in IterableAPI.h
 - (void)spawnInAppNotification:(ITEActionBlock)callbackBlock
 {
     OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
@@ -935,6 +950,42 @@ NSCharacterSet* encodedCharacterSet = nil;
 -(void) showSystemNotification:(NSString *)title body:(NSString *)body buttonLeft:(NSString *)buttonLeft buttonRight:(NSString *)buttonRight callbackBlock:(ITEActionBlock)callbackBlock
 {
     [IterableInAppManager showSystemNotification:title body:body buttonLeft:buttonLeft buttonRight:buttonRight  callbackBlock:callbackBlock];
+}
+
+/*!
+ @method
+ 
+ @abstract Helper function to add the email or userId to the dictionary
+ 
+ @param mutableDictionary  the dictionary
+ 
+ */
+- (void)addEmailOrUserIdToDictionary:(NSMutableDictionary *) mutableDictionary
+{
+    if (mutableDictionary != nil) {
+        if (self.email != nil) {
+            [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_EMAIL value:self.email];
+        } else {
+            if (self.userId != nil) {
+                [self tryAddValueToMutableDictionary:mutableDictionary key:ITBL_KEY_USER_ID value:self.userId];
+            }
+        }
+    }
+}
+
+/*!
+ @method
+ 
+ @abstract Helper function to add a kvp to a dictionary
+ 
+ @param callbackBlock  Callback ITEActionBlock
+ 
+ */
+- (void)tryAddValueToMutableDictionary:(NSMutableDictionary *)mutableDictionary key:(NSString *)key value:(NSObject *)value
+{
+    if (mutableDictionary != nil && value != nil && key != nil) {
+        [mutableDictionary setObject:value forKey:key];
+    }
 }
 
 @end

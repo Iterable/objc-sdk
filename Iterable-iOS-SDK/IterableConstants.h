@@ -17,6 +17,7 @@ extern NSString *const ITBL_KEY_CURRENT_EMAIL;
 extern NSString *const ITBL_KEY_DATA_FIELDS;
 extern NSString *const ITBL_KEY_DEVICE;
 extern NSString *const ITBL_KEY_EMAIL;
+extern NSString *const ITBL_KEY_EMAIL_LIST_IDS;
 extern NSString *const ITBL_KEY_EVENT_NAME;
 extern NSString *const ITBL_KEY_ITEMS;
 extern NSString *const ITBL_KEY_MERGE_NESTED;
@@ -29,6 +30,8 @@ extern NSString *const ITBL_KEY_SEND_AT;
 extern NSString *const ITBL_KEY_TOKEN;
 extern NSString *const ITBL_KEY_TEMPLATE_ID;
 extern NSString *const ITBL_KEY_TOTAL;
+extern NSString *const ITBL_KEY_UNSUB_CHANNEL;
+extern NSString *const ITBL_KEY_UNSUB_MESSAGE;
 extern NSString *const ITBL_KEY_USER;
 extern NSString *const ITBL_KEY_USER_ID;
 
@@ -53,8 +56,9 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ENDPOINT_TRACK_INAPP_CLICK @"events/trackInAppClick"
 #define ENDPOINT_TRACK_INAPP_OPEN @"events/trackInAppOpen"
 #define ENDPOINT_TRACK_PUSH_OPEN @"events/trackPushOpen"
-#define ENDPOINT_UPDATE_EMAIL @"users/updateEmail"
 #define ENDPOINT_UPDATE_USER @"users/update"
+#define ENDPOINT_UPDATE_EMAIL @"users/updateEmail"
+#define ENDPOINT_UPDATE_SUBSCRIPTIONS @"users/updateSubscriptions"
 
 //MISC
 #define ITBL_KEY_GET @"GET"
