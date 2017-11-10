@@ -453,6 +453,8 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @param emailListIds                Email lists to subscribe to
  @param unsubscribedChannelIds      List of channels to unsubscribe from
  @param unsubscribedMessageTypeIds  List of message types to unsubscribe from
+ 
+ @discussion passing in an empty array will clear subscription list, passing in nil will not modify the list
  */
 - (void)updateSubscriptions:(nullable NSArray *)emailListIds unsubscribedChannelIds:(nullable NSArray *)unsubscribedChannelIds unsubscribedMessageTypeIds:(nullable NSArray *)unsubscribedMessageTypeIds;
 
