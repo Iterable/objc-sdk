@@ -978,7 +978,9 @@ NSCharacterSet* encodedCharacterSet = nil;
  
  @abstract Helper function to add a kvp to a dictionary
  
- @param callbackBlock  Callback ITEActionBlock
+ @param mutableDictionary   The dictionary to add to
+ @param key                 The key to add
+ @param value               The value to add
  
  */
 - (void)tryAddValueToMutableDictionary:(NSMutableDictionary *)mutableDictionary key:(NSString *)key value:(NSObject *)value
