@@ -244,7 +244,7 @@ NSCharacterSet* encodedCharacterSet = nil;
             if (onFailure != nil) onFailure(@"No data received", data);
         } else if (error != nil) {
             NSString *reason = [NSString stringWithFormat:@"%@", error];
-            if (onFailure != nil) onFailure(reason, data);
+            if (onFailure != nil) onFailure(reason, nil);
         }
     }];
     [task resume];
