@@ -21,7 +21,7 @@ typedef void (^OnSuccessHandler)(NSDictionary *data);
 /**
  The prototype for the completion handler block that gets called when an Iterable call fails
  */
-typedef void (^OnFailureHandler)(NSString *reason, NSData *data);
+typedef void (^OnFailureHandler)(NSString *reason, NSData *_Nullable data);
 
 /**
  Enum representing push platform; apple push notification service, production vs sandbox

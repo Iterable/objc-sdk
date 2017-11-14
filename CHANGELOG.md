@@ -15,6 +15,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.4.3](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.3)
+#### Fixed
+- Fixes nil data in sendRequest onFailureHandler
+
 ## [4.4.2](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.2)
 #### Fixed
 - Fixes outdated artifacts file for `updateSubscriptions` release
