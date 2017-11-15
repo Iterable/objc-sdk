@@ -419,7 +419,6 @@ NSCharacterSet* encodedCharacterSet = nil;
     if (match == NULL) {
         callbackBlock(webpageURL.absoluteString);
     } else {
-        NSURLSessionDataTask *trackAndRedirectTask = [[NSURLSession sharedSession]
         NSURLSessionDataTask *trackAndRedirectTask = [urlSession
                                                       dataTaskWithURL:webpageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                           callbackBlock(response.URL.absoluteString);
