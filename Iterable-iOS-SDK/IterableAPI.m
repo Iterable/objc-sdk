@@ -23,9 +23,7 @@
 #import "IterableInAppManager.h"
 #import "IterableConstants.h"
 
-@interface IterableAPI () {
-}
-
+@interface IterableAPI () <NSURLSessionDelegate>
 @end
 
 @implementation IterableAPI {
@@ -285,7 +283,7 @@ NSCharacterSet* encodedCharacterSet = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        urlSession = [NSURLSession sessionWithConfiguration:configuration];
+        urlSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
     });
 }
 
@@ -422,6 +420,7 @@ NSCharacterSet* encodedCharacterSet = nil;
         callbackBlock(webpageURL.absoluteString);
     } else {
         NSURLSessionDataTask *trackAndRedirectTask = [[NSURLSession sharedSession]
+        NSURLSessionDataTask *trackAndRedirectTask = [urlSession
                                                       dataTaskWithURL:webpageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                           callbackBlock(response.URL.absoluteString);
                                                       }];
@@ -988,6 +987,21 @@ NSCharacterSet* encodedCharacterSet = nil;
     if (mutableDictionary != nil && value != nil && key != nil) {
         [mutableDictionary setObject:value forKey:key];
     }
+}
+
+//////////////////////////////////////////////////////////////
+/// @name NSURLSessionDelegate Functions
+//////////////////////////////////////////////////////////////
+
+
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
+        newRequest:(NSURLRequest *)request
+ completionHandler:(void (^)(NSURLRequest *))completionHandler
+{
+    NSURLRequest *newRequest = request;
+    completionHandler(newRequest);
 }
 
 @end
