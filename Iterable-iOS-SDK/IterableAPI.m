@@ -22,8 +22,9 @@
 #import "IterableNotificationMetadata.h"
 #import "IterableInAppManager.h"
 #import "IterableConstants.h"
+#import "IterableDeeplink.h"
 
-@interface IterableAPI () <NSURLSessionDelegate>
+@interface IterableAPI ()
 @end
 
 @implementation IterableAPI {
@@ -283,7 +284,7 @@ NSCharacterSet* encodedCharacterSet = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        urlSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
+        urlSession = [NSURLSession sessionWithConfiguration:configuration];
     });
 }
 
@@ -410,20 +411,19 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 // documented in IterableAPI.h
+-(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
+{
+    IterableDeeplink *deeplinkManager = [[IterableDeeplink alloc] init];
+    [deeplinkManager getAndTrackDeeplink:webpageURL callbackBlock:callbackBlock];
+}
+
+// documented in IterableAPI.h
 +(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
 {
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:ITBL_DEEPLINK_IDENTIFIER options:0 error:NULL];
-    NSString *urlString = webpageURL.absoluteString;
-    NSTextCheckingResult *match = [regex firstMatchInString:urlString options:0 range:NSMakeRange(0, [urlString length])];
-    
-    if (match == NULL) {
-        callbackBlock(webpageURL.absoluteString);
+    if (sharedInstance != nil) {
+        [sharedInstance getAndTrackDeeplink:webpageURL callbackBlock:callbackBlock];
     } else {
-        NSURLSessionDataTask *trackAndRedirectTask = [urlSession
-                                                      dataTaskWithURL:webpageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                                                          callbackBlock(response.URL.absoluteString);
-                                                      }];
-        [trackAndRedirectTask resume];
+        LogWarning(@"[sharedInstance called before getAndTrackDeeplink");
     }
 }
 
@@ -986,21 +986,6 @@ NSCharacterSet* encodedCharacterSet = nil;
     if (mutableDictionary != nil && value != nil && key != nil) {
         [mutableDictionary setObject:value forKey:key];
     }
-}
-
-//////////////////////////////////////////////////////////////
-/// @name NSURLSessionDelegate Functions
-//////////////////////////////////////////////////////////////
-
-
-- (void)URLSession:(NSURLSession *)session
-              task:(NSURLSessionTask *)task
-willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
-        newRequest:(NSURLRequest *)request
- completionHandler:(void (^)(NSURLRequest *))completionHandler
-{
-    NSURLRequest *newRequest = request;
-    completionHandler(newRequest);
 }
 
 @end

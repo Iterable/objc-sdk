@@ -572,8 +572,22 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @param webpageURL      the URL that was clicked
  @param callbackBlock   the callback to send after the webpageURL is called
  
- @discussion            passes the string of the redirected URL to the callback
- */+(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock;
+ @discussion            passes the string of the redirected URL to the callback, returns the original webpageURL if not an iterable link
+ */
++(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock;
+
+/*!
+ DEPRECATED: Used the instance method of getAndTrackDeeplink instead
+ @method
+ 
+ @abstract tracks a link click and passes the redirected URL to the callback
+ 
+ @param webpageURL      the URL that was clicked
+ @param callbackBlock   the callback to send after the webpageURL is called
+ 
+ @discussion            Deprecated used the instance method of getAndTrackDeeplink instead
+ */
++(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock __deprecated_msg("Used the instance method of getAndTrackDeeplink instead.");
 
 @end
 
