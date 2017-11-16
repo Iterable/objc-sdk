@@ -17,7 +17,7 @@
 }
 
 // the URL session we're going to be using
-static NSURLSession *urlSession = nil;
+static NSURLSession *redirectUrlSession = nil;
 NSString *deepLinkLocation = nil;
 
 // documented in IterableAPI.h
@@ -30,10 +30,10 @@ NSString *deepLinkLocation = nil;
     if (match == NULL) {
         callbackBlock(webpageURL.absoluteString);
     } else {
-        if (urlSession == nil) {
-            [self createUrlSession];
+        if (redirectUrlSession == nil) {
+            [self createRedirectUrlSession];
         }
-        NSURLSessionDataTask *trackAndRedirectTask = [urlSession
+        NSURLSessionDataTask *trackAndRedirectTask = [redirectUrlSession
                                                       dataTaskWithURL:webpageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                           callbackBlock(deepLinkLocation);
                                                       }];
@@ -46,7 +46,7 @@ NSString *deepLinkLocation = nil;
  
  @abstract creates a singleton URLSession for the class to use
  */
-- (void)createUrlSession
+- (void)createRedirectUrlSession
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
