@@ -51,7 +51,7 @@ NSString *deepLinkLocation = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        urlSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
+        redirectUrlSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
     });
 }
 
