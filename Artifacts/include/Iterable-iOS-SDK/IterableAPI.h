@@ -572,8 +572,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  @param webpageURL      the URL that was clicked
  @param callbackBlock   the callback to send after the webpageURL is called
  
- @discussion            passes the string of the redirected URL to the callback
- */+(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock;
+ @discussion            passes the string of the redirected URL to the callback, returns the original webpageURL if not an iterable link
+ */
++(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock;
 
 @end
 

@@ -15,6 +15,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.4.4](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.4)
+#### Changed
+- Changed logic for `getAndTrackDeeplink` to not follow re-directs and return the first url redirect location instead.
+
 ## [4.4.3](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.3)
 #### Fixed
 - Fixes nil data in sendRequest onFailureHandler
