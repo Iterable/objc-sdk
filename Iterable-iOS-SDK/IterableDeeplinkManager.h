@@ -11,6 +11,11 @@
 
 @interface IterableDeeplinkManager : NSObject
 
+/**
+ @method
+ 
+ @abstract a singleton of IterableDeeplinkManager
+ */
 +(instancetype)instance;
 
 /*!

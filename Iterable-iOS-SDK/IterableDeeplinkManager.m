@@ -17,10 +17,11 @@
 }
 
 // the URL session we're going to be using
-static NSURLSession *redirectUrlSession = nil;
 static IterableDeeplinkManager *deeplinkManager;
-NSString *deepLinkLocation = nil;
+NSURLSession *redirectUrlSession;
+NSString *deepLinkLocation;
 
+// documented in IterableDeeplinkManager.h
 +(instancetype)instance
 {
     if (deeplinkManager == nil) {
@@ -29,13 +30,18 @@ NSString *deepLinkLocation = nil;
     return deeplinkManager;
 }
 
+/**
+ @method
+ 
+ @abstract creates an instance of IterableDeeplinkManager and redirectUrlSession
+ */
 - (instancetype)init {
     self = [super init];
     [self createRedirectUrlSession];
     return self;
 }
 
-// documented in IterableAPI.h
+// documented in IterableDeeplinkManager.h
 -(void)getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
 {
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:ITBL_DEEPLINK_IDENTIFIER options:0 error:NULL];
@@ -72,7 +78,17 @@ NSString *deepLinkLocation = nil;
 /// @name NSURLSessionDelegate Functions
 //////////////////////////////////////////////////////////////
 
-
+/**
+ @method
+ 
+ @param session the session
+ @param task the task
+ @param redirectResponse the redirectResponse
+ @param request the request
+ @param completionHandler the completionHandler
+ 
+ @abstract delegate handler when a redirect occurs. Stores a reference to the redirect url and does not execute the redirect.
+ */
 - (void)URLSession:(NSURLSession *)session
         task:(NSURLSessionTask *)task
         willPerformHTTPRedirection:(NSHTTPURLResponse *)redirectResponse
