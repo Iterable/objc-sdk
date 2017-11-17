@@ -7,21 +7,36 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "IterableDeeplink.h"
+#import "IterableDeeplinkManager.h"
 #import "IterableConstants.h"
 
-@interface IterableDeeplink () <NSURLSessionDelegate>
+@interface IterableDeeplinkManager () <NSURLSessionDelegate>
 @end
 
-@implementation IterableDeeplink {
+@implementation IterableDeeplinkManager {
 }
 
 // the URL session we're going to be using
 static NSURLSession *redirectUrlSession = nil;
+static IterableDeeplinkManager *deeplinkManager;
 NSString *deepLinkLocation = nil;
 
++(instancetype)instance
+{
+    if (deeplinkManager == nil) {
+        deeplinkManager = [[IterableDeeplinkManager alloc] init];
+    }
+    return deeplinkManager;
+}
+
+- (instancetype)init {
+    self = [super init];
+    [self createRedirectUrlSession];
+    return self;
+}
+
 // documented in IterableAPI.h
--(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
+-(void)getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
 {
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:ITBL_DEEPLINK_IDENTIFIER options:0 error:NULL];
     NSString *urlString = webpageURL.absoluteString;
@@ -30,9 +45,6 @@ NSString *deepLinkLocation = nil;
     if (match == NULL) {
         callbackBlock(webpageURL.absoluteString);
     } else {
-        if (redirectUrlSession == nil) {
-            [self createRedirectUrlSession];
-        }
         NSURLSessionDataTask *trackAndRedirectTask = [redirectUrlSession
                                                       dataTaskWithURL:webpageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                           callbackBlock(deepLinkLocation);

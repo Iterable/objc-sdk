@@ -22,7 +22,7 @@
 #import "IterableNotificationMetadata.h"
 #import "IterableInAppManager.h"
 #import "IterableConstants.h"
-#import "IterableDeeplink.h"
+#import "IterableDeeplinkManager.h"
 
 @interface IterableAPI ()
 @end
@@ -411,20 +411,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 // documented in IterableAPI.h
--(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
-{
-    IterableDeeplink *deeplinkManager = [[IterableDeeplink alloc] init];
-    [deeplinkManager getAndTrackDeeplink:webpageURL callbackBlock:callbackBlock];
-}
-
-// documented in IterableAPI.h
 +(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
 {
-    if (sharedInstance != nil) {
-        [sharedInstance getAndTrackDeeplink:webpageURL callbackBlock:callbackBlock];
-    } else {
-        LogWarning(@"[sharedInstance called before getAndTrackDeeplink");
-    }
+    IterableDeeplinkManager *deeplinkManager = [IterableDeeplinkManager instance];
+    [deeplinkManager getAndTrackDeeplink:webpageURL callbackBlock:callbackBlock];
 }
 
 // documented in IterableAPI.h

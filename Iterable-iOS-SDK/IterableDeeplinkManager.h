@@ -9,7 +9,9 @@
 
 #import "IterableConstants.h"
 
-@interface IterableDeeplink : NSObject
+@interface IterableDeeplinkManager : NSObject
+
++(instancetype)instance;
 
 /*!
  @method
@@ -22,6 +24,5 @@
  @discussion            passes the string of the redirected URL to the callback
  */
 -(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock;
-
 
 @end
