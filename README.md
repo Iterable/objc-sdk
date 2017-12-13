@@ -69,7 +69,7 @@ In the `Artifacts` directory, you can find the compiled static library and heade
 
 1. Once you know the email *(Preferred)* or userId of the user, **create a shared instance of an `IterableAPI`**
   * EMAIL: `[IterableAPI sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions]` to create an `IterableAPI`
-  * USERID: `[IterableAPI sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions]` to create an `IterableAPI`
+  * USERID: `[IterableAPI sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions]` to create an `IterableAPI`
 	  * If you are initializing using a userId, an existing user must already exist for that userId 
 	  * It is preferred that you initialize by Email since that doesn't require an additional lookup by userId call on the backend.
   * The `apiKey` should correspond to the API key of your project in Iterable. If you'd like, you can specify a different `apiKey` depending on whether you're building in `DEBUG` or `PRODUCTION`, and point the SDK to the relevant Iterable project.
