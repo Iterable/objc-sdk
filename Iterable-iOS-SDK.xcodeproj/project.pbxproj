@@ -36,6 +36,8 @@
 		1608832D1F83EED500318578 /* IterableInAppNotificationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1608832C1F83EED500318578 /* IterableInAppNotificationTests.m */; };
 		160883301F840B5F00318578 /* IterableInAppHTMLViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1608832E1F840B5F00318578 /* IterableInAppHTMLViewController.h */; };
 		160883311F840B5F00318578 /* IterableInAppHTMLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1608832F1F840B5F00318578 /* IterableInAppHTMLViewController.m */; };
+		161D98BC20236BC700E91846 /* IterableDeeplinkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 161D98BA20236BC700E91846 /* IterableDeeplinkManager.h */; };
+		161D98BD20236BC700E91846 /* IterableDeeplinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 161D98BB20236BC700E91846 /* IterableDeeplinkManager.m */; };
 		16513DDE1D89EECC00C205B3 /* IterableInAppManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 16513DD81D89EECC00C205B3 /* IterableInAppManager.h */; };
 		16513DDF1D89EECC00C205B3 /* IterableInAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 16513DD91D89EECC00C205B3 /* IterableInAppManager.m */; };
 		1653A80E1D88B25200690298 /* IterableConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80B1D88B25200690298 /* IterableConstants.h */; };
@@ -96,6 +98,8 @@
 		1608832C1F83EED500318578 /* IterableInAppNotificationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppNotificationTests.m; sourceTree = "<group>"; };
 		1608832E1F840B5F00318578 /* IterableInAppHTMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableInAppHTMLViewController.h; sourceTree = "<group>"; };
 		1608832F1F840B5F00318578 /* IterableInAppHTMLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppHTMLViewController.m; sourceTree = "<group>"; };
+		161D98BA20236BC700E91846 /* IterableDeeplinkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableDeeplinkManager.h; sourceTree = "<group>"; };
+		161D98BB20236BC700E91846 /* IterableDeeplinkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableDeeplinkManager.m; sourceTree = "<group>"; };
 		16513DD81D89EECC00C205B3 /* IterableInAppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableInAppManager.h; sourceTree = "<group>"; };
 		16513DD91D89EECC00C205B3 /* IterableInAppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppManager.m; sourceTree = "<group>"; };
 		1653A80B1D88B25200690298 /* IterableConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableConstants.h; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 		09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */ = {
 			isa = PBXGroup;
 			children = (
+				161D98B920236BB400E91846 /* Deeplinking */,
 				1653A80B1D88B25200690298 /* IterableConstants.h */,
 				16E02BAC1E035EA400644C15 /* IterableConstants.m */,
 				16CE7A051DF8D5A900CADC2D /* InAppNotifications */,
@@ -197,6 +202,15 @@
 				09C0FC0C1A1D6D4700D5A86B /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		161D98B920236BB400E91846 /* Deeplinking */ = {
+			isa = PBXGroup;
+			children = (
+				161D98BA20236BC700E91846 /* IterableDeeplinkManager.h */,
+				161D98BB20236BC700E91846 /* IterableDeeplinkManager.m */,
+			);
+			name = Deeplinking;
 			sourceTree = "<group>";
 		};
 		16CE7A051DF8D5A900CADC2D /* InAppNotifications */ = {
@@ -248,6 +262,7 @@
 			files = (
 				1653A80E1D88B25200690298 /* IterableConstants.h in Headers */,
 				1653A80F1D88B25200690298 /* IterableFullScreenViewController.h in Headers */,
+				161D98BC20236BC700E91846 /* IterableDeeplinkManager.h in Headers */,
 				0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */,
 				16ED2E4D1D908D5500ADCAEC /* IterableAlertView.h in Headers */,
 				68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */,
@@ -470,6 +485,7 @@
 				16ED2E4E1D908D5500ADCAEC /* IterableAlertView.m in Sources */,
 				094995471A8588400047E59B /* NSData+Conversion.m in Sources */,
 				16ED2E501D908D5500ADCAEC /* IterableAlertViewController.m in Sources */,
+				161D98BD20236BC700E91846 /* IterableDeeplinkManager.m in Sources */,
 				093734271A1D701F00C950B6 /* IterableAPI.m in Sources */,
 				1653A8101D88B25200690298 /* IterableFullScreenViewController.m in Sources */,
 				160883311F840B5F00318578 /* IterableInAppHTMLViewController.m in Sources */,
