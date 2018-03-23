@@ -684,6 +684,25 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 // documented in IterableAPI.h
+- (void)updateEmail:(NSString *)newEmail onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+{
+    if (newEmail) {
+        NSDictionary *args = @{
+                ITBL_KEY_CURRENT_EMAIL: self.email,
+                ITBL_KEY_NEW_EMAIL: newEmail
+        };
+
+        NSURLRequest *request = [self createRequestForAction:ENDPOINT_UPDATE_EMAIL withArgs:args];
+        [self sendRequest:request onSuccess:^(NSDictionary *dictionary) {
+            _email = newEmail;
+            if (onSuccess) {
+                onSuccess(dictionary);
+            }
+        } onFailure:onFailure];
+    }
+}
+
+// documented in IterableAPI.h
 - (void)track:(NSString *)eventName
 {
     [self track:eventName dataFields:nil];
