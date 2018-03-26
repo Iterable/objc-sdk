@@ -334,7 +334,7 @@ NSCharacterSet* encodedCharacterSet = nil;
  
  @abstract default failure completion handler; warning logs the result from Iterable
  
- @param identifier an identifier for what succeeded; pass in something like the function name
+ @param identifier an identifier for what failed; pass in something like the function name
  
  @return a completion handler for use with `onFailure` of `sendRequest:onSuccess:onFailure:`
  */
@@ -718,7 +718,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 
         NSURLRequest *request = [self createRequestForAction:ENDPOINT_UPDATE_EMAIL withArgs:args];
         [self sendRequest:request onSuccess:^(NSDictionary *dictionary) {
-            _email = newEmail;
+            self->_email = newEmail;
             if (onSuccess) {
                 onSuccess(dictionary);
             }

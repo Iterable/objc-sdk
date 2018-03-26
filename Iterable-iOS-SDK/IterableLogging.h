@@ -14,7 +14,7 @@
 ////////////////////////
 
 // function that appends STDERR to the asl logger; uses dispatch_once to only do it once
-void AddStderrOnce();
+void AddStderrOnce(void);
 
 // heavily inspired by http://doing-it-wrong.mikeweller.com/2012/07/youre-doing-it-wrong-1-nslogdebug-ios.html
 // and http://stackoverflow.com/questions/300673/is-it-true-that-one-should-not-use-nslog-on-production-code

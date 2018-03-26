@@ -236,13 +236,13 @@ BOOL loaded;
             callbackURL = strNoURLScheme;
         }
         [self dismissViewControllerAnimated:NO completion:^{
-            if (_customBlockCallback != nil) {
-                _customBlockCallback(callbackURL);
+            if (self.customBlockCallback != nil) {
+                self.customBlockCallback(callbackURL);
             }
             
-            if (_trackParams != nil) {
+            if (self.trackParams != nil) {
                 IterableAPI *api = IterableAPI.sharedInstance;
-                [api trackInAppClick:_trackParams.messageId buttonURL:destinationURL];
+                [api trackInAppClick:self.trackParams.messageId buttonURL:destinationURL];
             }
         }];
         return NO;
