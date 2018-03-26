@@ -10,10 +10,6 @@
 #import <UIKit/UIKit.h>
 
 #import "IterableInAppManager.h"
-#import "IterableInAppBaseViewController.h"
-#import "IterableAlertView.h"
-#import "IterableAlertViewController.h"
-#import "IterableFullScreenViewController.h"
 #import "IterableConstants.h"
 #import "IterableNotificationMetadata.h"
 #import "IterableInAppHTMLViewController.h"
@@ -32,34 +28,6 @@ static NSString *const PADDING_RIGHT = @"right";
 static NSString *const IN_APP_DISPLAY_OPTION = @"displayOption";
 static NSString *const IN_APP_PERCENTAGE = @"percentage";
 static NSString *const IN_APP_AUTO_EXPAND = @"AutoExpand";
-
-// documented in IterableInAppManager.h
-+(void) showIterableNotification:(NSDictionary*)dialogOptions trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock{
-    if (dialogOptions != NULL) {
-        UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-        if([rootViewController isKindOfClass:[UIViewController class]])
-        {
-            while (rootViewController.presentedViewController != nil)
-            {
-                rootViewController = rootViewController.presentedViewController;
-            }
-        }
-        
-        IterableInAppBaseViewController *baseNotification;
-        
-        NSString* type = [dialogOptions objectForKey:ITERABLE_IN_APP_TYPE];
-        if ([type caseInsensitiveCompare:ITERABLE_IN_APP_TYPE_FULL] == NSOrderedSame){
-            baseNotification = [[IterableFullScreenViewController alloc] init];
-        } else {
-            baseNotification = [[IterableAlertViewController alloc] initWithNibName:nil bundle:nil];
-        }
-        
-        [baseNotification ITESetData:dialogOptions];
-        [baseNotification ITESetTrackParams:trackParams];
-        [baseNotification ITESetCallback:callbackBlock];
-        [rootViewController showViewController:baseNotification sender:self];
-    }
-}
 
 // documented in IterableInAppManager.h
 +(void) showIterableNotificationHTML:(NSString*)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:(double)backgroundAlpha padding:(UIEdgeInsets)padding{

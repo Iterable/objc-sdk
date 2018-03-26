@@ -270,13 +270,29 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  
  @param dataFields              Data fields to store in the user profile
  @param mergeNestedObjects      Merge top level objects instead of overwriting
- @param onSuccess               OnSuccessHandler to invoke if disabling the token is successful
- @param onFailure               OnFailureHandler to invoke if disabling the token fails
+ @param onSuccess               OnSuccessHandler to invoke if update is successful
+ @param onFailure               OnFailureHandler to invoke if update fails
  
  @see OnSuccessHandler
  @see OnFailureHandler
  */
 - (void)updateUser:(NSDictionary *)dataFields mergeNestedObjects:(BOOL)mergeNestedObjects onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+
+/*!
+ @method
+
+ @abstract Updates the current user's email.
+
+ @discussion Also updates the current email in this IterableAPI instance if the API call was successful.
+
+ @param newEmail                New email
+ @param onSuccess               OnSuccessHandler to invoke if update is successful
+ @param onFailure               OnFailureHandler to invoke if update fails
+
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)updateEmail:(NSString *)newEmail onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 /////////////////////////
 /// @name Tracking events

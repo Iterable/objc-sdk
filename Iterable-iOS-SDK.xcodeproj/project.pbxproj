@@ -41,14 +41,7 @@
 		16513DDE1D89EECC00C205B3 /* IterableInAppManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 16513DD81D89EECC00C205B3 /* IterableInAppManager.h */; };
 		16513DDF1D89EECC00C205B3 /* IterableInAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 16513DD91D89EECC00C205B3 /* IterableInAppManager.m */; };
 		1653A80E1D88B25200690298 /* IterableConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80B1D88B25200690298 /* IterableConstants.h */; };
-		1653A80F1D88B25200690298 /* IterableFullScreenViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */; };
-		1653A8101D88B25200690298 /* IterableFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */; };
 		16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E02BAC1E035EA400644C15 /* IterableConstants.m */; };
-		16ED2E481D9056E500ADCAEC /* IterableInAppBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */; };
-		16ED2E4D1D908D5500ADCAEC /* IterableAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 16ED2E491D908D5500ADCAEC /* IterableAlertView.h */; };
-		16ED2E4E1D908D5500ADCAEC /* IterableAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16ED2E4A1D908D5500ADCAEC /* IterableAlertView.m */; };
-		16ED2E4F1D908D5500ADCAEC /* IterableAlertViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 16ED2E4B1D908D5500ADCAEC /* IterableAlertViewController.h */; };
-		16ED2E501D908D5500ADCAEC /* IterableAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16ED2E4C1D908D5500ADCAEC /* IterableAlertViewController.m */; };
 		6804B8601AC0F363000A126B /* CommerceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6804B85F1AC0F363000A126B /* CommerceItem.m */; };
 		6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6845F7321AC3831B0043629D /* SystemConfiguration.framework */; };
 		68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6804B8651AC10426000A126B /* CommerceItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -104,15 +97,7 @@
 		16513DD81D89EECC00C205B3 /* IterableInAppManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableInAppManager.h; sourceTree = "<group>"; };
 		16513DD91D89EECC00C205B3 /* IterableInAppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppManager.m; sourceTree = "<group>"; };
 		1653A80B1D88B25200690298 /* IterableConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableConstants.h; sourceTree = "<group>"; };
-		1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableFullScreenViewController.h; sourceTree = "<group>"; };
-		1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableFullScreenViewController.m; sourceTree = "<group>"; };
 		16E02BAC1E035EA400644C15 /* IterableConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableConstants.m; sourceTree = "<group>"; };
-		16ED2E461D90569500ADCAEC /* IterableInAppBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableInAppBaseViewController.h; sourceTree = "<group>"; };
-		16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppBaseViewController.m; sourceTree = "<group>"; };
-		16ED2E491D908D5500ADCAEC /* IterableAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableAlertView.h; sourceTree = "<group>"; };
-		16ED2E4A1D908D5500ADCAEC /* IterableAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAlertView.m; sourceTree = "<group>"; };
-		16ED2E4B1D908D5500ADCAEC /* IterableAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableAlertViewController.h; sourceTree = "<group>"; };
-		16ED2E4C1D908D5500ADCAEC /* IterableAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAlertViewController.m; sourceTree = "<group>"; };
 		19153EFC2173C02102CEADDF /* Pods-Iterable-iOS-SDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		6804B85F1AC0F363000A126B /* CommerceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItem.m; sourceTree = "<group>"; };
 		6804B8651AC10426000A126B /* CommerceItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommerceItem.h; sourceTree = "<group>"; };
@@ -223,14 +208,6 @@
 				1608832F1F840B5F00318578 /* IterableInAppHTMLViewController.m */,
 				16513DD81D89EECC00C205B3 /* IterableInAppManager.h */,
 				16513DD91D89EECC00C205B3 /* IterableInAppManager.m */,
-				16ED2E461D90569500ADCAEC /* IterableInAppBaseViewController.h */,
-				16ED2E471D9056E500ADCAEC /* IterableInAppBaseViewController.m */,
-				16ED2E491D908D5500ADCAEC /* IterableAlertView.h */,
-				16ED2E4A1D908D5500ADCAEC /* IterableAlertView.m */,
-				1653A80C1D88B25200690298 /* IterableFullScreenViewController.h */,
-				1653A80D1D88B25200690298 /* IterableFullScreenViewController.m */,
-				16ED2E4B1D908D5500ADCAEC /* IterableAlertViewController.h */,
-				16ED2E4C1D908D5500ADCAEC /* IterableAlertViewController.m */,
 			);
 			name = InAppNotifications;
 			sourceTree = "<group>";
@@ -264,15 +241,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1653A80E1D88B25200690298 /* IterableConstants.h in Headers */,
-				1653A80F1D88B25200690298 /* IterableFullScreenViewController.h in Headers */,
 				161D98BC20236BC700E91846 /* IterableDeeplinkManager.h in Headers */,
 				0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */,
-				16ED2E4D1D908D5500ADCAEC /* IterableAlertView.h in Headers */,
 				68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */,
 				093028D21D1B942100E7CFBE /* IterableNotificationMetadata.h in Headers */,
 				093028D11D1B93EB00E7CFBE /* NSData+Conversion.h in Headers */,
 				093028D31D1B958700E7CFBE /* IterableLogging.h in Headers */,
-				16ED2E4F1D908D5500ADCAEC /* IterableAlertViewController.h in Headers */,
 				16513DDE1D89EECC00C205B3 /* IterableInAppManager.h in Headers */,
 				160883301F840B5F00318578 /* IterableInAppHTMLViewController.h in Headers */,
 			);
@@ -483,14 +457,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				09CCB9301D07A7EA003EB75D /* IterableNotificationMetadata.m in Sources */,
-				16ED2E481D9056E500ADCAEC /* IterableInAppBaseViewController.m in Sources */,
 				16513DDF1D89EECC00C205B3 /* IterableInAppManager.m in Sources */,
-				16ED2E4E1D908D5500ADCAEC /* IterableAlertView.m in Sources */,
 				094995471A8588400047E59B /* NSData+Conversion.m in Sources */,
-				16ED2E501D908D5500ADCAEC /* IterableAlertViewController.m in Sources */,
 				161D98BD20236BC700E91846 /* IterableDeeplinkManager.m in Sources */,
 				093734271A1D701F00C950B6 /* IterableAPI.m in Sources */,
-				1653A8101D88B25200690298 /* IterableFullScreenViewController.m in Sources */,
 				160883311F840B5F00318578 /* IterableInAppHTMLViewController.m in Sources */,
 				6804B8601AC0F363000A126B /* CommerceItem.m in Sources */,
 				16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */,

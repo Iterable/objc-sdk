@@ -26,17 +26,6 @@
 /*!
  @method
  
- @abstract Creates and shows a InApp Notification; with callback handler
- 
- @param dialogOptions   The NSDictionary containing the dialog options
- @param trackParams     The track params for the notification
- @param callbackBlock   The callback to send after a button on the notification is clicked
- */
-+(void) showIterableNotification:(NSDictionary *)dialogOptions trackParams:(IterableNotificationMetadata *)trackParams callbackBlock:(ITEActionBlock)callbackBlock;
-
-/*!
- @method
- 
  @abstract Creates and shows a HTML InApp Notification with trackParameters, backgroundColor with callback handler
  
  @param htmlString      The NSString containing the dialog HTML
