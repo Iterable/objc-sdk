@@ -686,7 +686,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)updateEmail:(NSString *)newEmail onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
-    if (newEmail) {
+    if (_email && newEmail) {
         NSDictionary *args = @{
                 ITBL_KEY_CURRENT_EMAIL: self.email,
                 ITBL_KEY_NEW_EMAIL: newEmail
@@ -699,6 +699,9 @@ NSCharacterSet* encodedCharacterSet = nil;
                 onSuccess(dictionary);
             }
         } onFailure:onFailure];
+    } else if (!_email) {
+        if (onFailure) onFailure(@"updateEmail should not be called with a userId. "
+                    "Init SDK with email instead of userId.", nil);
     }
 }
 
