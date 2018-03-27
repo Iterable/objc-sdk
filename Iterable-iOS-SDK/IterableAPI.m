@@ -267,7 +267,7 @@ NSCharacterSet* encodedCharacterSet = nil;
                 if (onFailure != nil) onFailure(reason, nil);
             }
         } else {
-            if (onFailure != nil) onFailure([NSString stringWithFormat:@"Received non-200 response: %d", responseCode], data);
+            if (onFailure != nil) onFailure([NSString stringWithFormat:@"Received non-200 response: %ld", (long) responseCode], data);
         }
     }];
     [task resume];

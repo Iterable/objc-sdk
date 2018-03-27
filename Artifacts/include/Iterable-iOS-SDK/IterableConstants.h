@@ -17,6 +17,7 @@ extern NSString *const ITBL_KEY_CURRENT_EMAIL;
 extern NSString *const ITBL_KEY_DATA_FIELDS;
 extern NSString *const ITBL_KEY_DEVICE;
 extern NSString *const ITBL_KEY_EMAIL;
+extern NSString *const ITBL_KEY_EMAIL_LIST_IDS;
 extern NSString *const ITBL_KEY_EVENT_NAME;
 extern NSString *const ITBL_KEY_ITEMS;
 extern NSString *const ITBL_KEY_MERGE_NESTED;
@@ -24,10 +25,13 @@ extern NSString *const ITBL_KEY_MESSAGE_ID;
 extern NSString *const ITBL_KEY_NEW_EMAIL;
 extern NSString *const ITBL_KEY_PLATFORM;
 extern NSString *const ITBL_KEY_RECIPIENT_EMAIL;
+extern NSString *const ITBL_KEY_SDK_VERSION;
 extern NSString *const ITBL_KEY_SEND_AT;
 extern NSString *const ITBL_KEY_TOKEN;
 extern NSString *const ITBL_KEY_TEMPLATE_ID;
 extern NSString *const ITBL_KEY_TOTAL;
+extern NSString *const ITBL_KEY_UNSUB_CHANNEL;
+extern NSString *const ITBL_KEY_UNSUB_MESSAGE;
 extern NSString *const ITBL_KEY_USER;
 extern NSString *const ITBL_KEY_USER_ID;
 
@@ -52,8 +56,9 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ENDPOINT_TRACK_INAPP_CLICK @"events/trackInAppClick"
 #define ENDPOINT_TRACK_INAPP_OPEN @"events/trackInAppOpen"
 #define ENDPOINT_TRACK_PUSH_OPEN @"events/trackPushOpen"
-#define ENDPOINT_UPDATE_EMAIL @"users/updateEmail"
 #define ENDPOINT_UPDATE_USER @"users/update"
+#define ENDPOINT_UPDATE_EMAIL @"users/updateEmail"
+#define ENDPOINT_UPDATE_SUBSCRIPTIONS @"users/updateSubscriptions"
 
 //MISC
 #define ITBL_KEY_GET @"GET"
@@ -65,11 +70,15 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITBL_KEY_PHONE @"Phone"
 #define ITBL_KEY_UNSPECIFIED @"Unspecified"
 
+#define ITBL_PLATFORM_IOS @"iOS"
+
 
 #define ITBL_DEEPLINK_IDENTIFIER @"/a/[a-zA-Z0-9]+"
 
 
 //In-App Constants
+#define ITERABLE_IN_APP_CLICK_URL @"urlClick"
+
 #define ITERABLE_IN_APP_TITLE @"title"
 #define ITERABLE_IN_APP_BODY @"body"
 #define ITERABLE_IN_APP_IMAGE @"mainImage"
@@ -89,6 +98,12 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITERABLE_IN_APP_BACKGROUND_COLOR @"backgroundColor"
 #define ITERABLE_IN_APP_BUTTON_ACTION @"action"
 #define ITERABLE_IN_APP_CONTENT @"content"
+
+//In-App HTML Constants
+#define ITERABLE_IN_APP_BACKGROUND_ALPHA @"backgroundAlpha"
+#define ITERABLE_IN_APP_HTML @"html"
+#define ITERABLE_IN_APP_HREF @"href"
+#define ITERABLE_IN_APP_DISPLAY_SETTINGS @"inAppDisplaySettings"
 
 
 typedef void (^ITEActionBlock)(NSString *);

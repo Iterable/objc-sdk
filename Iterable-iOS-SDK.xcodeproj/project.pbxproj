@@ -40,7 +40,7 @@
 		161D98BD20236BC700E91846 /* IterableDeeplinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 161D98BB20236BC700E91846 /* IterableDeeplinkManager.m */; };
 		16513DDE1D89EECC00C205B3 /* IterableInAppManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 16513DD81D89EECC00C205B3 /* IterableInAppManager.h */; };
 		16513DDF1D89EECC00C205B3 /* IterableInAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 16513DD91D89EECC00C205B3 /* IterableInAppManager.m */; };
-		1653A80E1D88B25200690298 /* IterableConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80B1D88B25200690298 /* IterableConstants.h */; };
+		1653A80E1D88B25200690298 /* IterableConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80B1D88B25200690298 /* IterableConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E02BAC1E035EA400644C15 /* IterableConstants.m */; };
 		6804B8601AC0F363000A126B /* CommerceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6804B85F1AC0F363000A126B /* CommerceItem.m */; };
 		6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6845F7321AC3831B0043629D /* SystemConfiguration.framework */; };
@@ -106,6 +106,7 @@
 		9284CA73206DCA6C00404B74 /* IterableAPIResponseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableAPIResponseTests.m; sourceTree = "<group>"; };
 		C67AA6DFEC454FF39AD12F3F /* Pods-Iterable-iOS-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.release.xcconfig"; sourceTree = "<group>"; };
 		DA3D876BD230574973D99AD7 /* Pods-Iterable-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
+		E95162E4972E90805BB61534 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = file.yml; path = .travis.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +139,7 @@
 				09C0FC0A1A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
 				09C0FBFC1A1D6D4700D5A86B /* Products */,
 				6E5391F86A2C1A9760767AA2 /* Pods */,
+				E95162E4972E90805BB61534 /* .travis.yml */,
 			);
 			sourceTree = "<group>";
 		};
