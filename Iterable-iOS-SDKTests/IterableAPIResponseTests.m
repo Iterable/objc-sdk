@@ -12,6 +12,8 @@
 #import "OHHTTPStubs.h"
 #import "OHPathHelpers.h"
 
+static CGFloat const IterableResponseExpectationTimeout = 1.0;
+
 @interface IterableAPI (ResponseTest)
 - (NSURLRequest *)createRequestForAction:(NSString *)action withArgs:(NSDictionary *)args;
 - (void)sendRequest:(NSURLRequest *)request onSuccess:(void (^)(NSDictionary *))onSuccess onFailure:(void (^)(NSString *, NSData *))onFailure;
@@ -63,7 +65,7 @@
         [expectation fulfill];
         XCTAssert([data isEqualToDictionary:responseData]);
     } onFailure:nil];
-    [self waitForExpectations:@[expectation] timeout:1.0];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
 }
 
 - (void)testResponseCode200WithNoData {
@@ -76,7 +78,7 @@
         [expectation fulfill];
         XCTAssertEqual(reason, @"No data received");
     }];
-    [self waitForExpectations:@[expectation] timeout:1.0];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
 }
 
 - (void)testResponseCode200WithInvalidJson {
@@ -89,7 +91,7 @@
         [expectation fulfill];
         XCTAssert([reason containsString:@"Could not parse json"]);
     }];
-    [self waitForExpectations:@[expectation] timeout:1.0];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
 }
 
 - (void)testResponseCode400WithoutMessage {
@@ -102,7 +104,7 @@
         [expectation fulfill];
         XCTAssert([reason containsString:@"Invalid Request"]);
     }];
-    [self waitForExpectations:@[expectation] timeout:1.0];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
 }
 
 - (void)testResponseCode400WithMessage {
@@ -115,7 +117,7 @@
         [expectation fulfill];
         XCTAssertEqualObjects(reason, @"Test error");
     }];
-    [self waitForExpectations:@[expectation] timeout:1.0];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
 }
 
 - (void)testResponseCode401 {
@@ -128,7 +130,7 @@
         [expectation fulfill];
         XCTAssertEqual(reason, @"Invalid API Key");
     }];
-    [self waitForExpectations:@[expectation] timeout:1.0];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
 }
 
 - (void)testResponseCode500 {
@@ -141,7 +143,7 @@
         [expectation fulfill];
         XCTAssertEqual(reason, @"Internal Server Error");
     }];
-    [self waitForExpectations:@[expectation] timeout:1.0];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
 }
 
 - (void)testNon200ResponseCode {
@@ -154,7 +156,7 @@
         [expectation fulfill];
         XCTAssert([reason containsString:@"Received non-200 response"]);
     }];
-    [self waitForExpectations:@[expectation] timeout:1.0];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
 }
 
 @end
