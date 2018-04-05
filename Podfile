@@ -8,4 +8,5 @@ end
 
 target 'Iterable-iOS-SDKTests' do
     shared_pods
+    pod 'OHHTTPStubs'
 end

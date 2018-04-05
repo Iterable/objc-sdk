@@ -223,27 +223,51 @@ NSCharacterSet* encodedCharacterSet = nil;
                                                                    NSURLResponse *response,
                                                                    NSError *error)
     {
-        if ([data length] > 0 && error == nil) {
-            error = nil;
-            id object = [NSJSONSerialization
-                         JSONObjectWithData:data
-                         options:0
-                         error:&error];
-            if(error) {
-                NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
-                if (onFailure != nil) onFailure(reason, data);
-            } else if([object isKindOfClass:[NSDictionary class]]) {
-                if (onSuccess != nil) {
-                    onSuccess(object);
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSInteger responseCode = httpResponse.statusCode;
+        
+        NSError *jsonError = nil;
+        id json = [NSJSONSerialization
+                     JSONObjectWithData:data
+                     options:0
+                     error:&jsonError];
+
+        if (responseCode == 401) {
+            if (onFailure != nil) onFailure(@"Invalid API Key", data);
+        } else if (responseCode >= 400) {
+            if (onFailure != nil) {
+                NSString *errorMessage = @"Invalid Request";
+
+                // Extract error message from the response JSON
+                if ([json isKindOfClass:[NSDictionary class]] && [json objectForKey:@"msg"] &&
+                        [[json objectForKey:@"msg"] isKindOfClass:[NSString class]]) {
+                    errorMessage = [json objectForKey:@"msg"];
+                } else if (responseCode >= 500) {
+                    errorMessage = @"Internal Server Error";
                 }
-            } else {
-                if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
+
+                onFailure(errorMessage, data);
             }
-        } else if ([data length] == 0 && error == nil) {
-            if (onFailure != nil) onFailure(@"No data received", data);
-        } else if (error != nil) {
-            NSString *reason = [NSString stringWithFormat:@"%@", error];
-            if (onFailure != nil) onFailure(reason, nil);
+        } else if (responseCode == 200) {
+            if ([data length] > 0 && error == nil) {
+                if (jsonError) {
+                    NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+                    if (onFailure != nil) onFailure(reason, data);
+                } else if([json isKindOfClass:[NSDictionary class]]) {
+                    if (onSuccess != nil) {
+                        onSuccess(json);
+                    }
+                } else {
+                    if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
+                }
+            } else if ([data length] == 0 && error == nil) {
+                if (onFailure != nil) onFailure(@"No data received", data);
+            } else if (error != nil) {
+                NSString *reason = [NSString stringWithFormat:@"%@", error];
+                if (onFailure != nil) onFailure(reason, nil);
+            }
+        } else {
+            if (onFailure != nil) onFailure([NSString stringWithFormat:@"Received non-200 response: %d", responseCode], data);
         }
     }];
     [task resume];
