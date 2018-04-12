@@ -9,3 +9,4 @@ before_install:
 
 script:
   - xcodebuild test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X' -workspace Iterable-iOS-SDK.xcworkspace -scheme Iterable-iOS-SDKTests CODE_SIGNING_REQUIRED=NO  | xcpretty -f `xcpretty-travis-formatter`
+  - pod lib lint
