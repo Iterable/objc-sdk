@@ -1,6 +1,7 @@
 [![CocoaPods](https://img.shields.io/cocoapods/v/IterableSDK.svg?style=flat)](https://cocoapods.org/pods/IterableSDK)
 [![License](https://img.shields.io/cocoapods/l/IterableSDK.svg?style=flat)](https://opensource.org/licenses/MIT)
 [![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](http://cocoadocs.org/docsets/IterableSDK)
+[![Build Status](https://travis-ci.org/Iterable/iterable-ios-sdk.svg?branch=master)](https://travis-ci.org/Iterable/iterable-ios-sdk)
 
 # Iterable iOS SDK
 
@@ -136,7 +137,7 @@ Yes | Yes | No | `application:didReceiveRemoteNotification:` | Immediately | cal
 Yes | No | Yes | `application:didReceiveRemoteNotification:` | On Notification Click | call `trackPushOpen` and pass in `userInfo`
 No | N/A | Yes | `application:didFinishLaunchingWithOptions:` | On Notification Click | instantiate an `IterableAPI` and pass in `launchOptions`; a push open will be tracked automatically
 
-*`application:didReceiveRemoteNotification:` is deprecated in iOS10, use `userNotificationCenter(_:willPresent:withCompletionHandler:)` & `userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:` instead to track push opens.
+* f`application:didReceiveRemoteNotification:` is deprecated in iOS10, use `userNotificationCenter(_:willPresent:withCompletionHandler:)` & `userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:` instead to track push opens.
 
 For more information about local and remote notifications, and which callbacks will be called under which circumstances, see [Local and Remote Notifications in Depth](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/WhatAreRemoteNotif.html#//apple_ref/doc/uid/TP40008194-CH102-SW1).
 
@@ -175,13 +176,12 @@ InApp opens and button clicks are automatically tracked when the notification is
 Custom events can be tracked using the `track` function and user fields can be modified using the `updateUser` function.
 
 #### Deeplinking
-You can setup your app to track email clicks and maintain deeplinking directly into your app with [iOS Universal Links] (https://support.iterable.com/hc/en-us/articles/115000440206). 
+You can setup your app to track email clicks and maintain deeplinking directly into your app with [iOS Universal Links](https://support.iterable.com/hc/en-us/articles/115000440206). 
 
-From your application's [restorationHandler] (https://developer.apple.com/reference/uikit/uiapplicationdelegate/1623072-application) call `getAndTrackDeeplink` along with a callback to handle the original deeplink url.
+From your application's [restorationHandler](https://developer.apple.com/reference/uikit/uiapplicationdelegate/1623072-application) call `getAndTrackDeeplink` along with a callback to handle the original deeplink url.
 
-
+Swift:
 ```swift
-<SWIFT>
 func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                   restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
     
@@ -193,8 +193,8 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 }
 ```
 
+Objective-C:
 ```objective-c
-<OBJECTIVE-C>
 - (BOOL)application:(UIApplication *)application
  		continueUserActivity(NSUserActivity *)userActivity 
  		restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
