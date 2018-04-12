@@ -15,6 +15,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.4.6](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.6)
+#### Added
+- Added the `updateEmail` function to update the user's email.
+
+#### Fixed
+- SDK methods now properly handle 4xx and 5xx status codes, calling onFailure with the error message received from the server.
+
 ## [4.4.5](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.5)
 #### Fixed
 - Fixed missing compiled version of the IterableDeeplinkManager.
