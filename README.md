@@ -137,7 +137,7 @@ Yes | Yes | No | `application:didReceiveRemoteNotification:` | Immediately | cal
 Yes | No | Yes | `application:didReceiveRemoteNotification:` | On Notification Click | call `trackPushOpen` and pass in `userInfo`
 No | N/A | Yes | `application:didFinishLaunchingWithOptions:` | On Notification Click | instantiate an `IterableAPI` and pass in `launchOptions`; a push open will be tracked automatically
 
-* f`application:didReceiveRemoteNotification:` is deprecated in iOS10, use `userNotificationCenter(_:willPresent:withCompletionHandler:)` & `userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:` instead to track push opens.
+* `application:didReceiveRemoteNotification:` is deprecated in iOS10, use `userNotificationCenter(_:willPresent:withCompletionHandler:)` & `userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:` instead to track push opens.
 
 For more information about local and remote notifications, and which callbacks will be called under which circumstances, see [Local and Remote Notifications in Depth](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/WhatAreRemoteNotif.html#//apple_ref/doc/uid/TP40008194-CH102-SW1).
 
