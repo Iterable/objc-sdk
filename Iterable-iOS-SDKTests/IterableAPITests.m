@@ -12,6 +12,8 @@
 
 #import "IterableAPI.h"
 
+static CGFloat const IterableNetworkResponseExpectationTimeout = 5.0;
+
 // category to "expose" private methods; see http://stackoverflow.com/questions/1098550/unit-testing-of-private-methods-in-xcode
 @interface IterableAPI (Test)
 + (NSString *)pushServicePlatformToString:(PushServicePlatform)pushServicePlatform;
@@ -32,6 +34,7 @@ NSString *exampleUrl = @"http://example.com";
 NSString *googleHttps = @"https://www.google.com";
 NSString *googleHttp = @"http://www.google.com";
 NSString *iterableRewriteURL = @"http://links.iterable.com/a/60402396fbd5433eb35397b47ab2fb83?_e=joneng%40iterable.com&_m=93125f33ba814b13a882358f8e0852e0";
+NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb35397b47ab2fb83?_e=joneng%40iterable.com&_m=93125f33ba814b13a882358f8e0852e0";
 
 - (void)setUp {
     [super setUp];
@@ -95,13 +98,12 @@ NSString *iterableRewriteURL = @"http://links.iterable.com/a/60402396fbd5433eb35
     XCTestExpectation *expectation = [self expectationWithDescription:@"High Expectations"];
     NSURL *iterableLink = [NSURL URLWithString:iterableRewriteURL];
     ITEActionBlock aBlock = ^(NSString* redirectUrl) {
-        [expectation fulfill];
         XCTAssertEqualObjects(@"https://links.iterable.com/api/docs#!/email", redirectUrl);
-        
+        [expectation fulfill];
     };
     [IterableAPI getAndTrackDeeplink:iterableLink callbackBlock:aBlock];
     
-    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:IterableNetworkResponseExpectationTimeout handler:^(NSError *error) {
         if (error) {
             NSLog(@"Timeout Error: %@", error);
         }
@@ -110,24 +112,14 @@ NSString *iterableRewriteURL = @"http://links.iterable.com/a/60402396fbd5433eb35
 
 - (void)testUniversalDeepLinkNoRewrite {
     XCTestExpectation *expectation = [self expectationWithDescription:@"High Expectations"];
-    NSURL *iterableLink = [NSURL URLWithString:iterableRewriteURL];
-
-    ITEActionBlock aBlock = ^(NSString* redirectUrl) {
-        [expectation fulfill];
-        XCTAssertEqualObjects(@"https://links.iterable.com/api/docs#!/email", redirectUrl);
-        
-    };
-    [IterableAPI getAndTrackDeeplink:iterableLink callbackBlock:aBlock];
-    
-    NSURL *normalLink = [NSURL URLWithString:iterableRewriteURL];
+    NSURL *normalLink = [NSURL URLWithString:iterableNoRewriteURL];
     ITEActionBlock uBlock = ^(NSString* redirectUrl) {
+        XCTAssertEqualObjects(iterableNoRewriteURL, redirectUrl);
         [expectation fulfill];
-        XCTAssertEqualObjects(iterableRewriteURL, redirectUrl);
-        
     };
     [IterableAPI getAndTrackDeeplink:normalLink callbackBlock:uBlock];
     
-    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:IterableNetworkResponseExpectationTimeout handler:^(NSError *error) {
         if (error) {
             NSLog(@"Timeout Error: %@", error);
         }
@@ -144,7 +136,7 @@ NSString *iterableRewriteURL = @"http://links.iterable.com/a/60402396fbd5433eb35
     };
     [IterableAPI getAndTrackDeeplink:redirectLink callbackBlock:redirectBlock];
     
-    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:IterableNetworkResponseExpectationTimeout handler:^(NSError *error) {
         if (error) {
             NSLog(@"Timeout Error: %@", error);
         }
@@ -161,7 +153,7 @@ NSString *iterableRewriteURL = @"http://links.iterable.com/a/60402396fbd5433eb35
     };
     [IterableAPI getAndTrackDeeplink:googleHttpLink callbackBlock:googleHttpBlock];
     
-    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:IterableNetworkResponseExpectationTimeout handler:^(NSError *error) {
         if (error) {
             NSLog(@"Timeout Error: %@", error);
         }
@@ -179,7 +171,7 @@ NSString *iterableRewriteURL = @"http://links.iterable.com/a/60402396fbd5433eb35
     };
     [IterableAPI getAndTrackDeeplink:googleHttpsLink callbackBlock:googleHttpsBlock];
     
-    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:IterableNetworkResponseExpectationTimeout handler:^(NSError *error) {
         if (error) {
             NSLog(@"Timeout Error: %@", error);
         }
