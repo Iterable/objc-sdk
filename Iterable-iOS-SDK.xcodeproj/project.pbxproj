@@ -42,12 +42,25 @@
 		16513DDF1D89EECC00C205B3 /* IterableInAppManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 16513DD91D89EECC00C205B3 /* IterableInAppManager.m */; };
 		1653A80E1D88B25200690298 /* IterableConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 1653A80B1D88B25200690298 /* IterableConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E02BAC1E035EA400644C15 /* IterableConstants.m */; };
+		370302F4551575E6A76850DE /* libPods-Iterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58839644314EA56CE890A2E1 /* libPods-Iterable-iOS-SDK.a */; };
 		6804B8601AC0F363000A126B /* CommerceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6804B85F1AC0F363000A126B /* CommerceItem.m */; };
 		6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6845F7321AC3831B0043629D /* SystemConfiguration.framework */; };
 		68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6804B8651AC10426000A126B /* CommerceItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		732C5DFD870D53D1FF92968A /* libPods-Iterable-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A424C23BE698D06646FF675 /* libPods-Iterable-iOS-SDK.a */; };
+		9267AA1820992F9C006AF394 /* IterableAppExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9267AA0F20992F9C006AF394 /* IterableAppExtensions.framework */; };
+		9267AA1D20992F9C006AF394 /* IterableAppExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA1C20992F9C006AF394 /* IterableAppExtensionsTests.m */; };
+		9267AA1F20992F9C006AF394 /* IterableAppExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9267AA1120992F9C006AF394 /* IterableAppExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9267AA2820992FF9006AF394 /* ITBNotificationServiceExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 9267AA2620992FF9006AF394 /* ITBNotificationServiceExtension.h */; };
+		9267AA2920992FF9006AF394 /* ITBNotificationServiceExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA2720992FF9006AF394 /* ITBNotificationServiceExtension.m */; };
+		9267AA32209930E5006AF394 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA31209930E5006AF394 /* AppDelegate.m */; };
+		9267AA35209930E5006AF394 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA34209930E5006AF394 /* ViewController.m */; };
+		9267AA38209930E5006AF394 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9267AA36209930E5006AF394 /* Main.storyboard */; };
+		9267AA3A209930E7006AF394 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9267AA39209930E7006AF394 /* Assets.xcassets */; };
+		9267AA3D209930E7006AF394 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9267AA3B209930E7006AF394 /* LaunchScreen.storyboard */; };
+		9267AA40209930E7006AF394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA3F209930E7006AF394 /* main.m */; };
 		9284CA74206DCA6C00404B74 /* IterableAPIResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9284CA73206DCA6C00404B74 /* IterableAPIResponseTests.m */; };
-		FE48CCB848FD3067A759904D /* libPods-Iterable-iOS-SDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15E14DC3FEF5EE94DFA2424E /* libPods-Iterable-iOS-SDKTests.a */; };
+		92C6325C208FF7AA00A7C216 /* IterableAppIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 92C6325A208FF7AA00A7C216 /* IterableAppIntegration.h */; };
+		92C6325D208FF7AA00A7C216 /* IterableAppIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C6325B208FF7AA00A7C216 /* IterableAppIntegration.m */; };
+		934790CB297DB001AB6F035E /* libPods-Iterable-iOS-SDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 558AF668BE59E5C06930892D /* libPods-Iterable-iOS-SDKTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +70,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 09C0FBFA1A1D6D4700D5A86B;
 			remoteInfo = "Iterable-iOS-SDK";
+		};
+		9267AA1920992F9C006AF394 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09C0FBF31A1D6D4700D5A86B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9267AA0E20992F9C006AF394;
+			remoteInfo = IterableAppExtensions;
+		};
+		9267AA44209930F2006AF394 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09C0FBF31A1D6D4700D5A86B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9267AA2D209930E5006AF394;
+			remoteInfo = IterableTestingHost;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -73,7 +100,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0290BF4E4E3F49179434A202 /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.debug.xcconfig"; sourceTree = "<group>"; };
+		03E74CA974C601F489B7AB99 /* Pods-Iterable-iOS-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.release.xcconfig"; sourceTree = "<group>"; };
 		091489E11CF6986900482D82 /* IterableAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableAPITests.m; sourceTree = "<group>"; };
 		091489E71CF6AC1800482D82 /* CommerceItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItemTests.m; sourceTree = "<group>"; };
 		093734251A1D6E8800C950B6 /* IterableAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAPI.h; sourceTree = "<group>"; };
@@ -88,7 +115,6 @@
 		09CCB92D1D07A2E9003EB75D /* IterableNotificationMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableNotificationMetadata.h; sourceTree = "<group>"; };
 		09CCB92F1D07A7EA003EB75D /* IterableNotificationMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableNotificationMetadata.m; sourceTree = "<group>"; };
 		09CCB9311D07BA04003EB75D /* IterableNotificationMetadataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableNotificationMetadataTests.m; sourceTree = "<group>"; };
-		15E14DC3FEF5EE94DFA2424E /* libPods-Iterable-iOS-SDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1608832C1F83EED500318578 /* IterableInAppNotificationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppNotificationTests.m; sourceTree = "<group>"; };
 		1608832E1F840B5F00318578 /* IterableInAppHTMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableInAppHTMLViewController.h; sourceTree = "<group>"; };
 		1608832F1F840B5F00318578 /* IterableInAppHTMLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppHTMLViewController.m; sourceTree = "<group>"; };
@@ -98,14 +124,35 @@
 		16513DD91D89EECC00C205B3 /* IterableInAppManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableInAppManager.m; sourceTree = "<group>"; };
 		1653A80B1D88B25200690298 /* IterableConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableConstants.h; sourceTree = "<group>"; };
 		16E02BAC1E035EA400644C15 /* IterableConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableConstants.m; sourceTree = "<group>"; };
-		19153EFC2173C02102CEADDF /* Pods-Iterable-iOS-SDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.release.xcconfig"; sourceTree = "<group>"; };
+		1C33C7248F4CEFEF0AD727AF /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.debug.xcconfig"; sourceTree = "<group>"; };
+		558AF668BE59E5C06930892D /* libPods-Iterable-iOS-SDKTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDKTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		58839644314EA56CE890A2E1 /* libPods-Iterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6804B85F1AC0F363000A126B /* CommerceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItem.m; sourceTree = "<group>"; };
 		6804B8651AC10426000A126B /* CommerceItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommerceItem.h; sourceTree = "<group>"; };
 		6845F7321AC3831B0043629D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		6A424C23BE698D06646FF675 /* libPods-Iterable-iOS-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Iterable-iOS-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9267AA0F20992F9C006AF394 /* IterableAppExtensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IterableAppExtensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9267AA1120992F9C006AF394 /* IterableAppExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAppExtensions.h; sourceTree = "<group>"; };
+		9267AA1220992F9C006AF394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9267AA1720992F9C006AF394 /* IterableAppExtensionsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IterableAppExtensionsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9267AA1C20992F9C006AF394 /* IterableAppExtensionsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableAppExtensionsTests.m; sourceTree = "<group>"; };
+		9267AA1E20992F9C006AF394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9267AA2620992FF9006AF394 /* ITBNotificationServiceExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITBNotificationServiceExtension.h; sourceTree = "<group>"; };
+		9267AA2720992FF9006AF394 /* ITBNotificationServiceExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ITBNotificationServiceExtension.m; sourceTree = "<group>"; };
+		9267AA2E209930E5006AF394 /* IterableTestingHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IterableTestingHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9267AA30209930E5006AF394 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		9267AA31209930E5006AF394 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		9267AA33209930E5006AF394 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		9267AA34209930E5006AF394 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		9267AA37209930E5006AF394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9267AA39209930E7006AF394 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9267AA3C209930E7006AF394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9267AA3E209930E7006AF394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9267AA3F209930E7006AF394 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9284CA73206DCA6C00404B74 /* IterableAPIResponseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableAPIResponseTests.m; sourceTree = "<group>"; };
-		C67AA6DFEC454FF39AD12F3F /* Pods-Iterable-iOS-SDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.release.xcconfig"; sourceTree = "<group>"; };
-		DA3D876BD230574973D99AD7 /* Pods-Iterable-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
+		92C6325A208FF7AA00A7C216 /* IterableAppIntegration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAppIntegration.h; sourceTree = "<group>"; };
+		92C6325B208FF7AA00A7C216 /* IterableAppIntegration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableAppIntegration.m; sourceTree = "<group>"; };
+		BE5CCE23DD4BB53759B5D427 /* Pods-Iterable-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
+		DAB696718A4F07CC09FB5CB1 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		E95162E4972E90805BB61534 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = file.yml; path = .travis.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,7 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */,
-				732C5DFD870D53D1FF92968A /* libPods-Iterable-iOS-SDK.a in Frameworks */,
+				370302F4551575E6A76850DE /* libPods-Iterable-iOS-SDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +171,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				09C0FC071A1D6D4700D5A86B /* libIterable-iOS-SDK.a in Frameworks */,
-				FE48CCB848FD3067A759904D /* libPods-Iterable-iOS-SDKTests.a in Frameworks */,
+				934790CB297DB001AB6F035E /* libPods-Iterable-iOS-SDKTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9267AA0B20992F9C006AF394 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9267AA1420992F9C006AF394 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9267AA1820992F9C006AF394 /* IterableAppExtensions.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9267AA2B209930E5006AF394 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,12 +203,15 @@
 		09C0FBF21A1D6D4700D5A86B = {
 			isa = PBXGroup;
 			children = (
+				9267AA1020992F9C006AF394 /* IterableAppExtensions */,
+				9267AA1B20992F9C006AF394 /* IterableAppExtensionsTests */,
+				9267AA2F209930E5006AF394 /* IterableTestingHost */,
 				6845F72F1AC3818F0043629D /* Frameworks */,
 				09C0FBFD1A1D6D4700D5A86B /* Iterable-iOS-SDK */,
 				09C0FC0A1A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
 				09C0FBFC1A1D6D4700D5A86B /* Products */,
-				6E5391F86A2C1A9760767AA2 /* Pods */,
 				E95162E4972E90805BB61534 /* .travis.yml */,
+				476FCC3F37EA4284AE62BC0D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,6 +220,9 @@
 			children = (
 				09C0FBFB1A1D6D4700D5A86B /* libIterable-iOS-SDK.a */,
 				09C0FC061A1D6D4700D5A86B /* Iterable-iOS-SDKTests.xctest */,
+				9267AA0F20992F9C006AF394 /* IterableAppExtensions.framework */,
+				9267AA1720992F9C006AF394 /* IterableAppExtensionsTests.xctest */,
+				9267AA2E209930E5006AF394 /* IterableTestingHost.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -169,6 +244,8 @@
 				0995DBDC1CFFF7FE00D50F19 /* IterableLogging.m */,
 				09CCB92D1D07A2E9003EB75D /* IterableNotificationMetadata.h */,
 				09CCB92F1D07A7EA003EB75D /* IterableNotificationMetadata.m */,
+				92C6325A208FF7AA00A7C216 /* IterableAppIntegration.h */,
+				92C6325B208FF7AA00A7C216 /* IterableAppIntegration.m */,
 			);
 			path = "Iterable-iOS-SDK";
 			sourceTree = "<group>";
@@ -214,25 +291,61 @@
 			name = InAppNotifications;
 			sourceTree = "<group>";
 		};
+		476FCC3F37EA4284AE62BC0D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BE5CCE23DD4BB53759B5D427 /* Pods-Iterable-iOS-SDK.debug.xcconfig */,
+				03E74CA974C601F489B7AB99 /* Pods-Iterable-iOS-SDK.release.xcconfig */,
+				1C33C7248F4CEFEF0AD727AF /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */,
+				DAB696718A4F07CC09FB5CB1 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		6845F72F1AC3818F0043629D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				6845F7321AC3831B0043629D /* SystemConfiguration.framework */,
-				6A424C23BE698D06646FF675 /* libPods-Iterable-iOS-SDK.a */,
-				15E14DC3FEF5EE94DFA2424E /* libPods-Iterable-iOS-SDKTests.a */,
+				58839644314EA56CE890A2E1 /* libPods-Iterable-iOS-SDK.a */,
+				558AF668BE59E5C06930892D /* libPods-Iterable-iOS-SDKTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6E5391F86A2C1A9760767AA2 /* Pods */ = {
+		9267AA1020992F9C006AF394 /* IterableAppExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				DA3D876BD230574973D99AD7 /* Pods-Iterable-iOS-SDK.debug.xcconfig */,
-				C67AA6DFEC454FF39AD12F3F /* Pods-Iterable-iOS-SDK.release.xcconfig */,
-				0290BF4E4E3F49179434A202 /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */,
-				19153EFC2173C02102CEADDF /* Pods-Iterable-iOS-SDKTests.release.xcconfig */,
+				9267AA2620992FF9006AF394 /* ITBNotificationServiceExtension.h */,
+				9267AA2720992FF9006AF394 /* ITBNotificationServiceExtension.m */,
+				9267AA1120992F9C006AF394 /* IterableAppExtensions.h */,
+				9267AA1220992F9C006AF394 /* Info.plist */,
 			);
-			name = Pods;
+			path = IterableAppExtensions;
+			sourceTree = "<group>";
+		};
+		9267AA1B20992F9C006AF394 /* IterableAppExtensionsTests */ = {
+			isa = PBXGroup;
+			children = (
+				9267AA1C20992F9C006AF394 /* IterableAppExtensionsTests.m */,
+				9267AA1E20992F9C006AF394 /* Info.plist */,
+			);
+			path = IterableAppExtensionsTests;
+			sourceTree = "<group>";
+		};
+		9267AA2F209930E5006AF394 /* IterableTestingHost */ = {
+			isa = PBXGroup;
+			children = (
+				9267AA30209930E5006AF394 /* AppDelegate.h */,
+				9267AA31209930E5006AF394 /* AppDelegate.m */,
+				9267AA33209930E5006AF394 /* ViewController.h */,
+				9267AA34209930E5006AF394 /* ViewController.m */,
+				9267AA36209930E5006AF394 /* Main.storyboard */,
+				9267AA39209930E7006AF394 /* Assets.xcassets */,
+				9267AA3B209930E7006AF394 /* LaunchScreen.storyboard */,
+				9267AA3E209930E7006AF394 /* Info.plist */,
+				9267AA3F209930E7006AF394 /* main.m */,
+			);
+			path = IterableTestingHost;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1653A80E1D88B25200690298 /* IterableConstants.h in Headers */,
+				92C6325C208FF7AA00A7C216 /* IterableAppIntegration.h in Headers */,
 				161D98BC20236BC700E91846 /* IterableDeeplinkManager.h in Headers */,
 				0937342E1A1D99C000C950B6 /* IterableAPI.h in Headers */,
 				68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */,
@@ -254,6 +368,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9267AA0C20992F9C006AF394 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9267AA1F20992F9C006AF394 /* IterableAppExtensions.h in Headers */,
+				9267AA2820992FF9006AF394 /* ITBNotificationServiceExtension.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -261,13 +384,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09C0FC0F1A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDK" */;
 			buildPhases = (
-				0BDA72EACF999D5691131544 /* [CP] Check Pods Manifest.lock */,
+				9AE5129658339C152ECDBC56 /* [CP] Check Pods Manifest.lock */,
 				09C0FBF71A1D6D4700D5A86B /* Sources */,
 				09C0FBF81A1D6D4700D5A86B /* Frameworks */,
 				09C0FBF91A1D6D4700D5A86B /* CopyFiles */,
 				0937342D1A1D99BB00C950B6 /* Headers */,
 				092302A31CF6455A004EA265 /* ShellScript */,
-				671E406F347F37D9966A559B /* [CP] Copy Pods Resources */,
+				8F897BDABF58966C088F94AF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -282,12 +405,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 09C0FC121A1D6D4700D5A86B /* Build configuration list for PBXNativeTarget "Iterable-iOS-SDKTests" */;
 			buildPhases = (
-				A871FA5575B70BA38F2E9BB6 /* [CP] Check Pods Manifest.lock */,
+				E19FC288409187F2140CBA21 /* [CP] Check Pods Manifest.lock */,
 				09C0FC021A1D6D4700D5A86B /* Sources */,
 				09C0FC031A1D6D4700D5A86B /* Frameworks */,
 				09C0FC041A1D6D4700D5A86B /* Resources */,
-				C298E8428D565981255CFA0B /* [CP] Embed Pods Frameworks */,
-				0BF672D58ECE2DD93FF6A058 /* [CP] Copy Pods Resources */,
+				0D4C767C5C672D1D9C760D48 /* [CP] Embed Pods Frameworks */,
+				6F2BAB400D026ADDE1329DB1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -298,6 +421,60 @@
 			productName = "Iterable-iOS-SDKTests";
 			productReference = 09C0FC061A1D6D4700D5A86B /* Iterable-iOS-SDKTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9267AA0E20992F9C006AF394 /* IterableAppExtensions */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9267AA2420992F9C006AF394 /* Build configuration list for PBXNativeTarget "IterableAppExtensions" */;
+			buildPhases = (
+				9267AA0A20992F9C006AF394 /* Sources */,
+				9267AA0B20992F9C006AF394 /* Frameworks */,
+				9267AA0C20992F9C006AF394 /* Headers */,
+				9267AA0D20992F9C006AF394 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IterableAppExtensions;
+			productName = IterableAppExtensions;
+			productReference = 9267AA0F20992F9C006AF394 /* IterableAppExtensions.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9267AA1620992F9C006AF394 /* IterableAppExtensionsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9267AA2520992F9C006AF394 /* Build configuration list for PBXNativeTarget "IterableAppExtensionsTests" */;
+			buildPhases = (
+				9267AA1320992F9C006AF394 /* Sources */,
+				9267AA1420992F9C006AF394 /* Frameworks */,
+				9267AA1520992F9C006AF394 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9267AA1A20992F9C006AF394 /* PBXTargetDependency */,
+				9267AA45209930F2006AF394 /* PBXTargetDependency */,
+			);
+			name = IterableAppExtensionsTests;
+			productName = IterableAppExtensionsTests;
+			productReference = 9267AA1720992F9C006AF394 /* IterableAppExtensionsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9267AA2D209930E5006AF394 /* IterableTestingHost */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9267AA41209930E7006AF394 /* Build configuration list for PBXNativeTarget "IterableTestingHost" */;
+			buildPhases = (
+				9267AA2A209930E5006AF394 /* Sources */,
+				9267AA2B209930E5006AF394 /* Frameworks */,
+				9267AA2C209930E5006AF394 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IterableTestingHost;
+			productName = IterableTestingHost;
+			productReference = 9267AA2E209930E5006AF394 /* IterableTestingHost.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -317,6 +494,19 @@
 					09C0FC051A1D6D4700D5A86B = {
 						CreatedOnToolsVersion = 6.1;
 					};
+					9267AA0E20992F9C006AF394 = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
+					};
+					9267AA1620992F9C006AF394 = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 9267AA2D209930E5006AF394;
+					};
+					9267AA2D209930E5006AF394 = {
+						CreatedOnToolsVersion = 9.3;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 09C0FBF61A1D6D4700D5A86B /* Build configuration list for PBXProject "Iterable-iOS-SDK" */;
@@ -325,6 +515,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 09C0FBF21A1D6D4700D5A86B;
 			productRefGroup = 09C0FBFC1A1D6D4700D5A86B /* Products */;
@@ -334,6 +525,9 @@
 				09C0FBFA1A1D6D4700D5A86B /* Iterable-iOS-SDK */,
 				09C0FC051A1D6D4700D5A86B /* Iterable-iOS-SDKTests */,
 				093028C81D1B56E000E7CFBE /* IterableSDKFramework */,
+				9267AA0E20992F9C006AF394 /* IterableAppExtensions */,
+				9267AA1620992F9C006AF394 /* IterableAppExtensionsTests */,
+				9267AA2D209930E5006AF394 /* IterableTestingHost */,
 			);
 		};
 /* End PBXProject section */
@@ -343,6 +537,30 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9267AA0D20992F9C006AF394 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9267AA1520992F9C006AF394 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9267AA2C209930E5006AF394 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9267AA3D209930E7006AF394 /* LaunchScreen.storyboard in Resources */,
+				9267AA3A209930E7006AF394 /* Assets.xcassets in Resources */,
+				9267AA38209930E5006AF394 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +594,52 @@
 			shellPath = /bin/sh;
 			shellScript = "# based on https://www.raywenderlich.com/65964/create-a-framework-for-ios and https://github.com/jverkoey/iOS-Framework#static_library_target\n# also, need to explicitly add armv7s to target architectures; see also: http://stackoverflow.com/questions/28270582/building-ios-framework-missing-architecture-armv7s-and-x86-64-on-fat-file\n\nset -o errexit\nset +o nounset\n# Avoid recursively calling this script.\nif [[ $ITBL_MASTER_SCRIPT_RUNNING ]]; then\nexit 0\nfi\nset -o nounset\nexport ITBL_MASTER_SCRIPT_RUNNING=1\n\nITBL_TARGET_NAME=${PROJECT_NAME}\nITBL_EXECUTABLE_PATH=\"lib${ITBL_TARGET_NAME}.a\"\nITBL_WRAPPER_NAME=\"${ITBL_TARGET_NAME}.framework\"\n\n# The following conditionals come from\n# https://github.com/kstenerud/iOS-Universal-Framework\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nITBL_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nITBL_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\n# Build for the simulator architecture\necho \"Building static library: workspace=${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace, scheme=${ITBL_TARGET_NAME}, platform=iphonesimulator, destination='platform=iOS Simulator,name=iPad'\"\n# iPhone5 is the last one on armv7s, iPhone6+ is on armv7\nxcrun xcodebuild ONLY_ACTIVE_ARCH=NO -workspace \"${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace\" -scheme \"${ITBL_TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphonesimulator -destination \"platform=iOS Simulator,name=iPhone 6\" BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\n# Build for real devices\necho \"Building static library: workspace=${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace, scheme=${ITBL_TARGET_NAME}, platform=iphoneos, sdk version=${ITBL_SDK_VERSION}\"\nxcrun xcodebuild ONLY_ACTIVE_ARCH=NO -workspace \"${PROJECT_DIR}/${PROJECT_NAME}.xcworkspace\" -scheme \"${ITBL_TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk iphoneos${ITBL_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\necho \"Done building architectures. Cleaning up previous artifacts...\"\n\nDESTINATION_UNIVERSAL_DIR=\"${PROJECT_DIR}/Artifacts/\"\nrm -r \"${DESTINATION_UNIVERSAL_DIR}\"\nmkdir -p \"${DESTINATION_UNIVERSAL_DIR}\"\n\necho \"Done cleaning up artifacts. Running lipo...\"\n\n# Smash the two static libraries into one fat binary and store it in the .framework\nxcrun lipo -create \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${ITBL_EXECUTABLE_PATH}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${ITBL_EXECUTABLE_PATH}\" -output \"${DESTINATION_UNIVERSAL_DIR}/${ITBL_EXECUTABLE_PATH}\"\n\necho \"Done creating fat file, now copying public headers\"\ncp -r \"${TARGET_BUILD_DIR}/include\" \"${DESTINATION_UNIVERSAL_DIR}/\"\n";
 		};
-		0BDA72EACF999D5691131544 /* [CP] Check Pods Manifest.lock */ = {
+		0D4C767C5C672D1D9C760D48 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6F2BAB400D026ADDE1329DB1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8F897BDABF58966C088F94AF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9AE5129658339C152ECDBC56 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -394,37 +657,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0BF672D58ECE2DD93FF6A058 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		671E406F347F37D9966A559B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A871FA5575B70BA38F2E9BB6 /* [CP] Check Pods Manifest.lock */ = {
+		E19FC288409187F2140CBA21 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -442,21 +675,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C298E8428D565981255CFA0B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -470,6 +688,7 @@
 				161D98BD20236BC700E91846 /* IterableDeeplinkManager.m in Sources */,
 				093734271A1D701F00C950B6 /* IterableAPI.m in Sources */,
 				160883311F840B5F00318578 /* IterableInAppHTMLViewController.m in Sources */,
+				92C6325D208FF7AA00A7C216 /* IterableAppIntegration.m in Sources */,
 				6804B8601AC0F363000A126B /* CommerceItem.m in Sources */,
 				16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */,
 				0995DBDD1CFFF7FE00D50F19 /* IterableLogging.m in Sources */,
@@ -488,6 +707,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9267AA0A20992F9C006AF394 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9267AA2920992FF9006AF394 /* ITBNotificationServiceExtension.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9267AA1320992F9C006AF394 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9267AA1D20992F9C006AF394 /* IterableAppExtensionsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9267AA2A209930E5006AF394 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9267AA35209930E5006AF394 /* ViewController.m in Sources */,
+				9267AA40209930E7006AF394 /* main.m in Sources */,
+				9267AA32209930E5006AF394 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -496,7 +741,36 @@
 			target = 09C0FBFA1A1D6D4700D5A86B /* Iterable-iOS-SDK */;
 			targetProxy = 09C0FC081A1D6D4700D5A86B /* PBXContainerItemProxy */;
 		};
+		9267AA1A20992F9C006AF394 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9267AA0E20992F9C006AF394 /* IterableAppExtensions */;
+			targetProxy = 9267AA1920992F9C006AF394 /* PBXContainerItemProxy */;
+		};
+		9267AA45209930F2006AF394 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9267AA2D209930E5006AF394 /* IterableTestingHost */;
+			targetProxy = 9267AA44209930F2006AF394 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9267AA36209930E5006AF394 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9267AA37209930E5006AF394 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9267AA3B209930E7006AF394 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9267AA3C209930E7006AF394 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		093028C91D1B56E000E7CFBE /* Debug */ = {
@@ -596,7 +870,7 @@
 		};
 		09C0FC101A1D6D4700D5A86B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA3D876BD230574973D99AD7 /* Pods-Iterable-iOS-SDK.debug.xcconfig */;
+			baseConfigurationReference = BE5CCE23DD4BB53759B5D427 /* Pods-Iterable-iOS-SDK.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iOS Development: Andrew Boni (AE77H9E7TE)";
 				OTHER_LDFLAGS = (
@@ -614,7 +888,7 @@
 		};
 		09C0FC111A1D6D4700D5A86B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C67AA6DFEC454FF39AD12F3F /* Pods-Iterable-iOS-SDK.release.xcconfig */;
+			baseConfigurationReference = 03E74CA974C601F489B7AB99 /* Pods-Iterable-iOS-SDK.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iOS Development: Andrew Boni (AE77H9E7TE)";
 				OTHER_LDFLAGS = (
@@ -632,7 +906,7 @@
 		};
 		09C0FC131A1D6D4700D5A86B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0290BF4E4E3F49179434A202 /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */;
+			baseConfigurationReference = 1C33C7248F4CEFEF0AD727AF /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -649,7 +923,7 @@
 		};
 		09C0FC141A1D6D4700D5A86B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 19153EFC2173C02102CEADDF /* Pods-Iterable-iOS-SDKTests.release.xcconfig */;
+			baseConfigurationReference = DAB696718A4F07CC09FB5CB1 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -661,6 +935,211 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Iterable.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		9267AA2020992F9C006AF394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = IterableAppExtensions/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iterable.IterableAppExtensions;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		9267AA2120992F9C006AF394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = IterableAppExtensions/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iterable.IterableAppExtensions;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		9267AA2220992F9C006AF394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = IterableAppExtensionsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iterable.IterableAppExtensions.IterableAppExtensionsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IterableTestingHost.app/IterableTestingHost";
+			};
+			name = Debug;
+		};
+		9267AA2320992F9C006AF394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = IterableAppExtensionsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iterable.IterableAppExtensions.IterableAppExtensionsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IterableTestingHost.app/IterableTestingHost";
+			};
+			name = Release;
+		};
+		9267AA42209930E7006AF394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = IterableTestingHost/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iterable.IterableTestingHost;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9267AA43209930E7006AF394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = IterableTestingHost/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.iterable.IterableTestingHost;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -699,6 +1178,33 @@
 			buildConfigurations = (
 				09C0FC131A1D6D4700D5A86B /* Debug */,
 				09C0FC141A1D6D4700D5A86B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9267AA2420992F9C006AF394 /* Build configuration list for PBXNativeTarget "IterableAppExtensions" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9267AA2020992F9C006AF394 /* Debug */,
+				9267AA2120992F9C006AF394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9267AA2520992F9C006AF394 /* Build configuration list for PBXNativeTarget "IterableAppExtensionsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9267AA2220992F9C006AF394 /* Debug */,
+				9267AA2320992F9C006AF394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9267AA41209930E7006AF394 /* Build configuration list for PBXNativeTarget "IterableTestingHost" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9267AA42209930E7006AF394 /* Debug */,
+				9267AA43209930E7006AF394 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

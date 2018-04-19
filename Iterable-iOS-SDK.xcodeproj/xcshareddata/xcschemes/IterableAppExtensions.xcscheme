@@ -9,15 +9,15 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0173C9E99BAFAC1D674FD7D7887CF5B"
-               BuildableName = "libPods-Iterable-iOS-SDK.a"
-               BlueprintName = "Pods-Iterable-iOS-SDK"
-               ReferencedContainer = "container:Pods/Pods.xcodeproj">
+               BlueprintIdentifier = "9267AA0E20992F9C006AF394"
+               BuildableName = "IterableAppExtensions.framework"
+               BlueprintName = "IterableAppExtensions"
+               ReferencedContainer = "container:Iterable-iOS-SDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "09C0FC051A1D6D4700D5A86B"
-               BuildableName = "Iterable-iOS-SDKTests.xctest"
-               BlueprintName = "Iterable-iOS-SDKTests"
+               BlueprintIdentifier = "9267AA1620992F9C006AF394"
+               BuildableName = "IterableAppExtensionsTests.xctest"
+               BlueprintName = "IterableAppExtensionsTests"
                ReferencedContainer = "container:Iterable-iOS-SDK.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -42,10 +42,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DCC94D024AAEED7818D49D28024958F6"
-            BuildableName = "libPods-Iterable-iOS-SDK.a"
-            BlueprintName = "Pods-Iterable-iOS-SDK"
-            ReferencedContainer = "container:Pods/Pods.xcodeproj">
+            BlueprintIdentifier = "9267AA0E20992F9C006AF394"
+            BuildableName = "IterableAppExtensions.framework"
+            BlueprintName = "IterableAppExtensions"
+            ReferencedContainer = "container:Iterable-iOS-SDK.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -61,6 +61,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "9267AA0E20992F9C006AF394"
+            BuildableName = "IterableAppExtensions.framework"
+            BlueprintName = "IterableAppExtensions"
+            ReferencedContainer = "container:Iterable-iOS-SDK.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -70,6 +79,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "9267AA0E20992F9C006AF394"
+            BuildableName = "IterableAppExtensions.framework"
+            BlueprintName = "IterableAppExtensions"
+            ReferencedContainer = "container:Iterable-iOS-SDK.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

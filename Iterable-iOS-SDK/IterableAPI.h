@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Iterable. All rights reserved.
 //
 
-@import Foundation;
+@import UIKit;
 #import "CommerceItem.h"
 #import "IterableConstants.h"
 
