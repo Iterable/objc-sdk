@@ -225,12 +225,24 @@ NSCharacterSet* encodedCharacterSet = nil;
     {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSInteger responseCode = httpResponse.statusCode;
+
+        // Handle network errors
+        if (error != nil) {
+            NSString *reason = [NSString stringWithFormat:@"%@", error];
+            if (onFailure != nil) onFailure(reason, nil);
+            return;
+        }
         
         NSError *jsonError = nil;
-        id json = [NSJSONSerialization
-                     JSONObjectWithData:data
-                     options:0
-                     error:&jsonError];
+        id json = nil;
+
+        // Only try to parse JSON if data exists, otherwise JSONObjectWithData throws an exception
+        if ([data length] > 0) {
+            json = [NSJSONSerialization
+                    JSONObjectWithData:data
+                               options:0
+                                 error:&jsonError];
+        }
 
         if (responseCode == 401) {
             if (onFailure != nil) onFailure(@"Invalid API Key", data);
@@ -249,7 +261,7 @@ NSCharacterSet* encodedCharacterSet = nil;
                 onFailure(errorMessage, data);
             }
         } else if (responseCode == 200) {
-            if ([data length] > 0 && error == nil) {
+            if ([data length] > 0) {
                 if (jsonError) {
                     NSString *reason = [NSString stringWithFormat:@"Could not parse json: %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
                     if (onFailure != nil) onFailure(reason, data);
@@ -260,11 +272,8 @@ NSCharacterSet* encodedCharacterSet = nil;
                 } else {
                     if (onFailure != nil) onFailure(@"Response is not a dictionary", data);
                 }
-            } else if ([data length] == 0 && error == nil) {
+            } else {
                 if (onFailure != nil) onFailure(@"No data received", data);
-            } else if (error != nil) {
-                NSString *reason = [NSString stringWithFormat:@"%@", error];
-                if (onFailure != nil) onFailure(reason, nil);
             }
         } else {
             if (onFailure != nil) onFailure([NSString stringWithFormat:@"Received non-200 response: %ld", (long) responseCode], data);

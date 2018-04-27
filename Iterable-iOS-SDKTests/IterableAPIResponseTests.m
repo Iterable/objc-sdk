@@ -159,4 +159,22 @@ static CGFloat const IterableResponseExpectationTimeout = 1.0;
     [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
 }
 
+- (void)testNoNetworkResponse {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+        NSError* notConnectedError = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
+        return [OHHTTPStubsResponse responseWithError:notConnectedError];
+    }];
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"onFailure is called"];
+    
+    NSURLRequest *request = [[IterableAPI sharedInstance] createRequestForAction:@"" withArgs:@{}];
+    [[IterableAPI sharedInstance] sendRequest:request onSuccess:nil onFailure:^(NSString * _Nonnull reason, NSData * _Nullable data) {
+        [expectation fulfill];
+        XCTAssert([reason containsString:@"NSURLErrorDomain"]);
+    }];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
+}
+
 @end
