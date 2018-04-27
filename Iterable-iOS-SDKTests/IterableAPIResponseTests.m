@@ -159,4 +159,42 @@ static CGFloat const IterableResponseExpectationTimeout = 1.0;
     [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
 }
 
+- (void)testNoNetworkResponse {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+        NSError* notConnectedError = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
+        return [OHHTTPStubsResponse responseWithError:notConnectedError];
+    }];
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"onFailure is called"];
+    
+    NSURLRequest *request = [[IterableAPI sharedInstance] createRequestForAction:@"" withArgs:@{}];
+    [[IterableAPI sharedInstance] sendRequest:request onSuccess:nil onFailure:^(NSString * _Nonnull reason, NSData * _Nullable data) {
+        [expectation fulfill];
+        XCTAssert([reason containsString:@"NSURLErrorDomain"]);
+    }];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
+}
+
+- (void)testNetworkTimeoutResponse {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+        NSError* notConnectedError = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
+        return [[OHHTTPStubsResponse responseWithData:nil statusCode:200 headers:nil] requestTime:0.0 responseTime:5.0];
+    }];
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"onFailure is called"];
+    
+    NSMutableURLRequest *request = (NSMutableURLRequest *) [[IterableAPI sharedInstance] createRequestForAction:@"" withArgs:@{}];
+    request.timeoutInterval = 0.01;
+    [[IterableAPI sharedInstance] sendRequest:request onSuccess:nil onFailure:^(NSString * _Nonnull reason, NSData * _Nullable data) {
+        [expectation fulfill];
+        XCTAssert([reason containsString:@"NSURLErrorDomain"]);
+        XCTAssert([reason containsString:@"timed out"]);
+    }];
+    [self waitForExpectations:@[expectation] timeout:IterableResponseExpectationTimeout];
+}
+
 @end
