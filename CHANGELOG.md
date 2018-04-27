@@ -15,6 +15,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [4.4.7](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.7)
+#### Fixed
+- Fixed an unhandled exception in response handling on network errors
+
 ## [4.4.6](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.6)
 #### Added
 - Added the `updateEmail` function to update the user's email.
