@@ -1,5 +1,6 @@
 
 #import "ITBNotificationServiceExtension.h"
+#import "IterableAction.h"
 
 @interface ITBNotificationServiceExtension ()
 
@@ -115,27 +116,35 @@ UNNotificationCategory* messageCategory;
     NSString *title = buttonDictionary[@"title"];
     BOOL destructive = [buttonDictionary[@"destructive"] boolValue];
     BOOL requiresUnlock = [buttonDictionary[@"requiresUnlock"] boolValue];
-    NSDictionary *action = buttonDictionary[@"action"];
+    IterableAction *action = [IterableAction actionFromDictionary:buttonDictionary[@"action"]];
 
-    //NSDictionary *action = actionButton[@"action"];
     UNNotificationActionOptions actionOptions = UNNotificationActionOptionNone;
     if (destructive) {
         actionOptions |= UNNotificationActionOptionDestructive;
     }
     
-    if (![action[@"dismiss"] isEqualToString:@""])
+    if (![action isOfType:IterableActionTypeDismiss]) {
+        actionOptions |= UNNotificationActionOptionForeground;
+    }
     
-    
-    if (requiresUnlock) {
+    if (requiresUnlock || [action isOfType:IterableActionTypeOpen] || [action isOfType:IterableActionTypeDeeplink]) {
         actionOptions |= UNNotificationActionOptionAuthenticationRequired;
     }
-    //if ([action[@"type"] isEqualToString:@""])
-
-
-    return [UNNotificationAction
-            actionWithIdentifier:identifier
-                           title:title
-                         options:actionOptions];
+    
+    if ([action isOfType:IterableActionTypeTextInput]) {
+        return  [UNTextInputNotificationAction
+                 actionWithIdentifier:identifier
+                 title:title
+                 options:actionOptions
+                 textInputButtonTitle:action.inputTitle
+                 textInputPlaceholder:action.inputPlaceholder];
+    }
+    else {
+        return [UNNotificationAction
+                actionWithIdentifier:identifier
+                title:title
+                options:actionOptions];
+    }
 }
 
 

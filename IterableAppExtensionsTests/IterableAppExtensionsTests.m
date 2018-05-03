@@ -102,24 +102,33 @@
                          @"itbl" : @{
                                  @"messageId": [[NSUUID UUID] UUIDString],
                                  @"actionButtons": @[@{
-                                            @"actionIdentifier": @"openAppButton",
+                                            @"identifier": @"openAppButton",
                                             @"title": @"Open App",
-                                            @"actionType": @"open"
+                                            @"action": @{
+                                                    @"type": @"open"
+                                            }
                                     }, @{
-                                            @"actionIdentifier": @"dismissButton",
-                                            @"title": @"Open Maps",
-                                            @"actionType": @"dismiss",
-                                            @"actionData": @"http://maps.apple.com/?ll=37.7828,-122.3984"
+                                            @"identifier": @"deeplinkButton",
+                                            @"title": @"Open Deeplink",
+                                            @"action": @{
+                                                    @"type": @"deeplink",
+                                                    @"data": @"http://maps.apple.com/?ll=37.7828,-122.3984"
+                                            }
                                     }, @{
-                                            @"actionIdentifier": @"customActionSnooze",
+                                            @"identifier": @"customActionSnooze",
                                             @"title": @"Silent Action",
-                                            @"actionType": @"silentAction"
+                                            @"action": @{
+                                                    @"type": @"dismiss",
+                                                    @"data": @"customActionName"
+                                            }
                                     }, @{
-                                            @"actionIdentifier": @"Chat",
+                                            @"identifier": @"textInputButton",
                                             @"title": @"Text input",
-                                            @"actionType": @"textInput",
-                                            @"textInputString": @"Type text here",
-                                            @"textInputTitle": @"Send"
+                                            @"action": @{
+                                                    @"type": @"textInput",
+                                                    @"inputTitle": @"Send",
+                                                    @"inputPlaceholder": @"Type your message here"
+                                            }
                                     }]
                                  }
                          };

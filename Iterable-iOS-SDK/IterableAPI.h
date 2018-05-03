@@ -8,6 +8,7 @@
 
 @import UIKit;
 #import "CommerceItem.h"
+#import "IterableAction.h"
 #import "IterableConstants.h"
 
 // all params are nonnull, unless annotated otherwise
@@ -32,6 +33,18 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
     /** The production push service */
     APNS
 };
+
+@protocol IterableURLDelegate <NSObject>
+
+- (BOOL)handleIterableURL:(NSURL *)url extras:(nullable NSDictionary *)extras;
+
+@end
+
+@protocol IterableCustomActionDelegate <NSObject>
+
+- (BOOL)handleIterableCustomAction:(NSString *)action;
+
+@end
 
 /**
  `IterableAPI` contains all the essential functions for communicating with Iterable's API
@@ -62,6 +75,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  The hex representation of this device token
  */
 @property(nonatomic, readonly, copy) NSString *hexToken;
+
+@property(nonatomic) id<IterableURLDelegate> urlDelegate;
+@property(nonatomic) id<IterableCustomActionDelegate> customActionDelegate;
 
 /////////////////////////////////
 /// @name Creating an IterableAPI
