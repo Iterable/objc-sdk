@@ -6,23 +6,26 @@
 //  Copyright © 2018 Iterable. All rights reserved.
 //
 
+#include <asl.h>
+
 #import "IterableAppIntegration.h"
 #import "IterableAPI.h"
 #import "IterableAction.h"
 #import "IterableActionRunner.h"
+#import "IterableLogging.h"
 
 @implementation IterableAppIntegration
 
 + (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    NSLog(@"IterableAPI: didReceiveRemoteNotification");
+    LogDebug(@"IterableAPI: didReceiveRemoteNotification");
     if (completionHandler)
         completionHandler(UIBackgroundFetchResultNoData);
 }
 
 + (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
 {
-    NSLog(@"IterableAPI: didReceiveNotificationResponse: %@", response);
+    LogDebug(@"IterableAPI: didReceiveNotificationResponse: %@", response);
     NSDictionary *userInfo = response.notification.request.content.userInfo;
     NSDictionary *itbl = userInfo;
     NSMutableDictionary *dataFields = [[NSMutableDictionary alloc] init];
