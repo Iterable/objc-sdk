@@ -22,7 +22,10 @@ NSString *const IterableActionTypeTextInput  = @"textInput";
 @implementation IterableAction
 
 + (instancetype)actionFromDictionary:(NSDictionary *)dictionary {
-    return [[self alloc] initWithDictionary:dictionary];
+    if (dictionary != nil)
+        return [[self alloc] initWithDictionary:dictionary];
+    else
+        return nil;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {

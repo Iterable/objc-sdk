@@ -46,6 +46,8 @@
 		6804B8601AC0F363000A126B /* CommerceItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 6804B85F1AC0F363000A126B /* CommerceItem.m */; };
 		6845F7331AC3831B0043629D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6845F7321AC3831B0043629D /* SystemConfiguration.framework */; };
 		68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6804B8651AC10426000A126B /* CommerceItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		921AE47A20AA2E94009CFC9F /* IterableNotificationResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 921AE47920AA2E94009CFC9F /* IterableNotificationResponseTests.m */; };
+		921AE47C20AA43D5009CFC9F /* IterableActionRunnerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 921AE47B20AA43D5009CFC9F /* IterableActionRunnerTests.m */; };
 		9267AA1820992F9C006AF394 /* IterableAppExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9267AA0F20992F9C006AF394 /* IterableAppExtensions.framework */; };
 		9267AA1D20992F9C006AF394 /* IterableAppExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA1C20992F9C006AF394 /* IterableAppExtensionsTests.m */; };
 		9267AA1F20992F9C006AF394 /* IterableAppExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9267AA1120992F9C006AF394 /* IterableAppExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -136,6 +138,8 @@
 		6804B85F1AC0F363000A126B /* CommerceItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommerceItem.m; sourceTree = "<group>"; };
 		6804B8651AC10426000A126B /* CommerceItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommerceItem.h; sourceTree = "<group>"; };
 		6845F7321AC3831B0043629D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		921AE47920AA2E94009CFC9F /* IterableNotificationResponseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableNotificationResponseTests.m; sourceTree = "<group>"; };
+		921AE47B20AA43D5009CFC9F /* IterableActionRunnerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableActionRunnerTests.m; sourceTree = "<group>"; };
 		9267AA0F20992F9C006AF394 /* IterableAppExtensions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IterableAppExtensions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9267AA1120992F9C006AF394 /* IterableAppExtensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAppExtensions.h; sourceTree = "<group>"; };
 		9267AA1220992F9C006AF394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -273,6 +277,8 @@
 				091489E71CF6AC1800482D82 /* CommerceItemTests.m */,
 				09CCB9311D07BA04003EB75D /* IterableNotificationMetadataTests.m */,
 				1608832C1F83EED500318578 /* IterableInAppNotificationTests.m */,
+				921AE47920AA2E94009CFC9F /* IterableNotificationResponseTests.m */,
+				921AE47B20AA43D5009CFC9F /* IterableActionRunnerTests.m */,
 			);
 			path = "Iterable-iOS-SDKTests";
 			sourceTree = "<group>";
@@ -721,6 +727,8 @@
 				9284CA74206DCA6C00404B74 /* IterableAPIResponseTests.m in Sources */,
 				091489E21CF6986900482D82 /* IterableAPITests.m in Sources */,
 				09CCB9321D07BA04003EB75D /* IterableNotificationMetadataTests.m in Sources */,
+				921AE47A20AA2E94009CFC9F /* IterableNotificationResponseTests.m in Sources */,
+				921AE47C20AA43D5009CFC9F /* IterableActionRunnerTests.m in Sources */,
 				1608832D1F83EED500318578 /* IterableInAppNotificationTests.m in Sources */,
 				091489E81CF6AC1800482D82 /* CommerceItemTests.m in Sources */,
 			);

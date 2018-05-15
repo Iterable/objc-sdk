@@ -147,13 +147,4 @@ UNNotificationCategory* messageCategory;
     }
 }
 
-
-- (void)serviceExtensionTimeWillExpire {
-    self.contentHandler(self.bestAttemptContent);
-}
-
-- (void)contentComplete {
-    self.contentHandler(self.bestAttemptContent);
-}
-
 @end

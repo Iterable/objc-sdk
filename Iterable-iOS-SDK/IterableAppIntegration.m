@@ -27,7 +27,12 @@
 {
     LogDebug(@"IterableAPI: didReceiveNotificationResponse: %@", response);
     NSDictionary *userInfo = response.notification.request.content.userInfo;
-    NSDictionary *itbl = userInfo;
+    NSDictionary *itbl = userInfo[@"itbl"];
+#ifdef DEBUG
+    if (itbl == nil) {
+        itbl = userInfo;
+    }
+#endif
     NSMutableDictionary *dataFields = [[NSMutableDictionary alloc] init];
     IterableAction *action = nil;
 

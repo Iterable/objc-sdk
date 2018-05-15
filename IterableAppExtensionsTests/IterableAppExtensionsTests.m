@@ -24,8 +24,28 @@
 }
 
 - (void)tearDown {
-    [super tearDown];
     self.extension = nil;
+    [super tearDown];
+}
+
+- (void)testPushIncorrectAttachemnt {
+    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+    content.userInfo = @{
+                         @"itbl" : @{
+                                 @"messageId": @"12345",
+                                 @"attachment-url": @"Invalid URL!"
+                                 }
+                         };
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"request" content:content trigger:nil];
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
+    
+    [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
+        XCTAssertEqual(contentToDeliver.attachments.count, 0);
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:5.0];
 }
 
 - (void)testPushImageAttachemnt {
@@ -52,50 +72,28 @@
 }
 
 - (void)testPushVideoAttachment {
-
+    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+    content.userInfo = @{
+                         @"itbl" : @{
+                                 @"messageId": @"12345",
+                                 @"attachment-url": @"https://framework.realtime.co/blog/img/ios10-video.mp4"
+                                 }
+                         };
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"request" content:content trigger:nil];
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
+    
+    [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
+        XCTAssertEqual(contentToDeliver.attachments.count, 1);
+        XCTAssertNotNil(contentToDeliver.attachments.firstObject.URL);
+        XCTAssertEqualObjects(contentToDeliver.attachments.firstObject.URL.scheme, @"file");
+        XCTAssertEqualObjects(contentToDeliver.attachments.firstObject.type, (NSString *)kUTTypeMPEG4);
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:5.0];
 }
 
-/*
- * {
-  "actionButtons": [
-    {
-      "actionIdentifier": "customInteralAppAction",
-      "actionTitle": "Open App",
-      "actionType": "actionOpen"
-    },
-    {
-      "actionIdentifier": "http://maps.apple.com/?ll=37.7828,-122.3984",
-      "actionTitle": "Open Maps",
-      "actionType": "actionDeeplink"
-    },
-    {
-      "actionIdentifier": "https://iterable.com/",
-      "actionTitle": "Silent Action: Snooze",
-      "actionType": "snooze",
-      "silentNotification": "true"
-    },
-    {
-      "actionIdentifier": "Chat",
-      "actionTitle": "Ask support a question",
-      "actionType": "textInput",
-      "textInputString": "Type question here",
-      "textInputTitle": "Send"
-    }
-  ],
-  "defaultAction": {
-    "actionIdentifier": "customInteralAppAction",
-    "actionType": "actionOpen"
-  }
-}
- */
-
-/*!
- @method
- 
- @abstract Gets the list of InAppMessages
- 
- @param count  the number of messages to fetch
- */
 - (void)testPushDynamicCategory {
     UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
     content.userInfo = @{
@@ -115,7 +113,7 @@
                                                     @"data": @"http://maps.apple.com/?ll=37.7828,-122.3984"
                                             }
                                     }, @{
-                                            @"identifier": @"customActionSnooze",
+                                            @"identifier": @"silentActionButton",
                                             @"title": @"Silent Action",
                                             @"action": @{
                                                     @"type": @"dismiss",
@@ -137,7 +135,7 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
     
     [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
@@ -152,6 +150,47 @@
                 for (int i = 0; i < 4; i++) {
                     XCTAssertEqualObjects(createdCategory.actions[i].title, buttons[i][@"title"]);
                 }
+                
+                [expectation fulfill];
+            }];
+        });
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:5.0];
+}
+
+- (void)testPushDestructiveActionButton {
+    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+    content.userInfo = @{
+                         @"itbl" : @{
+                                 @"messageId": [[NSUUID UUID] UUIDString],
+                                 @"actionButtons": @[@{
+                                                         @"identifier": @"destructiveButton",
+                                                         @"title": @"Unsubscribe",
+                                                         @"destructive": @YES,
+                                                         @"action": @{
+                                                                 @"type": @"open"
+                                                                 }
+                                                         }]
+                                 }
+                         };
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"request" content:content trigger:nil];
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
+    
+    [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+            [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
+                UNNotificationCategory *createdCategory = nil;
+                for (UNNotificationCategory *category in categories) {
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                        createdCategory = category;
+                }
+                XCTAssertNotNil(createdCategory);
+                
+                XCTAssertEqual(createdCategory.actions.count, 1);
+                XCTAssertTrue(createdCategory.actions.firstObject.options & UNNotificationActionOptionDestructive, "Action is destructive");
                 
                 [expectation fulfill];
             }];

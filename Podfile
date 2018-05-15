@@ -11,5 +11,6 @@ end
 
 target 'Iterable-iOS-SDKTests' do
     shared_pods
+    pod 'OCMock'
     pod 'OHHTTPStubs'
 end
