@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Iterable. All rights reserved.
 //
 
-@import UIKit;
+#import <UIKit/UIKit.h>
 #import "CommerceItem.h"
 #import "IterableAction.h"
 #import "IterableConstants.h"
@@ -34,15 +34,33 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
     APNS
 };
 
+/**
+ * Custom URL handling delegate
+ */
 @protocol IterableURLDelegate <NSObject>
 
+/**
+ * Callback called for a deeplink action. Return YES to override default behavior
+ * @param url     Deeplink URL
+ * @param extras  Additional metadata. Reserved for future use.
+ * @return Boolean value. Return YES if the URL was handled to override default behavior.
+ */
 - (BOOL)handleIterableURL:(NSURL *)url extras:(nullable NSDictionary *)extras;
 
 @end
 
+/**
+ * Custom action handling delegate
+ */
 @protocol IterableCustomActionDelegate <NSObject>
 
-- (BOOL)handleIterableCustomAction:(NSString *)action;
+/**
+ * Callback called for custom actions from push notifications
+ * @param action  Custom action name
+ * @param extras  Additional metadata. Reserved for future use.
+ * @return Boolean value. Reserved for future use.
+ */
+- (BOOL)handleIterableCustomAction:(NSString *)action extras:(nullable NSDictionary *)extras;
 
 @end
 

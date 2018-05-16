@@ -51,7 +51,7 @@
 		9267AA1820992F9C006AF394 /* IterableAppExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9267AA0F20992F9C006AF394 /* IterableAppExtensions.framework */; };
 		9267AA1D20992F9C006AF394 /* IterableAppExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA1C20992F9C006AF394 /* IterableAppExtensionsTests.m */; };
 		9267AA1F20992F9C006AF394 /* IterableAppExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9267AA1120992F9C006AF394 /* IterableAppExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9267AA2820992FF9006AF394 /* ITBNotificationServiceExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 9267AA2620992FF9006AF394 /* ITBNotificationServiceExtension.h */; };
+		9267AA2820992FF9006AF394 /* ITBNotificationServiceExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 9267AA2620992FF9006AF394 /* ITBNotificationServiceExtension.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9267AA2920992FF9006AF394 /* ITBNotificationServiceExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA2720992FF9006AF394 /* ITBNotificationServiceExtension.m */; };
 		9267AA32209930E5006AF394 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA31209930E5006AF394 /* AppDelegate.m */; };
 		9267AA35209930E5006AF394 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA34209930E5006AF394 /* ViewController.m */; };
