@@ -10,17 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** Dismiss the push, don't bring the app to foreground, execute a custom action if defined */
-extern NSString *const IterableActionTypeDismiss;
-
-/** Open the app, execute a custom action if defined */
-extern NSString *const IterableActionTypeOpen;
-
-/** Open the app, open the deep link */
-extern NSString *const IterableActionTypeDeeplink;
-
-/** Request user input, pass to the custom action handler */
-extern NSString *const IterableActionTypeTextInput;
+/** Open the URL or deep link */
+extern NSString *const IterableActionTypeOpenUrl;
 
 /**
  `IterableAction` represents an action defined as a response to user events.
@@ -35,8 +26,10 @@ extern NSString *const IterableActionTypeTextInput;
 /**
  * Action type
  *
- * Possible values: `IterableActionTypeDismiss`, `IterableActionTypeOpen`, `IterableActionTypeDeeplink`,
- * `IterableActionTypeTextInput`
+ * If `IterableActionTypeOpenUrl`, the SDK will call `IterableURLDelegate` and then try to open the URL if
+ * the delegate returned NO or was not set.
+ *
+ * For other types, `IterableCustomActionDelegate` will be called.
  */
 @property(nonatomic, readonly) NSString *type;
 
@@ -48,12 +41,6 @@ extern NSString *const IterableActionTypeTextInput;
 ////////////////////
 /// @name Optional Fields
 ////////////////////
-
-/** 'Send' button title (textInput type only) */
-@property(nonatomic, readonly) NSString *inputTitle;
-
-/** Placeholder for the text (textInput type only) */
-@property(nonatomic, readonly) NSString *inputPlaceholder;
 
 /** The text response typed by the user */
 @property(nonatomic, readwrite) NSString *userInput;

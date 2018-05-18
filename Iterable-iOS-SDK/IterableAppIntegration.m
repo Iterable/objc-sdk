@@ -10,7 +10,6 @@
 
 #import "IterableAppIntegration.h"
 #import "IterableAPI.h"
-#import "IterableAction.h"
 #import "IterableActionRunner.h"
 #import "IterableLogging.h"
 
@@ -27,28 +26,29 @@
 {
     LogDebug(@"IterableAPI: didReceiveNotificationResponse: %@", response);
     NSDictionary *userInfo = response.notification.request.content.userInfo;
-    NSDictionary *itbl = userInfo[@"itbl"];
+    NSDictionary *itbl = userInfo[ITBL_PAYLOAD_METADATA];
+
 #ifdef DEBUG
-    if (itbl == nil) {
+    if (itbl[ITBL_PAYLOAD_DEFAULT_ACTION] == nil && itbl[ITBL_PAYLOAD_ACTION_BUTTONS] == nil) {
         itbl = userInfo;
     }
 #endif
+
     NSMutableDictionary *dataFields = [[NSMutableDictionary alloc] init];
     IterableAction *action = nil;
 
     if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
-        dataFields[@"actionIdentifier"] = @"default";
-        action = [IterableAction actionFromDictionary:itbl[@"defaultAction"]];
+        dataFields[ITBL_KEY_ACTION_IDENTIFIER] = ITBL_VALUE_DEFAULT_PUSH_OPEN_ACTION_ID;
+        action = [IterableAction actionFromDictionary:itbl[ITBL_PAYLOAD_DEFAULT_ACTION]];
     }
     else if ([response.actionIdentifier isEqualToString:UNNotificationDismissActionIdentifier]) {
         // We don't track dismiss actions yet
-        dataFields[@"actionIdentifier"] = @"dismiss";
     }
     else {
-        dataFields[@"actionIdentifier"] = response.actionIdentifier;
-        for (NSDictionary *button in itbl[@"actionButtons"]) {
-            if ([response.actionIdentifier isEqualToString:button[@"identifier"]]) {
-                action = [IterableAction actionFromDictionary:button[@"action"]];
+        dataFields[ITBL_KEY_ACTION_IDENTIFIER] = response.actionIdentifier;
+        for (NSDictionary *button in itbl[ITBL_PAYLOAD_ACTION_BUTTONS]) {
+            if ([response.actionIdentifier isEqualToString:button[ITBL_BUTTON_IDENTIFIER]]) {
+                action = [IterableAction actionFromDictionary:button[ITBL_BUTTON_ACTION]];
             }
         }
     }
@@ -56,7 +56,7 @@
     // Track push open
     if ([response isMemberOfClass:[UNTextInputNotificationResponse class]]) {
         NSString *userText = ((UNTextInputNotificationResponse *)response).userText;
-        dataFields[@"userText"] = ((UNTextInputNotificationResponse *)response).userText;
+        dataFields[ITBL_KEY_USER_TEXT] = ((UNTextInputNotificationResponse *)response).userText;
         action.userInput = userText;
     }
     if (action) {

@@ -1,6 +1,11 @@
 
 #import "ITBNotificationServiceExtension.h"
 #import "IterableAction.h"
+#import "IterableConstants.h"
+
+NSString *const IterableButtonTypeOpen         = @"open";
+NSString *const IterableButtonTypeDismiss      = @"dismiss";
+NSString *const IterableButtonTypeTextInput    = @"textInput";
 
 @interface ITBNotificationServiceExtension ()
 
@@ -18,12 +23,12 @@ UNNotificationCategory* messageCategory;
 
 - (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler {
     self.contentHandler = contentHandler;
-    self.bestAttemptContent = [request.content mutableCopy];
+    self.bestAttemptContent = (UNMutableNotificationContent *) [request.content mutableCopy];
 
     //IMPORTANT: need to add this to the documentation
     self.bestAttemptContent.categoryIdentifier = [self getCategory:request.content];
 
-    NSDictionary *itblDictionary = [request.content.userInfo objectForKey:@"itbl"];
+    NSDictionary *itblDictionary = request.content.userInfo[ITBL_PAYLOAD_METADATA];
     BOOL contentHandlerCalled = NO;
     contentHandlerCalled = [self loadAttachment:itblDictionary];
     
@@ -34,7 +39,7 @@ UNNotificationCategory* messageCategory;
 
 //Load attachment
 - (BOOL)loadAttachment:(NSDictionary *) itblDictionary {
-    NSString *attachmentUrlString = [itblDictionary objectForKey:@"attachment-url"];
+    NSString *attachmentUrlString = itblDictionary[ITBL_PAYLOAD_ATTACHMENT_URL];
 
     if (![attachmentUrlString isKindOfClass:[NSString class]])
         return NO;
@@ -78,13 +83,15 @@ UNNotificationCategory* messageCategory;
 - (NSString *)getCategory:(UNNotificationContent *) content {
     NSString *category = content.categoryIdentifier;
     if (!content.categoryIdentifier.length) {
-        NSDictionary *itblDictionary = content.userInfo[@"itbl"];
-        NSString *messageId = itblDictionary[@"messageId"];
-        NSArray *actionButtons = itblDictionary[@"actionButtons"];
+        NSDictionary *itblDictionary = content.userInfo[ITBL_PAYLOAD_METADATA];
+        NSString *messageId = itblDictionary[ITBL_PAYLOAD_MESSAGE_ID];
+        NSArray *actionButtons = itblDictionary[ITBL_PAYLOAD_ACTION_BUTTONS];
 
+#ifdef DEBUG
         if (!actionButtons) {
-            actionButtons = content.userInfo[@"actionButtons"];
+            actionButtons = content.userInfo[ITBL_PAYLOAD_ACTION_BUTTONS];
         }
+#endif
 
         if (actionButtons != nil) {
             NSMutableArray *notificationActionList = [NSMutableArray array];
@@ -112,32 +119,39 @@ UNNotificationCategory* messageCategory;
 }
 
 - (UNNotificationAction *)createNotificationActionButton:(NSDictionary *)buttonDictionary {
-    NSString *identifier = buttonDictionary[@"identifier"];
-    NSString *title = buttonDictionary[@"title"];
-    BOOL destructive = [buttonDictionary[@"destructive"] boolValue];
-    BOOL requiresUnlock = [buttonDictionary[@"requiresUnlock"] boolValue];
-    IterableAction *action = [IterableAction actionFromDictionary:buttonDictionary[@"action"]];
+    NSString *identifier = buttonDictionary[ITBL_BUTTON_IDENTIFIER];
+    NSString *title = buttonDictionary[ITBL_BUTTON_TITLE];
+    NSString *buttonType = buttonDictionary[ITBL_BUTTON_TYPE];
+    if (!buttonType) {
+        buttonType = IterableButtonTypeOpen;
+    }
+    BOOL destructive = [buttonDictionary[ITBL_BUTTON_DESTRUCTIVE] boolValue];
+    BOOL requiresUnlock = [buttonDictionary[ITBL_BUTTON_REQUIRES_UNLOCK] boolValue];
+    IterableAction *action = [IterableAction actionFromDictionary:buttonDictionary[ITBL_BUTTON_ACTION]];
 
     UNNotificationActionOptions actionOptions = UNNotificationActionOptionNone;
     if (destructive) {
         actionOptions |= UNNotificationActionOptionDestructive;
     }
     
-    if (![action isOfType:IterableActionTypeDismiss]) {
+    if ([buttonType isEqualToString:IterableButtonTypeOpen]) {
         actionOptions |= UNNotificationActionOptionForeground;
     }
     
-    if (requiresUnlock || [action isOfType:IterableActionTypeOpen] || [action isOfType:IterableActionTypeDeeplink]) {
+    if (requiresUnlock || [buttonType isEqualToString:IterableButtonTypeOpen]) {
         actionOptions |= UNNotificationActionOptionAuthenticationRequired;
     }
     
-    if ([action isOfType:IterableActionTypeTextInput]) {
+    if ([buttonType isEqualToString:IterableButtonTypeTextInput]) {
+        NSString *inputTitle = buttonDictionary[ITBL_BUTTON_INPUT_TITLE];
+        NSString *inputPlaceholder = buttonDictionary[ITBL_BUTTON_INPUT_PLACEHOLDER];
+        
         return  [UNTextInputNotificationAction
                  actionWithIdentifier:identifier
                  title:title
                  options:actionOptions
-                 textInputButtonTitle:action.inputTitle
-                 textInputPlaceholder:action.inputPlaceholder];
+                 textInputButtonTitle:inputTitle
+                 textInputPlaceholder:inputPlaceholder];
     }
     else {
         return [UNNotificationAction
@@ -145,6 +159,10 @@ UNNotificationCategory* messageCategory;
                 title:title
                 options:actionOptions];
     }
+}
+
+- (void)serviceExtensionTimeWillExpire {
+    self.contentHandler(self.bestAttemptContent);
 }
 
 @end

@@ -8,10 +8,7 @@
 
 #import "IterableAction.h"
 
-NSString *const IterableActionTypeDismiss    = @"dismiss";
-NSString *const IterableActionTypeOpen       = @"open";
-NSString *const IterableActionTypeDeeplink   = @"deeplink";
-NSString *const IterableActionTypeTextInput  = @"textInput";
+NSString *const IterableActionTypeOpenUrl    = @"openUrl";
 
 @interface IterableAction ()
 
@@ -42,14 +39,6 @@ NSString *const IterableActionTypeTextInput  = @"textInput";
 
 - (NSString *)data {
     return self.config[@"data"];
-}
-
-- (NSString *)inputTitle {
-    return self.config[@"inputTitle"];
-}
-
-- (NSString *)inputPlaceholder {
-    return self.config[@"inputPlaceholder"];
 }
 
 - (BOOL)isOfType:(NSString *)type {

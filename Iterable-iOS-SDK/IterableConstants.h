@@ -34,6 +34,8 @@ extern NSString *const ITBL_KEY_UNSUB_CHANNEL;
 extern NSString *const ITBL_KEY_UNSUB_MESSAGE;
 extern NSString *const ITBL_KEY_USER;
 extern NSString *const ITBL_KEY_USER_ID;
+extern NSString *const ITBL_KEY_ACTION_IDENTIFIER;
+extern NSString *const ITBL_KEY_USER_TEXT;
 
 //Decvice Dictionary
 extern NSString *const ITBL_DEVICE_LOCALIZED_MODEL;
@@ -70,11 +72,33 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITBL_KEY_PHONE @"Phone"
 #define ITBL_KEY_UNSPECIFIED @"Unspecified"
 
+#define ITBL_VALUE_DEFAULT_PUSH_OPEN_ACTION_ID @"default"
+
 #define ITBL_PLATFORM_IOS @"iOS"
 
 
 #define ITBL_DEEPLINK_IDENTIFIER @"/a/[a-zA-Z0-9]+"
 
+
+//Push Payload
+#define ITBL_PAYLOAD_METADATA @"itbl"
+#define ITBL_PAYLOAD_MESSAGE_ID @"messageId"
+#define ITBL_PAYLOAD_ATTACHMENT_URL @"attachment-url"
+#define ITBL_PAYLOAD_ACTION_BUTTONS @"actionButtons"
+#define ITBL_PAYLOAD_DEFAULT_ACTION @"defaultAction"
+
+//Action Buttons
+#define ITBL_BUTTON_IDENTIFIER @"identifier"
+#define ITBL_BUTTON_TYPE @"buttonType"
+#define ITBL_BUTTON_TITLE @"title"
+#define ITBL_BUTTON_DESTRUCTIVE @"destructive"
+#define ITBL_BUTTON_REQUIRES_UNLOCK @"requiresUnlock"
+#define ITBL_BUTTON_INPUT_TITLE @"inputTitle"
+#define ITBL_BUTTON_INPUT_PLACEHOLDER @"inputPlaceholder"
+#define ITBL_BUTTON_ACTION @"action"
+
+#define ITBL_ACTION_TYPE @"type"
+#define ITBL_ACTION_DATA @"data"
 
 //In-App Constants
 #define ITERABLE_IN_APP_CLICK_URL @"urlClick"

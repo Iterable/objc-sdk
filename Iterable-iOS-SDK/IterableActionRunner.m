@@ -12,27 +12,35 @@
 @implementation IterableActionRunner
 
 + (void)executeAction:(IterableAction *)action {
-    if ([action isOfType:IterableActionTypeOpen] || [action isOfType:IterableActionTypeDismiss]) {
-        // Call a custom action if it is available
-        [self callCustomActionIfSpecified:action.data extras:nil];
-    }
-    else if ([action isOfType:IterableActionTypeDeeplink]) {
+    if ([action isOfType:IterableActionTypeOpenUrl]) {
         // Open deeplink, use delegate handler
-        [self openURL:action.data];
+        [self openURL:[NSURL URLWithString:action.data] action:action];
     }
-    else if ([action isOfType:IterableActionTypeTextInput]) {
-        // Text input. Call a custom action and pass parameters if available
-        [self callCustomActionIfSpecified:action.data extras:nil];
+    else {
+        // Call a custom action if available
+        [self callCustomActionIfSpecified:action];
     }
 }
 
-+ (void)openURL:(NSString *)url {
-    [[IterableAPI sharedInstance].urlDelegate handleIterableURL:[NSURL URLWithString:url] extras:nil];
++ (void)openURL:(NSURL *)url action:(IterableAction *)action {
+    if ([[IterableAPI sharedInstance].urlDelegate handleIterableURL:url fromAction:action])
+        return;
+
+    // Open http/https links in the browser
+    NSString *scheme = url.scheme;
+    if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
+        if (@available(iOS 10.0, *)) {
+            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+        }
+        else {
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    }
 }
 
-+ (void)callCustomActionIfSpecified:(NSString *)data extras:(nullable NSDictionary *)extras {
-    if (data.length > 0) {
-        [[IterableAPI sharedInstance].customActionDelegate handleIterableCustomAction:data extras:extras];
++ (void)callCustomActionIfSpecified:(IterableAction *)action {
+    if (action.type.length > 0) {
+        [[IterableAPI sharedInstance].customActionDelegate handleIterableCustomAction:action];
     }
 }
 

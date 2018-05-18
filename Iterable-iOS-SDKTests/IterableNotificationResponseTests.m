@@ -53,9 +53,8 @@
     NSDictionary *userInfo = @{
                                @"itbl": @{
                                    @"defaultAction": @{
-                                           @"type": @"open",
-                                           @"data": @"customAction"
-                                           }
+                                           @"type": @"customAction"
+                                       }
                                    }
                                };
 
@@ -66,8 +65,7 @@
     }];
 
     OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
-        XCTAssertEqual(action.type, IterableActionTypeOpen);
-        XCTAssertEqual(action.data, @"customAction");
+        XCTAssertEqual(action.type, @"customAction");
         return YES;
     }]]);
     
@@ -86,9 +84,9 @@
                                @"itbl": @{
                                    @"actionButtons": @[@{
                                                @"identifier": @"buttonIdentifier",
+                                               @"buttonType": @"dismiss",
                                                @"action": @{
-                                                   @"type": @"dismiss",
-                                                   @"data": @"customAction"
+                                                   @"type": @"customAction"
                                                }
                                        }]
                                    }
@@ -101,8 +99,7 @@
     }];
     
     OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
-        XCTAssertEqual(action.type, IterableActionTypeDismiss);
-        XCTAssertEqual(action.data, @"customAction");
+        XCTAssertEqual(action.type, @"customAction");
         return YES;
     }]]);
     

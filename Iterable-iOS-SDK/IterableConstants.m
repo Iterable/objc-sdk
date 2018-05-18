@@ -37,6 +37,8 @@ NSString *const ITBL_KEY_UNSUB_CHANNEL       = @"unsubscribedChannelIds";
 NSString *const ITBL_KEY_UNSUB_MESSAGE       = @"unsubscribedMessageTypeIds";
 NSString *const ITBL_KEY_USER                = @"user";
 NSString *const ITBL_KEY_USER_ID             = @"userId";
+NSString *const ITBL_KEY_ACTION_IDENTIFIER   = @"actionIdentifier";
+NSString *const ITBL_KEY_USER_TEXT           = @"userText";
 
 //Decvice Dictionary
 NSString *const ITBL_DEVICE_LOCALIZED_MODEL  = @"localizedModel";

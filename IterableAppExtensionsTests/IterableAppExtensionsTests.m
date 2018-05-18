@@ -102,30 +102,32 @@
                                  @"actionButtons": @[@{
                                             @"identifier": @"openAppButton",
                                             @"title": @"Open App",
+                                            @"buttonType": @"open",
                                             @"action": @{
-                                                    @"type": @"open"
                                             }
                                     }, @{
                                             @"identifier": @"deeplinkButton",
                                             @"title": @"Open Deeplink",
+                                            @"buttonType": @"open",
                                             @"action": @{
-                                                    @"type": @"deeplink",
+                                                    @"type": @"openUrl",
                                                     @"data": @"http://maps.apple.com/?ll=37.7828,-122.3984"
                                             }
                                     }, @{
                                             @"identifier": @"silentActionButton",
                                             @"title": @"Silent Action",
+                                            @"buttonType": @"dismiss",
                                             @"action": @{
-                                                    @"type": @"dismiss",
-                                                    @"data": @"customActionName"
+                                                    @"type": @"customActionName"
                                             }
                                     }, @{
                                             @"identifier": @"textInputButton",
                                             @"title": @"Text input",
+                                            @"buttonType": @"textInput",
+                                            @"inputPlaceholder": @"Type your message here",
+                                            @"inputTitle": @"Send",
                                             @"action": @{
-                                                    @"type": @"textInput",
-                                                    @"inputTitle": @"Send",
-                                                    @"inputPlaceholder": @"Type your message here"
+                                                    @"type": @"handleTextInput"
                                             }
                                     }]
                                  }
@@ -143,12 +145,16 @@
                     if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
                         createdCategory = category;
                 }
-                XCTAssertNotNil(createdCategory);
+                XCTAssertNotNil(createdCategory, "Category exists");
                 
                 NSArray *buttons = content.userInfo[@"itbl"][@"actionButtons"];
-                XCTAssertEqual(createdCategory.actions.count, 4);
+                XCTAssertEqual(createdCategory.actions.count, 4, "Number of buttons matches");
                 for (int i = 0; i < 4; i++) {
-                    XCTAssertEqualObjects(createdCategory.actions[i].title, buttons[i][@"title"]);
+                    NSDictionary *buttonPayload = buttons[i];
+                    UNNotificationAction *actionButton = createdCategory.actions[i];
+                    
+                    XCTAssertEqualObjects(actionButton.identifier, buttonPayload[@"identifier"], "Identifiers match");
+                    XCTAssertEqualObjects(actionButton.title, buttonPayload[@"title"], "Button titles match");
                 }
                 
                 [expectation fulfill];
@@ -159,7 +165,7 @@
     [self waitForExpectations:@[expectation] timeout:5.0];
 }
 
-- (void)testPushDestructiveActionButton {
+- (void)testPushDestructiveSilentActionButton {
     UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
     content.userInfo = @{
                          @"itbl" : @{
@@ -168,8 +174,8 @@
                                                          @"identifier": @"destructiveButton",
                                                          @"title": @"Unsubscribe",
                                                          @"destructive": @YES,
+                                                         @"buttonType": @"dismiss",
                                                          @"action": @{
-                                                                 @"type": @"open"
                                                                  }
                                                          }]
                                  }
@@ -187,10 +193,93 @@
                     if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
                         createdCategory = category;
                 }
-                XCTAssertNotNil(createdCategory);
+                XCTAssertNotNil(createdCategory, "Category exists");
                 
-                XCTAssertEqual(createdCategory.actions.count, 1);
+                XCTAssertEqual(createdCategory.actions.count, 1, "Number of buttons matches");
                 XCTAssertTrue(createdCategory.actions.firstObject.options & UNNotificationActionOptionDestructive, "Action is destructive");
+                XCTAssertFalse(createdCategory.actions.firstObject.options & UNNotificationActionOptionForeground, "Action is not foreground");
+                
+                [expectation fulfill];
+            }];
+        });
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:5.0];
+}
+
+- (void)testPushTextInputButton {
+    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+    content.userInfo = @{
+                         @"itbl" : @{
+                                 @"messageId": [[NSUUID UUID] UUIDString],
+                                 @"actionButtons": @[@{
+                                                         @"identifier": @"textInputButton",
+                                                         @"title": @"Text Input",
+                                                         @"buttonType": @"textInput",
+                                                         @"action": @{
+                                                                 
+                                                                 }
+                                                         }]
+                                 }
+                         };
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"request" content:content trigger:nil];
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
+    
+    [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+            [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
+                UNNotificationCategory *createdCategory = nil;
+                for (UNNotificationCategory *category in categories) {
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                        createdCategory = category;
+                }
+                XCTAssertNotNil(createdCategory, "Category exists");
+                
+                XCTAssertEqual(createdCategory.actions.count, 1, "Number of buttons matches");
+                XCTAssertFalse(createdCategory.actions.firstObject.options & UNNotificationActionOptionForeground, "Action is not foreground");
+                XCTAssertTrue([createdCategory.actions.firstObject isKindOfClass:[UNTextInputNotificationAction class]], "Action type is UNTextInputNotificationAction");
+                
+                [expectation fulfill];
+            }];
+        });
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:5.0];
+}
+
+- (void)testPushButtonWithNoType {
+    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+    content.userInfo = @{
+                         @"itbl" : @{
+                                 @"messageId": [[NSUUID UUID] UUIDString],
+                                 @"actionButtons": @[@{
+                                                         @"identifier": @"openAppButton",
+                                                         @"title": @"Open App",
+                                                         @"action": @{
+                                                                 
+                                                                 }
+                                                         }]
+                                 }
+                         };
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"request" content:content trigger:nil];
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
+    
+    [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+            [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
+                UNNotificationCategory *createdCategory = nil;
+                for (UNNotificationCategory *category in categories) {
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                        createdCategory = category;
+                }
+                XCTAssertNotNil(createdCategory, "Category exists");
+                
+                XCTAssertEqual(createdCategory.actions.count, 1, "Number of buttons matches");
+                XCTAssertTrue(createdCategory.actions.firstObject.options & UNNotificationActionOptionForeground, "Action is foreground");
                 
                 [expectation fulfill];
             }];

@@ -42,10 +42,10 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /**
  * Callback called for a deeplink action. Return YES to override default behavior
  * @param url     Deeplink URL
- * @param extras  Additional metadata. Reserved for future use.
+ * @param action  Original openUrl Action object
  * @return Boolean value. Return YES if the URL was handled to override default behavior.
  */
-- (BOOL)handleIterableURL:(NSURL *)url extras:(nullable NSDictionary *)extras;
+- (BOOL)handleIterableURL:(NSURL *)url fromAction:(IterableAction *)action;
 
 @end
 
@@ -57,10 +57,10 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /**
  * Callback called for custom actions from push notifications
  * @param action  Custom action name
- * @param extras  Additional metadata. Reserved for future use.
+ * @param action  `IterableAction` object containing action payload
  * @return Boolean value. Reserved for future use.
  */
-- (BOOL)handleIterableCustomAction:(NSString *)action extras:(nullable NSDictionary *)extras;
+- (BOOL)handleIterableCustomAction:(IterableAction *)action;
 
 @end
 
