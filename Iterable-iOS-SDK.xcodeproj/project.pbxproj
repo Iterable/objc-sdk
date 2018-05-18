@@ -93,6 +93,13 @@
 			remoteGlobalIDString = 9267AA2D209930E5006AF394;
 			remoteInfo = IterableTestingHost;
 		};
+		9276168520AE6528006F3561 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09C0FBF31A1D6D4700D5A86B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9267AA2D209930E5006AF394;
+			remoteInfo = IterableTestingHost;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -439,6 +446,7 @@
 			);
 			dependencies = (
 				09C0FC091A1D6D4700D5A86B /* PBXTargetDependency */,
+				9276168620AE6528006F3561 /* PBXTargetDependency */,
 			);
 			name = "Iterable-iOS-SDKTests";
 			productName = "Iterable-iOS-SDKTests";
@@ -516,6 +524,7 @@
 					};
 					09C0FC051A1D6D4700D5A86B = {
 						CreatedOnToolsVersion = 6.1;
+						TestTargetID = 9267AA2D209930E5006AF394;
 					};
 					9267AA0E20992F9C006AF394 = {
 						CreatedOnToolsVersion = 9.3;
@@ -779,6 +788,11 @@
 			target = 9267AA2D209930E5006AF394 /* IterableTestingHost */;
 			targetProxy = 9267AA44209930F2006AF394 /* PBXContainerItemProxy */;
 		};
+		9276168620AE6528006F3561 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9267AA2D209930E5006AF394 /* IterableTestingHost */;
+			targetProxy = 9276168520AE6528006F3561 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -946,6 +960,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Iterable.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IterableTestingHost.app/IterableTestingHost";
 			};
 			name = Debug;
 		};
@@ -963,6 +978,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Iterable.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IterableTestingHost.app/IterableTestingHost";
 			};
 			name = Release;
 		};

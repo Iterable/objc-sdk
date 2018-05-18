@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "IterableAPI.h"
+#import "IterableActionRunner.h"
 
 @interface IterableActionRunnerTests : XCTestCase
 
@@ -26,39 +27,40 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    /*id actionRunnerMock = OCMClassMock([IterableActionRunner class]);
-    id apiMock = OCMPartialMock(IterableAPI.sharedInstance);
-    [IterableAPI sharedInstanceWithApiKey:@"" andEmail:@"" launchOptions:nil];
+- (void)testUrlOpenAction {
+    id urlDelegateMock = OCMProtocolMock(@protocol(IterableURLDelegate));
+    id applicationMock = OCMPartialMock([UIApplication sharedApplication]);
+    IterableAPI.sharedInstance.urlDelegate = urlDelegateMock;
+    IterableAction *action = [IterableAction actionFromDictionary:@{ @"type": @"openUrl", @"data": @"https://example.com" }];
+    [IterableActionRunner executeAction:action];
     
-    NSDictionary *userInfo = @{
-                               @"itbl": @{
-                                       @"actionButtons": @[@{
-                                                               @"identifier": @"buttonIdentifier",
-                                                               @"action": @{
-                                                                       @"type": @"dismiss",
-                                                                       @"data": @"customAction"
-                                                                       }
-                                                               }]
-                                       }
-                               };
+    OCMVerify([urlDelegateMock handleIterableURL:[OCMArg isEqual:[NSURL URLWithString:@"https://example.com"]] fromAction:[OCMArg isEqual:action]]);
+    OCMVerify([applicationMock openURL:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]);
+    [applicationMock stopMocking];
+}
+
+- (void)testUrlHandlingOverride {
+    id urlDelegateMock = OCMProtocolMock(@protocol(IterableURLDelegate));
+    id applicationMock = OCMPartialMock([UIApplication sharedApplication]);
+    OCMReject([applicationMock openURL:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]);
+    OCMStub([urlDelegateMock handleIterableURL:[OCMArg any] fromAction:[OCMArg any]]).andReturn(YES);
+    IterableAPI.sharedInstance.urlDelegate = urlDelegateMock;
+    IterableAction *action = [IterableAction actionFromDictionary:@{ @"type": @"openUrl", @"data": @"https://example.com" }];
+    [IterableActionRunner executeAction:action];
     
-    UNNotificationResponse *response = [self notificationResponseWithUserInfo:userInfo actionIdentifier:@"buttonIdentifier"];
+    [applicationMock stopMocking];
+}
+
+- (void)testCustomAction {
+    id customActionDelegateMock = OCMProtocolMock(@protocol(IterableCustomActionDelegate));
+    IterableAPI.sharedInstance.customActionDelegate = customActionDelegateMock;
+    IterableAction *action = [IterableAction actionFromDictionary:@{ @"type": @"customActionName" }];
+    [IterableActionRunner executeAction:action];
     
-    [IterableAppIntegration userNotificationCenter:nil didReceiveNotificationResponse:response withCompletionHandler:^{
-        
-    }];
-    
-    OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
-        XCTAssertEqual(action.type, IterableActionTypeDismiss);
-        XCTAssertEqual(action.data, @"customAction");
+    OCMVerify([customActionDelegateMock handleIterableCustomAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
+        XCTAssertEqualObjects(action.type, @"customActionName");
         return YES;
     }]]);
-    
-    OCMVerify([apiMock trackPushOpen:[OCMArg isNotNil] dataFields:[OCMArg isNotNil]]);
-    
-    [actionRunnerMock stopMocking];
-    [apiMock stopMocking];*/
 }
 
 @end

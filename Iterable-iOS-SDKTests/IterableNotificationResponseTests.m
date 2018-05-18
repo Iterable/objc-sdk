@@ -46,12 +46,17 @@
     return notificationResponse;
 }
 
-- (void)testOpenPushWithCustomAction {
+- (void)testTrackOpenPushWithCustomAction {
     id actionRunnerMock = OCMClassMock([IterableActionRunner class]);
     id apiMock = OCMPartialMock(IterableAPI.sharedInstance);
+    NSString *messageId = [[NSUUID UUID] UUIDString];
     
     NSDictionary *userInfo = @{
                                @"itbl": @{
+                                   @"campaignId": @1234,
+                                   @"templateId": @4321,
+                                   @"isGhostPush": @NO,
+                                   @"messageId": messageId,
                                    @"defaultAction": @{
                                            @"type": @"customAction"
                                        }
@@ -69,7 +74,13 @@
         return YES;
     }]]);
     
-    OCMVerify([apiMock trackPushOpen:[OCMArg isNotNil] dataFields:[OCMArg isNotNil]]);
+    OCMVerify([apiMock trackPushOpen:[OCMArg isEqual:@1234]
+                          templateId:[OCMArg isEqual:@4321]
+                           messageId:[OCMArg isEqual:messageId]
+                   appAlreadyRunning:NO
+                          dataFields:[OCMArg any]
+                           onSuccess:[OCMArg any]
+                           onFailure:[OCMArg any]]);
     
     [actionRunnerMock stopMocking];
     [apiMock stopMocking];
