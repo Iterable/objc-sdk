@@ -56,7 +56,6 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 
 /**
  * Callback called for custom actions from push notifications
- * @param action  Custom action name
  * @param action  `IterableAction` object containing action payload
  * @return Boolean value. Reserved for future use.
  */
