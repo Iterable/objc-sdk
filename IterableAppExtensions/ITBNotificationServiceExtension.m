@@ -127,7 +127,6 @@ UNNotificationCategory* messageCategory;
     }
     BOOL destructive = [buttonDictionary[ITBL_BUTTON_DESTRUCTIVE] boolValue];
     BOOL requiresUnlock = [buttonDictionary[ITBL_BUTTON_REQUIRES_UNLOCK] boolValue];
-    IterableAction *action = [IterableAction actionFromDictionary:buttonDictionary[ITBL_BUTTON_ACTION]];
 
     UNNotificationActionOptions actionOptions = UNNotificationActionOptionNone;
     if (destructive) {

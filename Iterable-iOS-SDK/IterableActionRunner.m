@@ -8,6 +8,7 @@
 
 #import "IterableActionRunner.h"
 #import "IterableAPI.h"
+#import "IterableLogging.h"
 
 @implementation IterableActionRunner
 
@@ -23,14 +24,21 @@
 }
 
 + (void)openURL:(NSURL *)url action:(IterableAction *)action {
-    if ([[IterableAPI sharedInstance].urlDelegate handleIterableURL:url fromAction:action])
+    if ([[IterableAPI sharedInstance].urlDelegate handleIterableURL:url fromAction:action]) {
         return;
+    }
 
     // Open http/https links in the browser
     NSString *scheme = url.scheme;
     if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
         if (@available(iOS 10.0, *)) {
-            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+            [[UIApplication sharedApplication] openURL:url
+                                               options:@{}
+                                               completionHandler:^(BOOL success) {
+                                                   if (!success) {
+                                                       LogError(@"Could not open the URL: %@", url.absoluteString);
+                                                   }
+                                               }];
         }
         else {
             [[UIApplication sharedApplication] openURL:url];
