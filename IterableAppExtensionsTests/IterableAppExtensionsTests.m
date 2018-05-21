@@ -10,6 +10,9 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "ITBNotificationServiceExtension.h"
 
+static CGFloat const IterableNotificationCenterRequestDelay = 0.05;
+static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
+
 @interface IterableAppExtensionsTests : XCTestCase
 
 @property (nonatomic) ITBNotificationServiceExtension *extension;
@@ -45,7 +48,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectations:@[expectation] timeout:5.0];
+    [self waitForExpectations:@[expectation] timeout:IterableNotificationCenterExpectationTimeout];
 }
 
 - (void)testPushImageAttachemnt {
@@ -68,7 +71,7 @@
         [expectation fulfill];
     }];
 
-    [self waitForExpectations:@[expectation] timeout:5.0];
+    [self waitForExpectations:@[expectation] timeout:IterableNotificationCenterExpectationTimeout];
 }
 
 - (void)testPushVideoAttachment {
@@ -91,7 +94,7 @@
         [expectation fulfill];
     }];
     
-    [self waitForExpectations:@[expectation] timeout:5.0];
+    [self waitForExpectations:@[expectation] timeout:IterableNotificationCenterExpectationTimeout];
 }
 
 - (void)testPushDynamicCategory {
@@ -137,7 +140,7 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
     
     [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, IterableNotificationCenterRequestDelay * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
@@ -162,7 +165,7 @@
         });
     }];
     
-    [self waitForExpectations:@[expectation] timeout:5.0];
+    [self waitForExpectations:@[expectation] timeout:IterableNotificationCenterExpectationTimeout];
 }
 
 - (void)testPushDestructiveSilentActionButton {
@@ -185,7 +188,7 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
     
     [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, IterableNotificationCenterRequestDelay * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
@@ -204,7 +207,7 @@
         });
     }];
     
-    [self waitForExpectations:@[expectation] timeout:5.0];
+    [self waitForExpectations:@[expectation] timeout:IterableNotificationCenterExpectationTimeout];
 }
 
 - (void)testPushTextInputButton {
@@ -227,7 +230,7 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
     
     [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, IterableNotificationCenterRequestDelay * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
@@ -246,7 +249,7 @@
         });
     }];
     
-    [self waitForExpectations:@[expectation] timeout:5.0];
+    [self waitForExpectations:@[expectation] timeout:IterableNotificationCenterExpectationTimeout];
 }
 
 - (void)testPushButtonWithNoType {
@@ -268,7 +271,7 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
     
     [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.01 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, IterableNotificationCenterRequestDelay * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
             UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
@@ -286,7 +289,7 @@
         });
     }];
     
-    [self waitForExpectations:@[expectation] timeout:5.0];
+    [self waitForExpectations:@[expectation] timeout:IterableNotificationCenterExpectationTimeout];
 }
 
 - (void)testPushActionButtons {
