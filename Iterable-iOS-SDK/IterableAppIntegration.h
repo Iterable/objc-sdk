@@ -16,7 +16,7 @@
  * Call it from your app delegate's application:didReceiveRemoteNotification:fetchCompletionHandler:.
  *
  * @param application UIApplication singleton object
- * @param userInfo NSDictionary containing the notfication data
+ * @param userInfo NSDictionary containing the notification data
  * @param completionHandler Completion handler passed from the original call. Iterable will call the completion handler
  * automatically if you pass one. If you handle completionHandler in the app code, pass a nil value to this argument.
  */
