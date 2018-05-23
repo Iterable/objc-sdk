@@ -10,6 +10,7 @@ before_install:
 script:
   - xcodebuild test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X' -workspace Iterable-iOS-SDK.xcworkspace -scheme IterableAppExtensionsTests CODE_SIGNING_REQUIRED=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -f `xcpretty-travis-formatter`
   - xcodebuild test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone X' -workspace Iterable-iOS-SDK.xcworkspace -scheme Iterable-iOS-SDKTests CODE_SIGNING_REQUIRED=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -f `xcpretty-travis-formatter`
+  - xcodebuild test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.0' -workspace Iterable-iOS-SDK.xcworkspace -scheme Iterable-iOS-SDKTests CODE_SIGNING_REQUIRED=NO GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -f `xcpretty-travis-formatter`
   - pod lib lint
 
 after_success:

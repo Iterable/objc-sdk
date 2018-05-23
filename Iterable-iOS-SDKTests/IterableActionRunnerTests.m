@@ -35,14 +35,22 @@
     [IterableActionRunner executeAction:action];
     
     OCMVerify([urlDelegateMock handleIterableURL:[OCMArg isEqual:[NSURL URLWithString:@"https://example.com"]] fromAction:[OCMArg isEqual:action]]);
-    OCMVerify([applicationMock openURL:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]);
+    if (@available(iOS 10.0, *)) {
+        OCMVerify([applicationMock openURL:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]);
+    } else {
+        OCMVerify([applicationMock openURL:[OCMArg any]]);
+    }
     [applicationMock stopMocking];
 }
 
 - (void)testUrlHandlingOverride {
     id urlDelegateMock = OCMProtocolMock(@protocol(IterableURLDelegate));
     id applicationMock = OCMPartialMock([UIApplication sharedApplication]);
-    OCMReject([applicationMock openURL:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]);
+    if (@available(iOS 10.0, *)) {
+        OCMReject([applicationMock openURL:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]);
+    } else {
+        OCMReject([applicationMock openURL:[OCMArg any]]);
+    }
     OCMStub([urlDelegateMock handleIterableURL:[OCMArg any] fromAction:[OCMArg any]]).andReturn(YES);
     IterableAPI.sharedInstance.urlDelegate = urlDelegateMock;
     IterableAction *action = [IterableAction actionFromDictionary:@{ @"type": @"openUrl", @"data": @"https://example.com" }];

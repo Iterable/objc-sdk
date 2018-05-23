@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
-#import "IterableAppIntegration.h"
+#import "IterableAppIntegration+Private.h"
 #import "IterableActionRunner.h"
 #import "IterableAPI.h"
 
@@ -47,78 +47,168 @@
 }
 
 - (void)testTrackOpenPushWithCustomAction {
-    id actionRunnerMock = OCMClassMock([IterableActionRunner class]);
-    id apiMock = OCMPartialMock(IterableAPI.sharedInstance);
-    NSString *messageId = [[NSUUID UUID] UUIDString];
-    
-    NSDictionary *userInfo = @{
-                               @"itbl": @{
-                                   @"campaignId": @1234,
-                                   @"templateId": @4321,
-                                   @"isGhostPush": @NO,
-                                   @"messageId": messageId,
-                                   @"defaultAction": @{
-                                           @"type": @"customAction"
-                                       }
-                                   }
-                               };
-
-    UNNotificationResponse *response = [self notificationResponseWithUserInfo:userInfo actionIdentifier:UNNotificationDefaultActionIdentifier];
-
-    [IterableAppIntegration userNotificationCenter:nil didReceiveNotificationResponse:response withCompletionHandler:^{
+    if (@available(iOS 10, *)) {
+        id actionRunnerMock = OCMClassMock([IterableActionRunner class]);
+        id apiMock = OCMPartialMock(IterableAPI.sharedInstance);
+        NSString *messageId = [[NSUUID UUID] UUIDString];
         
-    }];
+        NSDictionary *userInfo = @{
+                                   @"itbl": @{
+                                       @"campaignId": @1234,
+                                       @"templateId": @4321,
+                                       @"isGhostPush": @NO,
+                                       @"messageId": messageId,
+                                       @"defaultAction": @{
+                                               @"type": @"customAction"
+                                           }
+                                       }
+                                   };
 
-    OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
-        XCTAssertEqual(action.type, @"customAction");
-        return YES;
-    }]]);
-    
-    OCMVerify([apiMock trackPushOpen:[OCMArg isEqual:@1234]
-                          templateId:[OCMArg isEqual:@4321]
-                           messageId:[OCMArg isEqual:messageId]
-                   appAlreadyRunning:NO
-                          dataFields:[OCMArg any]
-                           onSuccess:[OCMArg any]
-                           onFailure:[OCMArg any]]);
-    
-    [actionRunnerMock stopMocking];
-    [apiMock stopMocking];
+        UNNotificationResponse *response = [self notificationResponseWithUserInfo:userInfo actionIdentifier:UNNotificationDefaultActionIdentifier];
+
+        [IterableAppIntegration userNotificationCenter:nil didReceiveNotificationResponse:response withCompletionHandler:^{
+            
+        }];
+
+        OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
+            XCTAssertEqual(action.type, @"customAction");
+            return YES;
+        }]]);
+        
+        OCMVerify([apiMock trackPushOpen:[OCMArg isEqual:@1234]
+                              templateId:[OCMArg isEqual:@4321]
+                               messageId:[OCMArg isEqual:messageId]
+                       appAlreadyRunning:NO
+                              dataFields:[OCMArg checkWithBlock:^BOOL(NSDictionary *dataFields) {
+                                  XCTAssertEqualObjects(dataFields[ITBL_KEY_ACTION_IDENTIFIER], ITBL_VALUE_DEFAULT_PUSH_OPEN_ACTION_ID);
+                                  return YES;
+                              }]
+                               onSuccess:[OCMArg any]
+                               onFailure:[OCMArg any]]);
+        
+        [actionRunnerMock stopMocking];
+        [apiMock stopMocking];
+    }
 }
 
 - (void)testActionButtonDismiss {
-    id actionRunnerMock = OCMClassMock([IterableActionRunner class]);
-    id apiMock = OCMPartialMock(IterableAPI.sharedInstance);
-    [IterableAPI sharedInstanceWithApiKey:@"" andEmail:@"" launchOptions:nil];
-    
-    NSDictionary *userInfo = @{
-                               @"itbl": @{
-                                   @"actionButtons": @[@{
-                                               @"identifier": @"buttonIdentifier",
-                                               @"buttonType": @"dismiss",
-                                               @"action": @{
-                                                   @"type": @"customAction"
-                                               }
-                                       }]
-                                   }
-                               };
-    
-    UNNotificationResponse *response = [self notificationResponseWithUserInfo:userInfo actionIdentifier:@"buttonIdentifier"];
-    
-    [IterableAppIntegration userNotificationCenter:nil didReceiveNotificationResponse:response withCompletionHandler:^{
+    if (@available(iOS 10, *)) {
+        id actionRunnerMock = OCMClassMock([IterableActionRunner class]);
+        id apiMock = OCMPartialMock(IterableAPI.sharedInstance);
+        [IterableAPI sharedInstanceWithApiKey:@"" andEmail:@"" launchOptions:nil];
         
-    }];
-    
-    OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
-        XCTAssertEqual(action.type, @"customAction");
-        return YES;
-    }]]);
-    
-    OCMVerify([apiMock trackPushOpen:[OCMArg isNotNil] dataFields:[OCMArg isNotNil]]);
-    
-    [actionRunnerMock stopMocking];
-    [apiMock stopMocking];
+        NSDictionary *userInfo = @{
+                                   @"itbl": @{
+                                       @"actionButtons": @[@{
+                                                   @"identifier": @"buttonIdentifier",
+                                                   @"buttonType": @"dismiss",
+                                                   @"action": @{
+                                                       @"type": @"customAction"
+                                                   }
+                                           }]
+                                       }
+                                   };
+        
+        UNNotificationResponse *response = [self notificationResponseWithUserInfo:userInfo actionIdentifier:@"buttonIdentifier"];
+        
+        [IterableAppIntegration userNotificationCenter:nil didReceiveNotificationResponse:response withCompletionHandler:^{
+            
+        }];
+        
+        OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
+            XCTAssertEqual(action.type, @"customAction");
+            return YES;
+        }]]);
+
+        OCMVerify([apiMock trackPushOpen:[OCMArg any] dataFields:[OCMArg checkWithBlock:^BOOL(NSDictionary *dataFields) {
+            XCTAssertEqualObjects(dataFields[ITBL_KEY_ACTION_IDENTIFIER], @"buttonIdentifier");
+            return YES;
+        }]]);
+        
+        [actionRunnerMock stopMocking];
+        [apiMock stopMocking];
+    }
 }
 
+- (void)testForegroundPushActionBeforeiOS10 {
+    if (@available(iOS 10, *)) {
+        // Do nothing
+    } else {
+        id actionRunnerMock = OCMClassMock([IterableActionRunner class]);
+        id apiMock = OCMPartialMock(IterableAPI.sharedInstance);
+        id applicationMock = OCMPartialMock([UIApplication sharedApplication]);
+        NSString *messageId = [[NSUUID UUID] UUIDString];
+        
+        NSDictionary *userInfo = @{
+                                   @"itbl": @{
+                                           @"campaignId": @1234,
+                                           @"templateId": @4321,
+                                           @"isGhostPush": @NO,
+                                           @"messageId": messageId,
+                                           @"defaultAction": @{
+                                                   @"type": @"customAction"
+                                                   }
+                                           }
+                                   };
+        
+        OCMStub([applicationMock applicationState]).andReturn(UIApplicationStateInactive);
+        
+        [IterableAppIntegration application:[UIApplication sharedApplication] didReceiveRemoteNotification:userInfo fetchCompletionHandler:^(UIBackgroundFetchResult result) {
+            
+        }];
+        
+        OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
+            XCTAssertEqual(action.type, @"customAction");
+            return YES;
+        }]]);
+        
+        OCMVerify([apiMock trackPushOpen:[OCMArg isEqual:@1234]
+                              templateId:[OCMArg isEqual:@4321]
+                               messageId:[OCMArg isEqual:messageId]
+                       appAlreadyRunning:NO
+                              dataFields:[OCMArg any]
+                               onSuccess:[OCMArg any]
+                               onFailure:[OCMArg any]]);
+        
+        [actionRunnerMock stopMocking];
+        [apiMock stopMocking];
+        [applicationMock stopMocking];
+    }
+}
+
+
+- (void)testAppLaunchPushActionBeforeiOS10 {
+    if (@available(iOS 10, *)) {
+        // Do nothing
+    } else {
+        id actionRunnerMock = OCMClassMock([IterableActionRunner class]);
+        id appIntegrationMock = OCMClassMock([IterableAppIntegration class]);
+        NSString *messageId = [[NSUUID UUID] UUIDString];
+
+        NSDictionary *userInfo = @{
+                @"itbl": @{
+                        @"campaignId": @1234,
+                        @"templateId": @4321,
+                        @"isGhostPush": @NO,
+                        @"messageId": messageId,
+                        @"defaultAction": @{
+                                @"type": @"customAction"
+                        }
+                }
+        };
+
+        [IterableAPI clearSharedInstance];
+        [IterableAPI sharedInstanceWithApiKey:@"" andEmail:@"" launchOptions:@{ UIApplicationLaunchOptionsRemoteNotificationKey: userInfo }];
+
+        OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
+            XCTAssertEqual(action.type, @"customAction");
+            return YES;
+        }]]);
+
+        OCMVerify([appIntegrationMock performDefaultNotificationAction:[OCMArg isEqual:userInfo] api:[OCMArg isNotNil]]);
+
+        [actionRunnerMock stopMocking];
+    }
+}
 
 @end
