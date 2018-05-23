@@ -1,5 +1,8 @@
+workspace 'Iterable-iOS-SDK.xcworkspace'
+platform :ios, '7.0'
+
 def shared_pods
-    pod "JSONModel", "~> 1.1.0"
+
 end
 
 target 'Iterable-iOS-SDK' do
@@ -8,5 +11,6 @@ end
 
 target 'Iterable-iOS-SDKTests' do
     shared_pods
+    pod 'OCMock'
     pod 'OHHTTPStubs'
 end

@@ -6,8 +6,9 @@
 //  Copyright (c) 2014 Iterable. All rights reserved.
 //
 
-@import Foundation;
+#import <UIKit/UIKit.h>
 #import "CommerceItem.h"
+#import "IterableAction.h"
 #import "IterableConstants.h"
 
 // all params are nonnull, unless annotated otherwise
@@ -32,6 +33,35 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
     /** The production push service */
     APNS
 };
+
+/**
+ * Custom URL handling delegate
+ */
+@protocol IterableURLDelegate <NSObject>
+
+/**
+ * Callback called for a deeplink action. Return YES to override default behavior
+ * @param url     Deeplink URL
+ * @param action  Original openUrl Action object
+ * @return Boolean value. Return YES if the URL was handled to override default behavior.
+ */
+- (BOOL)handleIterableURL:(NSURL *)url fromAction:(IterableAction *)action;
+
+@end
+
+/**
+ * Custom action handling delegate
+ */
+@protocol IterableCustomActionDelegate <NSObject>
+
+/**
+ * Callback called for custom actions from push notifications
+ * @param action  `IterableAction` object containing action payload
+ * @return Boolean value. Reserved for future use.
+ */
+- (BOOL)handleIterableCustomAction:(IterableAction *)action;
+
+@end
 
 /**
  `IterableAPI` contains all the essential functions for communicating with Iterable's API
@@ -62,6 +92,9 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  The hex representation of this device token
  */
 @property(nonatomic, readonly, copy) NSString *hexToken;
+
+@property(nonatomic) id<IterableURLDelegate> urlDelegate;
+@property(nonatomic) id<IterableCustomActionDelegate> customActionDelegate;
 
 /////////////////////////////////
 /// @name Creating an IterableAPI
