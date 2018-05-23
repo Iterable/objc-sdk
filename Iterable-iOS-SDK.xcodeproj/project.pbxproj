@@ -69,6 +69,7 @@
 		92FB47C020995A0F00DA94DC /* IterableActionRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = 92FB47BE20995A0F00DA94DC /* IterableActionRunner.h */; };
 		92FB47C120995A0F00DA94DC /* IterableActionRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 92FB47BF20995A0F00DA94DC /* IterableActionRunner.m */; };
 		934790CB297DB001AB6F035E /* libPods-Iterable-iOS-SDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 558AF668BE59E5C06930892D /* libPods-Iterable-iOS-SDKTests.a */; };
+		E95160B3683E5A47EC313472 /* IterableAppIntegration+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E9516F6B446F6E9AB537C83F /* IterableAppIntegration+Private.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,6 +176,7 @@
 		BE5CCE23DD4BB53759B5D427 /* Pods-Iterable-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		DAB696718A4F07CC09FB5CB1 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		E95162E4972E90805BB61534 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = file.yml; path = .travis.yml; sourceTree = "<group>"; };
+		E9516F6B446F6E9AB537C83F /* IterableAppIntegration+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IterableAppIntegration+Private.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,6 +273,7 @@
 				9293308F2099449F00DAE180 /* IterableAction.m */,
 				92FB47BE20995A0F00DA94DC /* IterableActionRunner.h */,
 				92FB47BF20995A0F00DA94DC /* IterableActionRunner.m */,
+				E9516F6B446F6E9AB537C83F /* IterableAppIntegration+Private.h */,
 			);
 			path = "Iterable-iOS-SDK";
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				929330902099449F00DAE180 /* IterableAction.h in Headers */,
 				16513DDE1D89EECC00C205B3 /* IterableInAppManager.h in Headers */,
 				160883301F840B5F00318578 /* IterableInAppHTMLViewController.h in Headers */,
+				E95160B3683E5A47EC313472 /* IterableAppIntegration+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

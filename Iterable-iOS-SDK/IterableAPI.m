@@ -23,6 +23,7 @@
 #import "IterableInAppManager.h"
 #import "IterableConstants.h"
 #import "IterableDeeplinkManager.h"
+#import "IterableAppIntegration+Private.h"
 
 @interface IterableAPI ()
 @end
@@ -391,9 +392,9 @@ NSCharacterSet* encodedCharacterSet = nil;
     // Automatically try to track a pushOpen
     if (launchOptions) {
         if (useCustomLaunchOptions) {
-            [self trackPushOpen:launchOptions];
+            [IterableAppIntegration performDefaultNotificationAction:launchOptions api:self];
         } else if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-            [self trackPushOpen:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+            [IterableAppIntegration performDefaultNotificationAction:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] api:self];
         }
     }
     

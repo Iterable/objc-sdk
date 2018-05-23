@@ -18,8 +18,41 @@
 + (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     LogDebug(@"IterableAPI: didReceiveRemoteNotification");
+    switch (application.applicationState) {
+        case UIApplicationStateActive:
+            break;
+
+        case UIApplicationStateBackground:
+            break;
+
+        case UIApplicationStateInactive:
+            if (@available(iOS 10, *)) {
+                // iOS 10+ notification actions are handled by userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:
+            } else {
+                [self performDefaultNotificationAction:userInfo api:[IterableAPI sharedInstance]];
+            }
+            break;
+    }
+
     if (completionHandler)
         completionHandler(UIBackgroundFetchResultNoData);
+}
+
++ (void)performDefaultNotificationAction:(NSDictionary *)userInfo api:(IterableAPI *)api {
+    NSDictionary *itbl = userInfo[ITBL_PAYLOAD_METADATA];
+#ifdef DEBUG
+    if (itbl[ITBL_PAYLOAD_DEFAULT_ACTION] == nil && itbl[ITBL_PAYLOAD_ACTION_BUTTONS] == nil) {
+        itbl = userInfo;
+    }
+#endif
+    IterableAction *action = [IterableAction actionFromDictionary:itbl[ITBL_PAYLOAD_DEFAULT_ACTION]];
+    NSDictionary *dataFields = @{ ITBL_KEY_ACTION_IDENTIFIER: ITBL_VALUE_DEFAULT_PUSH_OPEN_ACTION_ID };
+
+    // Track push open
+    [api trackPushOpen:userInfo dataFields:dataFields];
+
+    //Execute the action
+    [IterableActionRunner executeAction:action];
 }
 
 + (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
@@ -53,13 +86,14 @@
         }
     }
 
-    // Track push open
     if ([response isMemberOfClass:[UNTextInputNotificationResponse class]]) {
         NSString *userText = ((UNTextInputNotificationResponse *)response).userText;
         dataFields[ITBL_KEY_USER_TEXT] = ((UNTextInputNotificationResponse *)response).userText;
         action.userInput = userText;
     }
-    if (action) {
+
+    // Track push open
+    if (dataFields[ITBL_KEY_ACTION_IDENTIFIER] != nil) {
         [[IterableAPI sharedInstance] trackPushOpen:userInfo dataFields:dataFields];
     }
     
