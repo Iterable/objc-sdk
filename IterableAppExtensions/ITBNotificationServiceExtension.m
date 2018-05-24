@@ -3,8 +3,8 @@
 #import "IterableAction.h"
 #import "IterableConstants.h"
 
-NSString *const IterableButtonTypeOpen         = @"open";
-NSString *const IterableButtonTypeDismiss      = @"dismiss";
+NSString *const IterableButtonTypeDefault      = @"default";
+NSString *const IterableButtonTypeDestructive  = @"destructive";
 NSString *const IterableButtonTypeTextInput    = @"textInput";
 
 @interface ITBNotificationServiceExtension ()
@@ -122,22 +122,26 @@ UNNotificationCategory* messageCategory;
     NSString *identifier = buttonDictionary[ITBL_BUTTON_IDENTIFIER];
     NSString *title = buttonDictionary[ITBL_BUTTON_TITLE];
     NSString *buttonType = buttonDictionary[ITBL_BUTTON_TYPE];
-    if (!buttonType) {
-        buttonType = IterableButtonTypeOpen;
+    if (!buttonType || (![buttonType isEqualToString:IterableButtonTypeTextInput] &&
+                        ![buttonType isEqualToString:IterableButtonTypeDestructive])) {
+        buttonType = IterableButtonTypeDefault;
     }
-    BOOL destructive = [buttonDictionary[ITBL_BUTTON_DESTRUCTIVE] boolValue];
+    BOOL openApp = YES;
+    if (buttonDictionary[ITBL_BUTTON_OPEN_APP]) {
+        openApp = [buttonDictionary[ITBL_BUTTON_OPEN_APP] boolValue];
+    }
     BOOL requiresUnlock = [buttonDictionary[ITBL_BUTTON_REQUIRES_UNLOCK] boolValue];
 
     UNNotificationActionOptions actionOptions = UNNotificationActionOptionNone;
-    if (destructive) {
+    if ([buttonType isEqualToString:IterableButtonTypeDestructive]) {
         actionOptions |= UNNotificationActionOptionDestructive;
     }
     
-    if ([buttonType isEqualToString:IterableButtonTypeOpen]) {
+    if (openApp) {
         actionOptions |= UNNotificationActionOptionForeground;
     }
     
-    if (requiresUnlock || [buttonType isEqualToString:IterableButtonTypeOpen]) {
+    if (requiresUnlock || openApp) {
         actionOptions |= UNNotificationActionOptionAuthenticationRequired;
     }
     
