@@ -149,8 +149,9 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
                 for (UNNotificationCategory *category in categories) {
-                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]]) {
                         createdCategory = category;
+                    }
                 }
                 XCTAssertNotNil(createdCategory, "Category exists");
                 
@@ -197,8 +198,9 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
                 for (UNNotificationCategory *category in categories) {
-                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]]) {
                         createdCategory = category;
+                    }
                 }
                 XCTAssertNotNil(createdCategory, "Category exists");
                 
@@ -240,8 +242,9 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
                 for (UNNotificationCategory *category in categories) {
-                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]]) {
                         createdCategory = category;
+                    }
                 }
                 XCTAssertNotNil(createdCategory, "Category exists");
                 
@@ -283,8 +286,9 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
                 for (UNNotificationCategory *category in categories) {
-                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]]) {
                         createdCategory = category;
+                    }
                 }
                 XCTAssertNotNil(createdCategory, "Category exists");
                 
@@ -324,8 +328,9 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
                 for (UNNotificationCategory *category in categories) {
-                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]]) {
                         createdCategory = category;
+                    }
                 }
                 XCTAssertNotNil(createdCategory, "Category exists");
                 
