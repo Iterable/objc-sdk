@@ -105,13 +105,15 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
                                  @"actionButtons": @[@{
                                             @"identifier": @"openAppButton",
                                             @"title": @"Open App",
-                                            @"buttonType": @"open",
+                                            @"buttonType": @"default",
+                                            @"openApp": @YES,
                                             @"action": @{
                                             }
                                     }, @{
                                             @"identifier": @"deeplinkButton",
                                             @"title": @"Open Deeplink",
-                                            @"buttonType": @"open",
+                                            @"buttonType": @"default",
+                                            @"openApp": @YES,
                                             @"action": @{
                                                     @"type": @"openUrl",
                                                     @"data": @"http://maps.apple.com/?ll=37.7828,-122.3984"
@@ -119,7 +121,8 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
                                     }, @{
                                             @"identifier": @"silentActionButton",
                                             @"title": @"Silent Action",
-                                            @"buttonType": @"dismiss",
+                                            @"buttonType": @"default",
+                                            @"openApp": @NO,
                                             @"action": @{
                                                     @"type": @"customActionName"
                                             }
@@ -127,6 +130,7 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
                                             @"identifier": @"textInputButton",
                                             @"title": @"Text input",
                                             @"buttonType": @"textInput",
+                                            @"openApp": @NO,
                                             @"inputPlaceholder": @"Type your message here",
                                             @"inputTitle": @"Send",
                                             @"action": @{
@@ -145,8 +149,9 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
                 for (UNNotificationCategory *category in categories) {
-                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]]) {
                         createdCategory = category;
+                    }
                 }
                 XCTAssertNotNil(createdCategory, "Category exists");
                 
@@ -176,8 +181,8 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
                                  @"actionButtons": @[@{
                                                          @"identifier": @"destructiveButton",
                                                          @"title": @"Unsubscribe",
-                                                         @"destructive": @YES,
-                                                         @"buttonType": @"dismiss",
+                                                         @"buttonType": @"destructive",
+                                                         @"openApp": @NO,
                                                          @"action": @{
                                                                  }
                                                          }]
@@ -193,8 +198,9 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
                 for (UNNotificationCategory *category in categories) {
-                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]]) {
                         createdCategory = category;
+                    }
                 }
                 XCTAssertNotNil(createdCategory, "Category exists");
                 
@@ -210,7 +216,7 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
     [self waitForExpectations:@[expectation] timeout:IterableNotificationCenterExpectationTimeout];
 }
 
-- (void)testPushTextInputButton {
+- (void)testPushTextInputSilentButton {
     UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
     content.userInfo = @{
                          @"itbl" : @{
@@ -219,6 +225,7 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
                                                          @"identifier": @"textInputButton",
                                                          @"title": @"Text Input",
                                                          @"buttonType": @"textInput",
+                                                         @"openApp": @NO,
                                                          @"action": @{
                                                                  
                                                                  }
@@ -235,13 +242,58 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
                 for (UNNotificationCategory *category in categories) {
-                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]]) {
                         createdCategory = category;
+                    }
                 }
                 XCTAssertNotNil(createdCategory, "Category exists");
                 
                 XCTAssertEqual(createdCategory.actions.count, 1, "Number of buttons matches");
                 XCTAssertFalse(createdCategory.actions.firstObject.options & UNNotificationActionOptionForeground, "Action is not foreground");
+                XCTAssertTrue([createdCategory.actions.firstObject isKindOfClass:[UNTextInputNotificationAction class]], "Action type is UNTextInputNotificationAction");
+                
+                [expectation fulfill];
+            }];
+        });
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:IterableNotificationCenterExpectationTimeout];
+}
+
+- (void)testPushTextInputForegroundButton {
+    UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+    content.userInfo = @{
+                         @"itbl" : @{
+                                 @"messageId": [[NSUUID UUID] UUIDString],
+                                 @"actionButtons": @[@{
+                                                         @"identifier": @"textInputButton",
+                                                         @"title": @"Text Input",
+                                                         @"buttonType": @"textInput",
+                                                         @"openApp": @YES,
+                                                         @"action": @{
+                                                                 
+                                                                 }
+                                                         }]
+                                 }
+                         };
+    UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"request" content:content trigger:nil];
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"contentHandler is called"];
+    
+    [self.extension didReceiveNotificationRequest:request withContentHandler:^(UNNotificationContent *contentToDeliver) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, IterableNotificationCenterRequestDelay * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+            [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
+                UNNotificationCategory *createdCategory = nil;
+                for (UNNotificationCategory *category in categories) {
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]]) {
+                        createdCategory = category;
+                    }
+                }
+                XCTAssertNotNil(createdCategory, "Category exists");
+                
+                XCTAssertEqual(createdCategory.actions.count, 1, "Number of buttons matches");
+                XCTAssertTrue(createdCategory.actions.firstObject.options & UNNotificationActionOptionForeground, "Action is foreground");
                 XCTAssertTrue([createdCategory.actions.firstObject isKindOfClass:[UNTextInputNotificationAction class]], "Action type is UNTextInputNotificationAction");
                 
                 [expectation fulfill];
@@ -276,8 +328,9 @@ static CGFloat const IterableNotificationCenterExpectationTimeout = 5.0;
             [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
                 UNNotificationCategory *createdCategory = nil;
                 for (UNNotificationCategory *category in categories) {
-                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]])
+                    if ([category.identifier isEqualToString:content.userInfo[@"itbl"][@"messageId"]]) {
                         createdCategory = category;
+                    }
                 }
                 XCTAssertNotNil(createdCategory, "Category exists");
                 

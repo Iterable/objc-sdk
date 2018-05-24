@@ -91,7 +91,7 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITBL_BUTTON_IDENTIFIER @"identifier"
 #define ITBL_BUTTON_TYPE @"buttonType"
 #define ITBL_BUTTON_TITLE @"title"
-#define ITBL_BUTTON_DESTRUCTIVE @"destructive"
+#define ITBL_BUTTON_OPEN_APP @"openApp"
 #define ITBL_BUTTON_REQUIRES_UNLOCK @"requiresUnlock"
 #define ITBL_BUTTON_INPUT_TITLE @"inputTitle"
 #define ITBL_BUTTON_INPUT_PLACEHOLDER @"inputPlaceholder"
