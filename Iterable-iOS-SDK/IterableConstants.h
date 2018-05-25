@@ -87,6 +87,12 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITBL_PAYLOAD_ACTION_BUTTONS @"actionButtons"
 #define ITBL_PAYLOAD_DEFAULT_ACTION @"defaultAction"
 
+//UserDefaults Keys
+#define ITBL_USER_DEFAULTS_PAYLOAD_KEY @"itbl_payload_key"
+#define ITBL_USER_DEFAULTS_PAYLOAD_PAYLOAD @"itbl_payload_payload"
+#define ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION @"itbl_payload_expiration"
+#define ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION_HOURS 24
+
 //Action Buttons
 #define ITBL_BUTTON_IDENTIFIER @"identifier"
 #define ITBL_BUTTON_TYPE @"buttonType"

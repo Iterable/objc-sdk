@@ -802,6 +802,8 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    [self savePushPayload:userInfo];
+    
     IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromLaunchOptions:userInfo];
     if (notification && [notification isRealCampaignNotification]) {
         [self trackPushOpen:notification.campaignId templateId:notification.templateId messageId:notification.messageId appAlreadyRunning:false dataFields:dataFields onSuccess:onSuccess onFailure:onFailure];
@@ -809,6 +811,26 @@ NSCharacterSet* encodedCharacterSet = nil;
         if (onFailure) {
             onFailure(@"Not tracking push open - payload is not an Iterable notification, or a test/proof/ghost push", [[NSData alloc] init]);
         }
+    }
+}
+
+- (void) savePushPayload:(NSDictionary *)payload {
+    NSDate *expiration = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitHour value:ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION_HOURS toDate:[NSDate date]  options:0];
+    NSDictionary *toSave = @{ ITBL_USER_DEFAULTS_PAYLOAD_PAYLOAD : payload,
+                            ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION : expiration,
+                            };
+    [[NSUserDefaults standardUserDefaults] setObject:toSave forKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY];
+}
+
+- (NSDictionary *) getLastPushPayload {
+    NSDictionary *value = [[NSUserDefaults standardUserDefaults] dictionaryForKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY];
+    NSDictionary *payload = value[ITBL_USER_DEFAULTS_PAYLOAD_PAYLOAD];
+    NSDate *expiration = value[ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION];
+    
+    if ([expiration timeIntervalSinceNow] > 0) {
+        return payload;
+    } else {
+        return nil;
     }
 }
 
