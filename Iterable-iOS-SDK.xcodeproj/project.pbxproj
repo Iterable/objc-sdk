@@ -59,6 +59,8 @@
 		9267AA3A209930E7006AF394 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9267AA39209930E7006AF394 /* Assets.xcassets */; };
 		9267AA3D209930E7006AF394 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9267AA3B209930E7006AF394 /* LaunchScreen.storyboard */; };
 		9267AA40209930E7006AF394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA3F209930E7006AF394 /* main.m */; };
+		926B33E420B7A091004DD7CE /* IterableAttributionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 926B33E220B7A091004DD7CE /* IterableAttributionInfo.h */; };
+		926B33E520B7A091004DD7CE /* IterableAttributionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 926B33E320B7A091004DD7CE /* IterableAttributionInfo.m */; };
 		9284CA74206DCA6C00404B74 /* IterableAPIResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9284CA73206DCA6C00404B74 /* IterableAPIResponseTests.m */; };
 		929330902099449F00DAE180 /* IterableAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9293308E2099449F00DAE180 /* IterableAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		929330912099449F00DAE180 /* IterableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9293308F2099449F00DAE180 /* IterableAction.m */; };
@@ -166,6 +168,8 @@
 		9267AA3C209930E7006AF394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9267AA3E209930E7006AF394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9267AA3F209930E7006AF394 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		926B33E220B7A091004DD7CE /* IterableAttributionInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAttributionInfo.h; sourceTree = "<group>"; };
+		926B33E320B7A091004DD7CE /* IterableAttributionInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableAttributionInfo.m; sourceTree = "<group>"; };
 		9284CA73206DCA6C00404B74 /* IterableAPIResponseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableAPIResponseTests.m; sourceTree = "<group>"; };
 		9293308E2099449F00DAE180 /* IterableAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableAction.h; sourceTree = "<group>"; };
 		9293308F2099449F00DAE180 /* IterableAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableAction.m; sourceTree = "<group>"; };
@@ -274,6 +278,8 @@
 				9293308F2099449F00DAE180 /* IterableAction.m */,
 				92FB47BE20995A0F00DA94DC /* IterableActionRunner.h */,
 				92FB47BF20995A0F00DA94DC /* IterableActionRunner.m */,
+				926B33E220B7A091004DD7CE /* IterableAttributionInfo.h */,
+				926B33E320B7A091004DD7CE /* IterableAttributionInfo.m */,
 			);
 			path = "Iterable-iOS-SDK";
 			sourceTree = "<group>";
@@ -397,6 +403,7 @@
 				929330902099449F00DAE180 /* IterableAction.h in Headers */,
 				16513DDE1D89EECC00C205B3 /* IterableInAppManager.h in Headers */,
 				160883301F840B5F00318578 /* IterableInAppHTMLViewController.h in Headers */,
+				926B33E420B7A091004DD7CE /* IterableAttributionInfo.h in Headers */,
 				E95160B3683E5A47EC313472 /* IterableAppIntegration+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -730,6 +737,7 @@
 				6804B8601AC0F363000A126B /* CommerceItem.m in Sources */,
 				16E02BAD1E035EA400644C15 /* IterableConstants.m in Sources */,
 				0995DBDD1CFFF7FE00D50F19 /* IterableLogging.m in Sources */,
+				926B33E520B7A091004DD7CE /* IterableAttributionInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

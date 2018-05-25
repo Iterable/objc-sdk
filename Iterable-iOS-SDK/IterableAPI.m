@@ -814,15 +814,19 @@ NSCharacterSet* encodedCharacterSet = nil;
     }
 }
 
-- (void) savePushPayload:(NSDictionary *)payload {
+- (void)savePushPayload:(NSDictionary *)payload {
     NSDate *expiration = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitHour value:ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION_HOURS toDate:[NSDate date]  options:0];
     NSDictionary *toSave = @{ ITBL_USER_DEFAULTS_PAYLOAD_PAYLOAD : payload,
                             ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION : expiration,
                             };
+    IterableNotificationMetadata *metadata = [IterableNotificationMetadata metadataFromLaunchOptions:payload];
+    if (metadata) {
+        self.attributionInfo = [[IterableAttributionInfo alloc] initWithCampaignId:metadata.campaignId templateId:metadata.templateId messageId:metadata.messageId];
+    }
     [[NSUserDefaults standardUserDefaults] setObject:toSave forKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY];
 }
 
-- (NSDictionary *) getLastPushPayload {
+- (NSDictionary *)lastPushPayload {
     NSDictionary *value = [[NSUserDefaults standardUserDefaults] dictionaryForKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY];
     NSDictionary *payload = value[ITBL_USER_DEFAULTS_PAYLOAD_PAYLOAD];
     NSDate *expiration = value[ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION];
