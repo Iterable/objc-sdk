@@ -10,6 +10,7 @@
 #import <OCMock/OCMock.h>
 #import "IterableAppIntegration+Private.h"
 #import "IterableActionRunner.h"
+#import "IterableUtil.h"
 #import "IterableAPI.h"
 
 @interface IterableNotificationResponseTests : XCTestCase
@@ -89,6 +90,42 @@
         [actionRunnerMock stopMocking];
         [apiMock stopMocking];
     }
+}
+
+- (void)testSavePushPayload {
+    id apiMock = OCMPartialMock(IterableAPI.sharedInstance);
+    NSString *messageId = [[NSUUID UUID] UUIDString];
+    
+    NSDictionary *userInfo = @{
+                               @"itbl": @{
+                                       @"campaignId": @1234,
+                                       @"templateId": @4321,
+                                       @"isGhostPush": @NO,
+                                       @"messageId": messageId,
+                                       @"defaultAction": @{
+                                               @"type": @"customAction"
+                                               }
+                                       }
+                               };
+
+    // call track push open
+    [apiMock trackPushOpen:[OCMArg isEqual:userInfo]];
+
+    // check the push payload for messageId
+    NSDictionary *pushPayload = [apiMock lastPushPayload];
+    XCTAssertEqual(pushPayload[@"itbl"][@"messageId"], messageId);
+
+    // 23 hours, not expired, still present
+    IterableUtil.sharedInstance.currentDate = [[NSDate date] dateByAddingTimeInterval:23*60*60];
+    pushPayload = [apiMock lastPushPayload];
+    XCTAssertEqual(pushPayload[@"itbl"][@"messageId"], messageId);
+
+    // 24 hours, expired, nil payload
+    IterableUtil.sharedInstance.currentDate = [[NSDate date] dateByAddingTimeInterval:24*60*60];
+    pushPayload = [apiMock lastPushPayload];
+    XCTAssertNil(pushPayload);
+
+    [apiMock stopMocking];
 }
 
 - (void)testActionButtonDismiss {

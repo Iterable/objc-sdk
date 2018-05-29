@@ -15,6 +15,7 @@
 
 #include <asl.h>
 
+#import "IterableUtil.h"
 #import "IterableAPI.h"
 #import "NSData+Conversion.h"
 #import "CommerceItem.h"
@@ -815,7 +816,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 - (void)savePushPayload:(NSDictionary *)payload {
-    NSDate *expiration = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitHour value:ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION_HOURS toDate:[NSDate date]  options:0];
+    NSDate *expiration = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitHour
+                                                                  value:ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION_HOURS
+                                                                 toDate:IterableUtil.sharedInstance.currentDate
+                                                                options:0];
     NSDictionary *toSave = @{ ITBL_USER_DEFAULTS_PAYLOAD_PAYLOAD : payload,
                             ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION : expiration,
                             };
@@ -831,7 +835,7 @@ NSCharacterSet* encodedCharacterSet = nil;
     NSDictionary *payload = value[ITBL_USER_DEFAULTS_PAYLOAD_PAYLOAD];
     NSDate *expiration = value[ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION];
     
-    if ([expiration timeIntervalSinceNow] > 0) {
+    if (expiration.timeIntervalSinceReferenceDate > IterableUtil.sharedInstance.currentDate.timeIntervalSinceReferenceDate) {
         return payload;
     } else {
         return nil;

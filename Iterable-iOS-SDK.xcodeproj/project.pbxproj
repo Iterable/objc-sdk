@@ -71,6 +71,9 @@
 		92FB47C020995A0F00DA94DC /* IterableActionRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = 92FB47BE20995A0F00DA94DC /* IterableActionRunner.h */; };
 		92FB47C120995A0F00DA94DC /* IterableActionRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 92FB47BF20995A0F00DA94DC /* IterableActionRunner.m */; };
 		934790CB297DB001AB6F035E /* libPods-Iterable-iOS-SDKTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 558AF668BE59E5C06930892D /* libPods-Iterable-iOS-SDKTests.a */; };
+		AC60AB4820BDD4DC00BF6BEC /* IterableUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = AC60AB4620BDD4DC00BF6BEC /* IterableUtil.h */; };
+		AC60AB4920BDD4DC00BF6BEC /* IterableUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = AC60AB4720BDD4DC00BF6BEC /* IterableUtil.m */; };
+		AC60AB4B20BDDD5100BF6BEC /* IterableUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC60AB4A20BDDD5100BF6BEC /* IterableUtilTests.m */; };
 		E95160B3683E5A47EC313472 /* IterableAppIntegration+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E9516F6B446F6E9AB537C83F /* IterableAppIntegration+Private.h */; };
 /* End PBXBuildFile section */
 
@@ -177,6 +180,9 @@
 		92C6325B208FF7AA00A7C216 /* IterableAppIntegration.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableAppIntegration.m; sourceTree = "<group>"; };
 		92FB47BE20995A0F00DA94DC /* IterableActionRunner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableActionRunner.h; sourceTree = "<group>"; };
 		92FB47BF20995A0F00DA94DC /* IterableActionRunner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableActionRunner.m; sourceTree = "<group>"; };
+		AC60AB4620BDD4DC00BF6BEC /* IterableUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IterableUtil.h; sourceTree = "<group>"; };
+		AC60AB4720BDD4DC00BF6BEC /* IterableUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableUtil.m; sourceTree = "<group>"; };
+		AC60AB4A20BDDD5100BF6BEC /* IterableUtilTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableUtilTests.m; sourceTree = "<group>"; };
 		BE5CCE23DD4BB53759B5D427 /* Pods-Iterable-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		DAB696718A4F07CC09FB5CB1 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.release.xcconfig"; sourceTree = "<group>"; };
 		E95162E4972E90805BB61534 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = file.yml; path = .travis.yml; sourceTree = "<group>"; };
@@ -280,6 +286,8 @@
 				92FB47BF20995A0F00DA94DC /* IterableActionRunner.m */,
 				926B33E220B7A091004DD7CE /* IterableAttributionInfo.h */,
 				926B33E320B7A091004DD7CE /* IterableAttributionInfo.m */,
+				AC60AB4620BDD4DC00BF6BEC /* IterableUtil.h */,
+				AC60AB4720BDD4DC00BF6BEC /* IterableUtil.m */,
 			);
 			path = "Iterable-iOS-SDK";
 			sourceTree = "<group>";
@@ -295,6 +303,7 @@
 				1608832C1F83EED500318578 /* IterableInAppNotificationTests.m */,
 				921AE47920AA2E94009CFC9F /* IterableNotificationResponseTests.m */,
 				921AE47B20AA43D5009CFC9F /* IterableActionRunnerTests.m */,
+				AC60AB4A20BDDD5100BF6BEC /* IterableUtilTests.m */,
 			);
 			path = "Iterable-iOS-SDKTests";
 			sourceTree = "<group>";
@@ -405,6 +414,7 @@
 				160883301F840B5F00318578 /* IterableInAppHTMLViewController.h in Headers */,
 				926B33E420B7A091004DD7CE /* IterableAttributionInfo.h in Headers */,
 				E95160B3683E5A47EC313472 /* IterableAppIntegration+Private.h in Headers */,
+				AC60AB4820BDD4DC00BF6BEC /* IterableUtil.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,6 +742,7 @@
 				161D98BD20236BC700E91846 /* IterableDeeplinkManager.m in Sources */,
 				92FB47C120995A0F00DA94DC /* IterableActionRunner.m in Sources */,
 				093734271A1D701F00C950B6 /* IterableAPI.m in Sources */,
+				AC60AB4920BDD4DC00BF6BEC /* IterableUtil.m in Sources */,
 				160883311F840B5F00318578 /* IterableInAppHTMLViewController.m in Sources */,
 				92C6325D208FF7AA00A7C216 /* IterableAppIntegration.m in Sources */,
 				6804B8601AC0F363000A126B /* CommerceItem.m in Sources */,
@@ -752,6 +763,7 @@
 				921AE47C20AA43D5009CFC9F /* IterableActionRunnerTests.m in Sources */,
 				1608832D1F83EED500318578 /* IterableInAppNotificationTests.m in Sources */,
 				091489E81CF6AC1800482D82 /* CommerceItemTests.m in Sources */,
+				AC60AB4B20BDDD5100BF6BEC /* IterableUtilTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
