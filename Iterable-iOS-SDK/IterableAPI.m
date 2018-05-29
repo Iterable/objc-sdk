@@ -820,23 +820,47 @@ NSCharacterSet* encodedCharacterSet = nil;
                                                                   value:ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION_HOURS
                                                                  toDate:IterableUtil.sharedInstance.currentDate
                                                                 options:0];
-    NSDictionary *toSave = @{ ITBL_USER_DEFAULTS_PAYLOAD_PAYLOAD : payload,
-                            ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION : expiration,
-                            };
+    [self saveValueToUserDefaults:payload withKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY andExpiration:expiration];
+    
     IterableNotificationMetadata *metadata = [IterableNotificationMetadata metadataFromLaunchOptions:payload];
     if (metadata) {
         self.attributionInfo = [[IterableAttributionInfo alloc] initWithCampaignId:metadata.campaignId templateId:metadata.templateId messageId:metadata.messageId];
     }
-    [[NSUserDefaults standardUserDefaults] setObject:toSave forKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY];
 }
 
 - (NSDictionary *)lastPushPayload {
-    NSDictionary *value = [[NSUserDefaults standardUserDefaults] dictionaryForKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY];
-    NSDictionary *payload = value[ITBL_USER_DEFAULTS_PAYLOAD_PAYLOAD];
-    NSDate *expiration = value[ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION];
+    return [self expirableValueFromUserDefaultsWithKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY];
+}
+
+- (IterableAttributionInfo *)attributionInfo {
+    return [self expirableValueFromUserDefaultsWithKey:ITBL_USER_DEFAULTS_ATTRIBUTION_INFO_KEY];
+}
+
+- (void)setAttributionInfo:(IterableAttributionInfo *)attributionInfo {
+    NSDate *expiration = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitHour
+                                                                  value:ITBL_USER_DEFAULTS_ATTRIBUTION_INFO_EXPIRATION_HOURS
+                                                                 toDate:IterableUtil.sharedInstance.currentDate
+                                                                options:0];
+    [self saveValueToUserDefaults:attributionInfo withKey:ITBL_USER_DEFAULTS_ATTRIBUTION_INFO_KEY andExpiration:expiration];
+}
+
+
+- (void)saveValueToUserDefaults:(id)value withKey:(NSString *)key andExpiration:(NSDate *)expiration {
+    NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:value];
+    NSDictionary *toSave = @{ ITBL_USER_DEFAULTS_OBJECT_TAG : encodedObject,
+                              ITBL_USER_DEFAULTS_EXPIRATION_TAG : expiration,
+                              };
+    [[NSUserDefaults standardUserDefaults] setObject:toSave forKey:key];
+}
+
+- (id)expirableValueFromUserDefaultsWithKey:(NSString *)key {
+    NSDictionary *saved = [[NSUserDefaults standardUserDefaults] dictionaryForKey:key];
+    NSData *encodedObject = saved[ITBL_USER_DEFAULTS_OBJECT_TAG];
+    id value = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    NSDate *expiration = saved[ITBL_USER_DEFAULTS_EXPIRATION_TAG];
     
     if (expiration.timeIntervalSinceReferenceDate > IterableUtil.sharedInstance.currentDate.timeIntervalSinceReferenceDate) {
-        return payload;
+        return value;
     } else {
         return nil;
     }

@@ -94,8 +94,14 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 @property(nonatomic, readonly, copy) NSString *hexToken;
 
+/**
+ The userInfo dictionary which came with last push.
+ */
 @property(nonatomic, readonly, copy, nullable) NSDictionary *lastPushPayload;
-@property(nonatomic, readwrite, nullable) IterableAttributionInfo *attributionInfo;
+/**
+ Attribution info (campaignId, messageId etc.) for last push.
+ */
+@property(nonatomic, readwrite, strong, nullable) IterableAttributionInfo *attributionInfo;
 
 @property(nonatomic) id<IterableURLDelegate> urlDelegate;
 @property(nonatomic) id<IterableCustomActionDelegate> customActionDelegate;

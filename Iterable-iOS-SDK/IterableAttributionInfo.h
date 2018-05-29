@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface IterableAttributionInfo : NSObject
+@interface IterableAttributionInfo : NSObject<NSCoding>
 
 @property (nonatomic, readonly, copy) NSNumber *campaignId;
 @property (nonatomic, readonly, copy) NSNumber *templateId;
