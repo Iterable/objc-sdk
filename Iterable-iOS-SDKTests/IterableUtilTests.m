@@ -27,13 +27,13 @@
 }
 
 - (void)testCurrentDate {
-    XCTAssertEqualWithAccuracy([NSDate date].timeIntervalSinceReferenceDate, IterableUtil.sharedInstance.currentDate.timeIntervalSinceReferenceDate, 0.001);
+    XCTAssertEqualWithAccuracy([NSDate date].timeIntervalSinceReferenceDate, IterableUtil.sharedInstance.currentDate.timeIntervalSinceReferenceDate, 0.1);
 }
 
 - (void)testFutureDate {
     NSDate *currentDate = [NSDate date];
     IterableUtil.sharedInstance.currentDate = [currentDate dateByAddingTimeInterval:5*60];
-    XCTAssertNotEqualWithAccuracy(currentDate.timeIntervalSinceReferenceDate, IterableUtil.sharedInstance.currentDate.timeIntervalSinceReferenceDate, 0.001);
+    XCTAssertNotEqualWithAccuracy(currentDate.timeIntervalSinceReferenceDate, IterableUtil.sharedInstance.currentDate.timeIntervalSinceReferenceDate, 0.1);
     
     // now set to null
     IterableUtil.sharedInstance.currentDate = nil;
