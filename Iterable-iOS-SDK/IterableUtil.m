@@ -10,27 +10,8 @@
 
 @implementation IterableUtil
 
-+ (IterableUtil *)sharedInstance
-{
-    static IterableUtil * _sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _sharedInstance = [[IterableUtil alloc] init];
-    });
-    return _sharedInstance;
-}
-
-@synthesize currentDate = _currentDate;
-
-- (NSDate *)currentDate {
-    if (_currentDate == nil) {
-        _currentDate = [NSDate date];
-    }
-    return _currentDate;
-}
-
-- (void)setCurrentDate:(NSDate *)val {
-    _currentDate = val;
++ (NSDate *)currentDate {
+    return [NSDate date];
 }
 
 @end

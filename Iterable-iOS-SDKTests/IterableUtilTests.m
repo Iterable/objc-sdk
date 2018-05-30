@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 
 #import "IterableUtil.h"
 
@@ -18,7 +19,6 @@
 
 - (void)setUp {
     [super setUp];
-    IterableUtil.sharedInstance.currentDate = nil;
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
@@ -28,17 +28,19 @@
 }
 
 - (void)testCurrentDate {
-    XCTAssertEqualWithAccuracy([NSDate date].timeIntervalSinceReferenceDate, IterableUtil.sharedInstance.currentDate.timeIntervalSinceReferenceDate, 0.1);
+    XCTAssertEqualWithAccuracy([NSDate date].timeIntervalSinceReferenceDate, IterableUtil.currentDate.timeIntervalSinceReferenceDate, 0.1);
 }
 
 - (void)testFutureDate {
-    NSDate *currentDate = [NSDate date];
-    IterableUtil.sharedInstance.currentDate = [currentDate dateByAddingTimeInterval:5*60];
-    XCTAssertNotEqualWithAccuracy(currentDate.timeIntervalSinceReferenceDate, IterableUtil.sharedInstance.currentDate.timeIntervalSinceReferenceDate, 0.1);
+    id utilMock = OCMClassMock([IterableUtil class]);
+    OCMExpect([utilMock currentDate]).andReturn([NSDate dateWithTimeIntervalSinceNow:5*60]);
+    XCTAssertNotEqualWithAccuracy([NSDate timeIntervalSinceReferenceDate], IterableUtil.currentDate.timeIntervalSinceReferenceDate, 0.1);
     
-    // now set to null
-    IterableUtil.sharedInstance.currentDate = nil;
-    XCTAssertEqualWithAccuracy(currentDate.timeIntervalSinceReferenceDate, IterableUtil.sharedInstance.currentDate.timeIntervalSinceReferenceDate, 0.001);
+    // Stop mocking date
+    [utilMock stopMocking];
+    
+    XCTAssertEqualWithAccuracy([NSDate timeIntervalSinceReferenceDate], IterableUtil.currentDate.timeIntervalSinceReferenceDate, 0.1);
+    
 }
 
 @end

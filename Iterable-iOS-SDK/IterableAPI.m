@@ -818,7 +818,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 - (void)savePushPayload:(NSDictionary *)payload {
     NSDate *expiration = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitHour
                                                                   value:ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION_HOURS
-                                                                 toDate:IterableUtil.sharedInstance.currentDate
+                                                                 toDate:IterableUtil.currentDate
                                                                 options:0];
     [self saveValueToUserDefaults:payload withKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY andExpiration:expiration];
     
@@ -839,7 +839,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 - (void)setAttributionInfo:(IterableAttributionInfo *)attributionInfo {
     NSDate *expiration = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitHour
                                                                   value:ITBL_USER_DEFAULTS_ATTRIBUTION_INFO_EXPIRATION_HOURS
-                                                                 toDate:IterableUtil.sharedInstance.currentDate
+                                                                 toDate:IterableUtil.currentDate
                                                                 options:0];
     [self saveValueToUserDefaults:attributionInfo withKey:ITBL_USER_DEFAULTS_ATTRIBUTION_INFO_KEY andExpiration:expiration];
 }
@@ -859,7 +859,7 @@ NSCharacterSet* encodedCharacterSet = nil;
     id value = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
     NSDate *expiration = saved[ITBL_USER_DEFAULTS_EXPIRATION_TAG];
     
-    if (expiration.timeIntervalSinceReferenceDate > IterableUtil.sharedInstance.currentDate.timeIntervalSinceReferenceDate) {
+    if (expiration.timeIntervalSinceReferenceDate > IterableUtil.currentDate.timeIntervalSinceReferenceDate) {
         return value;
     } else {
         return nil;

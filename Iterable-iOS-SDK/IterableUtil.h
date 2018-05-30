@@ -16,16 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface IterableUtil : NSObject
 
-/*!
- @abstract Get the singleton shared instance.
- */
-+ (IterableUtil *)sharedInstance;
-
-/*!
- @abstract Get/Set the currentDate. If set to nil, it will return the System date.
- We should replace any call to [NSDate date] with this so that we can mock past/future dates.
- */
-@property (copy) NSDate * _Nullable currentDate;
++ (NSDate *)currentDate;
 
 @end
 
