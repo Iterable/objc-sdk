@@ -99,7 +99,7 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 @property(nonatomic, readonly, copy, nullable) NSDictionary *lastPushPayload;
 /**
- Attribution info (campaignId, messageId etc.) for last push.
+ Attribution info (campaignId, messageId etc.) for last push open or app link click from an email.
  */
 @property(nonatomic, readwrite, strong, nullable) IterableAttributionInfo *attributionInfo;
 
