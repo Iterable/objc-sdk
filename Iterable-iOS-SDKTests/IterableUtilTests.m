@@ -18,6 +18,7 @@
 
 - (void)setUp {
     [super setUp];
+    IterableUtil.sharedInstance.currentDate = nil;
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 

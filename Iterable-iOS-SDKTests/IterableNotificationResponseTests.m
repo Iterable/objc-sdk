@@ -22,6 +22,7 @@
 - (void)setUp {
     [super setUp];
     [IterableAPI sharedInstanceWithApiKey:@"" andEmail:@"" launchOptions:nil];
+    IterableUtil.sharedInstance.currentDate = nil;
 }
 
 - (void)tearDown {
