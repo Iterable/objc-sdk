@@ -1,0 +1,4 @@
+ignore:
+  - "IterableTestingHost"
+  - "Iterable-iOS-SDKTests"
+  - "IterableAppExtensionsTests"
