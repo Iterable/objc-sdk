@@ -14,7 +14,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0173C9E99BAFAC1D674FD7D7887CF5B"
+               BlueprintIdentifier = "98B303E33450F8E9650E0CA4F2074F58"
                BuildableName = "libPods-Iterable-iOS-SDK.a"
                BlueprintName = "Pods-Iterable-iOS-SDK"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DCC94D024AAEED7818D49D28024958F6"
+            BlueprintIdentifier = "98B303E33450F8E9650E0CA4F2074F58"
             BuildableName = "libPods-Iterable-iOS-SDK.a"
             BlueprintName = "Pods-Iterable-iOS-SDK"
             ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -61,6 +61,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "98B303E33450F8E9650E0CA4F2074F58"
+            BuildableName = "libPods-Iterable-iOS-SDK.a"
+            BlueprintName = "Pods-Iterable-iOS-SDK"
+            ReferencedContainer = "container:Pods/Pods.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

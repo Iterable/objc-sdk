@@ -15,6 +15,7 @@
 
 #include <asl.h>
 
+#import "IterableUtil.h"
 #import "IterableAPI.h"
 #import "NSData+Conversion.h"
 #import "CommerceItem.h"
@@ -802,6 +803,8 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    [self savePushPayload:userInfo];
+    
     IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromLaunchOptions:userInfo];
     if (notification && [notification isRealCampaignNotification]) {
         [self trackPushOpen:notification.campaignId templateId:notification.templateId messageId:notification.messageId appAlreadyRunning:false dataFields:dataFields onSuccess:onSuccess onFailure:onFailure];
@@ -809,6 +812,57 @@ NSCharacterSet* encodedCharacterSet = nil;
         if (onFailure) {
             onFailure(@"Not tracking push open - payload is not an Iterable notification, or a test/proof/ghost push", [[NSData alloc] init]);
         }
+    }
+}
+
+- (void)savePushPayload:(NSDictionary *)payload {
+    NSDate *expiration = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitHour
+                                                                  value:ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION_HOURS
+                                                                 toDate:IterableUtil.currentDate
+                                                                options:0];
+    [self saveValueToUserDefaults:payload withKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY andExpiration:expiration];
+    
+    IterableNotificationMetadata *metadata = [IterableNotificationMetadata metadataFromLaunchOptions:payload];
+    if (metadata) {
+        self.attributionInfo = [[IterableAttributionInfo alloc] initWithCampaignId:metadata.campaignId templateId:metadata.templateId messageId:metadata.messageId];
+    }
+}
+
+- (NSDictionary *)lastPushPayload {
+    return [self expirableValueFromUserDefaultsWithKey:ITBL_USER_DEFAULTS_PAYLOAD_KEY];
+}
+
+- (IterableAttributionInfo *)attributionInfo {
+    return [self expirableValueFromUserDefaultsWithKey:ITBL_USER_DEFAULTS_ATTRIBUTION_INFO_KEY];
+}
+
+- (void)setAttributionInfo:(IterableAttributionInfo *)attributionInfo {
+    NSDate *expiration = [[NSCalendar currentCalendar] dateByAddingUnit:NSCalendarUnitHour
+                                                                  value:ITBL_USER_DEFAULTS_ATTRIBUTION_INFO_EXPIRATION_HOURS
+                                                                 toDate:IterableUtil.currentDate
+                                                                options:0];
+    [self saveValueToUserDefaults:attributionInfo withKey:ITBL_USER_DEFAULTS_ATTRIBUTION_INFO_KEY andExpiration:expiration];
+}
+
+
+- (void)saveValueToUserDefaults:(id)value withKey:(NSString *)key andExpiration:(NSDate *)expiration {
+    NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:value];
+    NSDictionary *toSave = @{ ITBL_USER_DEFAULTS_OBJECT_TAG : encodedObject,
+                              ITBL_USER_DEFAULTS_EXPIRATION_TAG : expiration,
+                              };
+    [[NSUserDefaults standardUserDefaults] setObject:toSave forKey:key];
+}
+
+- (id)expirableValueFromUserDefaultsWithKey:(NSString *)key {
+    NSDictionary *saved = [[NSUserDefaults standardUserDefaults] dictionaryForKey:key];
+    NSData *encodedObject = saved[ITBL_USER_DEFAULTS_OBJECT_TAG];
+    id value = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    NSDate *expiration = saved[ITBL_USER_DEFAULTS_EXPIRATION_TAG];
+    
+    if (expiration.timeIntervalSinceReferenceDate > IterableUtil.currentDate.timeIntervalSinceReferenceDate) {
+        return value;
+    } else {
+        return nil;
     }
 }
 

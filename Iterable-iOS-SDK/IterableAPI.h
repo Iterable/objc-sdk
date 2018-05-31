@@ -10,6 +10,7 @@
 #import "CommerceItem.h"
 #import "IterableAction.h"
 #import "IterableConstants.h"
+#import "IterableAttributionInfo.h"
 
 // all params are nonnull, unless annotated otherwise
 NS_ASSUME_NONNULL_BEGIN
@@ -92,6 +93,15 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  The hex representation of this device token
  */
 @property(nonatomic, readonly, copy) NSString *hexToken;
+
+/**
+ The userInfo dictionary which came with last push.
+ */
+@property(nonatomic, readonly, copy, nullable) NSDictionary *lastPushPayload;
+/**
+ Attribution info (campaignId, messageId etc.) for last push open or app link click from an email.
+ */
+@property(nonatomic, readwrite, strong, nullable) IterableAttributionInfo *attributionInfo;
 
 @property(nonatomic) id<IterableURLDelegate> urlDelegate;
 @property(nonatomic) id<IterableCustomActionDelegate> customActionDelegate;
