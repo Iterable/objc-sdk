@@ -11,6 +11,7 @@
 #import <asl.h>
 
 #import "IterableAPI.h"
+#import "IterableDeeplinkManager.h"
 
 static CGFloat const IterableNetworkResponseExpectationTimeout = 5.0;
 
@@ -38,7 +39,8 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
+    [IterableAPI sharedInstanceWithApiKey:@"" andEmail:@"" launchOptions:nil];
 }
 
 - (void)tearDown {
@@ -115,6 +117,28 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
     NSURL *normalLink = [NSURL URLWithString:iterableNoRewriteURL];
     ITEActionBlock uBlock = ^(NSString* redirectUrl) {
         XCTAssertEqualObjects(iterableNoRewriteURL, redirectUrl);
+        [expectation fulfill];
+    };
+    [IterableAPI getAndTrackDeeplink:normalLink callbackBlock:uBlock];
+    
+    [self waitForExpectationsWithTimeout:IterableNetworkResponseExpectationTimeout handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"Timeout Error: %@", error);
+        }
+    }];
+}
+
+- (void)testDeepLinkAttributionInfo {
+    NSNumber *campaignId = [NSNumber numberWithLong:83306];
+    NSNumber *templateId = [NSNumber numberWithInt:124348];
+    NSString *messageId = @"93125f33ba814b13a882358f8e0852e0";
+    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"High Expectations"];
+    NSURL *normalLink = [NSURL URLWithString:iterableRewriteURL];
+    ITEActionBlock uBlock = ^(NSString* redirectUrl) {
+        XCTAssertEqualObjects(IterableAPI.sharedInstance.attributionInfo.campaignId, campaignId);
+        XCTAssertEqualObjects(IterableAPI.sharedInstance.attributionInfo.templateId, templateId);
+        XCTAssertEqualObjects(IterableAPI.sharedInstance.attributionInfo.messageId, messageId);
         [expectation fulfill];
     };
     [IterableAPI getAndTrackDeeplink:normalLink callbackBlock:uBlock];

@@ -545,6 +545,7 @@
 					};
 					09C0FC051A1D6D4700D5A86B = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = BP98Z28R86;
 						TestTargetID = 9267AA2D209930E5006AF394;
 					};
 					9267AA0E20992F9C006AF394 = {
@@ -975,6 +976,7 @@
 			baseConfigurationReference = 1C33C7248F4CEFEF0AD727AF /* Pods-Iterable-iOS-SDKTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = BP98Z28R86;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -993,6 +995,7 @@
 			baseConfigurationReference = DAB696718A4F07CC09FB5CB1 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = BP98Z28R86;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
