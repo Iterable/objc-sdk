@@ -27,6 +27,9 @@
 #import "IterableAppIntegration+Private.h"
 
 @interface IterableAPI ()
+
+@property(nonatomic, readonly) BOOL initialized;
+
 @end
 
 @implementation IterableAPI {
@@ -479,6 +482,9 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
 {
+    if (!apiKey || !email) {
+        LogError(@"Iterable SDK initialization error: apiKey and email must not be nil");
+    }
     if (self = [super init]) {
         _apiKey = [apiKey copy];
         _email = [email copy];
@@ -490,6 +496,9 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (instancetype)initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
 {
+    if (!apiKey || !userId) {
+        LogError(@"Iterable SDK initialization error: apiKey and userId must not be nil");
+    }
     if (self = [super init]) {
         _apiKey = [apiKey copy];
         _userId = [userId copy];
@@ -497,8 +506,24 @@ NSCharacterSet* encodedCharacterSet = nil;
     return [self createSession:launchOptions useCustomLaunchOptions:useCustomLaunchOptions];
 }
 
+- (BOOL)initialized {
+    return _apiKey != nil && (_userId != nil || _email != nil);
+}
+
+- (BOOL)checkSDKInitialization {
+    if (!self.initialized) {
+        LogError(@"Iterable SDK must be initialized with an API key and user email/userId before calling SDK methods");
+        return NO;
+    }
+    return YES;
+}
+
 // documented in IterableAPI.h
 - (void)trackInAppOpen:(NSString *)messageId {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSDictionary *args;
     
     if (_email != nil) {
@@ -518,6 +543,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 
 // documented in IterableAPI.h
 - (void)inAppConsume:(NSString *)messageId {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSDictionary *args;
     
     if (_email != nil) {
@@ -537,6 +566,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 
 // documented in IterableAPI.h
 - (void)trackInAppClick:(NSString *)messageId buttonIndex:(NSNumber*)buttonIndex {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSDictionary *args;
     if (_email != nil) {
         args = @{
@@ -557,6 +590,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 
 // documented in IterableAPI.h
 - (void)trackInAppClick:(NSString *)messageId buttonURL:(NSString*)buttonURL {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSDictionary *args;
     if (_email != nil) {
         args = @{
@@ -584,6 +621,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSString *hexToken = [token ITEHexadecimalString];
     _hexToken = hexToken;
 
@@ -643,6 +684,10 @@ NSCharacterSet* encodedCharacterSet = nil;
  */
 - (void)disableDevice:(BOOL)allUsers onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     if (!self.hexToken || (!allUsers && !(self.email || self.userId))) {
         LogWarning(@"disableDevice: email or token not yet registered");
         if (onFailure) {
@@ -695,6 +740,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)updateUser:(NSDictionary *)dataFields mergeNestedObjects:(BOOL)mergeNestedObjects onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSDictionary *args;
     if (dataFields) {
         NSNumber *mergeNested = [NSNumber numberWithBool:mergeNestedObjects];
@@ -721,6 +770,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)updateEmail:(NSString *)newEmail onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     if (_email && newEmail) {
         NSDictionary *args = @{
                 ITBL_KEY_CURRENT_EMAIL: self.email,
@@ -755,6 +808,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)track:(NSString *)eventName dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSDictionary *args;
     if (dataFields) {
         
@@ -803,6 +860,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)trackPushOpen:(NSDictionary *)userInfo dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     [self savePushPayload:userInfo];
     
     IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromLaunchOptions:userInfo];
@@ -875,6 +936,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)trackPushOpen:(NSNumber *)campaignId templateId:(NSNumber *)templateId messageId:(NSString *)messageId appAlreadyRunning:(BOOL)appAlreadyRunning dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSMutableDictionary *reqDataFields;
     if (dataFields) {
         reqDataFields = [dataFields mutableCopy];
@@ -921,6 +986,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)trackPurchase:(NSNumber *)total items:(NSArray<CommerceItem *> *)items dataFields:(NSDictionary *)dataFields onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSDictionary *args;
     
     NSMutableArray *itemsToSerialize = [[NSMutableArray alloc] init];
@@ -961,6 +1030,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)updateSubscriptions:(NSArray *)emailListIds unsubscribedChannelIds:(NSArray *)unsubscribedChannelIds unsubscribedMessageTypeIds:(NSArray *)unsubscribedMessageTypeIds
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] init];
     
     [self addEmailOrUserIdToDictionary:mutableDictionary];
@@ -976,6 +1049,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)spawnInAppNotification:(ITEActionBlock)callbackBlock
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     OnSuccessHandler onSuccess = ^(NSDictionary* payload) {
         NSDictionary *dialogOptions = [IterableInAppManager getNextMessageFromPayload:payload];
         if (dialogOptions != nil) {
@@ -1018,6 +1095,10 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)getInAppMessages:(NSNumber *)count onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
 {
+    if (![self checkSDKInitialization]) {
+        return;
+    }
+
     NSDictionary *args;
     if (_email != nil) {
         args = @{
