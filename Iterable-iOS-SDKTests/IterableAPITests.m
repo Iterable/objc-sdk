@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 
 #import <asl.h>
+#import "OHHTTPStubs.h"
 
 #import "IterableAPI.h"
 #import "IterableDeeplinkManager.h"
@@ -46,6 +47,44 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+- (void)testSdkInitializedWithNil {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
+        XCTAssert(false, @"API calls should not be made without an email or userId");
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+        return [OHHTTPStubsResponse responseWithData:@"" statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+    
+    [IterableAPI clearSharedInstance];
+    [IterableAPI sharedInstanceWithApiKey:@"" andEmail:nil launchOptions:nil];
+    [[IterableAPI sharedInstance] track:@"testEvent"];
+    [[IterableAPI sharedInstance] trackInAppOpen:@"12345"];
+    [[IterableAPI sharedInstance] inAppConsume:@"12345"];
+    [[IterableAPI sharedInstance] trackInAppClick:@"12345" buttonURL:@""];
+    [[IterableAPI sharedInstance] registerToken:[[NSData alloc] init] appName:@"appName" pushServicePlatform:APNS_SANDBOX];
+    [[IterableAPI sharedInstance] disableDeviceForCurrentUser];
+    [[IterableAPI sharedInstance] updateUser:@{} mergeNestedObjects:NO onSuccess:nil onFailure:nil];
+    [[IterableAPI sharedInstance] updateEmail:@"" onSuccess:nil onFailure:nil];
+    [[IterableAPI sharedInstance] trackPushOpen:@{}];
+    [[IterableAPI sharedInstance] trackPurchase:@10 items:@[]];
+    
+    [IterableAPI clearSharedInstance];
+    [IterableAPI sharedInstanceWithApiKey:@"" andUserId:nil launchOptions:nil];
+    [[IterableAPI sharedInstance] track:@"testEvent"];
+    [[IterableAPI sharedInstance] trackInAppOpen:@"12345"];
+    [[IterableAPI sharedInstance] inAppConsume:@"12345"];
+    [[IterableAPI sharedInstance] trackInAppClick:@"12345" buttonURL:@""];
+    [[IterableAPI sharedInstance] registerToken:[[NSData alloc] init] appName:@"appName" pushServicePlatform:APNS_SANDBOX];
+    [[IterableAPI sharedInstance] disableDeviceForCurrentUser];
+    [[IterableAPI sharedInstance] updateUser:@{} mergeNestedObjects:NO onSuccess:nil onFailure:nil];
+    [[IterableAPI sharedInstance] updateEmail:@"" onSuccess:nil onFailure:nil];
+    [[IterableAPI sharedInstance] trackPushOpen:@{}];
+    [[IterableAPI sharedInstance] trackPurchase:@10 items:@[]];
+    
+    [IterableAPI clearSharedInstance];
+    [OHHTTPStubs removeAllStubs];
 }
 
 - (void)testPushServicePlatformToString {
