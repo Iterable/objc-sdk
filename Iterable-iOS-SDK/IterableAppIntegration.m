@@ -110,15 +110,17 @@
     //Execute the action
     [IterableActionRunner executeAction:action];
     
-    if (completionHandler)
+    if (completionHandler) {
         completionHandler();
+    }
 }
 
 + (IterableAction *)legacyDefaultActionFromPayload:(NSDictionary *)userInfo {
-    if (userInfo[ITBL_PAYLOAD_DEEP_LINK_URL] != nil)
+    if (userInfo[ITBL_PAYLOAD_DEEP_LINK_URL] != nil) {
         return [IterableAction actionFromDictionary:@{@"type": IterableActionTypeOpenUrl, @"data": userInfo[ITBL_PAYLOAD_DEEP_LINK_URL]}];
-    else
+    } else {
         return nil;
+    }
 }
 
 @end
