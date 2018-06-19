@@ -24,6 +24,10 @@
 }
 
 + (void)openURL:(NSURL *)url action:(IterableAction *)action {
+    if (url == nil) {
+        return;
+    }
+    
     if ([[IterableAPI sharedInstance].urlDelegate handleIterableURL:url fromAction:action]) {
         return;
     }

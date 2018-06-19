@@ -295,4 +295,33 @@
     }
 }
 
+- (void)testLegacyDeepLinkPayload {
+    if (@available(iOS 10, *)) {
+        id actionRunnerMock = OCMClassMock([IterableActionRunner class]);
+        NSString *messageId = [[NSUUID UUID] UUIDString];
+        
+        NSDictionary *userInfo = @{
+                                   @"itbl": @{
+                                           @"campaignId": @1234,
+                                           @"templateId": @4321,
+                                           @"isGhostPush": @NO,
+                                           @"messageId": messageId
+                                           },
+                                   @"url": @"https://example.com"
+                                   };
+        
+        UNNotificationResponse *response = [self notificationResponseWithUserInfo:userInfo actionIdentifier:UNNotificationDefaultActionIdentifier];
+        
+        [IterableAppIntegration userNotificationCenter:nil didReceiveNotificationResponse:response withCompletionHandler:nil];
+        
+        OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
+            XCTAssertEqual(action.type, @"openUrl");
+            XCTAssertEqual(action.data, @"https://example.com");
+            return YES;
+        }]]);
+        
+        [actionRunnerMock stopMocking];
+    }
+}
+
 @end

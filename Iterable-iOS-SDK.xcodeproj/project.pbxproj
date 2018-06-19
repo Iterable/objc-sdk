@@ -64,8 +64,6 @@
 		9284CA74206DCA6C00404B74 /* IterableAPIResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9284CA73206DCA6C00404B74 /* IterableAPIResponseTests.m */; };
 		929330902099449F00DAE180 /* IterableAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9293308E2099449F00DAE180 /* IterableAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		929330912099449F00DAE180 /* IterableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9293308F2099449F00DAE180 /* IterableAction.m */; };
-		92933092209944AA00DAE180 /* IterableAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9293308E2099449F00DAE180 /* IterableAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		92933093209944AD00DAE180 /* IterableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9293308F2099449F00DAE180 /* IterableAction.m */; };
 		92C6325C208FF7AA00A7C216 /* IterableAppIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 92C6325A208FF7AA00A7C216 /* IterableAppIntegration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92C6325D208FF7AA00A7C216 /* IterableAppIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C6325B208FF7AA00A7C216 /* IterableAppIntegration.m */; };
 		92FB47C020995A0F00DA94DC /* IterableActionRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = 92FB47BE20995A0F00DA94DC /* IterableActionRunner.h */; };
@@ -422,7 +420,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92933092209944AA00DAE180 /* IterableAction.h in Headers */,
 				9267AA1F20992F9C006AF394 /* IterableAppExtensions.h in Headers */,
 				9267AA2820992FF9006AF394 /* ITBNotificationServiceExtension.h in Headers */,
 			);
@@ -773,7 +770,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9267AA2920992FF9006AF394 /* ITBNotificationServiceExtension.m in Sources */,
-				92933093209944AD00DAE180 /* IterableAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

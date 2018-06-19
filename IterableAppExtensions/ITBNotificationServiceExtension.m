@@ -1,6 +1,5 @@
 
 #import "ITBNotificationServiceExtension.h"
-#import "IterableAction.h"
 #import "IterableConstants.h"
 
 NSString *const IterableButtonTypeDefault      = @"default";
@@ -15,9 +14,6 @@ NSString *const IterableButtonTypeTextInput    = @"textInput";
 @end
 
 @implementation ITBNotificationServiceExtension
-
-volatile int displayElements;
-volatile int count;
 
 UNNotificationCategory* messageCategory;
 
@@ -64,14 +60,10 @@ UNNotificationCategory* messageCategory;
 
                 }
             }
-            count++;
-            //NSLog(@"url: %@",currentUrl);
-            if (count >= displayElements) {
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    self.contentHandler(self.bestAttemptContent);
-                }];
-            }
-
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                self.contentHandler(self.bestAttemptContent);
+            }];
+            
         }] resume];
         
         return YES;
