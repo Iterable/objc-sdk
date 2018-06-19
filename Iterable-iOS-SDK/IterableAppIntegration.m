@@ -45,8 +45,14 @@
         itbl = userInfo;
     }
 #endif
-    IterableAction *action = [IterableAction actionFromDictionary:itbl[ITBL_PAYLOAD_DEFAULT_ACTION]];
+    
+    IterableAction *action = nil;
     NSDictionary *dataFields = @{ ITBL_KEY_ACTION_IDENTIFIER: ITBL_VALUE_DEFAULT_PUSH_OPEN_ACTION_ID };
+    if (itbl[ITBL_PAYLOAD_DEFAULT_ACTION] != nil) {
+        action = [IterableAction actionFromDictionary:itbl[ITBL_PAYLOAD_DEFAULT_ACTION]];
+    } else {
+        action = [self legacyDefaultActionFromPayload:userInfo];
+    }
 
     // Track push open
     [api trackPushOpen:userInfo dataFields:dataFields];
@@ -72,7 +78,11 @@
 
     if ([response.actionIdentifier isEqualToString:UNNotificationDefaultActionIdentifier]) {
         dataFields[ITBL_KEY_ACTION_IDENTIFIER] = ITBL_VALUE_DEFAULT_PUSH_OPEN_ACTION_ID;
-        action = [IterableAction actionFromDictionary:itbl[ITBL_PAYLOAD_DEFAULT_ACTION]];
+        if (itbl[ITBL_PAYLOAD_DEFAULT_ACTION] != nil) {
+            action = [IterableAction actionFromDictionary:itbl[ITBL_PAYLOAD_DEFAULT_ACTION]];
+        } else {
+            action = [self legacyDefaultActionFromPayload:userInfo];
+        }
     }
     else if ([response.actionIdentifier isEqualToString:UNNotificationDismissActionIdentifier]) {
         // We don't track dismiss actions yet
@@ -102,6 +112,13 @@
     
     if (completionHandler)
         completionHandler();
+}
+
++ (IterableAction *)legacyDefaultActionFromPayload:(NSDictionary *)userInfo {
+    if (userInfo[ITBL_PAYLOAD_DEEP_LINK_URL] != nil)
+        return [IterableAction actionFromDictionary:@{@"type": IterableActionTypeOpenUrl, @"data": userInfo[ITBL_PAYLOAD_DEEP_LINK_URL]}];
+    else
+        return nil;
 }
 
 @end
