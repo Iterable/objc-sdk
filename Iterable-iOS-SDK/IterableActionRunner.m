@@ -8,6 +8,7 @@
 
 #import "IterableActionRunner.h"
 #import "IterableAPI.h"
+#import "IterableAPI+Internal.h"
 #import "IterableLogging.h"
 
 @implementation IterableActionRunner
@@ -28,7 +29,7 @@
         return;
     }
     
-    if ([[IterableAPI sharedInstance].urlDelegate handleIterableURL:url fromAction:action]) {
+    if ([[IterableAPI sharedInstance].config.urlDelegate handleIterableURL:url fromAction:action]) {
         return;
     }
 
@@ -52,7 +53,7 @@
 
 + (void)callCustomActionIfSpecified:(IterableAction *)action {
     if (action.type.length > 0) {
-        [[IterableAPI sharedInstance].customActionDelegate handleIterableCustomAction:action];
+        [[IterableAPI sharedInstance].config.customActionDelegate handleIterableCustomAction:action];
     }
 }
 

@@ -40,6 +40,12 @@
 
 + (void)performDefaultNotificationAction:(NSDictionary *)userInfo api:(IterableAPI *)api {
     NSDictionary *itbl = userInfo[ITBL_PAYLOAD_METADATA];
+
+    // Ignore the notification if we've already processed it from launchOptions while initializing the SDK
+    if ([userInfo isEqualToDictionary:[IterableAPI sharedInstance].lastPushPayload]) {
+        return;
+    }
+
 #ifdef DEBUG
     if (itbl[ITBL_PAYLOAD_DEFAULT_ACTION] == nil && itbl[ITBL_PAYLOAD_ACTION_BUTTONS] == nil) {
         itbl = userInfo;
@@ -66,6 +72,14 @@
     LogDebug(@"IterableAPI: didReceiveNotificationResponse: %@", response);
     NSDictionary *userInfo = response.notification.request.content.userInfo;
     NSDictionary *itbl = userInfo[ITBL_PAYLOAD_METADATA];
+    
+    // Ignore the notification if we've already processed it from launchOptions while initializing the SDK
+    if ([userInfo isEqualToDictionary:[IterableAPI sharedInstance].lastPushPayload]) {
+        if (completionHandler) {
+            completionHandler();
+        }
+        return;
+    }
 
 #ifdef DEBUG
     if (itbl[ITBL_PAYLOAD_DEFAULT_ACTION] == nil && itbl[ITBL_PAYLOAD_ACTION_BUTTONS] == nil) {

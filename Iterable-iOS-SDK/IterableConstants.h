@@ -95,6 +95,8 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITBL_USER_DEFAULTS_PAYLOAD_EXPIRATION_HOURS 24
 #define ITBL_USER_DEFAULTS_ATTRIBUTION_INFO_KEY @"itbl_attribution_info_key"
 #define ITBL_USER_DEFAULTS_ATTRIBUTION_INFO_EXPIRATION_HOURS 24
+#define ITBL_USER_DEFAULTS_EMAIL_KEY @"itbl_email"
+#define ITBL_USER_DEFAULTS_USERID_KEY @"itbl_userid"
 
 //Action Buttons
 #define ITBL_BUTTON_IDENTIFIER @"identifier"
@@ -137,6 +139,5 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITERABLE_IN_APP_HTML @"html"
 #define ITERABLE_IN_APP_HREF @"href"
 #define ITERABLE_IN_APP_DISPLAY_SETTINGS @"inAppDisplaySettings"
-
 
 typedef void (^ITEActionBlock)(NSString *);
