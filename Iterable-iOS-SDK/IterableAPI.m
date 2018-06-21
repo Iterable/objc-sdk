@@ -10,6 +10,10 @@
 #error This file must be compiled with ARC. Either turn on ARC for the project or use -fobjc-arc flag on this file.
 #endif
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 @import Foundation;
 @import UIKit;
 
@@ -70,6 +74,9 @@ NSCharacterSet* encodedCharacterSet = nil;
             break;
         case APNS_SANDBOX:
             result = ITBL_KEY_APNS_SANDBOX;
+            break;
+        case AUTO:
+            result = [IterableUtil isSandboxAPNS] ? ITBL_KEY_APNS_SANDBOX : ITBL_KEY_APNS;
             break;
         default:
             LogError(@"Unexpected PushServicePlatform: %ld", (long)pushServicePlatform);
@@ -662,6 +669,40 @@ NSCharacterSet* encodedCharacterSet = nil;
     [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppClick"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppClick"]];
 }
 
+/**
+ * Returns the push integration name for this app depending on the config options
+ * @return push integration name to use
+ */
+- (NSString *)pushIntegrationName {
+    if (self.config.pushIntegrationName && self.config.sandboxPushIntegrationName) {
+        switch (self.config.pushPlatform) {
+            case APNS:
+                return self.config.pushIntegrationName;
+            case APNS_SANDBOX:
+                return self.config.sandboxPushIntegrationName;
+            case AUTO:
+                return [IterableUtil isSandboxAPNS] ? self.config.sandboxPushIntegrationName : self.config.pushIntegrationName;
+        }
+    }
+    return self.config.pushIntegrationName;
+}
+
+// documented in IterableAPI.h
+- (void)registerToken:(NSData *)token {
+    if (!self.config) {
+        LogError(@"The SDK must be initialized with [IterableAPI initializeWithApiKey:launchOptions:config:] for registerToken: to work.");
+    }
+    [self registerToken:token appName:[self pushIntegrationName] pushServicePlatform:self.config.pushPlatform];
+}
+
+// documented in IterableAPI.h
+- (void)registerToken:(NSData *)token onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure {
+    if (!self.config) {
+        LogError(@"The SDK must be initialized with [IterableAPI initializeWithApiKey:launchOptions:config:] for registerToken:onSuccess:onFailure: to work.");
+    }
+    [self registerToken:token appName:[self pushIntegrationName] pushServicePlatform:self.config.pushPlatform onSuccess:onSuccess onFailure:onFailure];
+}
+
 // documented in IterableAPI.h
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform
 {
@@ -1220,3 +1261,5 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 @end
+
+#pragma clang diagnostic pop

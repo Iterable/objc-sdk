@@ -40,6 +40,18 @@
 @end
 
 /**
+ Enum representing push platform; apple push notification service, production vs sandbox
+ */
+typedef NS_ENUM(NSInteger, PushServicePlatform) {
+    /** The sandbox push service */
+            APNS_SANDBOX,
+    /** The production push service */
+            APNS,
+    /** Detect automatically */
+            AUTO
+};
+
+/**
  * Iterable SDK configuration object.
  * Create and pass this object during SDK initialization.
  */
@@ -49,7 +61,20 @@
  * Push integration name – used for token registration.
  * Make sure the name of this integration matches the one set up in Iterable console.
  */
-@property(nonatomic, copy) NSString *pushIntegration;
+@property(nonatomic, copy) NSString *pushIntegrationName;
+
+/**
+ * Push integration name for development builds – used for token registration.
+ * Make sure the name of this integration matches the one set up in Iterable console.
+ */
+@property(nonatomic, copy) NSString *sandboxPushIntegrationName;
+
+/**
+ * APNS environment for the current build of the app.
+ * Possible values: `APNS_SANDBOX`, `APNS_SANDBOX`, `AUTO`
+ * Defaults to `AUTO` and detects the APNS environment automatically
+ */
+@property(nonatomic, assign) PushServicePlatform pushPlatform;
 
 /**
  * Custom URL handler to override openUrl actions

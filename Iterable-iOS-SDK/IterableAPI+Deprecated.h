@@ -6,6 +6,8 @@
 #import <Foundation/Foundation.h>
 #import "IterableAPI.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IterableAPI (Deprecated)
 
 /////////////////////////////////
@@ -24,7 +26,11 @@
 
  @return an instance of IterableAPI
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions __deprecated_msg("Use [IterableAPI startWithApiKey:launchOptions:] instead.");
+- (instancetype) initWithApiKey:(NSString *)apiKey
+                       andEmail:(NSString *)email
+                  launchOptions:(nullable NSDictionary *)launchOptions
+         useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
+__deprecated_msg("Use [IterableAPI initializeWithApiKey:launchOptions:] instead.");
 
 /*!
  @method
@@ -36,7 +42,9 @@
 
  @return an instance of IterableAPI
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *) userId __deprecated_msg("Use [IterableAPI startWithApiKey:launchOptions:] instead.");
+- (instancetype) initWithApiKey:(NSString *)apiKey
+                      andUserId:(NSString *)userId
+__deprecated_msg("Use [IterableAPI initializeWithApiKey:launchOptions:] instead.");
 
 /*!
  @method
@@ -49,7 +57,10 @@
 
  @return an instance of IterableAPI
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions __deprecated_msg("Use [IterableAPI startWithApiKey:launchOptions:] instead.");
+- (instancetype) initWithApiKey:(NSString *)apiKey
+                      andUserId:(NSString *)userId
+                  launchOptions:(nullable NSDictionary *)launchOptions
+__deprecated_msg("Use [IterableAPI initializeWithApiKey:launchOptions:] instead.");
 
 /*!
  @method
@@ -63,7 +74,11 @@
 
  @return an instance of IterableAPI
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions __deprecated_msg("Use [IterableAPI startWithApiKey:launchOptions:] instead.");
+- (instancetype) initWithApiKey:(NSString *)apiKey
+                      andUserId:(NSString *)userId
+                  launchOptions:(nullable NSDictionary *)launchOptions
+         useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
+__deprecated_msg("Use [IterableAPI initializeWithApiKey:launchOptions:] instead.");
 
 /*!
  @method
@@ -82,7 +97,10 @@
 
  @return an instance of IterableAPI
  */
-+ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions __deprecated_msg("Use [IterableAPI startWithApiKey:launchOptions:] instead.");
++ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey
+                                 andUserId:(NSString *)userId
+                             launchOptions:(nullable NSDictionary *)launchOptions
+__deprecated_msg("Use [IterableAPI initializeWithApiKey:launchOptions:] instead.");
 
 /*!
  @method
@@ -101,7 +119,10 @@
 
  @return an instance of IterableAPI
  */
-+ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions __deprecated_msg("Use [IterableAPI startWithApiKey:launchOptions:] instead.");
++ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey
+                                  andEmail:(NSString *)email
+                             launchOptions:(nullable NSDictionary *)launchOptions
+__deprecated_msg("Use [IterableAPI initializeWithApiKey:launchOptions:] instead.");
 
 /*!
  @method
@@ -123,6 +144,46 @@
  @abstract Sets the previously instantiated singleton instance of the API to nil
 
  */
-+ (void)clearSharedInstance __deprecated_msg("Use [IterableAPI startWithApiKey:launchOptions:config:] to initialize the SDK and setUserEmail:/setUserId: to set the user email/id.");
++ (void)clearSharedInstance
+__deprecated_msg("Use [IterableAPI initializeWithApiKey:launchOptions:config:] to initialize the SDK and setUserEmail:/setUserId: to set the user email/id.");
+
+/*!
+ @method
+
+ @abstract Register this device's token with Iterable
+
+ @param token       The token representing this device/application pair, obtained from
+                    `application:didRegisterForRemoteNotificationsWithDeviceToken`
+                    after registering for remote notifications
+ @param appName     The application name, as configured in Iterable during set up of the push integration
+ @param pushServicePlatform     The PushServicePlatform to use for this device; dictates whether to register this token in the sandbox or production environment
+
+ @see PushServicePlatform
+
+ */
+- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform
+__deprecated_msg("Use [IterableAPI initializeWithApiKey:launchOptions:config:] with push integration names in IterableConfig to initialize the SDK and registerToken: to register device tokens.");
+
+/*!
+ @method
+
+ @abstract Register this device's token with Iterable with custom completion blocks
+
+ @param token                   The token representing this device/application pair, obtained from
+                                `application:didRegisterForRemoteNotificationsWithDeviceToken`
+                                after registering for remote notifications
+ @param appName                 The application name, as configured in Iterable during set up of the push integration
+ @param pushServicePlatform     The PushServicePlatform to use for this device; dictates whether to register this token in the sandbox or production environment
+ @param onSuccess               OnSuccessHandler to invoke if token registration is successful
+ @param onFailure               OnFailureHandler to invoke if token registration fails
+
+ @see PushServicePlatform
+ @see OnSuccessHandler
+ @see OnFailureHandler
+ */
+- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure
+__deprecated_msg("Use [IterableAPI initializeWithApiKey:launchOptions:config:] with push integration names in IterableConfig to initialize the SDK and registerToken:onSuccess:onFailure to register device tokens.");
 
 @end
+
+NS_ASSUME_NONNULL_END

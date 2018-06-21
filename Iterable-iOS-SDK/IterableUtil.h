@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface IterableUtil : NSObject
 
 + (NSDate *)currentDate;
++ (BOOL)isSandboxAPNS;
 
 @end
 

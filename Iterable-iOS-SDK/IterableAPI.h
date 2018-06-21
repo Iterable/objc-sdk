@@ -27,16 +27,6 @@ typedef void (^OnSuccessHandler)(NSDictionary *data);
 typedef void (^OnFailureHandler)(NSString *reason, NSData *_Nullable data);
 
 /**
- Enum representing push platform; apple push notification service, production vs sandbox
- */
-typedef NS_ENUM(NSInteger, PushServicePlatform) {
-    /** The sandbox push service */
-    APNS_SANDBOX,
-    /** The production push service */
-    APNS
-};
-
-/**
  `IterableAPI` contains all the essential functions for communicating with Iterable's API
  */
 @interface IterableAPI : NSObject
@@ -91,49 +81,46 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /// @name Setting user email or user id
 /////////////////////////////
 
+/**
+ * Set user email used for API calls
+ * Calling this or `setUserId:` is required before making any API calls.
+ * Note: this clears userId and persists the user email so you only need to call this once when the user logs in.
+ * @param email User email
+ */
 - (void)setEmail:(nullable NSString *)email;
+
+/**
+ * Set user ID used for API calls
+ * Calling this or `setEmail:` is required before making any API calls.
+ * Note: this clears user email and persists the user ID so you only need to call this once when the user logs in.
+ * @param userId User ID
+ */
 - (void)setUserId:(nullable NSString *)userId;
 
 /////////////////////////////
 /// @name Registering a token
 /////////////////////////////
 
-/*!
- @method 
- 
- @abstract Register this device's token with Iterable
-
- @param token       The token representing this device/application pair, obtained from
+/**
+ * Register this device's token with Iterable
+ * Push integration name and platform are read from `IterableConfig`. If platform is set to `AUTO`, it will
+ * read APNS environment from the provisioning profile and use an integration name specified in `IterableConfig`.
+ * @param token The token representing this device/application pair, obtained from
                     `application:didRegisterForRemoteNotificationsWithDeviceToken`
                     after registering for remote notifications
- @param appName     The application name, as configured in Iterable during set up of the push integration
- @param pushServicePlatform     The PushServicePlatform to use for this device; dictates whether to register this token in the sandbox or production environment
- 
- @see PushServicePlatform
- 
  */
-- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform;
-
-/*!
- @method
- 
- @abstract Register this device's token with Iterable with custom completion blocks
- 
- @param token                   The token representing this device/application pair, obtained from
-                                `application:didRegisterForRemoteNotificationsWithDeviceToken`
-                                after registering for remote notifications
- @param appName                 The application name, as configured in Iterable during set up of the push integration
- @param pushServicePlatform     The PushServicePlatform to use for this device; dictates whether to register this token in the sandbox or production environment
- @param onSuccess               OnSuccessHandler to invoke if token registration is successful
- @param onFailure               OnFailureHandler to invoke if token registration fails
- 
- @see PushServicePlatform
- @see OnSuccessHandler
- @see OnFailureHandler
- */
-- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
-
 - (void)registerToken:(NSData *)token;
+
+/**
+ * Register this device's token with Iterable
+ * Push integration name and platform are read from `IterableConfig`. If platform is set to `AUTO`, it will
+ * read APNS environment from the provisioning profile and use an integration name specified in `IterableConfig`.
+ * @param token The token representing this device/application pair, obtained from
+                    `application:didRegisterForRemoteNotificationsWithDeviceToken`
+                    after registering for remote notifications
+ * @param onSuccess    OnSuccessHandler to invoke if token registration is successful
+ * @param onFailure    OnFailureHandler to invoke if token registration fails
+ */
 - (void)registerToken:(NSData *)token onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 /////////////////////////////

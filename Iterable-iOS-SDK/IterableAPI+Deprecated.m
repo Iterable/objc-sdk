@@ -4,7 +4,3 @@
 //
 
 #import "IterableAPI+Deprecated.h"
-
-
-@implementation IterableAPI (Deprecated)
-@end

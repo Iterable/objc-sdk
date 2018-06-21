@@ -11,6 +11,12 @@
 
 @implementation IterableConfig
 
-
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _pushPlatform = AUTO;
+    }
+    return self;
+}
 
 @end
