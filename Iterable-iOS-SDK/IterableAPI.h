@@ -73,8 +73,25 @@ typedef void (^OnFailureHandler)(NSString *reason, NSData *_Nullable data);
 /// @name Initializing IterableAPI
 /////////////////////////////////
 
+/**
+ * Initializes IterableAPI
+ * This method must be called from UIApplicationDelegate's `application:didFinishLaunchingWithOptions:`
+ *
+ * @note Make sure you also call `setEmail:` or `setUserId:` before making any API calls
+ * @param apiKey Iterable Mobile API key
+ * @param launchOptions launchOptions object passed from `application:didFinishLaunchingWithOptions:`
+ */
 + (void)initializeWithApiKey:(NSString *)apiKey launchOptions:(nullable NSDictionary *)launchOptions;
 
+/**
+ * Initializes IterableAPI
+ * This method must be called from UIApplicationDelegate's `application:didFinishLaunchingWithOptions:`
+ *
+ * @note Make sure you also call `setEmail:` or `setUserId:` before making any API calls
+ * @param apiKey Iterable Mobile API key
+ * @param launchOptions launchOptions object passed from `application:didFinishLaunchingWithOptions:`
+ * @param config `IterableConfig` object holding SDK configuration options
+ */
 + (void)initializeWithApiKey:(NSString *)apiKey launchOptions:(nullable NSDictionary *)launchOptions config:(IterableConfig *)config;
 
 /////////////////////////////
@@ -84,7 +101,8 @@ typedef void (^OnFailureHandler)(NSString *reason, NSData *_Nullable data);
 /**
  * Set user email used for API calls
  * Calling this or `setUserId:` is required before making any API calls.
- * Note: this clears userId and persists the user email so you only need to call this once when the user logs in.
+ *
+ * @note This clears userId and persists the user email so you only need to call this once when the user logs in.
  * @param email User email
  */
 - (void)setEmail:(nullable NSString *)email;
@@ -92,7 +110,8 @@ typedef void (^OnFailureHandler)(NSString *reason, NSData *_Nullable data);
 /**
  * Set user ID used for API calls
  * Calling this or `setEmail:` is required before making any API calls.
- * Note: this clears user email and persists the user ID so you only need to call this once when the user logs in.
+ *
+ * @note This clears user email and persists the user ID so you only need to call this once when the user logs in.
  * @param userId User ID
  */
 - (void)setUserId:(nullable NSString *)userId;
