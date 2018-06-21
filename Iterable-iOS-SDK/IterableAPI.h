@@ -58,12 +58,12 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 /**
  The email of the logged in user that this IterableAPI is using
  */
-@property(nonatomic, copy) NSString *email;
+@property(nonatomic, readonly, copy) NSString *email;
 
 /**
  The userId of the logged in user that this IterableAPI is using
  */
-@property(nonatomic, copy) NSString *userId;
+@property(nonatomic, readonly, copy) NSString *userId;
 
 /**
  The hex representation of this device token

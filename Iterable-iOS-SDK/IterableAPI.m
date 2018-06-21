@@ -29,7 +29,7 @@
 @interface IterableAPI ()
 
 @property(nonatomic, readonly) BOOL initialized;
-@property(nonatomic, readonly) BOOL sdkCompatEnabled;
+@property(nonatomic) BOOL sdkCompatEnabled;
 
 @end
 
@@ -377,9 +377,13 @@ NSCharacterSet* encodedCharacterSet = nil;
         if (useCustomLaunchOptions) {
             [IterableAppIntegration performDefaultNotificationAction:launchOptions api:self];
         } else if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            if (![UIApplication sharedApplication].keyWindow) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [IterableAppIntegration performDefaultNotificationAction:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] api:self];
+                });
+            } else {
                 [IterableAppIntegration performDefaultNotificationAction:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] api:self];
-            });
+            }
         }
     }
 }

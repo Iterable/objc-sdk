@@ -8,6 +8,6 @@
 
 @interface IterableAPI (Internal)
 
-@property(nonatomic, readonly) BOOL sdkCompatEnabled;
+@property(nonatomic) BOOL sdkCompatEnabled;
 
 @end

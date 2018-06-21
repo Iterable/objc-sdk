@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "IterableAPI.h"
+#import "IterableAPI+Internal.h"
 #import "IterableActionRunner.h"
 
 @interface IterableActionRunnerTests : XCTestCase
@@ -19,7 +20,8 @@
 
 - (void)setUp {
     [super setUp];
-    [IterableAPI sharedInstanceWithApiKey:@"" andEmail:@"" launchOptions:nil];
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
 }
 
 - (void)tearDown {
@@ -30,7 +32,11 @@
 - (void)testUrlOpenAction {
     id urlDelegateMock = OCMProtocolMock(@protocol(IterableURLDelegate));
     id applicationMock = OCMPartialMock([UIApplication sharedApplication]);
-    IterableAPI.sharedInstance.urlDelegate = urlDelegateMock;
+    
+    IterableConfig *config = [[IterableConfig alloc] init];
+    config.urlDelegate = urlDelegateMock;
+    [IterableAPI initializeWithApiKey:@"" launchOptions:nil config:config];
+    
     IterableAction *action = [IterableAction actionFromDictionary:@{ @"type": @"openUrl", @"data": @"https://example.com" }];
     [IterableActionRunner executeAction:action];
     
@@ -52,7 +58,11 @@
         OCMReject([applicationMock openURL:[OCMArg any]]);
     }
     OCMStub([urlDelegateMock handleIterableURL:[OCMArg any] fromAction:[OCMArg any]]).andReturn(YES);
-    IterableAPI.sharedInstance.urlDelegate = urlDelegateMock;
+    
+    IterableConfig *config = [[IterableConfig alloc] init];
+    config.urlDelegate = urlDelegateMock;
+    [IterableAPI initializeWithApiKey:@"" launchOptions:nil config:config];
+    
     IterableAction *action = [IterableAction actionFromDictionary:@{ @"type": @"openUrl", @"data": @"https://example.com" }];
     [IterableActionRunner executeAction:action];
     
@@ -61,7 +71,11 @@
 
 - (void)testCustomAction {
     id customActionDelegateMock = OCMProtocolMock(@protocol(IterableCustomActionDelegate));
-    IterableAPI.sharedInstance.customActionDelegate = customActionDelegateMock;
+    
+    IterableConfig *config = [[IterableConfig alloc] init];
+    config.customActionDelegate = customActionDelegateMock;
+    [IterableAPI initializeWithApiKey:@"" launchOptions:nil config:config];
+    
     IterableAction *action = [IterableAction actionFromDictionary:@{ @"type": @"customActionName" }];
     [IterableActionRunner executeAction:action];
     
