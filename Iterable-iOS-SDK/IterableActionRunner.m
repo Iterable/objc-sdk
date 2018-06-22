@@ -14,6 +14,11 @@
 @implementation IterableActionRunner
 
 + (void)executeAction:(IterableAction *)action {
+    // Do not handle actions and try to open Safari for URLs unless the SDK is initialized with a new init method
+    if ([IterableAPI sharedInstance].sdkCompatEnabled) {
+        return;
+    }
+
     if ([action isOfType:IterableActionTypeOpenUrl]) {
         // Open deeplink, use delegate handler
         [self openURL:[NSURL URLWithString:action.data] action:action];
