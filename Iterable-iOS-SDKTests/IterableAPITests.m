@@ -309,4 +309,24 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
     [OHHTTPStubs removeAllStubs];
 }
 
+- (void)testEmailUserIdPersistence {
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
+    [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
+    [[IterableAPI sharedInstance] setEmail:@"test@email.com"];
+    
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
+    [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
+    XCTAssertEqualObjects([IterableAPI sharedInstance].email, @"test@email.com");
+    XCTAssertNil([IterableAPI sharedInstance].userId);
+    
+    [[IterableAPI sharedInstance] setUserId:@"testUserId"];
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
+    [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
+    XCTAssertEqualObjects([IterableAPI sharedInstance].userId, @"testUserId");
+    XCTAssertNil([IterableAPI sharedInstance].email);
+}
+
 @end
