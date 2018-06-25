@@ -10,6 +10,10 @@
 #error This file must be compiled with ARC. Either turn on ARC for the project or use -fobjc-arc flag on this file.
 #endif
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 @import Foundation;
 @import UIKit;
 
@@ -29,6 +33,7 @@
 @interface IterableAPI ()
 
 @property(nonatomic, readonly) BOOL initialized;
+@property(nonatomic) BOOL sdkCompatEnabled;
 
 @end
 
@@ -69,6 +74,9 @@ NSCharacterSet* encodedCharacterSet = nil;
             break;
         case APNS_SANDBOX:
             result = ITBL_KEY_APNS_SANDBOX;
+            break;
+        case AUTO:
+            result = [IterableUtil isSandboxAPNS] ? ITBL_KEY_APNS_SANDBOX : ITBL_KEY_APNS;
             break;
         default:
             LogError(@"Unexpected PushServicePlatform: %ld", (long)pushServicePlatform);
@@ -315,20 +323,6 @@ NSCharacterSet* encodedCharacterSet = nil;
 /**
  @method
  
- @abstract creates a singleton URLSession for the class to use
- */
-- (void)createUrlSession
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        urlSession = [NSURLSession sessionWithConfiguration:configuration];
-    });
-}
-
-/**
- @method
- 
  @abstract default success completion handler; debug logs the result from Iterable
  
  @param identifier an identifier for what succeeded; pass in something like the function name
@@ -360,60 +354,69 @@ NSCharacterSet* encodedCharacterSet = nil;
     };
 }
 
-/*!
- @method
- 
- @abstract creates an iterable session with launchOptions
- 
- @param launchOptions launchOptions from application:didFinishLaunchingWithOptions
- 
- @return an instance of IterableAPI
+/**
+ * Creates an iterable session
  */
-- (instancetype)createSession:(NSDictionary *)launchOptions
-{
-    return [self createSession:launchOptions useCustomLaunchOptions:false];
-}
-
-/*!
- @method
- 
- @abstract creates an iterable session with launchOptions
- 
- @param launchOptions launchOptions from application:didFinishLaunchingWithOptions or custom launchOptions
- 
- @param useCustomLaunchOptions whether or not to use the custom launchOption without the UIApplicationLaunchOptionsRemoteNotificationKey
- 
- @return an instance of IterableAPI
- */
-- (instancetype)createSession:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
+- (void)createSession
 {
     // the url session doesn't depend on any options/params, so we'll use a singleton that gets created whenever the class is instantiated
     // if it gets instantiated again that's fine; we don't need to reconfigure the session, just keep using the old singleton
-    [self createUrlSession];
-    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        urlSession = [NSURLSession sessionWithConfiguration:configuration];
+    });
+
     encodedCharacterSet = [self getEncodedSubset];
-    
-    // Automatically try to track a pushOpen
+}
+
+/**
+ * Handles launchOptions passed from the starting application. Tracks push open events automatically if the app was opened
+ * from a push notification.
+ *
+ * @param launchOptions launchOptions from application:didFinishLaunchingWithOptions or the push payload
+ * @param useCustomLaunchOptions if YES, `launchOptions` is the push payload, if NO, the SDK will try to get the push payload
+ *                               using `UIApplicationLaunchOptionsRemoteNotificationKey`
+ */
+- (void)handleLaunchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions {
+    // Automatically try to track a pushOpen and execute the action
     if (launchOptions) {
         if (useCustomLaunchOptions) {
             [IterableAppIntegration performDefaultNotificationAction:launchOptions api:self];
         } else if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-            [IterableAppIntegration performDefaultNotificationAction:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] api:self];
+            if (![UIApplication sharedApplication].keyWindow) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                    [IterableAppIntegration performDefaultNotificationAction:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] api:self];
+                });
+            } else {
+                [IterableAppIntegration performDefaultNotificationAction:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey] api:self];
+            }
         }
     }
-    
-    return self;
 }
 
 //////////////////////////////////////////////////////////////
 /// @name Implementations of things documents in IterableAPI.h
 //////////////////////////////////////////////////////////////
 
++ (void)initializeWithApiKey:(NSString *)apiKey launchOptions:(NSDictionary *)launchOptions {
+    return [self initializeWithApiKey:apiKey launchOptions:launchOptions config:[[IterableConfig alloc] init]];
+}
+
++ (void)initializeWithApiKey:(NSString *)apiKey launchOptions:(NSDictionary *)launchOptions config:(IterableConfig *)config {
+    if (sharedInstance == nil) {
+        sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey config:config];
+        [sharedInstance handleLaunchOptions:launchOptions useCustomLaunchOptions:NO];
+    } else {
+        LogError(@"IterableAPI has already started");
+    }
+}
+
 // documented in IterableAPI.h
 + (IterableAPI *)sharedInstance
 {
     if (sharedInstance == nil) {
-        LogError(@"[sharedInstance called before sharedInstanceWithApiKey");
+        LogError(@"sharedInstance called before sharedInstanceWithApiKey");
     }
     return sharedInstance;
 }
@@ -422,7 +425,12 @@ NSCharacterSet* encodedCharacterSet = nil;
 + (void)clearSharedInstance
 {
     @synchronized (self) {
-        sharedInstance = nil;
+        // Only remove the instance if compat mode is enabled (SDK was initialized through the old sharedInstance* methods)
+        if (sharedInstance.sdkCompatEnabled) {
+            sharedInstance = nil;
+        } else {
+            LogError(@"Call setUserEmail: or setUserId: to update user email or id instead of reinitializing the SDK.");
+        }
     }
 }
 
@@ -430,7 +438,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 + (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions
 {
     @synchronized (self) {
-        if(!sharedInstance){
+        if (!sharedInstance) {
             sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andEmail:email launchOptions:launchOptions];
         }
         return sharedInstance;
@@ -441,7 +449,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 + (IterableAPI *)sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions
 {
     @synchronized (self) {
-        if(!sharedInstance){
+        if (!sharedInstance) {
             sharedInstance = [[IterableAPI alloc] initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions];
         }
         return sharedInstance;
@@ -479,6 +487,23 @@ NSCharacterSet* encodedCharacterSet = nil;
     return [self initWithApiKey:apiKey andUserId:userId launchOptions:launchOptions useCustomLaunchOptions:false];
 }
 
+
+- (instancetype)initWithApiKey:(NSString *)apiKey config:(IterableConfig *)config {
+    if (!apiKey) {
+        LogError(@"Iterable SDK initialization error: apiKey must not be nil");
+    }
+
+    if (self = [super init]) {
+        _apiKey = [apiKey copy];
+        _config = config;
+    }
+
+    [self createSession];
+    [self retrieveEmailAndUserId];
+
+    return self;
+}
+
 // documented in IterableAPI.h
 - (instancetype)initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions
 {
@@ -489,8 +514,12 @@ NSCharacterSet* encodedCharacterSet = nil;
         _apiKey = [apiKey copy];
         _email = [email copy];
     }
-    
-    return [self createSession:launchOptions useCustomLaunchOptions:useCustomLaunchOptions];
+    _sdkCompatEnabled = YES;
+
+    [self createSession];
+    [self handleLaunchOptions:launchOptions useCustomLaunchOptions:useCustomLaunchOptions];
+
+    return self;
 }
 
 // documented in IterableAPI.h
@@ -503,7 +532,12 @@ NSCharacterSet* encodedCharacterSet = nil;
         _apiKey = [apiKey copy];
         _userId = [userId copy];
     }
-    return [self createSession:launchOptions useCustomLaunchOptions:useCustomLaunchOptions];
+    _sdkCompatEnabled = YES;
+
+    [self createSession];
+    [self handleLaunchOptions:launchOptions useCustomLaunchOptions:useCustomLaunchOptions];
+
+    return self;
 }
 
 - (BOOL)initialized {
@@ -516,6 +550,29 @@ NSCharacterSet* encodedCharacterSet = nil;
         return NO;
     }
     return YES;
+}
+
+- (void)setEmail:(NSString *)email {
+    _email = [email copy];
+    _userId = nil;
+    [self storeEmailAndUserId];
+}
+
+- (void)setUserId:(NSString *)userId {
+    _email = nil;
+    _userId = [userId copy];
+    [self storeEmailAndUserId];
+}
+
+- (void)storeEmailAndUserId {
+    [[NSUserDefaults standardUserDefaults] setObject:_email forKey:ITBL_USER_DEFAULTS_EMAIL_KEY];
+    [[NSUserDefaults standardUserDefaults] setObject:_userId forKey:ITBL_USER_DEFAULTS_USERID_KEY];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)retrieveEmailAndUserId {
+    _email = [[NSUserDefaults standardUserDefaults] objectForKey:ITBL_USER_DEFAULTS_EMAIL_KEY];
+    _userId = [[NSUserDefaults standardUserDefaults] objectForKey:ITBL_USER_DEFAULTS_USERID_KEY];
 }
 
 // documented in IterableAPI.h
@@ -612,6 +669,42 @@ NSCharacterSet* encodedCharacterSet = nil;
     [self sendRequest:request onSuccess:[IterableAPI defaultOnSuccess:@"trackInAppClick"] onFailure:[IterableAPI defaultOnFailure:@"trackInAppClick"]];
 }
 
+/**
+ * Returns the push integration name for this app depending on the config options
+ * @return push integration name to use
+ */
+- (NSString *)pushIntegrationName {
+    if (self.config.pushIntegrationName && self.config.sandboxPushIntegrationName) {
+        switch (self.config.pushPlatform) {
+            case APNS:
+                return self.config.pushIntegrationName;
+            case APNS_SANDBOX:
+                return self.config.sandboxPushIntegrationName;
+            case AUTO:
+                return [IterableUtil isSandboxAPNS] ? self.config.sandboxPushIntegrationName : self.config.pushIntegrationName;
+        }
+    }
+    return self.config.pushIntegrationName;
+}
+
+// documented in IterableAPI.h
+- (void)registerToken:(NSData *)token {
+    if (!self.config) {
+        LogError(@"The SDK must be initialized with [IterableAPI initializeWithApiKey:launchOptions:config:] for registerToken: to work.");
+        return;
+    }
+    [self registerToken:token appName:[self pushIntegrationName] pushServicePlatform:self.config.pushPlatform];
+}
+
+// documented in IterableAPI.h
+- (void)registerToken:(NSData *)token onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure {
+    if (!self.config) {
+        LogError(@"The SDK must be initialized with [IterableAPI initializeWithApiKey:launchOptions:config:] for registerToken:onSuccess:onFailure: to work.");
+        return;
+    }
+    [self registerToken:token appName:[self pushIntegrationName] pushServicePlatform:self.config.pushPlatform onSuccess:onSuccess onFailure:onFailure];
+}
+
 // documented in IterableAPI.h
 - (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform
 {
@@ -630,7 +723,15 @@ NSCharacterSet* encodedCharacterSet = nil;
 
     UIDevice *device = [UIDevice currentDevice];
     NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
-    
+
+    if (!appName) {
+        LogError(@"registerToken: appName is nil");
+        if (onFailure) {
+            onFailure(@"Not registering device token - appName must not be nil", [[NSData alloc] init]);
+        }
+        return;
+    }
+
     if (!psp) {
         LogError(@"registerToken: invalid pushServicePlatform");
         if (onFailure) {
@@ -1170,3 +1271,5 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 @end
+
+#pragma clang diagnostic pop

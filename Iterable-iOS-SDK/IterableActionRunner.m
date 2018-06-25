@@ -8,11 +8,17 @@
 
 #import "IterableActionRunner.h"
 #import "IterableAPI.h"
+#import "IterableAPI+Internal.h"
 #import "IterableLogging.h"
 
 @implementation IterableActionRunner
 
 + (void)executeAction:(IterableAction *)action {
+    // Do not handle actions and try to open Safari for URLs unless the SDK is initialized with a new init method
+    if ([IterableAPI sharedInstance].sdkCompatEnabled) {
+        return;
+    }
+
     if ([action isOfType:IterableActionTypeOpenUrl]) {
         // Open deeplink, use delegate handler
         [self openURL:[NSURL URLWithString:action.data] action:action];
@@ -28,7 +34,7 @@
         return;
     }
     
-    if ([[IterableAPI sharedInstance].urlDelegate handleIterableURL:url fromAction:action]) {
+    if ([[IterableAPI sharedInstance].config.urlDelegate handleIterableURL:url fromAction:action]) {
         return;
     }
 
@@ -52,7 +58,7 @@
 
 + (void)callCustomActionIfSpecified:(IterableAction *)action {
     if (action.type.length > 0) {
-        [[IterableAPI sharedInstance].customActionDelegate handleIterableCustomAction:action];
+        [[IterableAPI sharedInstance].config.customActionDelegate handleIterableCustomAction:action];
     }
 }
 

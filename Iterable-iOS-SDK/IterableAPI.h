@@ -10,6 +10,7 @@
 #import "CommerceItem.h"
 #import "IterableAction.h"
 #import "IterableConstants.h"
+#import "IterableConfig.h"
 #import "IterableAttributionInfo.h"
 
 // all params are nonnull, unless annotated otherwise
@@ -26,45 +27,6 @@ typedef void (^OnSuccessHandler)(NSDictionary *data);
 typedef void (^OnFailureHandler)(NSString *reason, NSData *_Nullable data);
 
 /**
- Enum representing push platform; apple push notification service, production vs sandbox
- */
-typedef NS_ENUM(NSInteger, PushServicePlatform) {
-    /** The sandbox push service */
-    APNS_SANDBOX,
-    /** The production push service */
-    APNS
-};
-
-/**
- * Custom URL handling delegate
- */
-@protocol IterableURLDelegate <NSObject>
-
-/**
- * Callback called for a deeplink action. Return YES to override default behavior
- * @param url     Deeplink URL
- * @param action  Original openUrl Action object
- * @return Boolean value. Return YES if the URL was handled to override default behavior.
- */
-- (BOOL)handleIterableURL:(NSURL *)url fromAction:(IterableAction *)action;
-
-@end
-
-/**
- * Custom action handling delegate
- */
-@protocol IterableCustomActionDelegate <NSObject>
-
-/**
- * Callback called for custom actions from push notifications
- * @param action  `IterableAction` object containing action payload
- * @return Boolean value. Reserved for future use.
- */
-- (BOOL)handleIterableCustomAction:(IterableAction *)action;
-
-@end
-
-/**
  `IterableAPI` contains all the essential functions for communicating with Iterable's API
  */
 @interface IterableAPI : NSObject
@@ -72,6 +34,11 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 ////////////////////
 /// @name Properties
 ////////////////////
+
+/**
+ SDK Configuration object
+ */
+@property(nonatomic, readonly) IterableConfig *config;
 
 /**
  The apiKey that this IterableAPI is using
@@ -88,7 +55,6 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 @property(nonatomic, readonly, copy) NSString *userId;
 
-
 /**
  The hex representation of this device token
  */
@@ -103,164 +69,78 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
  */
 @property(nonatomic, readwrite, strong, nullable) IterableAttributionInfo *attributionInfo;
 
-@property(nonatomic) id<IterableURLDelegate> urlDelegate;
-@property(nonatomic) id<IterableCustomActionDelegate> customActionDelegate;
-
 /////////////////////////////////
-/// @name Creating an IterableAPI
+/// @name Initializing IterableAPI
 /////////////////////////////////
 
-/*!
- @method
- 
- @abstract Initializes Iterable with launchOptions
- 
- @param apiKey                  your Iterable apiKey
- @param email                   the email of the user logged in
- @param launchOptions           launchOptions from application:didFinishLaunchingWithOptions or custom launchOptions
- @param useCustomLaunchOptions  whether or not to use the custom launchOption without the UIApplicationLaunchOptionsRemoteNotificationKey
- 
- @return an instance of IterableAPI
+/**
+ * Initializes IterableAPI
+ * This method must be called from UIApplicationDelegate's `application:didFinishLaunchingWithOptions:`
+ *
+ * @note Make sure you also call `setEmail:` or `setUserId:` before making any API calls
+ * @param apiKey Iterable Mobile API key
+ * @param launchOptions launchOptions object passed from `application:didFinishLaunchingWithOptions:`
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions;
++ (void)initializeWithApiKey:(NSString *)apiKey launchOptions:(nullable NSDictionary *)launchOptions;
 
-/*!
- @method
- 
- @abstract Initializes Iterable with just an API key and email, but no launchOptions
- 
- @param apiKey   your Iterable apiKey
- @param userId   the userId of the user logged in
- 
- @return an instance of IterableAPI
+/**
+ * Initializes IterableAPI
+ * This method must be called from UIApplicationDelegate's `application:didFinishLaunchingWithOptions:`
+ *
+ * @note Make sure you also call `setEmail:` or `setUserId:` before making any API calls
+ * @param apiKey Iterable Mobile API key
+ * @param launchOptions launchOptions object passed from `application:didFinishLaunchingWithOptions:`
+ * @param config `IterableConfig` object holding SDK configuration options
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *) userId;
++ (void)initializeWithApiKey:(NSString *)apiKey launchOptions:(nullable NSDictionary *)launchOptions config:(IterableConfig *)config;
 
-/*!
- @method
- 
- @abstract Initializes Iterable with launchOptions
- 
- @param apiKey          your Iterable apiKey
- @param userId          the userId of the user logged in
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
- 
- @return an instance of IterableAPI
- */
-- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions;
+/////////////////////////////
+/// @name Setting user email or user id
+/////////////////////////////
 
-/*!
- @method
- 
- @abstract Initializes Iterable with launchOptions
- 
- @param apiKey          your Iterable apiKey
- @param userId          the userId of the user logged in
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions or custom launchOptions
- @param useCustomLaunchOptions  whether or not to use the custom launchOption without the UIApplicationLaunchOptionsRemoteNotificationKey
- 
- @return an instance of IterableAPI
+/**
+ * Set user email used for API calls
+ * Calling this or `setUserId:` is required before making any API calls.
+ *
+ * @note This clears userId and persists the user email so you only need to call this once when the user logs in.
+ * @param email User email
  */
-- (instancetype) initWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions useCustomLaunchOptions:(BOOL)useCustomLaunchOptions;
+- (void)setEmail:(nullable NSString *)email;
 
-/*!
- @method
- 
- @abstract Initializes a shared instance of Iterable with launchOptions
- 
- @discussion The sharedInstanceWithApiKey with email is preferred over userId.
- This method will set up a singleton instance of the `IterableAPI` class for
- you using the given project API key. When you want to make calls to Iterable
- elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
- the app was launched from a remote push notification, we will track a pushOpen.
- 
- @param apiKey          your Iterable apiKey
- @param userId           the userId of the user logged in
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
- 
- @return an instance of IterableAPI
+/**
+ * Set user ID used for API calls
+ * Calling this or `setEmail:` is required before making any API calls.
+ *
+ * @note This clears user email and persists the user ID so you only need to call this once when the user logs in.
+ * @param userId User ID
  */
-+ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(nullable NSDictionary *)launchOptions;
-
-/*!
- @method
- 
- @abstract Initializes a shared instance of Iterable with launchOptions
- 
- @discussion The sharedInstanceWithApiKey with email is preferred over userId.
- This method will set up a singleton instance of the `IterableAPI` class for
- you using the given project API key. When you want to make calls to Iterable
- elsewhere in your code, you can use `sharedInstance`. If launchOptions is there and
- the app was launched from a remote push notification, we will track a pushOpen.
- 
- @param apiKey          your Iterable apiKey
- @param email           the email of the user logged in
- @param launchOptions   launchOptions from application:didFinishLaunchingWithOptions
- 
- @return an instance of IterableAPI
- */
-+ (IterableAPI *) sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(nullable NSDictionary *)launchOptions;
-
-/*!
- @method
- 
- @abstract Get the previously instantiated singleton instance of the API
- 
- @discussion Must be initialized with `sharedInstanceWithApiKey:` before
- calling this class method.
- 
- @return the existing `IterableAPI` instance
- 
- @warning `sharedInstance` will return `nil` if called before calling `sharedInstanceWithApiKey:andEmail:launchOptions:` 
- */
-+ (nullable IterableAPI *)sharedInstance;
-
-/*!
- @method
- 
- @abstract Sets the previously instantiated singleton instance of the API to nil
- 
- */
-+ (void)clearSharedInstance;
+- (void)setUserId:(nullable NSString *)userId;
 
 /////////////////////////////
 /// @name Registering a token
 /////////////////////////////
 
-/*!
- @method 
- 
- @abstract Register this device's token with Iterable
-
- @param token       The token representing this device/application pair, obtained from
+/**
+ * Register this device's token with Iterable
+ * Push integration name and platform are read from `IterableConfig`. If platform is set to `AUTO`, it will
+ * read APNS environment from the provisioning profile and use an integration name specified in `IterableConfig`.
+ * @param token The token representing this device/application pair, obtained from
                     `application:didRegisterForRemoteNotificationsWithDeviceToken`
                     after registering for remote notifications
- @param appName     The application name, as configured in Iterable during set up of the push integration
- @param pushServicePlatform     The PushServicePlatform to use for this device; dictates whether to register this token in the sandbox or production environment
- 
- @see PushServicePlatform
- 
  */
-- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform;
+- (void)registerToken:(NSData *)token;
 
-/*!
- @method
- 
- @abstract Register this device's token with Iterable with custom completion blocks
- 
- @param token                   The token representing this device/application pair, obtained from
-                                `application:didRegisterForRemoteNotificationsWithDeviceToken`
-                                after registering for remote notifications
- @param appName                 The application name, as configured in Iterable during set up of the push integration
- @param pushServicePlatform     The PushServicePlatform to use for this device; dictates whether to register this token in the sandbox or production environment
- @param onSuccess               OnSuccessHandler to invoke if token registration is successful
- @param onFailure               OnFailureHandler to invoke if token registration fails
- 
- @see PushServicePlatform
- @see OnSuccessHandler
- @see OnFailureHandler
+/**
+ * Register this device's token with Iterable
+ * Push integration name and platform are read from `IterableConfig`. If platform is set to `AUTO`, it will
+ * read APNS environment from the provisioning profile and use an integration name specified in `IterableConfig`.
+ * @param token The token representing this device/application pair, obtained from
+                    `application:didRegisterForRemoteNotificationsWithDeviceToken`
+                    after registering for remote notifications
+ * @param onSuccess    OnSuccessHandler to invoke if token registration is successful
+ * @param onFailure    OnFailureHandler to invoke if token registration fails
  */
-- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
+- (void)registerToken:(NSData *)token onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure;
 
 /////////////////////////////
 /// @name Disabling a device
@@ -638,3 +518,5 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 @end
 
 NS_ASSUME_NONNULL_END
+
+#import "IterableAPI+Deprecated.h"

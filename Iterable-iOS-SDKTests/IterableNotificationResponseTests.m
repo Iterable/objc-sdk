@@ -12,6 +12,7 @@
 #import "IterableActionRunner.h"
 #import "IterableUtil.h"
 #import "IterableAPI.h"
+#import "IterableAPI+Internal.h"
 
 @interface IterableNotificationResponseTests : XCTestCase
 
@@ -21,6 +22,8 @@
 
 - (void)setUp {
     [super setUp];
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
     [IterableAPI sharedInstanceWithApiKey:@"" andEmail:@"" launchOptions:nil];
 }
 

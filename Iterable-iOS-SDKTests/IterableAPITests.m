@@ -9,10 +9,13 @@
 #import <XCTest/XCTest.h>
 
 #import <asl.h>
-#import "OHHTTPStubs.h"
+#import <OHHTTPStubs.h>
+#import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
 
 #import "IterableAPI.h"
+#import "IterableAPI+Internal.h"
 #import "IterableDeeplinkManager.h"
+#import "NSData+Conversion.h"
 
 static CGFloat const IterableNetworkResponseExpectationTimeout = 5.0;
 
@@ -50,13 +53,14 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
 }
 
 - (void)testSdkInitializedWithNil {
-    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
         XCTAssert(false, @"API calls should not be made without an email or userId");
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
-        return [OHHTTPStubsResponse responseWithData:@"" statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData:[@"" dataUsingEncoding:kCFStringEncodingUTF8] statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
-    
+
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
     [IterableAPI clearSharedInstance];
     [IterableAPI sharedInstanceWithApiKey:@"" andEmail:nil launchOptions:nil];
     [[IterableAPI sharedInstance] track:@"testEvent"];
@@ -275,6 +279,54 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
     
     NSString* nilSet = [[IterableAPI sharedInstance] encodeURLParam:nil];
     XCTAssertEqual(nilSet, nil);
+}
+
+- (void)testRegisterToken {
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"Request is sent"];
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        [expectation fulfill];
+        NSDictionary *json = [NSJSONSerialization
+                              JSONObjectWithData:request.OHHTTPStubs_HTTPBody
+                              options:0 error:nil];
+        XCTAssertEqualObjects(json[@"email"], @"user@example.com");
+        XCTAssertEqualObjects(json[@"device"][@"applicationName"], @"pushIntegration");
+        XCTAssertEqualObjects(json[@"device"][@"platform"], @"APNS_SANDBOX");
+        XCTAssertEqualObjects(json[@"device"][@"token"], [[@"token" dataUsingEncoding:kCFStringEncodingUTF8] ITEHexadecimalString]);
+        return [OHHTTPStubsResponse responseWithData:[@"" dataUsingEncoding:kCFStringEncodingUTF8] statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+    
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
+    IterableConfig *config = [[IterableConfig alloc] init];
+    config.pushIntegrationName = @"pushIntegration";
+    [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil config:config];
+    [[IterableAPI sharedInstance] setEmail:@"user@example.com"];
+    [[IterableAPI sharedInstance] registerToken:[@"token" dataUsingEncoding:kCFStringEncodingUTF8]];
+    
+    [self waitForExpectations:@[expectation] timeout:1.0];
+    [OHHTTPStubs removeAllStubs];
+}
+
+- (void)testEmailUserIdPersistence {
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
+    [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
+    [[IterableAPI sharedInstance] setEmail:@"test@email.com"];
+    
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
+    [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
+    XCTAssertEqualObjects([IterableAPI sharedInstance].email, @"test@email.com");
+    XCTAssertNil([IterableAPI sharedInstance].userId);
+    
+    [[IterableAPI sharedInstance] setUserId:@"testUserId"];
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
+    [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
+    XCTAssertEqualObjects([IterableAPI sharedInstance].userId, @"testUserId");
+    XCTAssertNil([IterableAPI sharedInstance].email);
 }
 
 @end
