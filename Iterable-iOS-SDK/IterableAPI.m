@@ -691,6 +691,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 - (void)registerToken:(NSData *)token {
     if (!self.config) {
         LogError(@"The SDK must be initialized with [IterableAPI initializeWithApiKey:launchOptions:config:] for registerToken: to work.");
+        return;
     }
     [self registerToken:token appName:[self pushIntegrationName] pushServicePlatform:self.config.pushPlatform];
 }
@@ -699,6 +700,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 - (void)registerToken:(NSData *)token onSuccess:(OnSuccessHandler)onSuccess onFailure:(OnFailureHandler)onFailure {
     if (!self.config) {
         LogError(@"The SDK must be initialized with [IterableAPI initializeWithApiKey:launchOptions:config:] for registerToken:onSuccess:onFailure: to work.");
+        return;
     }
     [self registerToken:token appName:[self pushIntegrationName] pushServicePlatform:self.config.pushPlatform onSuccess:onSuccess onFailure:onFailure];
 }
@@ -721,7 +723,15 @@ NSCharacterSet* encodedCharacterSet = nil;
 
     UIDevice *device = [UIDevice currentDevice];
     NSString *psp = [IterableAPI pushServicePlatformToString:pushServicePlatform];
-    
+
+    if (!appName) {
+        LogError(@"registerToken: appName is nil");
+        if (onFailure) {
+            onFailure(@"Not registering device token - appName must not be nil", [[NSData alloc] init]);
+        }
+        return;
+    }
+
     if (!psp) {
         LogError(@"registerToken: invalid pushServicePlatform");
         if (onFailure) {
