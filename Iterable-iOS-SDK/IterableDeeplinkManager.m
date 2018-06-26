@@ -82,7 +82,7 @@ NSString *deepLinkMessageId;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        redirectUrlSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:nil];
+        redirectUrlSession = [NSURLSession sessionWithConfiguration:configuration delegate:self delegateQueue:[NSOperationQueue mainQueue]];
     });
 }
 
