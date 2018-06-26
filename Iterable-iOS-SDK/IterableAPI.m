@@ -457,10 +457,17 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 // documented in IterableAPI.h
-+(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
++ (void)getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
 {
     IterableDeeplinkManager *deeplinkManager = [IterableDeeplinkManager instance];
     [deeplinkManager getAndTrackDeeplink:webpageURL callbackBlock:callbackBlock];
+}
+
++ (void)resolveApplinkURL:(NSURL *)url callback:(ITBURLCallback)callback;
+{
+    [self getAndTrackDeeplink:url callbackBlock:^(NSString *originalUrl) {
+        callback([[NSURL alloc] initWithString:originalUrl]);
+    }];
 }
 
 // documented in IterableAPI.h
