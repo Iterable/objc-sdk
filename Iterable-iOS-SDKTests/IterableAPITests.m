@@ -144,6 +144,7 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
     NSURL *iterableLink = [NSURL URLWithString:iterableRewriteURL];
     ITEActionBlock aBlock = ^(NSString* redirectUrl) {
         XCTAssertEqualObjects(@"https://links.iterable.com/api/docs#!/email", redirectUrl);
+        XCTAssertTrue([NSThread isMainThread], "The callback must be called on the main thread");
         [expectation fulfill];
     };
     [IterableAPI getAndTrackDeeplink:iterableLink callbackBlock:aBlock];
@@ -169,6 +170,18 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
             NSLog(@"Timeout Error: %@", error);
         }
     }];
+}
+
+- (void)testResolveUniversalLinkRewrite {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Callback is called"];
+    NSURL *iterableLink = [NSURL URLWithString:iterableRewriteURL];
+    [IterableAPI resolveApplinkURL:iterableLink callback:^(NSURL *originalUrl) {
+        XCTAssertEqualObjects([NSURL URLWithString:@"https://links.iterable.com/api/docs#!/email"], originalUrl);
+        XCTAssertTrue([NSThread isMainThread], "The callback must be called on the main thread");
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectations:@[expectation] timeout:IterableNetworkResponseExpectationTimeout];
 }
 
 - (void)testDeepLinkAttributionInfo {
