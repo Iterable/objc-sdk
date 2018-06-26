@@ -68,78 +68,105 @@ In the `Artifacts` directory, you can find the compiled static library and heade
 
 # Using the SDK
 
-1. Once you know the email *(Preferred)* or userId of the user, **create a shared instance of an `IterableAPI`**
-  * EMAIL: `[IterableAPI sharedInstanceWithApiKey:(NSString *)apiKey andEmail:(NSString *)email launchOptions:(NSDictionary *)launchOptions]` to create an `IterableAPI`
-  * USERID: `[IterableAPI sharedInstanceWithApiKey:(NSString *)apiKey andUserId:(NSString *)userId launchOptions:(NSDictionary *)launchOptions]` to create an `IterableAPI`
-	  * If you are initializing using a userId, an existing user must already exist for that userId 
-	  * It is preferred that you initialize by Email since that doesn't require an additional lookup by userId call on the backend.
+1. On application launch (`application:didFinishLaunchingWithOptions:`), initialize the Iterable SDK:
+
+```objective-c
+IterableConfig *config = [[IterableConfig alloc] init];
+config.pushIntegrationName = "myPushIntegration";
+[IterableAPI initializeWithApiKey:@"<your-api-key>" launchOptions:launchOptions config:config];
+```
   * The `apiKey` should correspond to the API key of your project in Iterable. If you'd like, you can specify a different `apiKey` depending on whether you're building in `DEBUG` or `PRODUCTION`, and point the SDK to the relevant Iterable project.
   * Ideally, you will call this from inside `application:didFinishLaunchingWithOptions:` and pass in `launchOptions`. This will let the SDK automatically track a push open for you if the application was launched from a remote Iterable push notification. 
-  * This method creates a singleton `IterableAPI` for your use. You can retrieve it later with `[IterableAPI sharedInstance]`. If retrieving it later, be sure that you have either instantiated it earlier, or check for a non-nil return value. 
+  * This method creates a singleton `IterableAPI` for your use. You can retrieve it later with `[IterableAPI sharedInstance]`. If retrieving it later, be sure that you have either instantiated it earlier, or check for a non-nil return value.
 
-2. **Register for remote notifications**  
-   See [Registering for Remote Notifications](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html#//apple_ref/doc/uid/TP40008194-CH103-SW2) from Apple's documentation.
-  1. Register your app’s supported interaction types via `UIApplication`'s [registerUserNotificationSettings:](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/index.html#//apple_ref/occ/instm/UIApplication/registerUserNotificationSettings:). The first time you call this method, iOS will prompt the user to allow the specified interactions. The OS will asynchronously let you know the user's choices via [application:didRegisterUserNotificationSettings:](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didRegisterUserNotificationSettings:).
-  2. Call `UIApplication`'s [registerForRemoteNotifications](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/index.html#//apple_ref/occ/instm/UIApplication/registerForRemoteNotifications) method to register your app for remote notifications.
-  3. Use your app delegate’s [application:didRegisterForRemoteNotificationsWithDeviceToken:](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didRegisterForRemoteNotificationsWithDeviceToken:) method to receive the device token needed to deliver remote notifications. Use the [application:didFailToRegisterForRemoteNotificationsWithError:](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/occ/intfm/UIApplicationDelegate/application:didFailToRegisterForRemoteNotificationsWithError:) method to process errors.
+2. Once you know the email *(Preferred)* or userId of the user, call `setEmail:` or `setUserId:`
+  * EMAIL: `[[IterableAPI sharedInstance] setEmail:@"email@example.com"];`
+  * USERID: `[[IterableAPI sharedInstance] setUserId:@"userId"];`
+	  * If you are setting a userId, an existing user must already exist for that userId 
+	  * It is preferred that you use Email since that doesn't require an additional lookup by userId call on the backend.
 
-3. **Send the token to Iterable**  
-   Use the SDK's `- (void)registerToken:(NSData *)token appName:(NSString *)appName pushServicePlatform:(PushServicePlatform)pushServicePlatform` to send the token to Iterable   
+3. **Register for remote notifications**  
+   Since iOS 10, the preferred way is to use `UserNotifications` framework. See [Asking Permission to Use Notifications](https://developer.apple.com/documentation/usernotifications/asking_permission_to_use_notifications?language=objc) and [Registering Your App with APNs](https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns?language=objc) from Apple's documentation.
+   1. Request authorization to display notifications via `UNUserNotificationCenter`'s [requestAuthorizationWithOptions:completionHandler:](https://developer.apple.com/documentation/usernotifications/unusernotificationcenter/1649527-requestauthorizationwithoptions?language=objc). The first time you call this method, iOS will prompt the user to allow the specified interactions. The OS will asynchronously let you know the user's choices via the provided callback block.    
+	 For iOS < 10, call `UIApplication`'s [registerUserNotificationSettings:](https://developer.apple.com/documentation/uikit/uiapplication/1622932-registerusernotificationsettings?language=objc)
+   2. Call `UIApplication`'s [registerForRemoteNotifications](https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications?language=objc) method to register your app for remote notifications.
+   3. Use your app delegate’s [application:didRegisterForRemoteNotificationsWithDeviceToken:](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622958-application?language=objc) method to receive the device token needed to deliver remote notifications. Use the [application:didFailToRegisterForRemoteNotificationsWithError:](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622962-application?language=objc) method to process errors.
+
+
+   > &#x26A0; Device registration will fail if user email or userId is not set. If you're calling `setEmail:` or `setUserId:` after the app is launched (i.e. when the user logs in), make sure you call [registerForRemoteNotifications](https://developer.apple.com/documentation/uikit/uiapplication/1623078-registerforremotenotifications?language=objc) again to register the device with the logged in user.
+
+4. **Send the token to Iterable**  
+   Use the SDK's `- (void)registerToken:(NSData *)token` to send the token to Iterable   
+   This will register the token with the integration passed in `pushIntegrationName`. If you also pass `sandboxPushIntegrationName`, Iterable SDK will try to determine the APNS environment from the provisioning profile and register the device with the correct integration (APNS or APNS_SANDBOX).     
    ***Device tokens can change, so your app needs to reregister every time it is launched and pass the received token back to your server***. Don't cache your token on the device; send it every time you receive one. 
    This is the practice recommended by Apple; see the documentation [here](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html#//apple_ref/doc/uid/TP40008194-CH103-SW25). Specifically,
    
    > &#x26A0; Device tokens can change, so your app needs to reregister every time it is launched and pass the received token back to your server. If you fail to update the device token, remote notifications might not make their way to the user’s device. Device tokens always change when the user restores backup data to a new device or computer or reinstalls the operating system. When migrating data to a new device or computer, the user must launch your app once before remote notifications can be delivered to that device.
    
    > &#x26A0; Never cache a device token; always get the token from the system whenever you need it. If your app previously registered for remote notifications, calling the registerForRemoteNotifications method again does not incur any additional overhead, and iOS returns the existing device token to your app delegate immediately. In addition, iOS calls your delegate method any time the device token changes, not just in response to your app registering or re-registering.
+   
+5. **Handling push interactions**
+	When the user taps on the notification or one of the action buttons, the system calls `UNUserNotificationCenterDelegate`'s [userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:](https://developer.apple.com/documentation/usernotifications/unusernotificationcenterdelegate/1649501-usernotificationcenter?language=objc). Pass this call to `IterableAppIntegration` to track push open event and perform the associated action (see below for custom action and URL delegates).
 
 #### Putting it all together:
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // other setup tasks here....
+    
+    // Initialize Iterable SDK
+    IterableConfig *config = [[IterableConfig alloc] init];
+    config.pushIntegrationName = "myPushIntegration_Prod";
+    config.sandboxPushIntegrationName = "myPushIntegration_Dev";
+    [IterableAPI initializeWithApiKey:@"YOUR API KEY" launchOptions:launchOptions config:config];
  
-    // Register the supported interaction types.
-    UIUserNotificationType types = UIUserNotificationTypeBadge |
-                 UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-    UIUserNotificationSettings *mySettings =
-                [UIUserNotificationSettings settingsForTypes:types categories:nil];
-    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    if (@available(iOS 10, *)) {
+    	UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        center.delegate = self;
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound) completionHandler:^(BOOL granted, NSError * _Nullable error){
+             if(!error){
+                 [[UIApplication sharedApplication] registerForRemoteNotifications];
+             }
+         }];  
+    } else {
+	    UIUserNotificationType types = UIUserNotificationTypeBadge |
+	                 UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+	    UIUserNotificationSettings *mySettings =
+	                [UIUserNotificationSettings settingsForTypes:types categories:nil];
+	    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    	[[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
  
     // Register for remote notifications.
-    [[UIApplication sharedApplication] registerForRemoteNotifications];
 }
  
 // Handle remote notification registration.
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)token {
-    self.registered = YES; // if you wanted to track whether you've registered for push, this is the place to do it
-
-    NSString *applicationName = @"YOUR ITERABLE PUSH INTEGRATION NAME"; // the application name configured in Iterable when setting up your push credentials
-    PushServicePlatform platform = APNS_SANDBOX; // use APNS for production
-    IterableAPI *iterable = [IterableAPI sharedInstance]; // you should call sharedInstanceWithApiKey before this
-    if (iterable != nil) {
-        // if you have in-app options to disable push notifications, don't call registerToken if the user disabled notifications (as registerToken will add and enable the device)
-        [iterable registerToken:token appName:applicationName pushServicePlatform:psp]; // register the token with Iterable
-    }    
+    [[IterableAPI sharedInstance] registerToken:token];
 }
  
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"Error in registration for remote notifications. Error: %@", error);
 }
+
+// This is necessary for push notifications to work while the app is in foreground
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler{
+    completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
+}
+
+// Pass the notification response (tap on the notification or one of the buttons) to the Iterable SDK so it can track the push open event and perform the associated action
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)())completionHandler{
+    [IterableAppIntegration userNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+}
+
+// This method will be called when the notification is opened on iOS < 10
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+	[IterableAppIntegration application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+}
+
 ```
 
 Congratulations! You can now send remote push notifications to your device from Iterable!
-
-# Receiving Remote Push Notifications
-
-Application Running? | In foreground? | Notification Shown? | Delegate | When | Notes
---- | --- | --- | --- | --- | ---
-Yes | Yes | No | `application:didReceiveRemoteNotification:` | Immediately | call `trackPushOpen` and pass in `userInfo`
-Yes | No | Yes | `application:didReceiveRemoteNotification:` | On Notification Click | call `trackPushOpen` and pass in `userInfo`
-No | N/A | Yes | `application:didFinishLaunchingWithOptions:` | On Notification Click | instantiate an `IterableAPI` and pass in `launchOptions`; a push open will be tracked automatically
-
-* `application:didReceiveRemoteNotification:` is deprecated in iOS10, use `userNotificationCenter(_:willPresent:withCompletionHandler:)` & `userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:` instead to track push opens.
-
-For more information about local and remote notifications, and which callbacks will be called under which circumstances, see [Local and Remote Notifications in Depth](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/WhatAreRemoteNotif.html#//apple_ref/doc/uid/TP40008194-CH102-SW1).
 
 #### Iterable Notifications
 
@@ -175,17 +202,23 @@ InApp opens and button clicks are automatically tracked when the notification is
 
 Custom events can be tracked using the `track` function and user fields can be modified using the `updateUser` function.
 
-#### Deeplinking
-You can setup your app to track email clicks and maintain deeplinking directly into your app with [iOS Universal Links](https://support.iterable.com/hc/en-us/articles/115000440206). 
 
-From your application's [restorationHandler](https://developer.apple.com/reference/uikit/uiapplicationdelegate/1623072-application) call `getAndTrackDeeplink` along with a callback to handle the original deeplink url.
+# Deep Linking
+#### Handling links from push notifications
+Push notifications and action buttons may have `openUrl` action attached to them. When a URL is specified, the SDK first calls `urlDelegate` specified in your `IterableConfig` object. You can use this delegate to handle `openUrl` actions the same way as you handle normal deep links. If the delegate is not set or returns NO, the SDK will open Safari with that URL.
+
+#### Handling email links
+For Universal Links to work with link rewriting in emails, you need to set up apple-app-site-association file in the Iterable project. More instructions here: [Setting up iOS Universal Links](https://support.iterable.com/hc/en-us/articles/115000440206-Setting-up-iOS-Universal-Links)
+
+From your `UIApplicationDelegate`'s [application:continueUserActivity:restorationHandler:](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623072-application?language=objc) call `resolveApplinkURL` along with a callback to handle the original deeplink url. You can use this method for any incoming URLs, as it will execute the callback without changing the URL for non-Iterable URLs.
 
 Swift:
+
 ```swift
 func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                   restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
     
-    IterableAPI.getAndTrackDeeplink(userActivity.webpageURL!, callbackBlock: {
+    IterableAPI.resolveApplinkURL(userActivity.webpageURL!, callback: {
         (originalURL) in
             //Handle Original URL deeplink here
     });
@@ -194,18 +227,42 @@ func application(_ application: UIApplication, continue userActivity: NSUserActi
 ```
 
 Objective-C:
+
 ```objective-c
 - (BOOL)application:(UIApplication *)application
  		continueUserActivity(NSUserActivity *)userActivity 
  		restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
     
-    ITEActionBlock callbackBlock = ^(NSString* originalURL) {
+    [IterableAPI resolveApplinkURL:userActivity.webpageURL callback:^(NSURL* originalURL) {
        //Handle Original URL deeplink here
-    };
-    [IterableAPI getAndTrackDeeplink:iterableLink callbackBlock:callbackBlock];
+    }];
     
     return true;
 }
+```
+
+
+# Rich Push Notifications
+Push notifications may contain media attachments with images, animated gifs or video, and with an upcoming update, there will be a way to create action buttons. For this to work within your app, you need to create a Notification Service Extension. More instructions here: [Rich Push Notifications in iOS 10 and Android - Media Attachments](https://support.iterable.com/hc/en-us/articles/115003982203-Rich-Push-Notifications-in-iOS-10-and-Android-Media-Attachments).   
+Iterable SDK provides an implementation that handles media attachments and action buttons, so you'll only need to inherit from it:
+###### Podfile
+
+```
+// If the target name for the notification extension is 'MyAppNotificationExtension'
+target 'MyAppNotificationExtension' do
+    pod 'IterableAppExtensions'
+end
+```
+
+###### NotificationService.h
+
+```objective-c
+#import <UserNotifications/UserNotifications.h>
+#import <IterableAppExtensions/IterableExtensions.h>
+
+@interface NotificationService : ITBNotificationServiceExtension
+
+@end
 ```
 
 # Additional Information

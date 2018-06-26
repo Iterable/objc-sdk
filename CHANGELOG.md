@@ -15,6 +15,36 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [5.0.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/5.0.0)
+#### Added
+- Added support for push action buttons
+- Added a new SDK initialization method that takes `IterableConfig` object with configuration options
+- User ID/email is now decoupled from SDK initialization. It can be changed by calling `setEmail:` or `setUserId:` on the `IterableAPI` instance.
+- Added automatic detection of APNS/APNS_SANDBOX, as long as both `pushIntegrationName` and `sandboxPushIntegrationName` are set in `IterableConfig`
+- The SDK now stores attribution data within 24 hours of opening the app from a push notififcation or from a Universal Link in an email
+- Added two delegates: `IterableUrlDelegate` and `IterableCustomActionDelegate` that can be used to customize URL and custom action handling for push notifications
+
+#### Changed
+- Old initialization methods (`sharedInstanceWithApiKey:`) are now deprecated
+- Old `registerToken` methods are now deprecated
+
+#### Fixed
+- Added safety checks for cases when email or userId is nil
+
+#### Migration Notes
+1. Replace `[IterableAPI sharedInstanceWithApiKey:...]` with the following:
+```objective-c
+IterableConfig *config = [[IterableConfig alloc] init];
+config.pushIntegrationName = "myPushIntegration_Prod";
+config.sandboxPushIntegrationName = "myPushIntegration_Dev";
+config.urlDelegate = self;          // If you want to handle URLs coming from push notifications
+[IterableAPI initializeWithApiKey:@"YOUR API KEY" launchOptions:launchOptions config:config];
+```
+2. Since both pushIntegrationName and sandboxPushIntegrationName are now set in the configuration, call `[[IterableAPI sharedInstance] registerToken:token]` when registering the token, and it will choose the correct integration name automatically.
+3. `[IterableAPI clearSharedInstance]` will do nothing if you initialize the SDK with the new initialization method. If you were previously calling `[IterableAPI clearSharedInstance]` to reinitialize the API with a new user, just call `setEmail:` or `setUserId:` instead.
+4. User email/userId is now persisted, so you'll only need to call `setEmail:` or `setUserId:` when the user logs in or logs out.
+5. The SDK now tracks push opens automatically, as long as calls to `userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:` are passed to it. See README for instructions. Once it is set up, remove all direct calls to `trackPushOpen:`.
+
 ## [4.4.7](https://github.com/Iterable/iterable-ios-sdk/releases/tag/4.4.7)
 #### Fixed
 - Fixed an unhandled exception in response handling on network errors
