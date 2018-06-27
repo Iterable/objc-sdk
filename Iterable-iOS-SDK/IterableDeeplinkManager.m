@@ -22,9 +22,9 @@
 static IterableDeeplinkManager *deeplinkManager;
 NSURLSession *redirectUrlSession;
 NSString *deepLinkLocation;
-NSNumber *deepLinkCampaignId;
-NSNumber *deepLinkTemplateId;
-NSString *deepLinkMessageId;
+NSNumber *deeplinkCampaignId;
+NSNumber *deeplinkTemplateId;
+NSString *deeplinkMessageId;
 
 // documented in IterableDeeplinkManager.h
 +(instancetype)instance
@@ -49,27 +49,31 @@ NSString *deepLinkMessageId;
 // documented in IterableDeeplinkManager.h
 -(void)getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock
 {
-    deepLinkCampaignId = nil;
-    deepLinkTemplateId = nil;
-    deepLinkMessageId = nil;
+    deeplinkCampaignId = nil;
+    deeplinkTemplateId = nil;
+    deeplinkMessageId = nil;
     
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:ITBL_DEEPLINK_IDENTIFIER options:0 error:NULL];
-    NSString *urlString = webpageURL.absoluteString;
-    NSTextCheckingResult *match = [regex firstMatchInString:urlString options:0 range:NSMakeRange(0, [urlString length])];
-    
-    if (match == NULL) {
+    if (![self isIterableDeeplink:webpageURL]) {
         callbackBlock(webpageURL.absoluteString);
     } else {
         NSURLSessionDataTask *trackAndRedirectTask = [redirectUrlSession
                                                       dataTaskWithURL:webpageURL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                                           // Store attribution information
-                                                          if (deepLinkCampaignId) {
-                                                              [IterableAPI sharedInstance].attributionInfo = [[IterableAttributionInfo alloc] initWithCampaignId:deepLinkCampaignId templateId:deepLinkTemplateId messageId:deepLinkMessageId];
+                                                          if (deeplinkCampaignId) {
+                                                              [IterableAPI sharedInstance].attributionInfo = [[IterableAttributionInfo alloc] initWithCampaignId:deeplinkCampaignId templateId:deeplinkTemplateId messageId:deeplinkMessageId];
                                                           }
                                                           callbackBlock(deepLinkLocation);
                                                       }];
         [trackAndRedirectTask resume];
     }
+}
+
+// documented in IterableDeeplinkManager.h
+- (BOOL)isIterableDeeplink:(NSURL *)url {
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:ITBL_DEEPLINK_IDENTIFIER options:0 error:NULL];
+    NSString *urlString = url.absoluteString;
+    NSTextCheckingResult *match = [regex firstMatchInString:urlString options:0 range:NSMakeRange(0, [urlString length])];
+    return match != nil;
 }
 
 /**
@@ -112,11 +116,11 @@ NSString *deepLinkMessageId;
     NSArray<NSHTTPCookie *> *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:redirectResponse.allHeaderFields forURL:redirectResponse.URL];
     for (NSHTTPCookie *cookie in cookies) {
         if ([cookie.name isEqualToString:@"iterableEmailCampaignId"]) {
-            deepLinkCampaignId = @([cookie.value integerValue]);
+            deeplinkCampaignId = @([cookie.value integerValue]);
         } else if ([cookie.name isEqualToString:@"iterableTemplateId"]) {
-            deepLinkTemplateId = @([cookie.value integerValue]);
+            deeplinkTemplateId = @([cookie.value integerValue]);
         } else if ([cookie.name isEqualToString:@"iterableMessageId"]) {
-            deepLinkMessageId = cookie.value;
+            deeplinkMessageId = cookie.value;
         }
     }
     completionHandler(nil);

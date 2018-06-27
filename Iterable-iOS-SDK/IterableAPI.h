@@ -516,13 +516,15 @@ typedef void (^OnFailureHandler)(NSString *reason, NSData *_Nullable data);
 + (void)getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock;
 
 /**
- * Tracks a link click and passes the original URL to the callback
- * If it's not an Iterable link, it just passes the same URL to the callback block
+ * Handles a Universal Link
+ * For Iterable links, it will track the click and retrieve the original URL,
+ * pass it to `IterableURLDelegate` for handling
+ * If it's not an Iterable link, it just passes the same URL `IterableURLDelegate`
  *
  * @param url  the URL obtained from `[NSUserActivity webpageURL]`
- * @param callback the callback to execute after the original URL is retrieved
+ * @return YES if it is an Iterable link, or the value returned from `IterableURLDelegate` otherwise
  */
-+ (void)resolveApplinkURL:(NSURL *)url callback:(ITBURLCallback)callback;
++ (BOOL)handleUniversalLink:(NSURL *)url;
 
 @end
 

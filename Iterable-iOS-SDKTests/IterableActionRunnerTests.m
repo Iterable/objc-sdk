@@ -38,9 +38,11 @@
     [IterableAPI initializeWithApiKey:@"" launchOptions:nil config:config];
     
     IterableAction *action = [IterableAction actionFromDictionary:@{ @"type": @"openUrl", @"data": @"https://example.com" }];
-    [IterableActionRunner executeAction:action];
+    [IterableActionRunner executeAction:action from:IterableActionSourcePush];
     
-    OCMVerify([urlDelegateMock handleIterableURL:[OCMArg isEqual:[NSURL URLWithString:@"https://example.com"]] fromAction:[OCMArg isEqual:action]]);
+    OCMVerify([urlDelegateMock handleIterableURL:[OCMArg isEqual:[NSURL URLWithString:@"https://example.com"]] context:[OCMArg checkWithBlock:^BOOL(IterableActionContext *context) {
+        return [context.action isEqual:action];
+    }]]);
     if (@available(iOS 10.0, *)) {
         OCMVerify([applicationMock openURL:[OCMArg any] options:[OCMArg any] completionHandler:[OCMArg any]]);
     } else {
@@ -57,14 +59,14 @@
     } else {
         OCMReject([applicationMock openURL:[OCMArg any]]);
     }
-    OCMStub([urlDelegateMock handleIterableURL:[OCMArg any] fromAction:[OCMArg any]]).andReturn(YES);
+    OCMStub([urlDelegateMock handleIterableURL:[OCMArg any] context:[OCMArg any]]).andReturn(YES);
     
     IterableConfig *config = [[IterableConfig alloc] init];
     config.urlDelegate = urlDelegateMock;
     [IterableAPI initializeWithApiKey:@"" launchOptions:nil config:config];
     
     IterableAction *action = [IterableAction actionFromDictionary:@{ @"type": @"openUrl", @"data": @"https://example.com" }];
-    [IterableActionRunner executeAction:action];
+    [IterableActionRunner executeAction:action from:IterableActionSourcePush];
     
     [applicationMock stopMocking];
 }
@@ -77,11 +79,13 @@
     [IterableAPI initializeWithApiKey:@"" launchOptions:nil config:config];
     
     IterableAction *action = [IterableAction actionFromDictionary:@{ @"type": @"customActionName" }];
-    [IterableActionRunner executeAction:action];
+    [IterableActionRunner executeAction:action from:IterableActionSourcePush];
     
     OCMVerify([customActionDelegateMock handleIterableCustomAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
         XCTAssertEqualObjects(action.type, @"customActionName");
         return YES;
+    }] context:[OCMArg checkWithBlock:^BOOL(IterableActionContext *context) {
+        return [context.action isEqual:action];
     }]]);
 }
 

@@ -29,6 +29,7 @@
 #import "IterableConstants.h"
 #import "IterableDeeplinkManager.h"
 #import "IterableAppIntegration+Private.h"
+#import "IterableActionRunner.h"
 
 @interface IterableAPI ()
 
@@ -463,11 +464,19 @@ NSCharacterSet* encodedCharacterSet = nil;
     [deeplinkManager getAndTrackDeeplink:webpageURL callbackBlock:callbackBlock];
 }
 
-+ (void)resolveApplinkURL:(NSURL *)url callback:(ITBURLCallback)callback;
-{
-    [self getAndTrackDeeplink:url callbackBlock:^(NSString *originalUrl) {
-        callback([[NSURL alloc] initWithString:originalUrl]);
-    }];
+// documented in IterableAPI.h
++ (BOOL)handleUniversalLink:(NSURL *)url {
+    IterableDeeplinkManager *deeplinkManager = [IterableDeeplinkManager instance];
+    if ([deeplinkManager isIterableDeeplink:url]) {
+        [deeplinkManager getAndTrackDeeplink:url callbackBlock:^(NSString *originalUrlString) {
+            IterableAction *action = [IterableAction actionOpenUrl:originalUrlString];
+            [IterableActionRunner executeAction:action from:IterableActionSourceUniversalLink];
+        }];
+        return YES;
+    } else {
+        IterableAction *action = [IterableAction actionOpenUrl:url.absoluteString];
+        return [IterableActionRunner executeAction:action from:IterableActionSourceUniversalLink];
+    }
 }
 
 // documented in IterableAPI.h

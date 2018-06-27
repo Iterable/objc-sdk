@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "IterableAction.h"
+#import "IterableActionContext.h"
 
 @interface IterableActionRunner : NSObject
 
-+ (void)executeAction:(IterableAction *)action;
++ (BOOL)executeAction:(IterableAction *)action from:(IterableActionSource)source;
 
 @end

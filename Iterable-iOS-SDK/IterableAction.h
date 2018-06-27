@@ -56,6 +56,14 @@ extern NSString *const IterableActionTypeOpenUrl;
  */
 + (instancetype)actionFromDictionary:(NSDictionary *)dictionary;
 
+/**
+ * Creates a new `IterableAction` with type `IterableActionTypeOpenUrl`
+ * and the specified URL
+ * @param url URL to open
+ * @return `IterableAction` instance
+ */
++ (instancetype)actionOpenUrl:(NSString *)url;
+
 ////////////////////
 /// @name Methods
 ////////////////////

@@ -19,10 +19,19 @@ NSString *const IterableActionTypeOpenUrl    = @"openUrl";
 @implementation IterableAction
 
 + (instancetype)actionFromDictionary:(NSDictionary *)dictionary {
-    if (dictionary != nil)
+    if (dictionary != nil) {
         return [[self alloc] initWithDictionary:dictionary];
-    else
+    } else {
         return nil;
+    }
+}
+
++ (instancetype)actionOpenUrl:(NSString *)url {
+    if (url != nil) {
+        return [self actionFromDictionary:@{@"type": IterableActionTypeOpenUrl, @"data": url}];
+    } else {
+        return nil;
+    }
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
