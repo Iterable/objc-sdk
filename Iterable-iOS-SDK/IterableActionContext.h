@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, IterableActionSource) {
  * Create an `IterableActionSource` object with the given action and source
  * @param action Action to execute
  * @param source Source of the action
- * @return
+ * @return `IterableActionSource` instance
  */
 + (instancetype)contextWithAction:(IterableAction *)action source:(IterableActionSource)source;
 

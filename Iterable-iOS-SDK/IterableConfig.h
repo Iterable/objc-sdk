@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class IterableAction;
-@class IterableActionContext;
+#include "IterableAction.h"
+#include "IterableActionContext.h"
 
 /**
  * Custom URL handling delegate
@@ -19,7 +18,7 @@
 /**
  * Callback called for a deeplink action. Return YES to override default behavior
  * @param url     Deeplink URL
- * @param action  Original openUrl Action object
+ * @param context  Metadata containing the original action and the source: push or universal link
  * @return Boolean value. Return YES if the URL was handled to override default behavior.
  */
 - (BOOL)handleIterableURL:(NSURL *)url context:(IterableActionContext *)context;
