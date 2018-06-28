@@ -205,7 +205,7 @@ Custom events can be tracked using the `track` function and user fields can be m
 
 # Deep Linking
 #### Handling links from push notifications
-Push notifications and action buttons may have `openUrl` action attached to them. When a URL is specified, the SDK first calls `urlDelegate` specified in your `IterableConfig` object. You can use this delegate to handle `openUrl` actions the same way as you handle normal deep links. If the delegate is not set or returns NO, the SDK will open Safari with that URL.
+Push notifications and action buttons may have `openUrl` actions attached to them. When a URL is specified, the SDK first calls `urlDelegate` specified in your `IterableConfig` object. You can use this delegate to handle `openUrl` actions the same way as you handle normal deep links. If the delegate is not set or returns NO, the SDK will open Safari with that URL.
 
 #### Handling email links
 For Universal Links to work with link rewriting in emails, you need to set up apple-app-site-association file in the Iterable project. More instructions here: [Setting up iOS Universal Links](https://support.iterable.com/hc/en-us/articles/115000440206-Setting-up-iOS-Universal-Links)
