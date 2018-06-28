@@ -519,7 +519,7 @@ typedef void (^OnFailureHandler)(NSString *reason, NSData *_Nullable data);
  * Handles a Universal Link
  * For Iterable links, it will track the click and retrieve the original URL,
  * pass it to `IterableURLDelegate` for handling
- * If it's not an Iterable link, it just passes the same URL `IterableURLDelegate`
+ * If it's not an Iterable link, it just passes the same URL to `IterableURLDelegate`
  *
  * @param url  the URL obtained from `[NSUserActivity webpageURL]`
  * @return YES if it is an Iterable link, or the value returned from `IterableURLDelegate` otherwise
