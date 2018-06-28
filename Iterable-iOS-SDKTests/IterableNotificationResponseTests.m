@@ -77,7 +77,7 @@
         OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
             XCTAssertEqual(action.type, @"customAction");
             return YES;
-        }]]);
+        }] from:IterableActionSourcePush]);
         
         OCMVerify([apiMock trackPushOpen:[OCMArg isEqual:@1234]
                               templateId:[OCMArg isEqual:@4321]
@@ -205,7 +205,7 @@
         OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
             XCTAssertEqual(action.type, @"customAction");
             return YES;
-        }]]);
+        }] from:IterableActionSourcePush]);
 
         OCMVerify([apiMock trackPushOpen:[OCMArg any] dataFields:[OCMArg checkWithBlock:^BOOL(NSDictionary *dataFields) {
             XCTAssertEqualObjects(dataFields[ITBL_KEY_ACTION_IDENTIFIER], @"buttonIdentifier");
@@ -247,7 +247,7 @@
         OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
             XCTAssertEqual(action.type, @"customAction");
             return YES;
-        }]]);
+        }] from:IterableActionSourcePush]);
         
         OCMVerify([apiMock trackPushOpen:[OCMArg isEqual:@1234]
                               templateId:[OCMArg isEqual:@4321]
@@ -290,7 +290,7 @@
         OCMVerify([actionRunnerMock executeAction:[OCMArg checkWithBlock:^BOOL(IterableAction *action) {
             XCTAssertEqual(action.type, @"customAction");
             return YES;
-        }]]);
+        }] from:IterableActionSourcePush]);
 
         OCMVerify([appIntegrationMock performDefaultNotificationAction:[OCMArg isEqual:userInfo] api:[OCMArg isNotNil]]);
 
@@ -321,7 +321,7 @@
             XCTAssertEqual(action.type, @"openUrl");
             XCTAssertEqual(action.data, @"https://example.com");
             return YES;
-        }]]);
+        }] from:IterableActionSourcePush]);
         
         [actionRunnerMock stopMocking];
     }

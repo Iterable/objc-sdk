@@ -64,7 +64,7 @@
     [api trackPushOpen:userInfo dataFields:dataFields];
 
     //Execute the action
-    [IterableActionRunner executeAction:action];
+    [IterableActionRunner executeAction:action from:IterableActionSourcePush];
 }
 
 + (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
@@ -122,7 +122,7 @@
     }
     
     //Execute the action
-    [IterableActionRunner executeAction:action];
+    [IterableActionRunner executeAction:action from:IterableActionSourcePush];
     
     if (completionHandler) {
         completionHandler();
@@ -131,7 +131,7 @@
 
 + (IterableAction *)legacyDefaultActionFromPayload:(NSDictionary *)userInfo {
     if (userInfo[ITBL_PAYLOAD_DEEP_LINK_URL] != nil) {
-        return [IterableAction actionFromDictionary:@{@"type": IterableActionTypeOpenUrl, @"data": userInfo[ITBL_PAYLOAD_DEEP_LINK_URL]}];
+        return [IterableAction actionOpenUrl:userInfo[ITBL_PAYLOAD_DEEP_LINK_URL]];
     } else {
         return nil;
     }

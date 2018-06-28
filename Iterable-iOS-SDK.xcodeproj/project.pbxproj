@@ -48,6 +48,7 @@
 		68E32EF61AC21D37000CEBE1 /* CommerceItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 6804B8651AC10426000A126B /* CommerceItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		921AE47A20AA2E94009CFC9F /* IterableNotificationResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 921AE47920AA2E94009CFC9F /* IterableNotificationResponseTests.m */; };
 		921AE47C20AA43D5009CFC9F /* IterableActionRunnerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 921AE47B20AA43D5009CFC9F /* IterableActionRunnerTests.m */; };
+		924E781D20E43C2F003CEC14 /* IterableActionContext.m in Sources */ = {isa = PBXBuildFile; fileRef = E95160EFC943628C8A6BC430 /* IterableActionContext.m */; };
 		9267AA1820992F9C006AF394 /* IterableAppExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9267AA0F20992F9C006AF394 /* IterableAppExtensions.framework */; };
 		9267AA1D20992F9C006AF394 /* IterableAppExtensionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA1C20992F9C006AF394 /* IterableAppExtensionsTests.m */; };
 		9267AA1F20992F9C006AF394 /* IterableAppExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9267AA1120992F9C006AF394 /* IterableAppExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -76,6 +77,7 @@
 		AC60AB4B20BDDD5100BF6BEC /* IterableUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC60AB4A20BDDD5100BF6BEC /* IterableUtilTests.m */; };
 		E95160B3683E5A47EC313472 /* IterableAppIntegration+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E9516F6B446F6E9AB537C83F /* IterableAppIntegration+Private.h */; };
 		E951624B2D970B91EE110E56 /* IterableAPI+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E95162E0F83DDB6177F24360 /* IterableAPI+Internal.h */; };
+		E951656A49CFFB4BED48AF3B /* IterableActionContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E9516F2F4291E19DC6625187 /* IterableActionContext.h */; };
 		E9516B4E1A6D7B8CB1314D1F /* IterableAPI+Deprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = E9516BD2E9DDA6AE024F6A63 /* IterableAPI+Deprecated.h */; };
 		E9516D3401091CA4D87B10B9 /* IterableAPI+Deprecated.m in Sources */ = {isa = PBXBuildFile; fileRef = E9516D87A090ED58BED61C6B /* IterableAPI+Deprecated.m */; };
 /* End PBXBuildFile section */
@@ -190,10 +192,12 @@
 		AC60AB4A20BDDD5100BF6BEC /* IterableUtilTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IterableUtilTests.m; sourceTree = "<group>"; };
 		BE5CCE23DD4BB53759B5D427 /* Pods-Iterable-iOS-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDK/Pods-Iterable-iOS-SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		DAB696718A4F07CC09FB5CB1 /* Pods-Iterable-iOS-SDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Iterable-iOS-SDKTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Iterable-iOS-SDKTests/Pods-Iterable-iOS-SDKTests.release.xcconfig"; sourceTree = "<group>"; };
+		E95160EFC943628C8A6BC430 /* IterableActionContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IterableActionContext.m; sourceTree = "<group>"; };
 		E95162E0F83DDB6177F24360 /* IterableAPI+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IterableAPI+Internal.h"; sourceTree = "<group>"; };
 		E95162E4972E90805BB61534 /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = file.yml; path = .travis.yml; sourceTree = "<group>"; };
 		E9516BD2E9DDA6AE024F6A63 /* IterableAPI+Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IterableAPI+Deprecated.h"; sourceTree = "<group>"; };
 		E9516D87A090ED58BED61C6B /* IterableAPI+Deprecated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IterableAPI+Deprecated.m"; sourceTree = "<group>"; };
+		E9516F2F4291E19DC6625187 /* IterableActionContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IterableActionContext.h; sourceTree = "<group>"; };
 		E9516F6B446F6E9AB537C83F /* IterableAppIntegration+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IterableAppIntegration+Private.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -301,6 +305,8 @@
 				AC60AB4720BDD4DC00BF6BEC /* IterableUtil.m */,
 				92F03EEA20D899CE00C3BFCA /* IterableConfig.h */,
 				92F03EEB20D899CE00C3BFCA /* IterableConfig.m */,
+				E95160EFC943628C8A6BC430 /* IterableActionContext.m */,
+				E9516F2F4291E19DC6625187 /* IterableActionContext.h */,
 			);
 			path = "Iterable-iOS-SDK";
 			sourceTree = "<group>";
@@ -431,6 +437,7 @@
 				AC60AB4820BDD4DC00BF6BEC /* IterableUtil.h in Headers */,
 				E9516B4E1A6D7B8CB1314D1F /* IterableAPI+Deprecated.h in Headers */,
 				E951624B2D970B91EE110E56 /* IterableAPI+Internal.h in Headers */,
+				E951656A49CFFB4BED48AF3B /* IterableActionContext.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -719,6 +726,7 @@
 				0995DBDD1CFFF7FE00D50F19 /* IterableLogging.m in Sources */,
 				926B33E520B7A091004DD7CE /* IterableAttributionInfo.m in Sources */,
 				E9516D3401091CA4D87B10B9 /* IterableAPI+Deprecated.m in Sources */,
+				924E781D20E43C2F003CEC14 /* IterableActionContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

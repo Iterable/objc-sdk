@@ -513,7 +513,18 @@ typedef void (^OnFailureHandler)(NSString *reason, NSData *_Nullable data);
  
  @discussion            passes the string of the redirected URL to the callback, returns the original webpageURL if not an iterable link
  */
-+(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock;
++ (void)getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock;
+
+/**
+ * Handles a Universal Link
+ * For Iterable links, it will track the click and retrieve the original URL,
+ * pass it to `IterableURLDelegate` for handling
+ * If it's not an Iterable link, it just passes the same URL to `IterableURLDelegate`
+ *
+ * @param url  the URL obtained from `[NSUserActivity webpageURL]`
+ * @return YES if it is an Iterable link, or the value returned from `IterableURLDelegate` otherwise
+ */
++ (BOOL)handleUniversalLink:(NSURL *)url;
 
 @end
 

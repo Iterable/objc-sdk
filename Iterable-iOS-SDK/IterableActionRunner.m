@@ -10,56 +10,63 @@
 #import "IterableAPI.h"
 #import "IterableAPI+Internal.h"
 #import "IterableLogging.h"
+#import "IterableActionContext.h"
 
 @implementation IterableActionRunner
 
-+ (void)executeAction:(IterableAction *)action {
++ (BOOL)executeAction:(IterableAction *)action from:(IterableActionSource)source {
     // Do not handle actions and try to open Safari for URLs unless the SDK is initialized with a new init method
     if ([IterableAPI sharedInstance].sdkCompatEnabled) {
-        return;
+        return NO;
     }
+
+    IterableActionContext *context = [IterableActionContext contextWithAction:action source:source];
 
     if ([action isOfType:IterableActionTypeOpenUrl]) {
         // Open deeplink, use delegate handler
-        [self openURL:[NSURL URLWithString:action.data] action:action];
+        return [self openURL:[NSURL URLWithString:action.data] context:context];
     }
     else {
         // Call a custom action if available
-        [self callCustomActionIfSpecified:action];
+        return [self callCustomActionIfSpecified:action context:context];
     }
 }
 
-+ (void)openURL:(NSURL *)url action:(IterableAction *)action {
++ (BOOL)openURL:(NSURL *)url context:(IterableActionContext *)context {
     if (url == nil) {
-        return;
+        return NO;
     }
     
-    if ([[IterableAPI sharedInstance].config.urlDelegate handleIterableURL:url fromAction:action]) {
-        return;
+    if ([[IterableAPI sharedInstance].config.urlDelegate handleIterableURL:url context:context]) {
+        return YES;
     }
 
-    // Open http/https links in the browser
-    NSString *scheme = url.scheme;
-    if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
-        if (@available(iOS 10.0, *)) {
-            [[UIApplication sharedApplication] openURL:url
-                                               options:@{}
-                                               completionHandler:^(BOOL success) {
-                                                   if (!success) {
-                                                       LogError(@"Could not open the URL: %@", url.absoluteString);
-                                                   }
-                                               }];
-        }
-        else {
-            [[UIApplication sharedApplication] openURL:url];
+    if (context.source == IterableActionSourcePush) {
+        // Open http/https links in the browser
+        NSString *scheme = url.scheme;
+        if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"]) {
+            if (@available(iOS 10.0, *)) {
+                [[UIApplication sharedApplication] openURL:url
+                                                   options:@{}
+                                         completionHandler:^(BOOL success) {
+                                             if (!success) {
+                                                 LogError(@"Could not open the URL: %@", url.absoluteString);
+                                             }
+                                         }];
+            } else {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+            return YES;
         }
     }
+    return NO;
 }
 
-+ (void)callCustomActionIfSpecified:(IterableAction *)action {
++ (BOOL)callCustomActionIfSpecified:(IterableAction *)action context:(IterableActionContext *)context {
     if (action.type.length > 0) {
-        [[IterableAPI sharedInstance].config.customActionDelegate handleIterableCustomAction:action];
+        return [[IterableAPI sharedInstance].config.customActionDelegate handleIterableCustomAction:action context:context];
     }
+    return NO;
 }
 
 @end

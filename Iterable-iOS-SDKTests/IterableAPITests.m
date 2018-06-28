@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-
+#import <OCMock/OCMock.h>
 #import <asl.h>
 #import <OHHTTPStubs.h>
 #import <OHHTTPStubs/NSURLRequest+HTTPBodyTesting.h>
@@ -15,6 +15,7 @@
 #import "IterableAPI.h"
 #import "IterableAPI+Internal.h"
 #import "IterableDeeplinkManager.h"
+#import "IterableActionContext.h"
 #import "NSData+Conversion.h"
 
 static CGFloat const IterableNetworkResponseExpectationTimeout = 5.0;
@@ -144,6 +145,7 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
     NSURL *iterableLink = [NSURL URLWithString:iterableRewriteURL];
     ITEActionBlock aBlock = ^(NSString* redirectUrl) {
         XCTAssertEqualObjects(@"https://links.iterable.com/api/docs#!/email", redirectUrl);
+        XCTAssertTrue([NSThread isMainThread], "The callback must be called on the main thread");
         [expectation fulfill];
     };
     [IterableAPI getAndTrackDeeplink:iterableLink callbackBlock:aBlock];
@@ -169,6 +171,25 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
             NSLog(@"Timeout Error: %@", error);
         }
     }];
+}
+
+- (void)testHandleUniversalLinkRewrite {
+    id urlDelegateMock = OCMProtocolMock(@protocol(IterableURLDelegate));
+    OCMExpect([urlDelegateMock handleIterableURL:[OCMArg isEqual:[NSURL URLWithString:@"https://links.iterable.com/api/docs#!/email"]]
+                                         context:[OCMArg checkWithBlock:^BOOL(IterableActionContext *context) {
+        return [context.action isOfType:IterableActionTypeOpenUrl];
+    }]]);
+    
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
+    IterableConfig *config = [[IterableConfig alloc] init];
+    config.urlDelegate = urlDelegateMock;
+    [IterableAPI initializeWithApiKey:@"" launchOptions:nil config:config];
+    
+    NSURL *iterableLink = [NSURL URLWithString:iterableRewriteURL];
+    [IterableAPI handleUniversalLink:iterableLink];
+    
+    OCMVerifyAllWithDelay(urlDelegateMock, IterableNetworkResponseExpectationTimeout);
 }
 
 - (void)testDeepLinkAttributionInfo {

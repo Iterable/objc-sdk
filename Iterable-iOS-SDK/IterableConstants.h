@@ -141,3 +141,4 @@ extern NSString *const ITBL_DEVICE_USER_INTERFACE;
 #define ITERABLE_IN_APP_DISPLAY_SETTINGS @"inAppDisplaySettings"
 
 typedef void (^ITEActionBlock)(NSString *);
+typedef void (^ITBURLCallback)(NSURL *);

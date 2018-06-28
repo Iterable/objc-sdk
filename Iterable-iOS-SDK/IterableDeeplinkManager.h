@@ -30,4 +30,11 @@
  */
 -(void) getAndTrackDeeplink:(NSURL *)webpageURL callbackBlock:(ITEActionBlock)callbackBlock;
 
+/**
+ * Checks if the URL looks like a link rewritten by Iterable
+ * @param url the URL to check
+ * @return YES if it looks like a link rewritten by Iterable, NO otherwise
+ */
+- (BOOL)isIterableDeeplink:(NSURL *)url;
+
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "IterableConfig.h"
-#import "IterableAction.h"
 
 @implementation IterableConfig
 

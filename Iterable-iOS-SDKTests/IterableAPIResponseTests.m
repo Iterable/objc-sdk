@@ -42,7 +42,7 @@ static CGFloat const IterableResponseExpectationTimeout = 1.0;
 - (void)stubAnyRequestReturningStatusCode:(int)statusCode data:(NSData *)data {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:data statusCode:statusCode headers:self.defaultResponseHeaders];
     }];
 }
@@ -162,7 +162,7 @@ static CGFloat const IterableResponseExpectationTimeout = 1.0;
 - (void)testNoNetworkResponse {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSError* notConnectedError = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
         return [OHHTTPStubsResponse responseWithError:notConnectedError];
     }];
@@ -180,7 +180,7 @@ static CGFloat const IterableResponseExpectationTimeout = 1.0;
 - (void)testNetworkTimeoutResponse {
     [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest * _Nonnull request) {
         return YES;
-    } withStubResponse:^OHHTTPStubsResponse * _Nonnull(NSURLRequest * _Nonnull request) {
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         NSError* notConnectedError = [NSError errorWithDomain:NSURLErrorDomain code:kCFURLErrorNotConnectedToInternet userInfo:nil];
         return [[OHHTTPStubsResponse responseWithData:nil statusCode:200 headers:nil] requestTime:0.0 responseTime:5.0];
     }];
