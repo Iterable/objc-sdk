@@ -60,14 +60,14 @@
 		9267AA3A209930E7006AF394 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9267AA39209930E7006AF394 /* Assets.xcassets */; };
 		9267AA3D209930E7006AF394 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9267AA3B209930E7006AF394 /* LaunchScreen.storyboard */; };
 		9267AA40209930E7006AF394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9267AA3F209930E7006AF394 /* main.m */; };
-		926B33E420B7A091004DD7CE /* IterableAttributionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 926B33E220B7A091004DD7CE /* IterableAttributionInfo.h */; };
+		926B33E420B7A091004DD7CE /* IterableAttributionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 926B33E220B7A091004DD7CE /* IterableAttributionInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		926B33E520B7A091004DD7CE /* IterableAttributionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 926B33E320B7A091004DD7CE /* IterableAttributionInfo.m */; };
 		9284CA74206DCA6C00404B74 /* IterableAPIResponseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9284CA73206DCA6C00404B74 /* IterableAPIResponseTests.m */; };
 		929330902099449F00DAE180 /* IterableAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 9293308E2099449F00DAE180 /* IterableAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		929330912099449F00DAE180 /* IterableAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 9293308F2099449F00DAE180 /* IterableAction.m */; };
 		92C6325C208FF7AA00A7C216 /* IterableAppIntegration.h in Headers */ = {isa = PBXBuildFile; fileRef = 92C6325A208FF7AA00A7C216 /* IterableAppIntegration.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92C6325D208FF7AA00A7C216 /* IterableAppIntegration.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C6325B208FF7AA00A7C216 /* IterableAppIntegration.m */; };
-		92F03EEC20D899CE00C3BFCA /* IterableConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 92F03EEA20D899CE00C3BFCA /* IterableConfig.h */; };
+		92F03EEC20D899CE00C3BFCA /* IterableConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 92F03EEA20D899CE00C3BFCA /* IterableConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92F03EED20D899CE00C3BFCA /* IterableConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F03EEB20D899CE00C3BFCA /* IterableConfig.m */; };
 		92FB47C020995A0F00DA94DC /* IterableActionRunner.h in Headers */ = {isa = PBXBuildFile; fileRef = 92FB47BE20995A0F00DA94DC /* IterableActionRunner.h */; };
 		92FB47C120995A0F00DA94DC /* IterableActionRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 92FB47BF20995A0F00DA94DC /* IterableActionRunner.m */; };
@@ -77,7 +77,7 @@
 		AC60AB4B20BDDD5100BF6BEC /* IterableUtilTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AC60AB4A20BDDD5100BF6BEC /* IterableUtilTests.m */; };
 		E95160B3683E5A47EC313472 /* IterableAppIntegration+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = E9516F6B446F6E9AB537C83F /* IterableAppIntegration+Private.h */; };
 		E951624B2D970B91EE110E56 /* IterableAPI+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = E95162E0F83DDB6177F24360 /* IterableAPI+Internal.h */; };
-		E951656A49CFFB4BED48AF3B /* IterableActionContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E9516F2F4291E19DC6625187 /* IterableActionContext.h */; };
+		E951656A49CFFB4BED48AF3B /* IterableActionContext.h in Headers */ = {isa = PBXBuildFile; fileRef = E9516F2F4291E19DC6625187 /* IterableActionContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E9516B4E1A6D7B8CB1314D1F /* IterableAPI+Deprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = E9516BD2E9DDA6AE024F6A63 /* IterableAPI+Deprecated.h */; };
 		E9516D3401091CA4D87B10B9 /* IterableAPI+Deprecated.m in Sources */ = {isa = PBXBuildFile; fileRef = E9516D87A090ED58BED61C6B /* IterableAPI+Deprecated.m */; };
 /* End PBXBuildFile section */
