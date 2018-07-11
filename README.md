@@ -207,10 +207,39 @@ Custom events can be tracked using the `track` function and user fields can be m
 #### Handling links from push notifications
 Push notifications and action buttons may have `openUrl` actions attached to them. When a URL is specified, the SDK first calls `urlDelegate` specified in your `IterableConfig` object. You can use this delegate to handle `openUrl` actions the same way as you handle normal deep links. If the delegate is not set or returns NO, the SDK will open Safari with that URL.
 
+```objective-c
+// AppDelegate.m
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    ...
+    // Initialize Iterable SDK
+    IterableConfig *config = [[IterableConfig alloc] init];
+    ...
+    config.urlDelegate = self;
+    [IterableAPI initializeWithApiKey:@"YOUR API KEY" launchOptions:launchOptions config:config];
+    ...
+}
+
+- (BOOL)handleIterableURL:(NSURL *)url context:(IterableActionContext *)context {
+    // Assuming you have a DeeplinkHandler class that handles all deep link URLs and navigates to the right place in the app
+    return [[DeeplinkHandler sharedInstance] handleUrl:url];
+}
+```
+
 #### Handling email links
 For Universal Links to work with link rewriting in emails, you need to set up apple-app-site-association file in the Iterable project. More instructions here: [Setting up iOS Universal Links](https://support.iterable.com/hc/en-us/articles/115000440206-Setting-up-iOS-Universal-Links)
 
-From your `UIApplicationDelegate`'s [application:continueUserActivity:restorationHandler:](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623072-application?language=objc) call `resolveApplinkURL` along with a callback to handle the original deeplink url. You can use this method for any incoming URLs, as it will execute the callback without changing the URL for non-Iterable URLs.
+If you already have a `urlDelegate` (see *Handling links from push notifications* section above), the same handler can be used for email deep links by calling `handleUniversalLink:` in your `UIApplicationDelegate`'s [application:continueUserActivity:restorationHandler:](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623072-application?language=objc):
+
+```objective-c
+- (BOOL)application:(UIApplication *)application
+ 		continueUserActivity(NSUserActivity *)userActivity 
+ 		restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+    // This will track the click, retrieve the original URL and call `handleIterableURL:context:` with the original URL
+    return [IterableAPI handleUniversalLink:userActivity.webpageURL];
+}
+```
+
+Alternatively, call `getAndTrackDeeplink` along with a callback to handle the original deeplink url. You can use this method for any incoming URLs, as it will execute the callback without changing the URL for non-Iterable URLs.
 
 Swift:
 
@@ -218,7 +247,7 @@ Swift:
 func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                   restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
     
-    IterableAPI.resolveApplinkURL(userActivity.webpageURL!, callback: {
+    IterableAPI.getAndTrackDeeplink(userActivity.webpageURL!, callbackBlock: {
         (originalURL) in
             //Handle Original URL deeplink here
     });
@@ -233,8 +262,8 @@ Objective-C:
  		continueUserActivity(NSUserActivity *)userActivity 
  		restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
     
-    [IterableAPI resolveApplinkURL:userActivity.webpageURL callback:^(NSURL* originalURL) {
-       //Handle Original URL deeplink here
+    [IterableAPI getAndTrackDeeplink:iterableLink callbackBlock:^(NSString* originalURL) {
+        //Handle Original URL deeplink here
     }];
     
     return true;
