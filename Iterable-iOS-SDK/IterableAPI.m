@@ -1186,7 +1186,7 @@ NSCharacterSet* encodedCharacterSet = nil;
                     
                     IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:messageId];
                     
-                    dispatch_sync(dispatch_get_main_queue(), ^{
+                    dispatch_async(dispatch_get_main_queue(), ^{
                         [IterableInAppManager showIterableNotificationHTML:html trackParams:(IterableNotificationMetadata*)notification callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:backgroundAlpha padding:edgeInsets];
                     });
                 } else {
