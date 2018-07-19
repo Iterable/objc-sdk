@@ -1206,7 +1206,7 @@ NSCharacterSet* encodedCharacterSet = nil;
 // documented in IterableAPI.h
 - (void)getInAppMessages:(NSNumber *)count
 {
-    [self getInAppMessages:@1 onSuccess:[IterableAPI defaultOnSuccess:@"getMessages"] onFailure:[IterableAPI defaultOnFailure:@"getMessages"]];
+    [self getInAppMessages:count onSuccess:[IterableAPI defaultOnSuccess:@"getMessages"] onFailure:[IterableAPI defaultOnFailure:@"getMessages"]];
 }
 
 // documented in IterableAPI.h
