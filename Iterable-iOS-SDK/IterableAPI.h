@@ -479,7 +479,7 @@ typedef void (^OnFailureHandler)(NSString *reason, NSData *_Nullable data);
  
  @abstract displays a iOS system style notification with one button
  
- @param title           the NSDictionary containing the dialog options
+ @param title           the title of the dialog
  @param body            the notification message body
  @param button          the text of the left button
  @param callbackBlock   the callback to send after a button on the notification is clicked

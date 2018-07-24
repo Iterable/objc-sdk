@@ -87,7 +87,7 @@
         padding.bottom = [IterableInAppManager decodePadding:[payload objectForKey:@"bottom"]];
         padding.right = [IterableInAppManager decodePadding:[payload objectForKey:@"right"]];
 
-    XCTAssertTrue(UIEdgeInsetsEqualToEdgeInsets(insets, UIEdgeInsetsZero));
+    XCTAssertTrue(UIEdgeInsetsEqualToEdgeInsets(padding, UIEdgeInsetsZero));
 }
 
 - (void)testGetPaddingCenter {
@@ -104,7 +104,7 @@
     padding.bottom = [IterableInAppManager decodePadding:[payload objectForKey:@"bottom"]];
     padding.right = [IterableInAppManager decodePadding:[payload objectForKey:@"right"]];
     
-    XCTAssertTrue(UIEdgeInsetsEqualToEdgeInsets(insets, UIEdgeInsetsMake(-1, 0, -1, 0)));
+    XCTAssertTrue(UIEdgeInsetsEqualToEdgeInsets(padding, UIEdgeInsetsMake(-1, 0, -1, 0)));
 }
 
 - (void)testGetPaddingTop {
@@ -121,7 +121,7 @@
     padding.bottom = [IterableInAppManager decodePadding:[payload objectForKey:@"bottom"]];
     padding.right = [IterableInAppManager decodePadding:[payload objectForKey:@"right"]];
     
-    XCTAssertTrue(UIEdgeInsetsEqualToEdgeInsets(insets, UIEdgeInsetsMake(0, 0, -1, 0)));
+    XCTAssertTrue(UIEdgeInsetsEqualToEdgeInsets(padding, UIEdgeInsetsMake(0, 0, -1, 0)));
 }
 
 - (void)testGetPaddingBottom {
@@ -137,7 +137,7 @@
     padding.bottom = [IterableInAppManager decodePadding:[payload objectForKey:@"bottom"]];
     padding.right = [IterableInAppManager decodePadding:[payload objectForKey:@"right"]];
     
-    XCTAssertTrue(UIEdgeInsetsEqualToEdgeInsets(insets, UIEdgeInsetsMake(-1, 0, 0, 0)));
+    XCTAssertTrue(UIEdgeInsetsEqualToEdgeInsets(padding, UIEdgeInsetsMake(-1, 0, 0, 0)));
 }
 
 - (void)testNotificationPaddingFull {
