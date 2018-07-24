@@ -15,6 +15,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [5.0.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/5.0.1)
+
+#### Fixed
+- Fixed `spawnInAppNotification` to not block the current thread when creating the in-app notification
+
 ## [5.0.0](https://github.com/Iterable/iterable-ios-sdk/releases/tag/5.0.0)
 #### Added
 - Added support for push action buttons
