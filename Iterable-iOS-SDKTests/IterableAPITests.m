@@ -350,4 +350,29 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
     XCTAssertNil([IterableAPI sharedInstance].email);
 }
 
+- (void)testUpdateEmailPersistence {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"onSuccess is called"];
+    [OHHTTPStubs stubRequestsPassingTest:^BOOL(NSURLRequest *request) {
+        return YES;
+    } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
+        return [OHHTTPStubsResponse responseWithData:[@"{}" dataUsingEncoding:kCFStringEncodingUTF8] statusCode:200 headers:@{@"Content-Type":@"application/json"}];
+    }];
+    
+    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+    [IterableAPI clearSharedInstance];
+    [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
+    [[IterableAPI sharedInstance] setEmail:@"test@email.com"];
+    XCTAssertEqualObjects([IterableAPI sharedInstance].email, @"test@email.com");
+    
+    [[IterableAPI sharedInstance] updateEmail:@"new@email.com" onSuccess:^(NSDictionary * _Nonnull data) {
+        XCTAssertEqualObjects([IterableAPI sharedInstance].email, @"new@email.com");
+        IterableAPI.sharedInstance.sdkCompatEnabled = YES;
+        [IterableAPI clearSharedInstance];
+        [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
+        XCTAssertEqualObjects([IterableAPI sharedInstance].email, @"new@email.com");
+        [expectation fulfill];
+    } onFailure:nil];
+    [self waitForExpectations:@[expectation] timeout:1.0];
+}
+
 @end
