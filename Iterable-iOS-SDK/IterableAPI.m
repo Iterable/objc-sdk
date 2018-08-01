@@ -900,6 +900,7 @@ NSCharacterSet* encodedCharacterSet = nil;
         NSURLRequest *request = [self createRequestForAction:ENDPOINT_UPDATE_EMAIL withArgs:args];
         [self sendRequest:request onSuccess:^(NSDictionary *dictionary) {
             self->_email = newEmail;
+            [self storeEmailAndUserId];
             if (onSuccess) {
                 onSuccess(dictionary);
             }
