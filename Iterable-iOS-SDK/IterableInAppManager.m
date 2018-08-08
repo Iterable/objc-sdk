@@ -13,6 +13,7 @@
 #import "IterableConstants.h"
 #import "IterableNotificationMetadata.h"
 #import "IterableInAppHTMLViewController.h"
+#import "IterableLogging.h"
 
 @interface IterableInAppManager ()
 
@@ -32,13 +33,18 @@ static NSString *const IN_APP_AUTO_EXPAND = @"AutoExpand";
 // documented in IterableInAppManager.h
 +(void) showIterableNotificationHTML:(NSString*)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:(double)backgroundAlpha padding:(UIEdgeInsets)padding{
     if (htmlString != NULL) {
-        UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-        if([rootViewController isKindOfClass:[UIViewController class]])
+        UIViewController *topViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+        if([topViewController isKindOfClass:[UIViewController class]])
         {
-            while (rootViewController.presentedViewController != nil)
+            while (topViewController.presentedViewController != nil)
             {
-                rootViewController = rootViewController.presentedViewController;
+                topViewController = topViewController.presentedViewController;
             }
+        }
+        
+        if ([topViewController isKindOfClass:[IterableInAppHTMLViewController class]]) {
+            LogWarning(@"Skipping the in-app notification: another notification is already being displayed");
+            return;
         }
         
         IterableInAppHTMLViewController *baseNotification;
@@ -47,11 +53,11 @@ static NSString *const IN_APP_AUTO_EXPAND = @"AutoExpand";
         [baseNotification ITESetCallback:callbackBlock];
         [baseNotification ITESetPadding:padding];
         
-        rootViewController.definesPresentationContext = YES;
+        topViewController.definesPresentationContext = YES;
         baseNotification.view.backgroundColor = [UIColor colorWithWhite:0 alpha:backgroundAlpha];;
         baseNotification.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         
-        [rootViewController presentViewController:baseNotification animated:NO completion:nil];
+        [topViewController presentViewController:baseNotification animated:NO completion:nil];
     }
 }
 
