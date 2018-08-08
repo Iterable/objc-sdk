@@ -15,6 +15,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [5.0.2](https://github.com/Iterable/iterable-ios-sdk/releases/tag/5.0.2)
+
+#### Fixed
+- The new email is now persisted when `updateEmail:` is called
+- SDK now ensures that only one in-app message can be shown at a time
+
 ## [5.0.1](https://github.com/Iterable/iterable-ios-sdk/releases/tag/5.0.1)
 
 #### Fixed
