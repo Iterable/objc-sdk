@@ -165,4 +165,11 @@
     XCTAssertEqual(notificationType, INAPP_CENTER);
 }
 
+- (void)testDoNotShowMultipleTimes {
+    BOOL shownFirstTime = [IterableInAppManager showIterableNotificationHTML:@"" trackParams:nil callbackBlock:nil backgroundAlpha:0.0 padding:UIEdgeInsetsZero];
+    BOOL shownSecondTime = [IterableInAppManager showIterableNotificationHTML:@"" trackParams:nil callbackBlock:nil backgroundAlpha:0.0 padding:UIEdgeInsetsZero];
+    XCTAssertTrue(shownFirstTime);
+    XCTAssertFalse(shownSecondTime);
+}
+
 @end

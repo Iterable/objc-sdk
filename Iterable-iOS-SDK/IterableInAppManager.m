@@ -10,8 +10,6 @@
 #import <UIKit/UIKit.h>
 
 #import "IterableInAppManager.h"
-#import "IterableConstants.h"
-#import "IterableNotificationMetadata.h"
 #import "IterableInAppHTMLViewController.h"
 #import "IterableLogging.h"
 
@@ -31,7 +29,7 @@ static NSString *const IN_APP_PERCENTAGE = @"percentage";
 static NSString *const IN_APP_AUTO_EXPAND = @"AutoExpand";
 
 // documented in IterableInAppManager.h
-+(void) showIterableNotificationHTML:(NSString*)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:(double)backgroundAlpha padding:(UIEdgeInsets)padding{
++(BOOL) showIterableNotificationHTML:(NSString*)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:(double)backgroundAlpha padding:(UIEdgeInsets)padding{
     if (htmlString != NULL) {
         UIViewController *topViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
         if([topViewController isKindOfClass:[UIViewController class]])
@@ -44,7 +42,7 @@ static NSString *const IN_APP_AUTO_EXPAND = @"AutoExpand";
         
         if ([topViewController isKindOfClass:[IterableInAppHTMLViewController class]]) {
             LogWarning(@"Skipping the in-app notification: another notification is already being displayed");
-            return;
+            return NO;
         }
         
         IterableInAppHTMLViewController *baseNotification;
@@ -54,10 +52,13 @@ static NSString *const IN_APP_AUTO_EXPAND = @"AutoExpand";
         [baseNotification ITESetPadding:padding];
         
         topViewController.definesPresentationContext = YES;
-        baseNotification.view.backgroundColor = [UIColor colorWithWhite:0 alpha:backgroundAlpha];;
+        baseNotification.view.backgroundColor = [UIColor colorWithWhite:0 alpha:backgroundAlpha];
         baseNotification.modalPresentationStyle = UIModalPresentationOverCurrentContext;
         
         [topViewController presentViewController:baseNotification animated:NO completion:nil];
+        return YES;
+    } else {
+        return NO;
     }
 }
 
