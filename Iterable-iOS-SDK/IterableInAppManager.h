@@ -33,8 +33,9 @@
  @param callbackBlock   The callback to send after a button on the notification is clicked
  @param backgroundAlpha The background alpha behind the notification
  @param padding         The padding around the notification
+ @return                A boolean indicating whether the notification was shown
  */
-+(void) showIterableNotificationHTML:(NSString *)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:(double)backgroundAlpha padding:(UIEdgeInsets)padding;
++(BOOL) showIterableNotificationHTML:(NSString *)htmlString trackParams:(IterableNotificationMetadata*)trackParams callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:(double)backgroundAlpha padding:(UIEdgeInsets)padding;
 
 /*!
  @method

@@ -1188,13 +1188,14 @@ NSCharacterSet* encodedCharacterSet = nil;
                     IterableNotificationMetadata *notification = [IterableNotificationMetadata metadataFromInAppOptions:messageId];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [IterableInAppManager showIterableNotificationHTML:html trackParams:(IterableNotificationMetadata*)notification callbackBlock:(ITEActionBlock)callbackBlock backgroundAlpha:backgroundAlpha padding:edgeInsets];
+                        if ([IterableInAppManager showIterableNotificationHTML:html trackParams:notification callbackBlock:callbackBlock backgroundAlpha:backgroundAlpha padding:edgeInsets]) {
+                            [self inAppConsume:messageId];
+                        }
                     });
                 } else {
                     LogWarning(@"No href tag found in the in-app html payload: %@", html);
+                    [self inAppConsume:messageId];
                 }
-                
-                [self inAppConsume:messageId];
             }
         } else {
             LogDebug(@"No notifications found for inApp payload %@", payload);
