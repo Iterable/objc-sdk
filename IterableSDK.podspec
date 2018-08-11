@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "IterableSDK"
-  s.version      = "5.0.2"
+  s.version      = "5.0.3"
   s.summary      = "Iterable's official SDK for iOS"
 
   s.description  = <<-DESC

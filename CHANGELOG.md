@@ -15,6 +15,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 - nothing yet
 
+## [5.0.3](https://github.com/Iterable/iterable-ios-sdk/releases/tag/5.0.3)
+
+#### Fixed
+- In-app messages are now only consumed if they are shown
+
 ## [5.0.2](https://github.com/Iterable/iterable-ios-sdk/releases/tag/5.0.2)
 
 #### Fixed
