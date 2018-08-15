@@ -17,6 +17,8 @@
 #import "IterableDeeplinkManager.h"
 #import "IterableActionContext.h"
 #import "NSData+Conversion.h"
+#import "IterableTestUtils.h"
+#import "IterableUtil.h"
 
 static CGFloat const IterableNetworkResponseExpectationTimeout = 5.0;
 
@@ -46,6 +48,7 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
     [super setUp];
 
     [IterableAPI sharedInstanceWithApiKey:@"" andEmail:@"" launchOptions:nil];
+    [IterableTestUtils resetUserDefaults];
 }
 
 - (void)tearDown {
@@ -180,8 +183,7 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
         return [context.action isOfType:IterableActionTypeOpenUrl];
     }]]);
     
-    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
-    [IterableAPI clearSharedInstance];
+    [IterableTestUtils clearApiInstance];
     IterableConfig *config = [[IterableConfig alloc] init];
     config.urlDelegate = urlDelegateMock;
     [IterableAPI initializeWithApiKey:@"" launchOptions:nil config:config];
@@ -317,9 +319,8 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
         XCTAssertEqualObjects(json[@"device"][@"token"], [[@"token" dataUsingEncoding:kCFStringEncodingUTF8] ITEHexadecimalString]);
         return [OHHTTPStubsResponse responseWithData:[@"" dataUsingEncoding:kCFStringEncodingUTF8] statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
-    
-    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
-    [IterableAPI clearSharedInstance];
+
+    [IterableTestUtils clearApiInstance];
     IterableConfig *config = [[IterableConfig alloc] init];
     config.pushIntegrationName = @"pushIntegration";
     [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil config:config];
@@ -331,20 +332,17 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
 }
 
 - (void)testEmailUserIdPersistence {
-    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
-    [IterableAPI clearSharedInstance];
+    [IterableTestUtils clearApiInstance];
     [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
     [[IterableAPI sharedInstance] setEmail:@"test@email.com"];
-    
-    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
-    [IterableAPI clearSharedInstance];
+
+    [IterableTestUtils clearApiInstance];
     [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
     XCTAssertEqualObjects([IterableAPI sharedInstance].email, @"test@email.com");
     XCTAssertNil([IterableAPI sharedInstance].userId);
     
     [[IterableAPI sharedInstance] setUserId:@"testUserId"];
-    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
-    [IterableAPI clearSharedInstance];
+    [IterableTestUtils clearApiInstance];
     [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
     XCTAssertEqualObjects([IterableAPI sharedInstance].userId, @"testUserId");
     XCTAssertNil([IterableAPI sharedInstance].email);
@@ -357,17 +355,15 @@ NSString *iterableNoRewriteURL = @"http://links.iterable.com/u/60402396fbd5433eb
     } withStubResponse:^OHHTTPStubsResponse *(NSURLRequest *request) {
         return [OHHTTPStubsResponse responseWithData:[@"{}" dataUsingEncoding:kCFStringEncodingUTF8] statusCode:200 headers:@{@"Content-Type":@"application/json"}];
     }];
-    
-    IterableAPI.sharedInstance.sdkCompatEnabled = YES;
-    [IterableAPI clearSharedInstance];
+
+    [IterableTestUtils clearApiInstance];
     [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
     [[IterableAPI sharedInstance] setEmail:@"test@email.com"];
     XCTAssertEqualObjects([IterableAPI sharedInstance].email, @"test@email.com");
     
     [[IterableAPI sharedInstance] updateEmail:@"new@email.com" onSuccess:^(NSDictionary * _Nonnull data) {
         XCTAssertEqualObjects([IterableAPI sharedInstance].email, @"new@email.com");
-        IterableAPI.sharedInstance.sdkCompatEnabled = YES;
-        [IterableAPI clearSharedInstance];
+        [IterableTestUtils clearApiInstance];
         [IterableAPI initializeWithApiKey:@"apiKey" launchOptions:nil];
         XCTAssertEqualObjects([IterableAPI sharedInstance].email, @"new@email.com");
         [expectation fulfill];

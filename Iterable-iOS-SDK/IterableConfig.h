@@ -77,6 +77,13 @@ typedef NS_ENUM(NSInteger, PushServicePlatform) {
 @property(nonatomic, assign) PushServicePlatform pushPlatform;
 
 /**
+ * If set to `true`, the SDK will automatically register the push token when you
+ * call `setUserId:` or `setEmail:` and disable the old device entry
+ * when the user logs out
+ */
+@property(nonatomic, assign) BOOL autoPushRegistration;
+
+/**
  * Custom URL handler to override openUrl actions
  */
 @property(nonatomic) id<IterableURLDelegate> urlDelegate;
