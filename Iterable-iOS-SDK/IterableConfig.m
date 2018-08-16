@@ -14,6 +14,7 @@
     self = [super init];
     if (self) {
         _pushPlatform = AUTO;
+        _autoPushRegistration = YES;
     }
     return self;
 }

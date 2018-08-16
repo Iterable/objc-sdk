@@ -7,6 +7,8 @@
 //
 
 #import "IterableUtil.h"
+#import <UIKit/UIKit.h>
+#import <UserNotifications/UserNotifications.h>
 
 @implementation IterableUtil
 
@@ -60,6 +62,16 @@
             return YES;
     }
     return NO;
+}
+
++ (void)hasNotificationPermissionWithCallback:(void (^)(BOOL hasPermission))callback {
+    if (@available(iOS 10.0, *)) {
+        [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings *settings) {
+            callback(settings.authorizationStatus == UNAuthorizationStatusAuthorized);
+        }];
+    } else {
+        callback([[UIApplication sharedApplication] currentUserNotificationSettings].types != UIUserNotificationTypeNone);
+    }
 }
 
 @end

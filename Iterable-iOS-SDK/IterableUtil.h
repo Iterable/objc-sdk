@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSDate *)currentDate;
 + (BOOL)isSandboxAPNS;
++ (void)hasNotificationPermissionWithCallback:(void (^)(BOOL hasPermission))callback;
 
 @end
 

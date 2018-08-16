@@ -516,6 +516,9 @@ NSCharacterSet* encodedCharacterSet = nil;
 
     [self createSession];
     [self retrieveEmailAndUserId];
+    if (self.config.autoPushRegistration && self.initialized) {
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
 
     return self;
 }
@@ -569,15 +572,27 @@ NSCharacterSet* encodedCharacterSet = nil;
 }
 
 - (void)setEmail:(NSString *)email {
+    if ([_email isEqualToString:email]) {
+        return;
+    }
+
+    [self onLogOut];
     _email = [email copy];
     _userId = nil;
     [self storeEmailAndUserId];
+    [self onLogIn];
 }
 
 - (void)setUserId:(NSString *)userId {
+    if ([_userId isEqualToString:userId]) {
+        return;
+    }
+
+    [self onLogOut];
     _email = nil;
     _userId = [userId copy];
     [self storeEmailAndUserId];
+    [self onLogIn];
 }
 
 - (void)storeEmailAndUserId {
@@ -589,6 +604,22 @@ NSCharacterSet* encodedCharacterSet = nil;
 - (void)retrieveEmailAndUserId {
     _email = [[NSUserDefaults standardUserDefaults] objectForKey:ITBL_USER_DEFAULTS_EMAIL_KEY];
     _userId = [[NSUserDefaults standardUserDefaults] objectForKey:ITBL_USER_DEFAULTS_USERID_KEY];
+}
+
+- (void)onLogIn {
+    if (self.config.autoPushRegistration && self.initialized) {
+        [IterableUtil hasNotificationPermissionWithCallback:^(BOOL hasPermission) {
+            if (hasPermission) {
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+            }
+        }];
+    }
+}
+
+- (void)onLogOut {
+    if (self.config.autoPushRegistration && self.initialized) {
+        [self disableDeviceForCurrentUser];
+    }
 }
 
 // documented in IterableAPI.h
