@@ -51,8 +51,9 @@
     [self initIterableApi];
 
     // Check that setEmail calls registerForRemoteNotifications
+    OCMExpect([applicationMock registerForRemoteNotifications]);
     [IterableAPI.sharedInstance setEmail:@"test@email.com"];
-    OCMVerify([applicationMock registerForRemoteNotifications]);
+    OCMVerifyAllWithDelay(applicationMock, 0.1);
     
     // Check that setEmail:nil disables the device
     [IterableAPI.sharedInstance setEmail:nil];
@@ -77,8 +78,9 @@
     [self initIterableApi];
 
     // Check that setUserId calls registerForRemoteNotifications
+    OCMExpect([applicationMock registerForRemoteNotifications]);
     [IterableAPI.sharedInstance setUserId:@"userId"];
-    OCMVerify([applicationMock registerForRemoteNotifications]);
+    OCMVerifyAllWithDelay(applicationMock, 0.1);
 
     // Check that setUserId:nil disables the device
     [IterableAPI.sharedInstance setUserId:nil];
@@ -114,8 +116,9 @@
     [IterableAPI.sharedInstance setEmail:@"test@email.com"];
     
     applicationMock = OCMPartialMock([UIApplication sharedApplication]);
+    OCMExpect([applicationMock registerForRemoteNotifications]);
     [self initIterableApi];
-    OCMVerify([applicationMock registerForRemoteNotifications]);
+    OCMVerifyAllWithDelay(applicationMock, 0.1);
 }
 
 

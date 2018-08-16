@@ -517,7 +517,9 @@ NSCharacterSet* encodedCharacterSet = nil;
     [self createSession];
     [self retrieveEmailAndUserId];
     if (self.config.autoPushRegistration && self.initialized) {
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] registerForRemoteNotifications];
+        });
     }
 
     return self;
@@ -610,7 +612,9 @@ NSCharacterSet* encodedCharacterSet = nil;
     if (self.config.autoPushRegistration && self.initialized) {
         [IterableUtil hasNotificationPermissionWithCallback:^(BOOL hasPermission) {
             if (hasPermission) {
-                [[UIApplication sharedApplication] registerForRemoteNotifications];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[UIApplication sharedApplication] registerForRemoteNotifications];
+                });
             }
         }];
     }
