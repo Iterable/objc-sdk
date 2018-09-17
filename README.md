@@ -7,6 +7,8 @@
 
 `iterable-ios-sdk` is an Objective-C implementation of an iOS client for Iterable, for iOS versions 7.0 and higher.
 
+For the Swift version of the Iterable SDK, follow this link: [Swift SDK](https://github.com/Iterable/swift-sdk)
+
 # Setting up a push integration in Iterable
 
 Before you even start with the SDK, you will need to 
