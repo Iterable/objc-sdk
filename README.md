@@ -3,11 +3,15 @@
 [![Docs](https://img.shields.io/cocoapods/metrics/doc-percent/IterableSDK.svg?style=flat)](http://cocoadocs.org/docsets/IterableSDK)
 [![Build Status](https://travis-ci.org/Iterable/iterable-ios-sdk.svg?branch=master)](https://travis-ci.org/Iterable/iterable-ios-sdk)
 
-# Iterable iOS SDK
+# Iterable iOS Objective-C SDK (deprecated)
 
 `iterable-ios-sdk` is an Objective-C implementation of an iOS client for Iterable, for iOS versions 7.0 and higher.
 
-For the Swift version of the Iterable SDK, follow this link: [Swift SDK](https://github.com/Iterable/swift-sdk)
+# Deprecation
+
+The Objective-C version is deprecated in favor of our [Swift SDK](https://github.com/Iterable/swift-sdk). The Swift SDK is fully compatible with apps written in Objective-C. We will continue providing fixes for the Objective-C SDK, but no new functionality will be added to this version.
+
+If you have already updated to the new [initialization API](https://github.com/Iterable/iterable-ios-sdk/blob/master/CHANGELOG.md#migration-notes), migrating to the Swift SDK will only require minimal changes.
 
 # Setting up a push integration in Iterable
 
